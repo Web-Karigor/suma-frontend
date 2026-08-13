@@ -1,0 +1,10 @@
+export { HeroSection } from "./HeroSection";
+export { ExclusiveOffers } from "./ExclusiveOffers";
+export { TopPackages } from "./TopPackages";
+export { AdPlacement } from "./AdPlacement";
+export { TopAirlines } from "./TopAirlines";
+export { PopularDestinations } from "./PopularDestinations";
+export { BuildMyTrip } from "./BuildMyTrip";
+export { BestHotels } from "./BestHotels";
+export { AppFeature } from "./AppFeature";
+export { ValueProposition } from "./ValueProposition";
