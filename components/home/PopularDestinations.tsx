@@ -1,52 +1,79 @@
 "use client";
 
 import Image from "next/image";
-import { Autoplay, Pagination } from "swiper/modules";
+import Link from "next/link";
+import { Autoplay, EffectCoverflow, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Container } from "@/components/ui/Container";
-import { SectionHeading } from "@/components/ui/SectionHeading";
 import { destinations } from "@/lib/home-data";
 
 import "swiper/css";
+import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 
 export function PopularDestinations() {
   return (
-    <section className="bg-paper py-16 tablet:py-20">
-      <Container>
-        <SectionHeading title="Popular Destinations" className="mb-10" />
+    <section
+      id="location"
+      className="popular-wrap relative mx-auto container px-2 py-10 pb-5 md:px-0 md:py-16 md:pb-5"
+    >
+      <div className="mb-10 text-center">
+        <h2 className="text-4xl font-semibold tracking-wide text-black md:text-6xl">
+          Popular Destinations
+        </h2>
+        <p className="mx-auto mt-4 max-w-3xl text-center text-base leading-relaxed text-[#444] md:text-lg">
+          Expand your travel horizons with new facets. Explore the world by choosing your
+          ideal travel destinations in Asia, Europe, America, Australia and more with Suma.
+        </p>
+      </div>
 
-        <Swiper
-          modules={[Pagination, Autoplay]}
-          spaceBetween={16}
-          slidesPerView={1.25}
-          pagination={{ clickable: true }}
-          autoplay={{ delay: 3800, disableOnInteraction: false }}
-          breakpoints={{
-            768: { slidesPerView: 3, spaceBetween: 18 },
-            1280: { slidesPerView: 5, spaceBetween: 20 },
-          }}
-          className="destinations-swiper !pb-12"
-        >
-          {destinations.map((place) => (
-            <SwiperSlide key={place.name}>
-              <article className="relative h-[340px] overflow-hidden rounded-t-[28px] rounded-b-xl">
-                <Image
-                  src={place.image}
-                  alt={place.name}
-                  fill
-                  className="object-cover"
-                  sizes="(min-width: 1280px) 230px, 70vw"
-                />
-                <div className="absolute inset-0 bg-linear-to-t from-black/70 via-transparent to-transparent" />
-                <h3 className="absolute inset-x-0 bottom-5 text-center text-lg font-semibold text-white">
-                  {place.name}
-                </h3>
-              </article>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </Container>
+      <Swiper
+        modules={[EffectCoverflow, Pagination, Autoplay]}
+        effect="coverflow"
+        centeredSlides
+        grabCursor
+        loop
+        slidesPerView="auto"
+        spaceBetween={30}
+        autoplay
+        breakpoints={{
+          0: { spaceBetween: 12 },
+          640: { spaceBetween: 18 },
+          768: { spaceBetween: 24 },
+          1024: { spaceBetween: 34 },
+          1280: { spaceBetween: 40 },
+        }}
+        speed={700}
+        coverflowEffect={{
+          rotate: 30,
+          depth: 100,
+          stretch: 0,
+          modifier: 1,
+          slideShadows: false,
+        }}
+        pagination={{ clickable: true }}
+        className="mb-0 select-none"
+      >
+        {destinations.map((place) => (
+          <SwiperSlide key={place.name}>
+            <Link href="/destinations">
+              <div className="st-card">
+                <div className="img">
+                  <Image
+                    src={place.image}
+                    alt={place.name}
+                    width={320}
+                    height={440}
+                  />
+                </div>
+                <div className="grad" />
+                <div className="details">
+                  <p className="title">{place.name}</p>
+                </div>
+              </div>
+            </Link>
+          </SwiperSlide>
+        ))}
+      </Swiper>
     </section>
   );
 }

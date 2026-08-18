@@ -123,7 +123,23 @@ export function FacebookIcon(props: IconProps) {
 export function TwitterIcon(props: IconProps) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...props}>
-      <path d="M19.6 7.2c.5-.3.9-.8 1.1-1.4-.5.3-1 .5-1.6.6A2.5 2.5 0 0 0 14.8 9c-2-.1-3.8-1.7-4.4-3.6-.9 1.6-.5 3.6.9 4.6-.4 0-.8-.1-1.2-.3 0 2.3 1.6 4.3 3.8 4.8-.4.1-.8.1-1.2 0 .9 1.8 2.8 3 4.9 3-2.1 1.6-4.7 2.5-7.4 2.5H8c2.7 1.7 5.9 2.6 9.2 2.6 7.2 0 11.2-6 11.2-11.2v-.5c.8-.5 1.4-1.2 1.9-2-.7.3-1.5.6-2.3.7z" transform="scale(.72) translate(4 4)" />
+      <path d="M14.7 10.3 21.2 3h-1.5l-5.6 6.4L9.6 3H3.8l6.9 10L3.8 21h1.5l6-6.9L15.2 21h5.8l-6.3-10.7zM12 13.2l-.7-1L5.9 4.2h2.4l4.5 6.4.7 1 5.9 8.3h-2.4L12 13.2z" />
+    </svg>
+  );
+}
+
+export function YouTubeIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...props}>
+      <path d="M21.6 8.2a2.7 2.7 0 0 0-1.9-1.9C18.1 6 12 6 12 6s-6.1 0-7.7.3A2.7 2.7 0 0 0 2.4 8.2 28 28 0 0 0 2 12a28 28 0 0 0 .4 3.8 2.7 2.7 0 0 0 1.9 1.9C5.9 18 12 18 12 18s6.1 0 7.7-.3a2.7 2.7 0 0 0 1.9-1.9A28 28 0 0 0 22 12a28 28 0 0 0-.4-3.8zM10.2 15.1V8.9L15.6 12l-5.4 3.1z" />
+    </svg>
+  );
+}
+
+export function TikTokIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...props}>
+      <path d="M14.2 3h2.4c.3 2.2 1.7 3.8 3.9 4.1v2.4c-1.3 0-2.5-.4-3.6-1.1v6.4c0 3.4-2.7 6.2-6.2 6.2S4.5 18.2 4.5 14.7 7.2 8.5 10.7 8.5c.3 0 .6 0 .9.1v2.5a3.7 3.7 0 0 0-.9-.1 3.7 3.7 0 0 0-3.7 3.7 3.7 3.7 0 0 0 3.7 3.7 3.7 3.7 0 0 0 3.7-3.7V3z" />
     </svg>
   );
 }
@@ -142,6 +158,136 @@ export function InstagramIcon(props: IconProps) {
       <rect x="4" y="4" width="16" height="16" rx="4" stroke="currentColor" strokeWidth="1.8" />
       <circle cx="12" cy="12" r="3.4" stroke="currentColor" strokeWidth="1.8" />
       <circle cx="16.6" cy="7.4" r="1" fill="currentColor" />
+    </svg>
+  );
+}
+
+export function HeadsetIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
+      <path
+        d="M4.8 12.5A7.2 7.2 0 0 1 12 5.3a7.2 7.2 0 0 1 7.2 7.2"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
+      <rect x="3.2" y="12.2" width="3.6" height="6.2" rx="1.6" stroke="currentColor" strokeWidth="1.8" />
+      <rect x="17.2" y="12.2" width="3.6" height="6.2" rx="1.6" stroke="currentColor" strokeWidth="1.8" />
+      <path
+        d="M20.8 16.4v1.4A3.2 3.2 0 0 1 17.6 21h-3.1"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
+      <circle cx="13.4" cy="20.2" r="1.1" fill="currentColor" />
+    </svg>
+  );
+}
+
+export function ArrowUpRightIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
+      <path
+        d="M7 17 17 7M9 7h8v8"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+export function PlaneIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
+      <path
+        d="M21 12 3 19l2.4-7L3 5l18 7z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+      />
+      <path d="M5.4 12h7.2" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function CardIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
+      <rect x="3" y="6" width="18" height="12" rx="2.2" stroke="currentColor" strokeWidth="1.6" />
+      <path d="M3 10h18" stroke="currentColor" strokeWidth="1.6" />
+      <path d="M7 14.5h4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function WalletIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
+      <path
+        d="M4 8.2C4 7 5 6 6.3 6H18.5v2.4H6.3A1.2 1.2 0 0 0 5.2 9.5 1.2 1.2 0 0 0 6.3 10.8H19v7.2H6.5A2.5 2.5 0 0 1 4 15.5V8.2z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+      />
+      <circle cx="16.2" cy="14.4" r="1" fill="currentColor" />
+    </svg>
+  );
+}
+
+export function RefundIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
+      <path
+        d="M7 8.2H4.5V5.8"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M5 12a7 7 0 1 1 2-5.2"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
+      <path
+        d="M9.8 10.4c.5-.8 1.4-1.3 2.4-1.3 1.6 0 2.8 1.1 2.8 2.6 0 1.6-1.2 2.7-2.9 2.7h-.4"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
+      <path d="M12 14.4v3.2" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function GaugeIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
+      <path
+        d="M5.2 16.2a7.2 7.2 0 1 1 13.6 0"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
+      <path d="M12 13.2 15.4 9.4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+      <circle cx="12" cy="13.4" r="1.2" fill="currentColor" />
+    </svg>
+  );
+}
+
+export function BellIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
+      <path
+        d="M6.5 16.2h11c-.4-1.3-.7-2.4-.7-4.1 0-2.5-1.8-4.6-4.3-5V6.4a1.5 1.5 0 0 0-3 0v.7c-2.5.4-4.3 2.5-4.3 5 0 1.7-.3 2.8-.7 4.1z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+      />
+      <path d="M10 18.2a2 2 0 0 0 4 0" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
     </svg>
   );
 }

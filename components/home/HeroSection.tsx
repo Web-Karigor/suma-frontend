@@ -1,13 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRightIcon } from "@/components/icons";
 import { Container } from "@/components/ui/Container";
+import { Button } from "@/components/ui/Button";
 import { heroCards, heroContent } from "@/lib/home-data";
 
 export function HeroSection() {
   return (
-    <section className="relative overflow-hidden">
-      <div className="relative min-h-[520px] tablet:min-h-[620px]">
+    <section className="relative -mt-[5.5rem] overflow-hidden">
+      <div className="relative min-h-[520px] tablet:min-h-[680px]">
         <Image
           src={heroContent.image}
           alt="Masjid an-Nabawi at dusk"
@@ -18,7 +18,7 @@ export function HeroSection() {
         />
         <div className="absolute inset-0 bg-linear-to-r from-black/70 via-black/40 to-black/15" />
 
-        <Container className="relative flex min-h-[520px] flex-col justify-center py-16 tablet:min-h-[620px] desktop:flex-row desktop:items-center desktop:justify-between">
+        <Container className="relative flex min-h-[520px] flex-col justify-center pt-28 pb-16 tablet:min-h-[680px] desktop:flex-row desktop:items-center desktop:justify-between">
           <div className="max-w-xl text-white">
             <p className="mb-3 text-sm font-medium tracking-[0.18em] text-gold-300 uppercase">
               Sacred journeys
@@ -29,13 +29,9 @@ export function HeroSection() {
             <p className="mt-4 max-w-md text-sm leading-relaxed text-white/85 tablet:text-base">
               {heroContent.description}
             </p>
-            <Link
-              href={heroContent.cta.href}
-              className="mt-8 inline-flex h-11 items-center gap-2 rounded-full bg-primary px-6 text-sm font-semibold text-white transition hover:bg-primary-700"
-            >
+            <Button href={heroContent.cta.href} className="mt-8">
               {heroContent.cta.label}
-              <ArrowRightIcon className="size-4" />
-            </Link>
+            </Button>
           </div>
 
           <div className="relative mx-auto mt-12 h-[280px] w-full max-w-[420px] tablet:h-[340px] desktop:mx-0 desktop:mt-0">

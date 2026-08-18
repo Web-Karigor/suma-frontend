@@ -1,68 +1,88 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { Autoplay, Pagination } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 import { ArrowRightIcon, PinIcon, StarIcon } from "@/components/icons";
+import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
-import { SectionHeading } from "@/components/ui/SectionHeading";
 import { hotels } from "@/lib/home-data";
+
+import "swiper/css";
+import "swiper/css/pagination";
 
 export function BestHotels() {
   return (
-    <section className="bg-white py-16 tablet:py-20">
+    <section className="bg-paper py-16 tablet:py-20">
       <Container>
-        <div className="mb-10 flex items-end justify-between gap-4">
-          <SectionHeading
-            title="Best Hotels for Your Next Trip"
-            subtitle="Stay closer to the moments that matter — from beachfront resorts to city landmarks."
-            align="left"
-          />
-          <Link
-            href="/hotels"
-            className="hidden shrink-0 text-sm font-semibold text-primary hover:text-primary-700 tablet:inline-flex"
-          >
-            See All
-          </Link>
+        <div className="mb-[37px]">
+          <div className="flex items-center justify-between gap-6">
+            <h2 className="text-[1.75rem] font-semibold tracking-tight text-black tablet:text-[2.5rem]">
+              Best Hotels for Your Next Trip
+            </h2>
+            <Link
+              href="/hotels"
+              className="hidden shrink-0 items-center gap-2 text-base font-medium text-primary hover:text-primary-700 tablet:inline-flex"
+            >
+              View All
+              <ArrowRightIcon className="size-4" />
+            </Link>
+          </div>
+          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-neutral-600 tablet:text-base">
+            For budget-friendly hotels, villas or resorts, browse accommodations that you need.
+            Book long-term or short-term accommodation from our hotel collection.
+          </p>
         </div>
 
-        <div className="grid gap-6 tablet:grid-cols-2 desktop:grid-cols-3">
+        <Swiper
+          modules={[Pagination, Autoplay]}
+          loop
+          grabCursor
+          speed={800}
+          spaceBetween={24}
+          slidesPerView={1.05}
+          pagination={{ clickable: true }}
+          autoplay={{ delay: 5000, disableOnInteraction: false }}
+          breakpoints={{
+            768: { slidesPerView: 1.4, spaceBetween: 24 },
+            1280: { slidesPerView: "auto", spaceBetween: 24 },
+          }}
+          className="hotels-swiper"
+        >
           {hotels.map((hotel) => (
-            <article
-              key={hotel.name}
-              className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-[0_8px_24px_rgb(10_12_12/8%)]"
-            >
-              <div className="relative h-[220px]">
-                <Image
-                  src={hotel.image}
-                  alt={hotel.name}
-                  fill
-                  className="object-cover"
-                  sizes="(min-width: 1280px) 400px, 100vw"
-                />
-              </div>
-              <div className="p-5">
-                <div className="flex gap-0.5 text-gold-500" aria-label={`${hotel.rating} star rating`}>
-                  {Array.from({ length: hotel.rating }).map((_, index) => (
-                    <StarIcon key={index} className="size-4" />
-                  ))}
+            <SwiperSlide key={hotel.name} className="!h-auto desktop:!w-[593px]">
+              <article className="relative mx-auto w-full max-w-[593px] desktop:h-[360px]">
+                <div className="relative z-20 h-[240px] overflow-hidden rounded-xl shadow-[4px_0_16px_rgb(0_0_0/6%)] desktop:absolute desktop:top-0 desktop:left-0 desktop:h-[360px] desktop:w-[240px]">
+                  <Image
+                    src={hotel.image}
+                    alt={hotel.name}
+                    fill
+                    className="object-cover"
+                    sizes="240px"
+                  />
                 </div>
-                <h3 className="mt-2 text-lg font-semibold text-neutral-900">{hotel.name}</h3>
-                <p className="mt-1 flex items-center gap-1.5 text-sm text-neutral-500">
-                  <PinIcon className="size-4" />
-                  {hotel.location}
-                </p>
-                <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-neutral-600">
-                  {hotel.description}
-                </p>
-                <Link
-                  href={hotel.href}
-                  className="mt-5 inline-flex h-10 items-center gap-2 rounded-full bg-primary px-4 text-sm font-semibold text-white transition hover:bg-primary-700"
-                >
-                  Explore
-                  <ArrowRightIcon className="size-4" />
-                </Link>
-              </div>
-            </article>
+
+                <div className="relative z-0 flex flex-col gap-2.5 rounded-2xl bg-gray-50 px-6 py-5 shadow-[4px_0_8px_rgb(0_0_0/4%)] desktop:absolute desktop:top-1/2 desktop:right-0 desktop:h-[277px] desktop:w-[376px] desktop:-translate-y-1/2 desktop:py-5 desktop:pr-8 desktop:pl-10">
+                  <div className="flex gap-0.5 text-gold-500" aria-label={`${hotel.rating} star rating`}>
+                    {Array.from({ length: hotel.rating }).map((_, index) => (
+                      <StarIcon key={index} className="size-3.5" />
+                    ))}
+                  </div>
+                  <h3 className="text-lg font-semibold text-black">{hotel.name}</h3>
+                  <p className="flex items-start gap-1.5 text-xs leading-snug text-gray-500">
+                    <PinIcon className="mt-0.5 size-3.5 shrink-0" />
+                    <span className="line-clamp-2">{hotel.location}</span>
+                  </p>
+                  <p className="line-clamp-2 text-sm leading-relaxed text-gray-600">{hotel.description}</p>
+                  <div className="mt-auto pt-1">
+                    <Button href={hotel.href}>Explore</Button>
+                  </div>
+                </div>
+              </article>
+            </SwiperSlide>
           ))}
-        </div>
+        </Swiper>
       </Container>
     </section>
   );

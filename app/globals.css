@@ -113,8 +113,8 @@
   --breakpoint-desktop-xl: 1920px;
 
   --container-narrow: 760px;
-  --container-page: 1280px;
-  --container-wide: 1440px;
+  --container-page: 1740px;
+  --container-wide: 1740px;
   --container-canvas: 1920px;
 }
 
@@ -148,7 +148,7 @@
   --color-secondary: var(--color-gold-500);
   --color-secondary-foreground: var(--color-neutral-950);
 
-  --color-paper: var(--color-neutral-50);
+  --color-paper: var(--color-teal-100);
   --color-ink: var(--color-neutral-950);
   --color-hero: var(--color-deepteal);
   --color-surface: var(--color-white);
@@ -156,7 +156,7 @@
   --color-border: var(--color-gray-200);
   --color-ring: var(--color-primary);
   --color-scrim: var(--color-overlay-black-64);
-  --color-background: var(--color-neutral-50);
+  --color-background: var(--color-teal-100);
   --color-foreground: var(--color-neutral-950);
   --color-success: var(--color-success-700);
   --color-error: var(--color-error-600);
@@ -295,28 +295,245 @@
   padding-inline: var(--page-gutter);
 }
 
-.offers-swiper .swiper-pagination-bullet,
-.destinations-swiper .swiper-pagination-bullet {
+:root {
+  --swiper-pagination-color: var(--color-teal-600);
+  --swiper-pagination-bullet-inactive-color: var(--color-teal-300);
+  --swiper-pagination-bullet-inactive-opacity: 1;
+  --swiper-pagination-bullet-horizontal-gap: 6px;
+}
+
+.swiper-pagination .swiper-pagination-bullet {
   background: var(--color-teal-300);
   opacity: 1;
   width: 8px;
   height: 8px;
+  border-radius: 999px;
+  transition:
+    width 0.25s ease,
+    background-color 0.25s ease;
 }
 
-.offers-swiper .swiper-pagination-bullet-active,
-.destinations-swiper .swiper-pagination-bullet-active {
+.swiper-pagination .swiper-pagination-bullet-active {
   background: var(--color-teal-600);
   width: 22px;
-  border-radius: 999px;
+}
+
+.hotels-swiper {
+  overflow: hidden;
+}
+
+.hotels-swiper .swiper-slide {
+  height: auto;
+}
+
+.hotels-swiper .swiper-pagination {
+  position: static;
+  margin-top: 28px;
+}
+
+.offers-swiper .swiper-wrapper {
+  align-items: center;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .offers-swiper .swiper-slide {
-  opacity: 0.55;
-  transform: scale(0.92);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  height: auto;
+  overflow: visible;
 }
 
-.offers-swiper .swiper-slide-active {
-  opacity: 1;
-  transform: scale(1);
+.offers-swiper .offer-card {
+  height: 220px;
+  border-radius: var(--radius-2xl);
+  transform: scale(0.98, 0.82);
+  transform-origin: 50% 82%;
+  will-change: transform;
+}
+
+@media (width >= 768px) {
+  .offers-swiper .offer-card {
+    height: 260px;
+  }
+}
+
+@media (width >= 1280px) {
+  .offers-swiper .offer-card {
+    height: 340px;
+  }
+}
+
+.package-card {
+  border-radius: var(--radius-2xl);
+  box-shadow:
+    -7px 4px 40px rgb(10 12 12 / 8%),
+    7px 4px 40px rgb(10 12 12 / 8%);
+}
+
+.package-card-overlay {
+  background: linear-gradient(
+    to top,
+    #0a5c5b 0%,
+    rgb(10 92 91 / 58%) 30%,
+    transparent 58%
+  );
+}
+
+@keyframes airlines-marquee-left {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes airlines-marquee-right {
+  from {
+    transform: translate3d(-50%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.airlines-row:hover .airlines-track {
+  animation-play-state: paused;
+}
+
+.airlines-track-left {
+  animation: airlines-marquee-left 50s linear infinite;
+}
+
+.airlines-track-right {
+  animation: airlines-marquee-right 56s linear infinite;
+}
+
+.airlines-track-left-slow {
+  animation: airlines-marquee-left 54s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .airlines-track-left,
+  .airlines-track-right,
+  .airlines-track-left-slow {
+    animation: none;
+    transform: none;
+  }
+}
+
+.popular-wrap .swiper {
+  padding: 10px 0 84px;
+}
+
+.popular-wrap .swiper-slide {
+  width: 320px;
+  height: 460px;
+  transition: transform 700ms;
+  will-change: transform;
+}
+
+@media (max-width: 1023px) {
+  .popular-wrap .swiper-slide {
+    width: 280px;
+    height: 420px;
+  }
+}
+
+@media (max-width: 639px) {
+  .popular-wrap .swiper-slide {
+    width: 240px;
+    height: 360px;
+  }
+}
+
+.st-card {
+  position: relative;
+  height: 95%;
+  overflow: hidden;
+  border-radius: 18px;
+}
+
+.st-card .img {
+  position: absolute;
+  inset: 0;
+}
+
+.st-card .img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.st-card .grad {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 46%;
+  background: linear-gradient(
+    180deg,
+    rgb(0 0 0 / 0%) 0%,
+    rgb(0 0 0 / 65%) 58%,
+    rgb(0 0 0 / 88%) 100%
+  );
+}
+
+.st-card .details {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 14px;
+  color: #fff;
+}
+
+.st-card .title {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.popular-wrap .swiper-slide-shadow-left,
+.popular-wrap .swiper-slide-shadow-right {
+  display: none !important;
+}
+
+.flight-visual {
+  --cx: 42px;
+  --badge: 120px;
+  --r: var(--radius-2xl);
+  --cut: 120px;
+}
+
+@media (width >= 768px) {
+  .flight-visual {
+    --cx: 94px;
+    --badge: 188px;
+    --cut: 196px;
+  }
+}
+
+.flight-art-mask {
+  clip-path: shape(
+    from var(--r) 0,
+    hline to calc(100% - var(--r)),
+    arc to 100% var(--r) of var(--r) cw,
+    vline to calc(100% - var(--r)),
+    arc to calc(100% - var(--r)) 100% of var(--r) cw,
+    hline to calc(var(--cut) + var(--r)),
+    arc to var(--cut) calc(100% - var(--r)) of var(--r) cw,
+    vline to calc(100% - var(--cut) - var(--r)),
+    arc to calc(var(--cut) + var(--r)) calc(100% - var(--cut)) of var(--r) ccw,
+    hline to var(--r),
+    arc to 0 calc(100% - var(--cut) - var(--r)) of var(--r) cw,
+    vline to var(--r),
+    arc to var(--r) 0 of var(--r) cw,
+    close
+  );
+}
+
+.flight-go-badge {
+  position: absolute;
+  left: calc(var(--cx) - var(--badge) / 2);
+  bottom: calc(var(--cx) - var(--badge) / 2);
+  z-index: 10;
+  width: var(--badge);
+  height: var(--badge);
 }
