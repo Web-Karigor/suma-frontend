@@ -4,13 +4,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import {
-  ArrowUpRightIcon,
   ChevronDownIcon,
   CloseIcon,
   HeadsetIcon,
   MenuIcon,
   SearchIcon,
 } from "@/components/icons";
+import { Button } from "@/components/ui/Button";
 import { Logo } from "@/components/ui/Logo";
 import { Container } from "@/components/ui/Container";
 import { cn } from "@/lib/cn";
@@ -129,15 +129,9 @@ export function Header() {
               />
             </label>
 
-            <Link
-              href="/contact"
-              className="inline-flex h-11 items-center gap-3 rounded-full bg-black pr-1.5 pl-5 text-sm font-medium whitespace-nowrap text-white transition hover:bg-neutral-900"
-            >
+            <Button href="/contact" className="h-11 gap-3 rounded-full !bg-black text-sm !text-white hover:!bg-[#0A0C0C] [&>span]:size-8 [&>span]:!bg-white [&>span]:!text-black">
               Get a Free Quote
-              <span className="inline-flex size-8 items-center justify-center rounded-full bg-white text-black">
-                <ArrowUpRightIcon className="size-3.5" />
-              </span>
-            </Link>
+            </Button>
           </div>
 
           <button
@@ -213,16 +207,9 @@ export function Header() {
               />
             </label>
 
-            <Link
-              href="/contact"
-              className="mt-3 inline-flex h-12 w-full items-center justify-center gap-3 rounded-full bg-black pr-1.5 pl-5 text-sm font-medium text-white"
-              onClick={() => setOpen(false)}
-            >
+            <Button href="/contact" className="mt-3 h-12 w-full justify-center rounded-full !bg-black text-sm !text-white hover:!bg-[#0A0C0C] [&>span]:size-8 [&>span]:!bg-white [&>span]:!text-black">
               Get a Free Quote
-              <span className="inline-flex size-8 items-center justify-center rounded-full bg-white text-black">
-                <ArrowUpRightIcon className="size-3.5" />
-              </span>
-            </Link>
+            </Button>
           </div>
         </Container>
       ) : null}
