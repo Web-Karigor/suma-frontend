@@ -158,4 +158,85 @@ export const hotelListings: HotelListing[] = [
     tags: ["breakfast", "ac", "wifi", "parking"],
     refundable: true,
   },
+  {
+    id: "regenta-central-imperial",
+    name: "Regenta Central Imperial Candolim",
+    image:
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
+    rating: 5,
+    score: "5.6",
+    roomType: "Club Room",
+    location: "Cox's Bazar - Bangladesh",
+    amenities: ["Swimming pool", "Welcome Drinks", "Free Wi-Fi", "SPA", "Restaurants (Halal)"],
+    extraCount: 8,
+    breakfast: true,
+    service247: true,
+    price: 6221,
+    originalPrice: 20000,
+    href: "/hotels/regenta-central-imperial",
+    tags: ["balcony", "breakfast", "pool", "ac", "wifi"],
+    refundable: true,
+  },
 ];
+
+export const hotelGallery = [
+  "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1400&q=80",
+  "https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=800&q=80",
+] as const;
+
+export const hotelHighlights = [
+  { label: "Welcome Drinks", icon: "drink" },
+  { label: "Swimming pool", icon: "pool" },
+  { label: "Restaurants (Halal)", icon: "dine" },
+  { label: "SPA", icon: "spa" },
+  { label: "Free Wi-Fi", icon: "wifi" },
+] as const;
+
+export const hotelPolicies = [
+  "Club Room with Balcony - Fits 2 Adult",
+  "15% off on All Food & Beverage Service",
+  "Complimentary Welcome Drinks on Arrival",
+  "Free Cancelation Available - 24 hours priors notice",
+  "Early Check-In - Up to 2 hours (Subject to Availability)",
+] as const;
+
+export const nearbyAttractions = [
+  "Enjoy scenic sunsets along Cox’s Bazar sea beach, just minutes from the hotel.",
+  "Visit Himchari National Park for waterfalls, viewpoints, and coastal trails.",
+  "Explore Inani Beach and Laboni Beach for swimming, walking, and local food.",
+] as const;
+
+export const howToReach = [
+  "Cox’s Bazar Airport is about 12 km away from the hotel.",
+  "Cox’s Bazar Railway Station is around 8 km away.",
+  "More than 50 travellers have liked this property because of its good location.",
+] as const;
+
+export const hotelAmenities = [
+  "ATM",
+  "CCTV",
+  "Indian Chef",
+  "Air Conditioning",
+  "Swimming Pool",
+  "Free Wi-Fi",
+  "SPA",
+  "Parking",
+  "Room Service",
+  "Halal Restaurant",
+  "Gym",
+  "Airport Shuttle",
+] as const;
+
+export const hotelDescription = [
+  "Get the celebrity treatment with world-class service at this 5-star property. Relax by the rooftop pool, dine on coastal flavours, and settle into spacious rooms designed for a calm Cox’s Bazar stay.",
+  "Guests can enjoy complimentary welcome drinks on arrival, daily housekeeping, and attentive concierge support for beach transfers, tours, and dining reservations. Families and couples alike will find quiet corners, ocean-facing decks, and an easy walk to the shoreline.",
+];
+
+export function getHotelDetail(id: string) {
+  return hotelListings.find((hotel) => hotel.id === id || hotel.href.endsWith(`/${id}`)) ?? null;
+}

@@ -292,6 +292,17 @@ export function BellIcon(props: IconProps) {
   );
 }
 
+export function ShareIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
+      <circle cx="18" cy="5" r="2.4" stroke="currentColor" strokeWidth="1.8" />
+      <circle cx="6" cy="12" r="2.4" stroke="currentColor" strokeWidth="1.8" />
+      <circle cx="18" cy="19" r="2.4" stroke="currentColor" strokeWidth="1.8" />
+      <path d="M8.2 13.1 15.8 17.4M15.8 6.6 8.2 10.9" stroke="currentColor" strokeWidth="1.8" />
+    </svg>
+  );
+}
+
 export function BedIcon(props: IconProps) {
   return (
     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
