@@ -537,3 +537,47 @@
   width: var(--badge);
   height: var(--badge);
 }
+
+.hero-cards-wrap {
+  max-width: 886px;
+}
+
+.hero-cards-swiper {
+  overflow: hidden;
+  padding-top: 8px;
+}
+
+.hero-cards-swiper .swiper-wrapper {
+  align-items: center;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hero-cards-swiper .swiper-slide {
+  width: 270px;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+}
+
+.hero-cards-swiper .hero-card {
+  width: 318px;
+  transform: scale(0.849, 0.689);
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+
+.hero-cards-swiper .hero-card-head {
+  margin-bottom: 16px;
+  min-height: 50px;
+}
+
+.hero-cards-swiper .hero-card-media {
+  height: 467px;
+  box-shadow: 0 0 32px rgb(10 12 12 / 24%);
+}
+
+.hero-cards-swiper .swiper-slide-active .hero-card-action {
+  opacity: 1;
+}

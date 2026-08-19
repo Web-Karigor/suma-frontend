@@ -28,22 +28,40 @@ export const heroContent = {
 
 export const heroCards = [
   {
-    title: "Hajj Packages",
+    title: "Hajj & Umrah",
     image:
       "https://images.unsplash.com/photo-1564769625905-50e93615e769?auto=format&fit=crop&w=600&q=80",
     href: "/hajj-umrah",
   },
   {
-    title: "Visa Services",
+    title: "Visa Assistance",
     image:
       "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=600&q=80",
     href: "/visa",
   },
   {
-    title: "Hotel Accommodations",
+    title: "Hotel Accommodation",
     image:
       "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=600&q=80",
     href: "/hotels",
+  },
+  {
+    title: "Holiday Packages",
+    image:
+      "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=600&q=80",
+    href: "/packages",
+  },
+  {
+    title: "Corporate Travel",
+    image:
+      "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=600&q=80",
+    href: "/corporate",
+  },
+  {
+    title: "Air Tickets",
+    image:
+      "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=600&q=80",
+    href: "/flights",
   },
 ] as const;
 

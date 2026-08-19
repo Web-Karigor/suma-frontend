@@ -1,8 +1,8 @@
 import Image from "next/image";
-import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
-import { heroCards, heroContent } from "@/lib/home-data";
+import { HeroCardsSlider } from "@/components/home/HeroCardsSlider";
+import { heroContent } from "@/lib/home-data";
 
 export function HeroSection() {
   return (
@@ -34,27 +34,8 @@ export function HeroSection() {
             </Button>
           </div>
 
-          <div className="relative mx-auto mt-12 h-[280px] w-full max-w-[420px] tablet:h-[340px] desktop:mx-0 desktop:mt-0">
-            {heroCards.map((card, index) => (
-              <Link
-                key={card.title}
-                href={card.href}
-                className="absolute overflow-hidden rounded-2xl shadow-[0_18px_40px_rgb(10_12_12/32%)] transition hover:-translate-y-1"
-                style={{
-                  width: "42%",
-                  height: "78%",
-                  left: `${index * 28}%`,
-                  top: index === 1 ? "18%" : "6%",
-                  zIndex: index === 1 ? 3 : 2,
-                  rotate: `${[-8, 3, 10][index]}deg`,
-                }}
-              >
-                <Image src={card.image} alt={card.title} fill className="object-cover" sizes="180px" />
-                <span className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/80 to-transparent px-3 py-3 text-center text-xs font-semibold text-white tablet:text-sm">
-                  {card.title}
-                </span>
-              </Link>
-            ))}
+          <div className="mt-12 w-full desktop:mt-0 desktop:ml-auto desktop:max-w-[886px] desktop:shrink-0 desktop:pl-4">
+            <HeroCardsSlider />
           </div>
         </Container>
       </div>

@@ -22,9 +22,9 @@ const featureIcons = {
 
 export function AppFeature() {
   return (
-    <section className="bg-paper py-16 tablet:py-20">
-      <Container className="grid items-center gap-10 desktop:grid-cols-[minmax(0,1fr)_minmax(320px,858px)] desktop:gap-8">
-        <div className="min-w-0">
+    <section className="bg-paper pt-28 pb-20 tablet:pt-40 tablet:pb-28">
+      <Container className="grid gap-10 desktop:grid-cols-[minmax(0,1fr)_minmax(320px,858px)] desktop:items-stretch desktop:gap-8">
+        <div className="flex min-w-0 flex-col desktop:h-[855px]">
           <div className="flex w-full max-w-[858px] flex-col items-start gap-5 tablet:h-[79px] tablet:flex-row tablet:items-center tablet:gap-9">
             <Image
               src="/images/flight24/logo.png"
@@ -40,12 +40,12 @@ export function AppFeature() {
             </p>
           </div>
 
-          <div className="mt-20 flex w-full max-w-[858px] flex-col gap-8 tablet:mt-24 tablet:h-[412px] tablet:flex-row tablet:gap-[138px]">
+          <div className="mt-10 flex w-full max-w-[858px] flex-1 flex-col gap-8 tablet:mt-12 tablet:flex-row tablet:gap-[138px]">
             <FeatureColumn features={appFeatures.filter((_, i) => i % 2 === 0)} />
             <FeatureColumn features={appFeatures.filter((_, i) => i % 2 === 1)} />
           </div>
 
-          <div className="relative mt-20 w-full max-w-[858px] overflow-visible tablet:mt-24 tablet:h-[177px]">
+          <div className="relative mt-16 w-full max-w-[858px] overflow-visible desktop:mt-auto tablet:h-[177px]">
             <div className="absolute top-1/2 left-0 hidden h-[100px] w-fit -translate-y-1/2 tablet:block">
               <div
                 className="absolute inset-0 bg-size-[100%_100%] bg-center bg-no-repeat"
@@ -120,7 +120,7 @@ function FeatureColumn({
   features: typeof appFeatures[number][];
 }) {
   return (
-    <ul className="flex w-full flex-col justify-between tablet:h-[412px] tablet:w-[360px]">
+    <ul className="flex w-full flex-col gap-6 tablet:w-[360px] desktop:flex-1 desktop:gap-10">
       {features.map((feature) => {
         const Icon = featureIcons[feature.icon];
         return (
@@ -129,10 +129,10 @@ function FeatureColumn({
               <Icon className="size-8" />
             </span>
             <span>
-              <span className="block text-[16px] leading-tight font-semibold text-[#0A0C0C]">
+              <span className="block text-[22px] leading-tight font-semibold text-[#0A0C0C]">
                 {feature.title}
               </span>
-              <span className="mt-1 block text-[15px] leading-[139%] font-medium tracking-[0.01em] text-neutral-600">
+              <span className="mt-3 block text-[14px] leading-[139%] font-medium tracking-[0.01em] text-neutral-600">
                 {feature.description}
               </span>
             </span>
