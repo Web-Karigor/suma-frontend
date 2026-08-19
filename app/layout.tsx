@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Poppins } from "next/font/google";
 import { Header } from "@/components/global/Header";
-import { Footer } from "@/components/layout/Footer";
+import { Footer } from "@/components/global/Footer";
 import "./globals.css";
 
 const poppins = Poppins({

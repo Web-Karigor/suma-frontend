@@ -12,9 +12,9 @@ import "swiper/css";
 
 type SlideEl = HTMLElement & { progress: number };
 
-const SLIDE_GAP = 14;
+const SLIDE_GAP = 8;
 const INACTIVE_SCALE_X = 270 / 318;
-const INACTIVE_SCALE_Y = 322 / 467;
+const INACTIVE_SCALE_Y = 322 / 400;
 
 function animateHeroCards(swiper: SwiperClass) {
   swiper.slides.forEach((slide) => {
@@ -65,7 +65,7 @@ export function HeroCardsSlider() {
                   ))}
                 </div>
               </div>
-              <div className="hero-card-media relative overflow-hidden rounded-2xl">
+              <div className="hero-card-media relative overflow-hidden">
                 <Image
                   src={card.image}
                   alt={card.title}

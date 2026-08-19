@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import {
+  ArrowRightIcon,
   FacebookIcon,
   InstagramIcon,
   MailIcon,
@@ -29,8 +30,8 @@ export function Footer() {
   return (
     <footer className="bg-deepteal text-white">
       <Container className="pt-14 pb-8 tablet:pt-16">
-        <div className="grid gap-10 tablet:grid-cols-2 desktop:grid-cols-[minmax(0,1.35fr)_auto_auto_minmax(0,1.7fr)] desktop:gap-x-12">
-          <div className="max-w-[340px]">
+        <div className="flex flex-col gap-10 tablet:grid tablet:grid-cols-2 desktop:flex desktop:flex-row desktop:justify-between desktop:gap-0">
+          <div className="max-w-[441px] desktop:w-[441px] desktop:shrink-0">
             <p className="text-[14px] leading-[160%] font-normal text-white">
               {footerAbout}
             </p>
@@ -52,28 +53,34 @@ export function Footer() {
           <FooterList title="Services" links={footerColumns.services} />
           <FooterList title="Important Pages" links={footerColumns.pages} />
 
-          <div>
+          <div className="max-w-[240px] desktop:shrink-0">
             <h3 className="text-[16px] font-semibold">Get In Touch</h3>
-            <div className="mt-5 grid gap-8 tablet:grid-cols-2">
+            <div className="mt-5">
               <OfficeList offices={footerOffices.left} />
-              <div>
-                <OfficeList offices={footerOffices.right} />
-                <div className="mt-4 space-y-3 border-t border-white/25 pt-4">
-                  <a
-                    href={`tel:${company.hotline}`}
-                    className="flex items-center gap-2 text-[14px] text-white"
-                  >
-                    <PhoneIcon className="size-4 shrink-0" />
-                    {company.hotline}
-                  </a>
-                  <a
-                    href={`mailto:${company.email}`}
-                    className="flex items-center gap-2 text-[14px] text-white"
-                  >
-                    <MailIcon className="size-4 shrink-0" />
-                    {company.email}
-                  </a>
-                </div>
+            </div>
+          </div>
+
+          <div className="max-w-[240px] desktop:shrink-0">
+            <h3 className="invisible text-[16px] font-semibold" aria-hidden="true">
+              Get In Touch
+            </h3>
+            <div className="mt-5">
+              <OfficeList offices={footerOffices.right} />
+              <div className="mt-4 space-y-3 border-t border-white/25 pt-4">
+                <a
+                  href={`tel:${company.hotline}`}
+                  className="flex items-center gap-2 text-[14px] text-white"
+                >
+                  <PhoneIcon className="size-4 shrink-0" />
+                  {company.hotline}
+                </a>
+                <a
+                  href={`mailto:${company.email}`}
+                  className="flex items-center gap-2 text-[14px] text-white"
+                >
+                  <MailIcon className="size-4 shrink-0" />
+                  {company.email}
+                </a>
               </div>
             </div>
           </div>
@@ -95,13 +102,21 @@ function FooterList({
   links: readonly { label: string; href: string }[];
 }) {
   return (
-    <div>
+    <div className="desktop:shrink-0">
       <h3 className="text-[16px] font-semibold">{title}</h3>
       <ul className="mt-5 space-y-3.5">
         {links.map((link) => (
           <li key={link.href}>
-            <Link href={link.href} className="text-[14px] text-white transition hover:text-white/80">
-              {link.label}
+            <Link
+              href={link.href}
+              className="group inline-flex items-center text-[14px] text-white transition-colors hover:text-white/80"
+            >
+              <span className="inline-flex w-0 shrink-0 overflow-hidden transition-[width] duration-300 ease-out group-hover:w-4">
+                <ArrowRightIcon className="size-3.5 -translate-x-full text-white transition-transform duration-300 ease-out group-hover:translate-x-0" />
+              </span>
+              <span className="transition-transform duration-300 ease-out group-hover:translate-x-0.5">
+                {link.label}
+              </span>
             </Link>
           </li>
         ))}

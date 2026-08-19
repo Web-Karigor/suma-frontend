@@ -23,7 +23,7 @@ export const heroContent = {
     "Begin your sacred journey with trusted guidance, carefully planned packages, and support at every step — from visa to your stay in the Holy Cities.",
   cta: { label: "Book Now", href: "/hajj-umrah" },
   image:
-    "https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?auto=format&fit=crop&w=1920&q=80",
+    "https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?auto=format&fit=crop&w=1920&h=900&q=80",
 };
 
 export const heroCards = [
