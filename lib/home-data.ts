@@ -1,19 +1,19 @@
 export const serviceLinks = [
-  { label: "Hajj & Umrah", href: "/hajj-umrah" },
-  { label: "Visa Services", href: "/visa" },
+  { label: "Hajj & Umrah", href: "/hajj" },
+  { label: "Visa Services", href: "/visa-application" },
   { label: "Hotel Booking", href: "/hotels" },
   { label: "Holiday Packages", href: "/packages" },
-  { label: "Corporate Tour", href: "/corporate" },
-  { label: "Air Tickets", href: "/flights" },
+  { label: "Corporate Tour", href: "/packages" },
+  { label: "Air Tickets", href: "/packages" },
 ] as const;
 
 export const navLinks = [
   { label: "Home", href: "/" },
-  { label: "Service", href: "/services", children: serviceLinks },
-  { label: "Flights", href: "/flights" },
-  { label: "Build My Trip", href: "/build-my-trip" },
-  { label: "Blog", href: "/blog" },
-  { label: "About", href: "/about" },
+  { label: "Service", href: "/hajj", children: serviceLinks },
+  { label: "Flights", href: "/packages" },
+  { label: "Build My Trip", href: "/packages" },
+  { label: "Blog", href: "/packages" },
+  { label: "About", href: "/contact" },
   { label: "Contact", href: "/contact" },
 ] as const;
 
@@ -21,7 +21,7 @@ export const heroContent = {
   title: "Hajj & Umrah",
   description:
     "Begin your sacred journey with trusted guidance, carefully planned packages, and support at every step — from visa to your stay in the Holy Cities.",
-  cta: { label: "Book Now", href: "/hajj-umrah" },
+  cta: { label: "Book Now", href: "/hajj" },
   image:
     "https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?auto=format&fit=crop&w=1920&h=900&q=80",
 };
@@ -31,13 +31,13 @@ export const heroCards = [
     title: "Hajj & Umrah",
     image:
       "https://images.unsplash.com/photo-1564769625905-50e93615e769?auto=format&fit=crop&w=600&q=80",
-    href: "/hajj-umrah",
+    href: "/hajj",
   },
   {
     title: "Visa Assistance",
     image:
       "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=600&q=80",
-    href: "/visa",
+    href: "/visa-application",
   },
   {
     title: "Hotel Accommodation",
@@ -55,13 +55,13 @@ export const heroCards = [
     title: "Corporate Travel",
     image:
       "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=600&q=80",
-    href: "/corporate",
+    href: "/packages",
   },
   {
     title: "Air Tickets",
     image:
       "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=600&q=80",
-    href: "/flights",
+    href: "/packages",
   },
 ] as const;
 
@@ -336,21 +336,21 @@ export const footerAbout =
 
 export const footerColumns = {
   services: [
-    { label: "Hajj & Umrah Packages", href: "/hajj-umrah" },
-    { label: "Visa Assistance", href: "/visa" },
+    { label: "Hajj & Umrah Packages", href: "/hajj" },
+    { label: "Visa Assistance", href: "/visa-application" },
     { label: "Hotel", href: "/hotels" },
     { label: "Holiday Packages", href: "/packages" },
-    { label: "Customized Tours", href: "/tours" },
-    { label: "Medical Tourism", href: "/medical" },
-    { label: "Corporate Travel", href: "/corporate" },
+    { label: "Customized Tours", href: "/packages" },
+    { label: "Medical Tourism", href: "/packages" },
+    { label: "Corporate Travel", href: "/packages" },
   ],
   pages: [
-    { label: "About Us", href: "/about" },
+    { label: "About Us", href: "/contact" },
     { label: "Contact", href: "/contact" },
-    { label: "Promotions", href: "/promotions" },
-    { label: "FAQ", href: "/faq" },
-    { label: "Terms & Conditions", href: "/terms" },
-    { label: "Privacy Policy", href: "/privacy" },
+    { label: "Promotions", href: "/packages" },
+    { label: "FAQ", href: "/contact" },
+    { label: "Terms & Conditions", href: "/contact" },
+    { label: "Privacy Policy", href: "/contact" },
   ],
 } as const;
 

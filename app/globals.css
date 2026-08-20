@@ -626,6 +626,32 @@
   overflow: visible;
 }
 
+@media (width < 768px) {
+  .hero-cards-wrap {
+    max-width: none;
+    overflow: hidden;
+  }
+
+  .hero-cards-swiper {
+    margin-inline: -0.25rem;
+    padding-inline: 0.25rem;
+  }
+
+  .hero-cards-swiper .swiper-slide {
+    width: calc(100vw - 2rem);
+  }
+
+  .hero-cards-swiper .hero-card {
+    width: 100%;
+    transform: none !important;
+  }
+
+  .hero-cards-swiper .hero-card-media {
+    width: 100%;
+    height: min(400px, calc(100vw - 2rem));
+  }
+}
+
 .hero-cards-swiper .hero-card {
   display: flex;
   width: 318px;

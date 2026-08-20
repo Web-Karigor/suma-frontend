@@ -22,7 +22,11 @@ export function Header() {
   const [serviceOpen, setServiceOpen] = useState(false);
 
   return (
-    <header className={cn("sticky top-0 z-50", (pathname.startsWith("/hajj") || pathname.startsWith("/packages")) && "bg-gold-100")}>
+    <header className={cn(
+      "sticky top-0 z-50",
+      (pathname.startsWith("/hajj") || pathname.startsWith("/packages")) && "bg-gold-100",
+      pathname.startsWith("/visa-application") && "absolute top-0 right-0 left-0 bg-transparent",
+    )}>
       <Container className="pt-3 desktop:pt-4">
         <div
           className={cn(
@@ -47,7 +51,7 @@ export function Header() {
               if ("children" in link && link.children) {
                 return (
                   <div
-                    key={link.href}
+                    key={link.label}
                     className="relative"
                     onMouseEnter={() => setServiceOpen(true)}
                     onMouseLeave={() => setServiceOpen(false)}
@@ -74,7 +78,7 @@ export function Header() {
                       <div className="absolute top-full left-1/2 z-50 min-w-[220px] -translate-x-1/2 pt-3">
                         <ul className="rounded-2xl border border-gray-200 bg-white py-2 shadow-[0_16px_40px_rgb(10_12_12/16%)]">
                           {link.children.map((child) => (
-                            <li key={child.href}>
+                            <li key={child.label}>
                               <Link
                                 href={child.href}
                                 className="block px-4 py-2 text-sm text-neutral-800 transition hover:bg-teal-50 hover:text-primary"
@@ -93,7 +97,7 @@ export function Header() {
 
               return (
                 <Link
-                  key={link.href}
+                  key={link.label}
                   href={link.href}
                   className={cn(
                     "text-sm font-medium whitespace-nowrap text-neutral-900 transition-colors hover:text-primary wide:text-[0.92rem]",
@@ -158,11 +162,11 @@ export function Header() {
               {navLinks.map((link) => {
                 if ("children" in link && link.children) {
                   return (
-                    <div key={link.href}>
+                    <div key={link.label}>
                       <p className="px-3 py-2 text-sm font-semibold text-neutral-800">{link.label}</p>
                       {link.children.map((child) => (
                         <Link
-                          key={child.href}
+                          key={child.label}
                           href={child.href}
                           className="block rounded-lg px-5 py-2 text-sm text-neutral-700 hover:bg-teal-50 hover:text-primary"
                           onClick={() => setOpen(false)}
@@ -176,7 +180,7 @@ export function Header() {
 
                 return (
                   <Link
-                    key={link.href}
+                    key={link.label}
                     href={link.href}
                     className="rounded-lg px-3 py-2.5 text-sm font-medium text-neutral-800 hover:bg-teal-50"
                     onClick={() => setOpen(false)}

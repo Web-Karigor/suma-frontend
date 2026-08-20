@@ -107,7 +107,7 @@ export function AppFeature() {
               sizes="(min-width: 1280px) 858px, 100vw"
             />
           </div>
-          <GoBadge href="/flights" className="flight-go-badge" />
+          <GoBadge href="/packages" className="flight-go-badge" />
         </div>
       </Container>
     </section>

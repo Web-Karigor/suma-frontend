@@ -15,7 +15,7 @@ export function BuildMyTrip() {
           </div>
 
           <Link
-            href="/build-trip"
+            href="/packages"
             className="relative flex h-[100px] flex-1 items-center justify-center overflow-hidden rounded-2xl tablet:rounded-l-none desktop:h-[132px]"
           >
             <Image

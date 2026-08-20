@@ -106,7 +106,7 @@ function FooterList({
       <h3 className="text-[16px] font-semibold">{title}</h3>
       <ul className="mt-5 space-y-3.5">
         {links.map((link) => (
-          <li key={link.href}>
+          <li key={link.label}>
             <Link
               href={link.href}
               className="group inline-flex items-center text-[14px] text-white transition-colors hover:text-white/80"
