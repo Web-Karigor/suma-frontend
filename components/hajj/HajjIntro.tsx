@@ -1,6 +1,6 @@
 export function HajjIntro() {
   return (
-    <section className="hajj-intro bg-[#FCF4E0] px-4  pt-0 text-center tablet:px-8 tablet:pt-16 desktop:h-[435px] desktop:pt-14">
+    <section className="hajj-intro bg-[#FCF4E0] px-4 pt-0 text-center tablet:px-8 tablet:pt-16 desktop:h-[435px] desktop:pt-14">
       <h1 className="mx-auto max-w-[520px] text-[2.15rem] leading-[1.08] font-semibold tracking-[-0.04em] text-neutral-950 tablet:text-5xl">
         Two Journeys,
         <br />

@@ -22,7 +22,7 @@ export function Header() {
   const [serviceOpen, setServiceOpen] = useState(false);
 
   return (
-    <header className={cn("sticky top-0 z-50", pathname.startsWith("/hajj") && "bg-[#FCF4E0]")}>
+    <header className={cn("sticky top-0 z-50", (pathname.startsWith("/hajj") || pathname.startsWith("/packages")) && "bg-gold-100")}>
       <Container className="pt-3 desktop:pt-4">
         <div
           className={cn(

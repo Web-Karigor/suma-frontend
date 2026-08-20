@@ -1,0 +1,32 @@
+export const packageList = [
+  {
+    title: "AFAQ ELITE",
+    subtitle: "Afaq Al Mutamaya for Umrah Services Company",
+    date: "From 2026-07-20 - To 2026-08-13",
+    hotel: "Luxury Makkah & Madina",
+    duration: "6 Nights",
+    image: "https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?auto=format&fit=crop&w=1200&q=85",
+    price: "6,221",
+    href: "/packages",
+  },
+  {
+    title: "AFAQ EXCELLENCE",
+    subtitle: "Afaq Al Mutamaya for Umrah Services Company",
+    date: "From 2026-07-24 - To 2026-08-13",
+    hotel: "Luxury Makkah & Madina",
+    duration: "10 Nights",
+    image: "https://images.unsplash.com/photo-1564769625905-50e93615e769?auto=format&fit=crop&w=1200&q=85",
+    price: "6,221",
+    href: "/packages",
+  },
+  {
+    title: "Al Wateen Package",
+    subtitle: "Alfayzeen Aloula for Umrah Services Company",
+    date: "From 2026-08-03 - To 2026-09-03",
+    hotel: "Luxury Makkah & Madina",
+    duration: "6 Nights",
+    image: "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=1200&q=85",
+    price: "6,221",
+    href: "/packages",
+  },
+] as const;
