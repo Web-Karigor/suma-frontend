@@ -22,7 +22,7 @@ export function Header() {
   const [serviceOpen, setServiceOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50">
+    <header className={cn("sticky top-0 z-50", pathname.startsWith("/hajj") && "bg-[#FCF4E0]")}>
       <Container className="pt-3 desktop:pt-4">
         <div
           className={cn(
@@ -32,7 +32,8 @@ export function Header() {
             "desktop:gap-5 desktop:px-5 desktop:py-2.5",
           )}
         >
-          <Logo compact={false} className="hidden shrink-0 min-[480px]:flex" />
+          <Logo compact={false} className="hidden shrink-0 wide:flex" />
+          <Logo compact className="hidden shrink-0 min-[480px]:flex wide:hidden" />
           <Logo compact className="shrink-0 min-[480px]:hidden" />
 
           <nav
