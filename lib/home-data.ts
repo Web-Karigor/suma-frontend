@@ -11,7 +11,7 @@ export const navLinks = [
   { label: "Home", href: "/" },
   { label: "Service", href: "/hajj", children: serviceLinks },
   { label: "Build My Trip", href: "/packages" },
-  { label: "About", href: "/contact" },
+  { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ] as const;
 
