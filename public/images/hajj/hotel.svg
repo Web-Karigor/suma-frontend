@@ -1,0 +1,12 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750" role="img" aria-label="Makkah Madinah hotel placeholder">
+  <rect width="1200" height="750" fill="#f8fafc"/>
+  <rect x="180" y="130" width="840" height="500" rx="22" fill="#0f172a"/>
+  <g fill="#e2e8f0">
+    <rect x="250" y="210" width="110" height="90" rx="8"/>
+    <rect x="400" y="210" width="110" height="90" rx="8"/>
+    <rect x="550" y="210" width="110" height="90" rx="8"/>
+    <rect x="700" y="210" width="110" height="90" rx="8"/>
+    <rect x="850" y="210" width="110" height="90" rx="8"/>
+  </g>
+  <text x="600" y="690" fill="#1e293b" text-anchor="middle" font-size="52" font-family="Georgia, serif" font-weight="700">Premium Stay Near Holy Mosques</text>
+</svg>

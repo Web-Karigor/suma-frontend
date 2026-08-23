@@ -10,9 +10,7 @@ export const serviceLinks = [
 export const navLinks = [
   { label: "Home", href: "/" },
   { label: "Service", href: "/hajj", children: serviceLinks },
-  { label: "Flights", href: "/packages" },
   { label: "Build My Trip", href: "/packages" },
-  { label: "Blog", href: "/packages" },
   { label: "About", href: "/contact" },
   { label: "Contact", href: "/contact" },
 ] as const;

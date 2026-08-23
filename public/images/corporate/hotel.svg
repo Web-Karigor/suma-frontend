@@ -1,0 +1,12 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750" role="img" aria-label="Corporate hotel image">
+  <rect width="1200" height="750" fill="#f0fdfa"/>
+  <rect x="220" y="120" width="760" height="500" rx="24" fill="#0f172a"/>
+  <g fill="#99f6e4">
+    <rect x="290" y="200" width="110" height="90" rx="8"/>
+    <rect x="430" y="200" width="110" height="90" rx="8"/>
+    <rect x="570" y="200" width="110" height="90" rx="8"/>
+    <rect x="710" y="200" width="110" height="90" rx="8"/>
+    <rect x="850" y="200" width="110" height="90" rx="8"/>
+  </g>
+  <text x="600" y="680" fill="#0f172a" text-anchor="middle" font-size="52" font-family="Georgia, serif" font-weight="700">Corporate Stay and Conference</text>
+</svg>

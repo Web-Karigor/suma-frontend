@@ -1,0 +1,10 @@
+export { MedicalHero } from "./MedicalHero";
+export { MedicalDestinations } from "./MedicalDestinations";
+export { MedicalWhyChoose } from "./MedicalWhyChoose";
+export { MedicalTreatments } from "./MedicalTreatments";
+export { MedicalHospitals } from "./MedicalHospitals";
+export { MedicalAccommodation } from "./MedicalAccommodation";
+export { MedicalProcess } from "./MedicalProcess";
+export { MedicalTestimonials } from "./MedicalTestimonials";
+export { MedicalServices } from "./MedicalServices";
+

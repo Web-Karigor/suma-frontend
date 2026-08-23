@@ -1,0 +1,12 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="Travel offer card image">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#065f46"/>
+      <stop offset="100%" stop-color="#22c55e"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#g)"/>
+  <rect x="90" y="90" width="1020" height="620" rx="28" fill="#ffffff" opacity="0.15"/>
+  <text x="130" y="300" fill="#ffffff" font-size="74" font-family="Georgia, serif" font-weight="700">Limited Time Deal</text>
+  <text x="130" y="390" fill="#dcfce7" font-size="40" font-family="Verdana, sans-serif">Flights, Hotels, and Umrah Packages</text>
+</svg>

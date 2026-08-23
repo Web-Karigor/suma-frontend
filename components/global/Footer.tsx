@@ -28,7 +28,7 @@ const socials = [
 
 export function Footer() {
   return (
-    <footer className="bg-deepteal text-white">
+    <footer className="bg-[#005655] text-white">
       <Container className="pt-14 pb-8 tablet:pt-16">
         <div className="flex flex-col gap-10 tablet:grid tablet:grid-cols-2 desktop:flex desktop:flex-row desktop:justify-between desktop:gap-0">
           <div className="max-w-[441px] desktop:w-[441px] desktop:shrink-0">

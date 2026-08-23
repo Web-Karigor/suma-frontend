@@ -1,0 +1,6 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1125" role="img" aria-label="Corporate travel image">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#164e63"/><stop offset="100%" stop-color="#0f172a"/></linearGradient></defs>
+  <rect width="900" height="1125" fill="url(#g)"/>
+  <path d="M120 770 L780 620 L810 680 L230 840 Z" fill="#cffafe" opacity="0.8"/>
+  <text x="450" y="950" fill="#e0f2fe" text-anchor="middle" font-size="56" font-family="Georgia, serif" font-weight="700">Business Travel</text>
+</svg>
