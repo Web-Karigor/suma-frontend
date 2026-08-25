@@ -1,98 +1,96 @@
 import { Container } from "@/components/ui/Container";
-import { CheckIcon } from "@/components/icons";
 
-type CorporateServicesProps = {
-  services: string[];
+type ServiceGroups = {
+  included: string[];
+  additional: string[];
+  excluded: string[];
 };
 
-export function CorporateServices({
-  services,
-}: CorporateServicesProps) {
-  // প্রথম 6টি Included
-  const includedServices = services.slice(0, 6);
+type CorporateServicesProps = {
+  services: string[] | ServiceGroups;
+};
 
-  // পরের 6টি Additional Fees
-  const additionalServices = services.slice(6, 12);
+function asGroups(services: string[] | ServiceGroups): ServiceGroups {
+  if (!Array.isArray(services)) return services;
+  return {
+    included: services.slice(0, 6),
+    additional: services.slice(6, 12),
+    excluded: services.slice(12),
+  };
+}
 
-  // বাকি সব Not Included
-  const notIncludedServices = services.slice(12);
+function ServiceList({
+  items,
+  icon,
+  textClass,
+}: {
+  items: string[];
+  icon: string;
+  textClass: string;
+}) {
+  const left = items.filter((_, index) => index % 2 === 0);
+  const right = items.filter((_, index) => index % 2 === 1);
 
   return (
-    <section className="bg-[#082d2b] py-14 text-white md:py-16">
-      <Container>
-        <div className="mx-auto w-full max-w-[1740px]">
-          {/* Section Title */}
-          <h2 className="mb-7 text-[22px] font-bold text-white md:text-[24px]">
-            Services
-          </h2>
-
-          {/* Services Cards */}
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
-            {/* ================= INCLUDED ================= */}
-            <div className="rounded-[16px] border border-[#315152] bg-[#071d1f] px-5 py-5 md:px-6 md:py-6">
-              <h3 className="mb-6 text-[15px] font-medium text-white/70">
-                Included
-              </h3>
-
-              <div className="grid grid-cols-2 gap-x-10 gap-y-5">
-                {includedServices.map((service, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center gap-2 text-[12px] text-white/70"
-                  >
-                    <div className="flex h-[14px] w-[14px] shrink-0 items-center justify-center rounded-full bg-[#4b8587]">
-                      <CheckIcon className="h-[8px] w-[8px] text-white" />
-                    </div>
-
-                    <span>{service}</span>
-                  </div>
-                ))}
-              </div>
+    <div className="flex flex-col gap-6 tablet:flex-row tablet:gap-8">
+      {[left, right].map((column, columnIndex) => (
+        <div key={columnIndex} className="flex min-w-0 flex-1 flex-col gap-8 desktop-xl:w-[200px] desktop-xl:flex-none">
+          {column.map((item) => (
+            <div key={item} className="flex items-center gap-3">
+              <span className="relative size-5 shrink-0 overflow-clip">
+                <img src={icon} alt="" width={20} height={20} className="size-full" />
+              </span>
+              <span className={`text-base leading-[1.6] font-normal ${textClass}`}>{item}</span>
             </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+}
 
-            {/* ================= ADDITIONAL FEES ================= */}
-            <div className="rounded-[16px] border border-[#315152] bg-[#071d1f] px-5 py-5 md:px-6 md:py-6">
-              <h3 className="mb-6 text-[15px] font-medium text-[#e8bf4b]">
-                Available at Additional Fees
-              </h3>
+export function CorporateServices({ services }: CorporateServicesProps) {
+  const groups = asGroups(services);
 
-              <div className="grid grid-cols-2 gap-x-10 gap-y-5">
-                {additionalServices.map((service, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center gap-2 text-[12px] text-white/70"
-                  >
-                    <div className="flex h-[14px] w-[14px] shrink-0 items-center justify-center rounded-full bg-[#f0c33b] text-[11px] font-bold text-[#193033]">
-                      +
-                    </div>
+  const cards = [
+    {
+      title: "Included",
+      titleClass: "text-teal-300",
+      items: groups.included,
+      icon: "/images/corporate-tour/icons/service-included.svg",
+      textClass: "text-teal-50",
+    },
+    {
+      title: "Available at Additional Fees",
+      titleClass: "text-gold-500",
+      items: groups.additional,
+      icon: "/images/corporate-tour/icons/service-additional.svg",
+      textClass: "text-gold-50",
+    },
+    {
+      title: "Not Included",
+      titleClass: "text-gray-500",
+      items: groups.excluded,
+      icon: "/images/corporate-tour/icons/service-excluded.svg",
+      textClass: "text-neutral-300",
+    },
+  ];
 
-                    <span>{service}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* ================= NOT INCLUDED ================= */}
-            <div className="rounded-[16px] border border-[#315152] bg-[#071d1f] px-5 py-5 md:px-6 md:py-6">
-              <h3 className="mb-6 text-[15px] font-medium text-white/60">
-                Not Included
-              </h3>
-
-              <div className="grid grid-cols-2 gap-x-10 gap-y-5">
-                {notIncludedServices.map((service, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center gap-2 text-[12px] text-white/50"
-                  >
-                    <div className="flex h-[14px] w-[14px] shrink-0 items-center justify-center rounded-full bg-white/30 text-[9px] font-bold text-white/70">
-                      ×
-                    </div>
-
-                    <span>{service}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+  return (
+    <section id="services" className="scroll-mt-28 bg-teal-950 pt-12 tablet:pt-16 desktop-xl:pt-[117px]">
+      <Container className="desktop-xl:!px-0">
+        <div className="flex flex-col gap-8 tablet:gap-10">
+          <h2 className="text-[24px] font-semibold leading-[1.28] text-white tablet:text-[28px]">Services</h2>
+          <div className="grid grid-cols-1 gap-6 tablet:grid-cols-2 desktop:grid-cols-3 desktop:gap-[49px]">
+            {cards.map((card) => (
+              <article
+                key={card.title}
+                className="flex flex-col gap-8 rounded-2xl border-[0.5px] border-gray-800 bg-overlay-black-64 p-6 tablet:p-8"
+              >
+                <h3 className={`text-[20px] leading-[1.5] font-medium ${card.titleClass}`}>{card.title}</h3>
+                <ServiceList items={card.items} icon={card.icon} textClass={card.textClass} />
+              </article>
+            ))}
           </div>
         </div>
       </Container>

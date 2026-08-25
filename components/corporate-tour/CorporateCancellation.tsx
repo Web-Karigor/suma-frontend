@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import { Container } from "@/components/ui/Container";
 
 type CancellationPolicy = {
@@ -16,19 +19,17 @@ const defaultPolicies: CancellationPolicy[] = [
   },
   {
     timeframe:
-      "0% of the value of the package services will be refunded in case of cancellation after (24) hours, and before the last (5) Day/Days. An exception to this rule is the visa application processing fee, which is non-refundable after the 24-hour period.",
+      "0% of the value of the package services will be refunded in case of cancellation after (24) hours, and before the last (5) Day/Days .An exception to this rule is the visa application processing fee, which is non-refundable after the 24-hour period.",
   },
   {
-    timeframe:
-      "No refund will be made in case of cancellation within the last (72) hours.",
+    timeframe: "No refunds will be made in case of cancellation within the last (72) hours.",
   },
   {
     timeframe:
       "The above rules apply to flight reservations organized by the service provider, and do not apply to custom flight reservations designated by the airline system for which specific cancellation policies apply to each reservation.",
   },
   {
-    timeframe:
-      "3.45% processing fees & its VAT will be deducted when the amounts are withdrawn from the wallet.",
+    timeframe: "3.45% processing fees & its VAT will be deducted when the amounts are withdrawn from the wallet.",
   },
   {
     timeframe:
@@ -36,87 +37,60 @@ const defaultPolicies: CancellationPolicy[] = [
   },
 ];
 
-export function CorporateCancellation({
-  policies = defaultPolicies,
-}: PackageCancellationProps) {
+export function CorporateCancellation({ policies = defaultPolicies }: PackageCancellationProps) {
+  const [disclaimerOpen, setDisclaimerOpen] = useState(true);
+
   return (
-    <section className=" py-8 md:py-10">
-      <Container>
-        {/* Full width content */}
-        <div className="w-full">
-          {/* Section Title */}
-          <h2 className="mb-3 text-[19px] font-bold leading-tight text-hero md:text-[20px]">
-            Cancellation Policy
-          </h2>
-
-          {/* Disclaimer */}
-          <div className="flex min-h-[48px] items-center justify-between border-b border-[#19737A] bg-[#E1F1F5] px-3 py-3 md:px-4">
-            <div className="flex items-center gap-2">
-              {/* Info Icon */}
-              <svg
-                className="h-[15px] w-[15px] shrink-0 text-[#17636A]"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <circle
-                  cx="12"
-                  cy="12"
-                  r="9"
-                  strokeWidth="1.8"
-                />
-                <path
-                  strokeLinecap="round"
-                  strokeWidth="1.8"
-                  d="M12 10v5"
-                />
-                <path
-                  strokeLinecap="round"
-                  strokeWidth="2"
-                  d="M12 7.5h.01"
-                />
-              </svg>
-
-              <p className="text-[12px] font-medium leading-relaxed text-[#17636A] md:text-[13px]">
-                Disclaimer: For visa applicants - If your visa has been issued,
-                you will not be able to cancel the package, and no amounts will
-                be refunded
-              </p>
-            </div>
-
-            {/* Close Icon */}
-            <button
-              type="button"
-              aria-label="Close disclaimer"
-              className="ml-4 flex h-5 w-5 shrink-0 items-center justify-center text-[#17636A] transition-opacity hover:opacity-70"
-            >
-              <svg
-                className="h-[15px] w-[15px]"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="1.7"
-                  d="M6 6l12 12M18 6L6 18"
-                />
-              </svg>
-            </button>
+    <section className="bg-teal-950 pt-12 tablet:pt-16 desktop-xl:pt-[100px]">
+      <Container className="desktop-xl:!px-0">
+        <div className="flex flex-col gap-8">
+          <div className="flex flex-col gap-5">
+            <h2 className="text-[24px] font-semibold leading-[1.28] text-white tablet:text-[28px]">
+              Cancellation Policy
+            </h2>
+            {disclaimerOpen ? (
+              <div className="flex items-center justify-between border-b-[3px] border-teal-600 bg-overlay-white-08 px-3 py-6">
+                <div className="flex items-center gap-2">
+                  <span className="relative size-6 shrink-0 overflow-clip">
+                    <img
+                      src="/images/corporate-tour/icons/alert.svg"
+                      alt=""
+                      width={24}
+                      height={24}
+                      className="size-full"
+                    />
+                  </span>
+                  <p className="text-[14px] leading-[1.6] font-normal text-teal-300 tablet:text-[18px]">
+                    Disclaimer: For visa applicants - If your visa has been issued, you will not be able to cancel the
+                    package, and no amounts will be refunded
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  aria-label="Close disclaimer"
+                  className="ml-4 size-6 shrink-0 overflow-clip"
+                  onClick={() => setDisclaimerOpen(false)}
+                >
+                  <img
+                    src="/images/corporate-tour/icons/close.svg"
+                    alt=""
+                    width={24}
+                    height={24}
+                    className="size-full"
+                  />
+                </button>
+              </div>
+            ) : null}
           </div>
 
-          {/* Policies */}
-          <div className="pt-4 md:pt-5">
-            <ul className="list-disc space-y-[2px] pl-[18px] text-[14px] leading-[1.5] text-neutral-700 md:pl-[20px] md:text-[18px]">
-              {policies.map((policy, index) => (
-                <li key={index}>
-                  {policy.timeframe}
-                  {policy.charge ? ` ${policy.charge}` : ""}
-                </li>
-              ))}
-            </ul>
-          </div>
+          <ul className="list-disc space-y-0 pl-[27px] text-[16px] leading-[1.64] font-light text-teal-50 tablet:max-w-[1299px] tablet:text-[18px]">
+            {policies.map((policy) => (
+              <li key={policy.timeframe}>
+                {policy.timeframe}
+                {policy.charge ? ` ${policy.charge}` : ""}
+              </li>
+            ))}
+          </ul>
         </div>
       </Container>
     </section>

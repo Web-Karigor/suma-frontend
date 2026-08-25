@@ -33,30 +33,27 @@ const stories = [
 
 export function AboutStory() {
   return (
-    <section className="bg-paper py-16 md:py-24 lg:py-[72px]">
-      <Container>
-        {/* Heading */}
-        <div className="mx-auto mb-14 text-center md:mb-16 lg:mb-[42px]">
-          <h2 className="text-[32px] font-bold leading-[1.15] tracking-[-0.02em] text-hero md:text-[42px] lg:text-[48px]">
+    <section className="bg-teal-100 pt-8 pb-16 tablet:pt-10 tablet:pb-20 desktop:pb-[88px]">
+      <Container className="desktop-xl:!px-0">
+        <div className="mx-auto mb-12 text-center tablet:mb-14 desktop:mb-16">
+          <h2 className="text-[32px] leading-[1.15] font-bold tracking-[-0.02em] text-hero tablet:text-[42px] desktop:text-[48px]">
             Built on Legacy, Growing with Purpose
           </h2>
         </div>
 
-        {/* ================= MOBILE ================= */}
         <div className="relative mx-auto max-w-6xl md:hidden">
-          <div className="absolute bottom-0 left-[14px] top-0 w-[2px] bg-neutral-300" />
+          <div className="absolute top-0 bottom-0 left-[14px] w-[2px] bg-neutral-300" />
 
           <div className="space-y-10">
             {stories.map((story) => (
               <div key={story.title} className="relative pl-10">
-                {/* Marker */}
                 <div
-                  className={`absolute left-[12px] top-1 h-11 w-[4px] rounded-full ${
+                  className={`absolute top-1 left-[12px] h-11 w-[4px] rounded-full ${
                     story.marker === "teal" ? "bg-teal-700" : "bg-yellow-500"
                   }`}
                 />
 
-                <h3 className="text-[18px] font-semibold leading-tight text-hero">
+                <h3 className="text-[18px] leading-tight font-semibold text-hero">
                   {story.title}
                 </h3>
 
@@ -68,13 +65,11 @@ export function AboutStory() {
           </div>
         </div>
 
-        {/* ================= DESKTOP ================= */}
         <div className="relative mx-auto hidden w-full max-w-[1513px] md:block">
-          {/* Main continuous timeline */}
-          <div className="absolute bottom-0 left-1/2 top-0 w-[2px] -translate-x-1/2 bg-neutral-300" />
+          <div className="absolute top-0 bottom-0 left-1/2 w-[2px] -translate-x-1/2 bg-neutral-300" />
 
           <div className="space-y-[54px] lg:space-y-[58px]">
-            {stories.map((story, index) => {
+            {stories.map((story) => {
               const isLeft = story.side === "left";
 
               return (
@@ -82,13 +77,10 @@ export function AboutStory() {
                   key={story.title}
                   className="relative grid min-h-[86px] grid-cols-[1fr_2px_1fr]"
                 >
-                  {/* LEFT CONTENT */}
-                  <div
-                    className={isLeft ? "flex justify-end pr-12 lg:pr-16" : ""}
-                  >
+                  <div className={isLeft ? "flex justify-end pr-12 lg:pr-16" : ""}>
                     {isLeft && (
                       <div className="max-w-[470px]">
-                        <h3 className="text-[17px] font-semibold leading-tight text-hero lg:text-[18px]">
+                        <h3 className="text-[17px] leading-tight font-semibold text-hero lg:text-[18px]">
                           {story.title}
                         </h3>
 
@@ -99,22 +91,18 @@ export function AboutStory() {
                     )}
                   </div>
 
-                  {/* CENTER MARKER */}
                   <div className="relative flex justify-center">
                     <div
                       className={`absolute top-[36px] h-[44px] w-[4px] rounded-full ${
-                        story.marker === "teal"
-                          ? "bg-teal-700"
-                          : "bg-yellow-500"
+                        story.marker === "teal" ? "bg-teal-700" : "bg-yellow-500"
                       }`}
                     />
                   </div>
 
-                  {/* RIGHT CONTENT */}
                   <div className={!isLeft ? "pl-12 lg:pl-16" : ""}>
                     {!isLeft && (
                       <div className="max-w-[470px]">
-                        <h3 className="text-[17px] font-semibold leading-tight text-hero lg:text-[18px]">
+                        <h3 className="text-[17px] leading-tight font-semibold text-hero lg:text-[18px]">
                           {story.title}
                         </h3>
 

@@ -13,6 +13,8 @@ export function PackageGallery({ images }: PackageGalleryProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const sliderRef = useRef<HTMLDivElement>(null);
+  const inactiveCount = Math.max(galleryImages.length - 1, 1);
+  const inactiveWidth = `calc((42% - ${inactiveCount - 1} * var(--gallery-gap)) / ${inactiveCount})`;
 
   useEffect(() => {
     if (isHovered || galleryImages.length <= 1) return;
@@ -47,9 +49,8 @@ export function PackageGallery({ images }: PackageGalleryProps) {
   }, [activeIndex]);
 
   return (
-    <section className="w-full overflow-hidden bg-white py-8 md:py-12 lg:py-14">
-      <Container>
-        {/* Full Container Width */}
+    <section className="w-full overflow-hidden bg-gold-50 py-8 md:py-12 lg:py-14">
+      <Container className="desktop-xl:!px-0">
         <div className="w-full">
           <div
             ref={sliderRef}
@@ -75,17 +76,9 @@ export function PackageGallery({ images }: PackageGalleryProps) {
                   onClick={() => {
                     setActiveIndex(index);
                   }}
-                  className={`
-                    relative shrink-0 overflow-hidden
-                    rounded-2xl
-                    transition-all duration-700 ease-in-out
-                    focus:outline-none
-                    h-[300px] md:h-[380px]
-                  `}
+                  className="relative h-[300px] shrink-0 overflow-hidden rounded-2xl transition-all duration-700 ease-in-out focus:outline-none desktop:h-[619px]! desktop-xl:h-[619px]!"
                   style={{
-                    width: isActive
-                      ? "58%"
-                      : "calc((42% - 4 * var(--gallery-gap)) / 5)",
+                    width: isActive ? "58%" : inactiveWidth,
                     scrollSnapAlign: "center",
                   }}
                 >

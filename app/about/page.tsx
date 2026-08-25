@@ -9,7 +9,7 @@ import {
 
 export default function AboutPage() {
   return (
-    <main>
+    <main className="overflow-x-hidden bg-white">
       <AboutHero />
       <AboutStory />
       <AboutCEO />

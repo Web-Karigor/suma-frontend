@@ -1,4 +1,8 @@
+"use client";
+
+import { useState } from "react";
 import { Container } from "@/components/ui/Container";
+import { CloseIcon } from "@/components/icons";
 
 type CancellationPolicy = {
   timeframe: string;
@@ -19,8 +23,7 @@ const defaultPolicies: CancellationPolicy[] = [
       "0% of the value of the package services will be refunded in case of cancellation after (24) hours, and before the last (5) Day/Days. An exception to this rule is the visa application processing fee, which is non-refundable after the 24-hour period.",
   },
   {
-    timeframe:
-      "No refund will be made in case of cancellation within the last (72) hours.",
+    timeframe: "No refund will be made in case of cancellation within the last (72) hours.",
   },
   {
     timeframe:
@@ -36,88 +39,41 @@ const defaultPolicies: CancellationPolicy[] = [
   },
 ];
 
-export function PackageCancellation({
-  policies = defaultPolicies,
-}: PackageCancellationProps) {
+export function PackageCancellation({ policies = defaultPolicies }: PackageCancellationProps) {
+  const [disclaimerOpen, setDisclaimerOpen] = useState(true);
+
   return (
-    <section className="bg-[#FEFBF5] py-8 md:py-10">
-      <Container>
-        {/* Full width content */}
-        <div className="w-full">
-          {/* Section Title */}
-          <h2 className="mb-3 text-[19px] font-bold leading-tight text-hero md:text-[20px]">
-            Cancellation Policy
-          </h2>
+    <section className="bg-gold-50 py-8 tablet:py-10 desktop-xl:py-12">
+      <Container className="desktop-xl:!px-0">
+        <h2 className="mb-3 text-[19px] leading-tight font-semibold text-hero tablet:text-[20px]">
+          Cancellation Policy
+        </h2>
 
-          {/* Disclaimer */}
-          <div className="flex min-h-[48px] items-center justify-between border-b border-[#19737A] bg-[#E1F1F5] px-3 py-3 md:px-4">
-            <div className="flex items-center gap-2">
-              {/* Info Icon */}
-              <svg
-                className="h-[15px] w-[15px] shrink-0 text-[#17636A]"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <circle
-                  cx="12"
-                  cy="12"
-                  r="9"
-                  strokeWidth="1.8"
-                />
-                <path
-                  strokeLinecap="round"
-                  strokeWidth="1.8"
-                  d="M12 10v5"
-                />
-                <path
-                  strokeLinecap="round"
-                  strokeWidth="2"
-                  d="M12 7.5h.01"
-                />
-              </svg>
-
-              <p className="text-[12px] font-medium leading-relaxed text-[#17636A] md:text-[13px]">
-                Disclaimer: For visa applicants - If your visa has been issued,
-                you will not be able to cancel the package, and no amounts will
-                be refunded
-              </p>
-            </div>
-
-            {/* Close Icon */}
+        {disclaimerOpen ? (
+          <div className="flex min-h-[48px] items-center justify-between border-b border-teal-600 bg-teal-100 px-3 py-3 tablet:px-4">
+            <p className="text-[12px] leading-relaxed font-medium text-teal-800 tablet:text-[13px]">
+              Disclaimer: For visa applicants - If your visa has been issued, you will not be able to
+              cancel the package, and no amounts will be refunded
+            </p>
             <button
               type="button"
               aria-label="Close disclaimer"
-              className="ml-4 flex h-5 w-5 shrink-0 items-center justify-center text-[#17636A] transition-opacity hover:opacity-70"
+              className="ml-4 flex size-5 shrink-0 items-center justify-center text-teal-800 transition-opacity hover:opacity-70"
+              onClick={() => setDisclaimerOpen(false)}
             >
-              <svg
-                className="h-[15px] w-[15px]"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="1.7"
-                  d="M6 6l12 12M18 6L6 18"
-                />
-              </svg>
+              <CloseIcon className="size-4" />
             </button>
           </div>
+        ) : null}
 
-          {/* Policies */}
-          <div className="pt-4 md:pt-5">
-            <ul className="list-disc space-y-[2px] pl-[18px] text-[14px] leading-[1.5] text-neutral-700 md:pl-[20px] md:text-[18px]">
-              {policies.map((policy, index) => (
-                <li key={index}>
-                  {policy.timeframe}
-                  {policy.charge ? ` ${policy.charge}` : ""}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
+        <ul className="mt-4 list-disc space-y-1 pl-5 text-sm leading-[1.55] text-neutral-700 tablet:mt-5 tablet:pl-[20px] tablet:text-[16px]">
+          {policies.map((policy) => (
+            <li key={policy.timeframe}>
+              {policy.timeframe}
+              {policy.charge ? ` ${policy.charge}` : ""}
+            </li>
+          ))}
+        </ul>
       </Container>
     </section>
   );

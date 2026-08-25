@@ -1,68 +1,89 @@
-import { GlobeIcon, MailIcon, PhoneIcon } from "@/components/icons";
-import { Container } from "@/components/ui/Container";
 import Link from "next/link";
+import { Container } from "@/components/ui/Container";
 
 const contactItems = [
   {
     title: "Support Email",
-    description: "For any concerns, complaints or even suggestions please email us:",
-    value: "support@suma-bd.com",
-    meta: "Availability: All Week",
-    detail: "Response Time: 1 Day",
+    icon: "/images/corporate-tour/icons/sms.svg",
+    description: (
+      <>
+        For any concerns, complaints or even suggestions please email us:{" "}
+        <span className="font-semibold">umrah@sumabd.com</span>
+      </>
+    ),
+    meta: [
+      { label: "Availability", value: "All Week" },
+      { label: "Response Time", value: "1 Day" },
+    ],
     action: "Contact Us",
-    href: "mailto:support@suma-bd.com",
-    Icon: MailIcon,
+    href: "mailto:umrah@sumabd.com",
+    buttonWidth: "w-[122px]",
   },
   {
     title: "Website",
+    icon: "/images/corporate-tour/icons/global.svg",
     description: "Explore our Website for more information.",
-    value: "Available: All Week",
-    meta: "",
-    detail: "",
+    meta: [{ label: "Availability", value: "All Week" }],
     action: "Visit Our Website",
-    href: "#",
-    Icon: GlobeIcon,
+    href: "/",
+    buttonWidth: "w-[169px]",
   },
   {
     title: "Contact Us",
-    description: "Contact Number: +123 456 7890. Or send us a WhatsApp message and our Team will get back to you within 24 hours.",
-    value: "Availability: Working days",
-    meta: "",
-    detail: "",
+    icon: "/images/corporate-tour/icons/call.svg",
+    description: (
+      <>
+        Contact Number: <span className="font-semibold">+123 456 789</span>
+        <br />
+        Or send us a WhatsApp message and Our team will get back to you withing 24 hours.
+      </>
+    ),
+    meta: [{ label: "Availability", value: "Working days" }],
     action: "Contact Us",
-    href: "tel:+1234567890",
-    Icon: PhoneIcon,
+    href: "tel:+123456789",
+    buttonWidth: "w-[122px]",
   },
 ] as const;
 
 export function CorporateBooking() {
   return (
-    <section className="pb-16 tablet:pb-20">
-      <Container>
-        <h2 className="mx-auto max-w-[430px] text-center text-xl leading-[1.15] font-semibold text-neutral-950 tablet:text-2xl desktop:h-[94px] desktop:w-[680px] desktop:max-w-none desktop:text-[40px] desktop:leading-[118%]">
-          Want to know more details about
-          <br />
-          our packages?
-        </h2>
-        <div className="mt-8 grid gap-4 tablet:grid-cols-3 tablet:gap-5 desktop:mx-auto desktop:mt-[60px] desktop:max-w-[1536px] desktop:gap-12">
-          {contactItems.map(({ Icon, ...item }) => (
-            <article key={item.title} className="flex flex-col rounded-[18px] bg-[#024646] p-4 shadow-[0_2px_8px_rgb(10_12_12/5%)] tablet:min-h-[156px] desktop:h-[389px] desktop:rounded-[40px] desktop:gap-2.5 desktop:p-6 desktop:shadow-[0_0_12px_rgb(0_0_0/8%)]">
-              <span className="flex size-[52px] shrink-0 items-center justify-center rounded-[50px] bg-[#F9E9C2] p-[10px] text-secondary-700">
-                <Icon className="size-full" />
-              </span>
-              <h3 className="text-base leading-[150%] font-semibold text-[#FEFEFC] desktop:text-[20px]">{item.title}</h3>
-              <p className="min-h-[52px] text-base leading-[160%] font-normal text-[#FEFEFC] desktop:w-[415px]">
-                {item.description} {item.title === "Support Email" ? <strong>{item.value}</strong> : null}
-              </p>
-              {item.title !== "Support Email" ? <p className="text-base leading-[160%] font-normal text-[#FEFEFC]">{item.value}</p> : null}
-              {item.meta ? <p className="text-base leading-[157%] text-[#FEFEFC]"><strong>{item.meta.split(":")[0]}:</strong>{item.meta.split(":")[1]}</p> : null}
-              {item.detail ? <p className="text-base leading-[157%] text-[#FEFEFC]"><strong>{item.detail.split(":")[0]}:</strong>{item.detail.split(":")[1]}</p> : null}
-              <Link
-                href={item.href}
-                className={`mt-auto inline-flex h-[49px] items-center justify-center rounded-button bg-primary px-4 py-3 text-xs text-white ${item.title === "Website" ? "w-[169px]" : "w-[122px]"}`}
-              >
-                {item.action}
-              </Link>
+    <section id="booking" className="scroll-mt-28 bg-teal-950 pt-12 pb-16 tablet:pt-16 tablet:pb-20 desktop-xl:pt-[100px] desktop-xl:pb-[100px]">
+      <Container className="desktop-xl:!px-0">
+        <div className="mx-auto grid grid-cols-1 gap-6 tablet:grid-cols-2 desktop:grid-cols-3 desktop:gap-12 desktop-xl:w-[1536px] desktop-xl:gap-12">
+          {contactItems.map((item) => (
+            <article
+              key={item.title}
+              className="flex flex-col rounded-2xl bg-overlay-white-16 p-6 tablet:p-8 desktop-xl:h-[405px] desktop-xl:w-[480px]"
+            >
+              <div className="flex h-full flex-col gap-5 desktop-xl:w-[415px]">
+                <span className="flex size-[52px] items-center justify-center rounded-full bg-overlay-white-84 p-2.5">
+                  <span className="relative size-8 shrink-0 overflow-clip">
+                    <img src={item.icon} alt="" width={32} height={32} className="size-full" />
+                  </span>
+                </span>
+                <div className="flex flex-1 flex-col justify-between">
+                  <div className="flex flex-col gap-[18px] text-white">
+                    <h3 className="text-[20px] leading-[1.5] font-semibold">{item.title}</h3>
+                    <div className="flex flex-col gap-5">
+                      <p className="text-base leading-[1.6] font-normal">{item.description}</p>
+                      <div className="flex flex-col gap-4">
+                        {item.meta.map((row) => (
+                          <p key={row.label} className="text-base font-normal">
+                            <span className="font-bold leading-[1.57]">{row.label}: </span>
+                            <span className="leading-[1.6]">{row.value}</span>
+                          </p>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  <Link
+                    href={item.href}
+                    className={`mt-8 inline-flex h-[49px] items-center justify-center rounded-button bg-gold-500 px-4 py-3 text-base font-medium text-black transition-opacity hover:opacity-90 ${item.buttonWidth}`}
+                  >
+                    {item.action}
+                  </Link>
+                </div>
+              </div>
             </article>
           ))}
         </div>

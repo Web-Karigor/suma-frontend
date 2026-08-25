@@ -1,228 +1,179 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Container } from "@/components/ui/Container";
-import { Button } from "@/components/ui/Button";
-import {
-  StarIcon,
-  WifiIcon,
-  RestaurantIcon,
-  GymIcon,
-} from "@/components/icons";
 
 type Amenity = {
-  icon: "wifi" | "restaurant" | "gym";
+  icon?: "wifi" | "restaurant" | "gym" | "star";
   label: string;
+};
+
+type Highlight = {
+  title: string;
+  description: string;
 };
 
 type CorporateAccommodationProps = {
   hotelName: string;
   hotelImage: string;
-  rating: number;
-  location: string;
+  rating?: number;
+  location?: string;
   description: string;
   amenities: Amenity[];
-  highlights: string[];
+  highlights: Array<string | Highlight>;
 };
 
-const AmenityIcon = ({
-  type,
-}: {
-  type: "wifi" | "restaurant" | "gym";
-}) => {
-  const className = "h-4 w-4 text-white/80";
-
-  switch (type) {
-    case "wifi":
-      return <WifiIcon className={className} />;
-
-    case "restaurant":
-      return <RestaurantIcon className={className} />;
-
-    case "gym":
-      return <GymIcon className={className} />;
+function toHighlight(item: string | Highlight, index: number): Highlight {
+  if (typeof item !== "string") return item;
+  const [title, ...rest] = item.split(":");
+  if (rest.length) {
+    return { title: title.trim(), description: rest.join(":").trim() };
   }
-};
+  return {
+    title: index === 0 ? "24/7 Business Center" : "Prime Business District Location",
+    description: item,
+  };
+}
 
 export function CorporateAccommodation({
   hotelName,
   hotelImage,
-  rating,
-  location,
   description,
   amenities,
   highlights,
 }: CorporateAccommodationProps) {
+  const highlightItems = highlights.slice(0, 2).map(toHighlight);
+  const avatars = [
+    "/images/corporate-tour/avatar-1.png",
+    "/images/corporate-tour/avatar-2.png",
+    "/images/corporate-tour/avatar-3.png",
+    "/images/corporate-tour/avatar-4.png",
+  ];
+
   return (
-    <section className="bg-[#082d2b] py-14 text-white md:py-20">
-      <Container>
-        {/* Main Container */}
-        <div className="mx-auto w-full max-w-[1740px]">
-          
-          {/* Section Title */}
-          <h2 className="mb-10 text-center text-[28px] font-bold leading-tight tracking-tight md:text-[32px]">
+    <section className="bg-teal-950 pt-12 tablet:pt-16 desktop-xl:pt-[160px]">
+      <Container className="desktop-xl:!px-0">
+        <div className="flex flex-col gap-8 tablet:gap-10 desktop-xl:gap-[60px]">
+          <h2 className="text-center text-[28px] font-semibold leading-[1.18] text-white tablet:text-[40px]">
             Accommodation
           </h2>
 
-          {/* ================= MAIN 3 COLUMN LAYOUT ================= */}
-          <div className="grid w-full grid-cols-1 gap-8 xl:grid-cols-[564px_564px_564px] xl:gap-6">
-
-            {/* ================= LEFT SECTION ================= */}
-            <div className="flex min-h-[500px] w-full flex-col justify-between">
-              <div>
-                {/* Hotel Class Badge */}
-                <div className="mb-4 inline-flex items-center gap-1.5 rounded-md border border-white/20 bg-white/[0.03] px-3 py-1.5">
-                  <StarIcon className="h-3 w-3 text-white/80" />
-
-                  <span className="text-[11px] font-medium text-white/80">
+          <div className="grid w-full grid-cols-1 gap-8 desktop:grid-cols-3 desktop:gap-6">
+            <div className="flex min-w-0 flex-col justify-between gap-8 py-0 desktop:h-auto desktop-xl:h-[700px] desktop-xl:py-6">
+              <div className="flex flex-col gap-4">
+                <div className="inline-flex w-fit items-center gap-2.5 rounded-md border-[0.5px] border-gray-100 px-3 py-2">
+                  <span className="relative size-4 shrink-0 overflow-clip">
+                    <img
+                      src="/images/corporate-tour/icons/star-badge.svg"
+                      alt=""
+                      width={16}
+                      height={16}
+                      className="size-full"
+                    />
+                  </span>
+                  <span className="text-[15px] leading-[1.39] font-medium tracking-[0.15px] text-gray-100">
                     5-Star | Business Class
                   </span>
                 </div>
 
-                {/* Hotel Name */}
-                <h3 className="max-w-[420px] text-[20px] font-bold leading-[1.3] text-white md:text-[22px]">
-                  {hotelName}
-                </h3>
+                <div className="flex flex-col gap-10">
+                  <div className="flex flex-col gap-4">
+                    <h3 className="text-[24px] font-semibold leading-[1.28] text-white tablet:text-[28px]">
+                      {hotelName}
+                    </h3>
+                    <p className="text-base leading-[1.6] font-normal text-gray-200">{description}</p>
+                  </div>
 
-                {/* Location */}
-                {location && (
-                  <p className="mt-2 text-[12px] text-white/50">
-                    {location}
-                  </p>
-                )}
-
-                {/* Description */}
-                <p className="mt-3 max-w-[500px] text-[12px] leading-[1.75] text-white/65 md:text-[13px]">
-                  {description}
-                </p>
-
-                {/* Book Button */}
-                <Button
-                  href="#booking"
-                  className="mt-6 inline-flex min-w-[138px] items-center justify-center rounded-full bg-[#f5c33b] px-5 text-[11px] font-semibold text-[#162b2d] hover:bg-[#ffd35b]"
-                >
-                  <span>Book Package Now</span>
-
-                  <span className="ml-3 flex h-4 w-4 items-center justify-center rounded-full bg-[#183134] text-[10px] text-white">
-                    ↗
-                  </span>
-                </Button>
+                  <Link
+                    href="#booking"
+                    className="inline-flex h-[49px] w-fit items-center gap-3 rounded-full bg-gold-500 py-3 pr-3 pl-4 text-base font-medium text-black transition-opacity hover:opacity-90"
+                  >
+                    Book Package Now
+                    <span className="relative flex size-6 shrink-0 items-center justify-center overflow-clip rounded-full bg-black">
+                      <img
+                        src="/images/corporate-tour/icons/arrow-up.svg"
+                        alt=""
+                        width={17}
+                        height={17}
+                        className="size-[17px] rotate-[42deg]"
+                      />
+                    </span>
+                  </Link>
+                </div>
               </div>
 
-              {/* Amenity Pills */}
-              <div className="mt-10 flex max-w-[564px] flex-wrap gap-3">
-                {amenities.map((amenity, index) => (
+              <div className="flex flex-wrap gap-6">
+                {amenities.map((amenity) => (
                   <div
-                    key={index}
-                    className="flex items-center gap-1.5 rounded-full bg-[#23494a] px-3 py-2 text-[11px] text-white/75"
+                    key={amenity.label}
+                    className="flex items-center justify-center gap-2 rounded-full bg-overlay-white-16 py-3 pr-5 pl-4"
                   >
-                    <AmenityIcon type={amenity.icon} />
-
-                    <span>{amenity.label}</span>
+                    <span className="relative size-4 shrink-0 overflow-clip">
+                      <img
+                        src="/images/corporate-tour/icons/star-pill.svg"
+                        alt=""
+                        width={16}
+                        height={16}
+                        className="size-full"
+                      />
+                    </span>
+                    <span className="text-base leading-[1.6] font-normal text-white">{amenity.label}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* ================= CENTER IMAGE SECTION ================= */}
-            <div className="relative h-[500px] w-full overflow-hidden rounded-[18px]">
-              <Image
-                src={hotelImage}
-                alt={hotelName}
-                fill
-                className="object-cover"
-              />
-
-              {/* Subtle Overlay */}
-              <div className="absolute inset-0 bg-black/[0.03]" />
+            <div className="relative h-[420px] min-w-0 w-full overflow-hidden rounded-2xl tablet:h-[560px] desktop-xl:h-[700px]">
+              <Image src={hotelImage} alt={hotelName} fill className="object-cover" sizes="564px" />
             </div>
 
-            {/* ================= RIGHT SECTION ================= */}
-<div className="flex min-h-[440px] w-full flex-col justify-between overflow-hidden">
-  {/* Highlights Container */}
-  <div className="w-full max-w-[564px] overflow-hidden">
-    {highlights.slice(0, 2).map((highlight, index) => {
-      const parts = highlight.split(":");
+            <div className="flex min-w-0 flex-col justify-between gap-10 py-0 desktop-xl:h-[700px] desktop-xl:py-6">
+              <div className="flex flex-col gap-4">
+                {highlightItems.map((item, index) => (
+                  <div key={item.title} className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-4">
+                      <h4 className="text-[22px] font-semibold leading-[1.5] text-white">{item.title}</h4>
+                      <p className="text-[15px] leading-[1.4] tracking-[0.15px] text-gray-400">{item.description}</p>
+                    </div>
+                    {index < highlightItems.length && (
+                      <div className="h-px w-full bg-overlay-white-16" />
+                    )}
+                  </div>
+                ))}
+              </div>
 
-      const title =
-        parts.length > 1
-          ? parts[0].trim()
-          : index === 0
-            ? "24/7 Business Center"
-            : "Prime Business District Location";
-
-      const content =
-        parts.length > 1
-          ? parts.slice(1).join(":").trim()
-          : highlight;
-
-      return (
-        <div
-          key={index}
-          className={`w-full pb-5 ${
-            index !== 1
-              ? "mb-4 border-b border-white/15"
-              : ""
-          }`}
-        >
-          <h4 className="text-[16px] font-bold text-white md:text-[17px]">
-            {title}
-          </h4>
-
-          <p className="mt-2 max-w-[500px] text-[11px] leading-[1.55] text-white/55 md:text-[12px]">
-            {content}
-          </p>
-        </div>
-      );
-    })}
-  </div>
-
-  {/* ================= CUSTOMER RATINGS ================= */}
-  <div className="mt-10 w-full max-w-[564px]">
-    {/* Rating Header */}
-    <div className="flex items-center gap-2">
-      {/* Avatar Stack */}
-      <div className="flex -space-x-2">
-        {[0, 1, 2, 3].map((item) => (
-          <div
-            key={item}
-            className="h-6 w-6 overflow-hidden rounded-full border-2 border-[#082d2b] bg-white/30"
-          >
-            <Image
-              src={hotelImage}
-              alt="Customer"
-              width={24}
-              height={24}
-              className="h-full w-full object-cover"
-            />
-          </div>
-        ))}
-
-        <div className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-[#082d2b] bg-white/20 text-[8px] font-bold text-white">
-          9+
-        </div>
-      </div>
-
-      <span className="text-[14px] font-medium text-white/85">
-        Customer Ratings:
-      </span>
-    </div>
-
-    {/* Stars */}
-    <div className="mt-2 flex items-center gap-1.5">
-      <div className="flex items-center gap-1">
-        {Array.from({ length: 5 }).map((_, index) => (
-          <StarIcon
-            key={index}
-            className="h-3.5 w-3.5 fill-white text-white"
-          />
-        ))}
-      </div>
-
-      <span className="ml-3 text-[10px] text-white/60">
-        (45+ Reviews)
-      </span>
-    </div>
-  </div>
-</div>
+              <div className="flex w-full flex-col gap-5 desktop-xl:w-[280px]">
+                <div className="flex items-center justify-center gap-2.5">
+                  <div className="flex items-center">
+                    {avatars.map((src) => (
+                      <span key={src} className="relative mr-[-14px] size-7 shrink-0 overflow-hidden rounded-full">
+                        <Image src={src} alt="" fill className="object-cover" sizes="28px" />
+                      </span>
+                    ))}
+                    <span className="flex size-[27px] items-center justify-center rounded-full border-[0.5px] border-white bg-black px-[5px] py-1 text-[12px] leading-[1.5] tracking-[0.12px] text-white">
+                      9+
+                    </span>
+                  </div>
+                  <p className="text-[20px] leading-[1.5] font-medium text-white">Customer Ratings:</p>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-1.5">
+                    {Array.from({ length: 5 }).map((_, index) => (
+                      <span key={index} className="relative size-[18px] shrink-0 overflow-clip">
+                        <img
+                          src="/images/corporate-tour/icons/star-rating.svg"
+                          alt=""
+                          width={18}
+                          height={18}
+                          className="size-full"
+                        />
+                      </span>
+                    ))}
+                  </div>
+                  <span className="h-[17px] w-px bg-overlay-white-16" />
+                  <p className="text-[14px] leading-[1.5] font-normal text-white">(45+ Reviews)</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </Container>

@@ -21,13 +21,28 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const [serviceOpen, setServiceOpen] = useState(false);
 
+  const isCorporateTour = pathname.startsWith("/corporate-tour");
+  const isHajjUmrahDetails = pathname.startsWith("/hajj-umrah-details");
+  const isAbout = pathname.startsWith("/about");
+  const overlayHeader = isCorporateTour || isHajjUmrahDetails || isAbout;
+  const alignWideGrid = overlayHeader;
+
   return (
-    <header className={cn(
-      "sticky top-0 z-50",
-      (pathname.startsWith("/hajj") || pathname.startsWith("/packages")) && "bg-gold-100",
-      pathname.startsWith("/visa-application") && "absolute top-0 right-0 left-0 bg-transparent",
-    )}>
-      <Container className="pt-3 desktop:pt-4">
+    <header
+      className={cn(
+        "z-50 bg-transparent",
+        // Overlay so the current section color shows through — no extra body-paper strip.
+        overlayHeader ? "fixed top-0 right-0 left-0" : "sticky top-0",
+        pathname.startsWith("/visa-application") && "absolute top-0 right-0 left-0",
+      )}
+    >
+      <Container
+        className={cn(
+          "pt-3 desktop:pt-4",
+          // Match the 1740px content column (no gutter inset at ≥1920).
+          alignWideGrid && "desktop-xl:!px-0",
+        )}
+      >
         <div
           className={cn(
             "flex w-full items-center gap-3 rounded-full px-3 py-2",

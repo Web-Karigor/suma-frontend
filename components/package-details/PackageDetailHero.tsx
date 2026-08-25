@@ -1,5 +1,8 @@
+"use client";
+
+import Link from "next/link";
 import { Container } from "@/components/ui/Container";
-import { CalendarIcon, UsersIcon, ClockIcon } from "@/components/icons";
+import { CalendarIcon, ClockIcon, ShareIcon, StarIcon } from "@/components/icons";
 
 type PackageDetailHeroProps = {
   title: string;
@@ -10,6 +13,12 @@ type PackageDetailHeroProps = {
   departureDate: string;
 };
 
+const details = [
+  { icon: StarIcon, label: "Package Type", key: "groupSize" as const },
+  { icon: CalendarIcon, label: "Date", key: "departureDate" as const },
+  { icon: ClockIcon, label: "Nights", key: "duration" as const },
+];
+
 export function PackageDetailHero({
   title,
   subtitle,
@@ -18,152 +27,90 @@ export function PackageDetailHero({
   groupSize,
   departureDate,
 }: PackageDetailHeroProps) {
+  const values = { groupSize, departureDate, duration };
+  const formattedPrice = `৳ ${price.toLocaleString("en-US")}`;
+
   return (
-    <section className="bg-[#FCF4E0] py-6 md:py-10 lg:py-[40px]">
-      <Container>
-        <div className="mx-auto max-w-[1740px]">
-          {/* Top Section */}
-          <div className="grid gap-8 lg:grid-cols-[1fr_1fr] lg:gap-[90px]">
-            {/* Left Content */}
-            <div>
-              {/* Title */}
-              <div>
-                <h1 className="text-[32px] font-bold leading-[1.15] text-hero md:text-[44px] lg:text-[52px]">
-                  {title}
-                </h1>
-
-                {subtitle && (
-                  <p className="mt-2 text-[15px] text-neutral-600 md:text-[18px] lg:text-[20px]">
-                    {subtitle}
-                  </p>
-                )}
-              </div>
-
-              {/* Price */}
-              <div className="mt-6 lg:mt-[32px]">
-                <p className="text-[14px] font-medium text-neutral-500">
-                  Starts From
+    <section className="box-border bg-gold-100 pt-[calc(5.5rem+1.5rem)] pb-10 tablet:pt-[calc(5.5rem+2.5rem)] tablet:pb-12 desktop:h-[554px] desktop:pt-[calc(5.5rem+40px)] desktop:pb-10">
+      <Container className="desktop-xl:!px-0">
+        <div className="mt-4 flex w-full flex-col gap-8 tablet:mt-6 desktop:mt-16 desktop:flex-row desktop:items-end desktop:justify-between desktop:gap-12 desktop-xl:gap-[90px]">
+          <div className="flex w-full min-w-0 flex-col gap-6 desktop-xl:max-w-[858px]">
+            <div className="flex flex-col gap-3">
+              <h1 className="text-[32px] leading-[1.12] font-semibold tracking-[-0.28px] text-hero tablet:text-[44px] desktop-xl:text-[52px]">
+                {title}
+              </h1>
+              {subtitle ? (
+                <p className="text-[15px] leading-[1.5] font-normal text-neutral-600 tablet:text-[18px] desktop-xl:text-[20px]">
+                  {subtitle}
                 </p>
-
-                <div className="mt-1 flex flex-wrap items-end gap-2">
-                  <span className="text-[30px] font-bold leading-none text-primary md:text-[38px]">
-                    ৳ {price.toLocaleString()}
-                  </span>
-
-                  <span className="pb-1 text-[13px] text-neutral-500 md:text-[14px]">
-                    Per Person (VAT Included)
-                  </span>
-                </div>
-
-                <p className="mt-3 text-[14px] font-medium text-primary">
-                  The VAT&apos;s Included in This Price
-                </p>
-              </div>
-
-              {/* Buttons */}
-              <div className="mt-5 flex flex-wrap gap-3">
-                <button
-                  type="button"
-                  className="flex h-[44px] min-w-[165px] items-center justify-center rounded-[4px] bg-primary px-6 text-[14px] font-semibold text-white transition-opacity hover:opacity-90"
-                >
-                  Book Now
-                </button>
-
-                <button
-                  type="button"
-                  className="flex h-[44px] items-center justify-center gap-2 rounded-[4px] bg-[#F4E6BE] px-5 text-[14px] font-semibold text-neutral-800 transition-opacity hover:opacity-90"
-                >
-                  <svg
-                    width="18"
-                    height="18"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <circle
-                      cx="18"
-                      cy="5"
-                      r="3"
-                      stroke="currentColor"
-                      strokeWidth="1.8"
-                    />
-                    <circle
-                      cx="6"
-                      cy="12"
-                      r="3"
-                      stroke="currentColor"
-                      strokeWidth="1.8"
-                    />
-                    <circle
-                      cx="18"
-                      cy="19"
-                      r="3"
-                      stroke="currentColor"
-                      strokeWidth="1.8"
-                    />
-                    <path
-                      d="M8.7 10.7L15.3 6.3M8.7 13.3L15.3 17.7"
-                      stroke="currentColor"
-                      strokeWidth="1.8"
-                    />
-                  </svg>
-                  Share
-                </button>
-              </div>
+              ) : null}
             </div>
 
-            {/* Right Package Details */}
-            <div className="flex flex-col justify-end">
-              {/* Heading */}
-              <div className="flex h-[42px] items-center justify-center rounded-full border border-[#E8DDBE]">
-                <h2 className="text-[17px] font-semibold text-neutral-800 md:text-[18px]">
-                  Package Details
-                </h2>
+            <div className="flex flex-col gap-2">
+              <p className="text-sm font-medium text-neutral-500">Starts From</p>
+              <div className="flex flex-wrap items-end gap-2">
+                <p className="text-[32px] leading-none font-semibold tracking-[-0.28px] text-primary tablet:text-[40px]">
+                  {formattedPrice}
+                </p>
+                <p className="pb-0.5 text-sm font-normal text-neutral-500">
+                  Per Person (VAT Included)
+                </p>
               </div>
+              <a
+                href="#services"
+                className="mt-1 inline-flex w-fit items-center gap-1.5 text-sm font-medium text-primary"
+              >
+                See What&apos;s Included In This Price?
+                <span aria-hidden="true">↓</span>
+              </a>
+            </div>
 
-              {/* Detail Cards */}
-              <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-3">
-                {/* Package Type */}
-                <div className="flex min-h-[110px] flex-col items-center justify-center rounded-[14px] bg-white px-4 text-center">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-[7px] bg-[#F7E9BE]">
-                    <UsersIcon className="h-5 w-5 text-[#B78B2E]" />
+            <div className="flex flex-wrap items-center gap-3 tablet:gap-4">
+              <Link
+                href="#booking"
+                className="inline-flex h-[49px] w-full items-center justify-center rounded-button bg-primary px-4 py-3 text-base font-medium text-white transition-colors hover:bg-primary-700 tablet:w-[180px]"
+              >
+                Book Now
+              </Link>
+              <button
+                type="button"
+                className="inline-flex h-[49px] w-[130px] items-center justify-center gap-2 rounded-button bg-gold-200 px-4 py-3 text-base font-medium text-teal-700 transition-opacity hover:opacity-90"
+                onClick={() => {
+                  const url = window.location.href;
+                  if (navigator.share) {
+                    void navigator.share({ title: document.title, url }).catch(() => {
+                      void navigator.clipboard.writeText(url).catch(() => undefined);
+                    });
+                    return;
+                  }
+                  void navigator.clipboard.writeText(url).catch(() => undefined);
+                }}
+              >
+                <ShareIcon className="size-5 shrink-0" />
+                Share
+              </button>
+            </div>
+          </div>
+
+          <div className="flex w-full min-w-0 flex-col gap-4 desktop:max-w-[711px]">
+            <div className="flex h-[42px] items-center justify-center rounded-full border border-gold-300">
+              <h2 className="text-base font-semibold text-neutral-800 tablet:text-[18px]">
+                Package Details
+              </h2>
+            </div>
+            <div className="grid grid-cols-1 gap-3 tablet:grid-cols-3">
+              {details.map(({ icon: Icon, label, key }) => (
+                <div
+                  key={label}
+                  className="flex min-h-[110px] flex-col items-center justify-center rounded-[14px] bg-white px-4 py-4 text-center"
+                >
+                  <div className="flex size-9 items-center justify-center rounded-[7px] bg-gold-200">
+                    <Icon className="size-5 text-gold-700" />
                   </div>
-
-                  <p className="mt-2 text-[12px] text-neutral-500">
-                    Package Type
-                  </p>
-
-                  <p className="mt-1 text-[13px] font-medium text-neutral-800">
-                    {groupSize}
-                  </p>
+                  <p className="mt-2 text-xs text-neutral-500">{label}</p>
+                  <p className="mt-1 text-[13px] font-medium text-neutral-800">{values[key]}</p>
                 </div>
-
-                {/* Date */}
-                <div className="flex min-h-[110px] flex-col items-center justify-center rounded-[14px] bg-white px-4 text-center">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-[7px] bg-[#F7E9BE]">
-                    <CalendarIcon className="h-5 w-5 text-[#B78B2E]" />
-                  </div>
-
-                  <p className="mt-2 text-[12px] text-neutral-500">Date</p>
-
-                  <p className="mt-1 text-[13px] font-medium text-neutral-800">
-                    {departureDate}
-                  </p>
-                </div>
-
-                {/* Nights */}
-                <div className="flex min-h-[110px] flex-col items-center justify-center rounded-[14px] bg-white px-4 text-center">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-[7px] bg-[#F7E9BE]">
-                    <ClockIcon className="h-5 w-5 text-[#B78B2E]" />
-                  </div>
-
-                  <p className="mt-2 text-[12px] text-neutral-500">Nights</p>
-
-                  <p className="mt-1 text-[13px] font-medium text-neutral-800">
-                    {duration}
-                  </p>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>

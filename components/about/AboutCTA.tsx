@@ -3,17 +3,23 @@ import { Button } from "@/components/ui/Button";
 
 export function AboutCTA() {
   return (
-    <section className="py-16 md:py-24 bg-gradient-to-b from-paper to-teal-50">
-      <Container>
-        <div className="text-center max-w-3xl mx-auto space-y-6 md:space-y-8">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-hero">
-            Let's Plan Your Next Journey
+    <section className="bg-teal-100 py-16 tablet:py-20 desktop:py-[96px]">
+      <Container className="desktop-xl:!px-0">
+        <div className="mx-auto flex max-w-[760px] flex-col items-center text-center">
+          <h2 className="text-[32px] leading-tight font-bold text-hero tablet:text-[42px] desktop:text-[48px]">
+            Let&apos;s Plan Your Next Journey
           </h2>
-          <p className="text-base md:text-lg text-neutral-700 leading-relaxed max-w-2xl mx-auto">
-            Ready to embark on your next adventure? Our team is here to help you create unforgettable memories. Get in touch with us today!
+          <p className="mt-4 max-w-[640px] text-[15px] leading-relaxed text-neutral-600 tablet:text-[17px] desktop:mt-5 desktop:text-[18px]">
+            Whether it&apos;s Hajj, Umrah, or your next trip abroad — our team is ready
+            to help you plan it, start to finish.
           </p>
-          <div className="pt-4">
-            <Button href="/contact">Contact Us Today</Button>
+          <div className="pt-8">
+            <Button
+              href="/contact"
+              className="h-[49px] gap-8 rounded-full !bg-black text-base !text-white hover:!bg-[#0A0C0C] [&>span]:size-[25px] [&>span]:!bg-white [&>span]:!text-black"
+            >
+              Send Inquiry
+            </Button>
           </div>
         </div>
       </Container>

@@ -12,7 +12,7 @@ import { PackageCard } from "./PackageCard";
 export function PackageList() {
   return (
     <>
-      <section className="bg-gold-100 px-4 py-9 tablet:px-8 tablet:py-14 desktop:py-12">
+      <section className="relative -mt-[5.5rem] bg-gold-100 px-4 pt-[calc(5.5rem+2.25rem)] pb-9 tablet:px-8 tablet:pt-[calc(5.5rem+3.5rem)] tablet:pb-14 desktop:pt-[calc(5.5rem+3rem)] desktop:pb-12">
         <Container>
           <h1 className="max-w-[858px] text-[32px] leading-[123%] font-semibold text-[#0A0C0C]">Choose Your Preferred Umrah Package</h1>
           <p className="mt-4 max-w-[858px] text-[18px] leading-[160%] font-normal text-[#7B7B7B]">Selecting your preferred Umrah package will allow us to tailor your experience! You can also change your preferences at any time from your profile.</p>
