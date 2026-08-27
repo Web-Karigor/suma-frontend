@@ -9,6 +9,7 @@ import {
 } from "@/components/icons";
 import { GoBadge } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
+import { cn } from "@/lib/cn";
 import { appFeatures } from "@/lib/home-data";
 
 const featureIcons = {
@@ -90,9 +91,9 @@ export function AppFeature() {
                 className="pointer-events-none absolute top-1/2 -left-3 z-20 h-[140px] w-auto max-w-none -translate-y-[75%]"
               />
             </div>
-            <div className="mt-3 flex justify-end gap-2 tablet:hidden">
-              <StoreBadge store="google" />
-              <StoreBadge store="apple" />
+            <div className="mt-3 flex w-full gap-2 tablet:hidden">
+              <StoreBadge store="google" className="min-w-0 flex-1 justify-center" />
+              <StoreBadge store="apple" className="min-w-0 flex-1 justify-center" />
             </div>
           </div>
         </div>
@@ -143,12 +144,21 @@ function FeatureColumn({
   );
 }
 
-function StoreBadge({ store }: { store: "google" | "apple" }) {
+function StoreBadge({
+  store,
+  className,
+}: {
+  store: "google" | "apple";
+  className?: string;
+}) {
   const isGoogle = store === "google";
   return (
     <a
       href="#"
-      className="inline-flex h-10 min-w-34 items-center gap-2 rounded-lg bg-black px-3 text-white"
+      className={cn(
+        "inline-flex h-10 min-w-34 items-center gap-2 rounded-lg bg-black px-3 text-white",
+        className,
+      )}
     >
       {isGoogle ? (
         <svg viewBox="0 0 24 24" className="size-5 shrink-0" aria-hidden="true">

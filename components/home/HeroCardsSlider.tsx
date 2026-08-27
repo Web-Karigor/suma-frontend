@@ -43,6 +43,13 @@ export function HeroCardsSlider() {
         slidesPerView="auto"
         slidesPerGroup={1}
         spaceBetween={SLIDE_GAP}
+        centeredSlides
+        loopAdditionalSlides={2}
+        breakpoints={{
+          768: {
+            centeredSlides: false,
+          },
+        }}
         autoplay={{
           delay: 4200,
           disableOnInteraction: false,

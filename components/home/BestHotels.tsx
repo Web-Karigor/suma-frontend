@@ -41,7 +41,7 @@ export function BestHotels() {
           grabCursor
           speed={800}
           spaceBetween={24}
-          slidesPerView={1.05}
+          slidesPerView={1}
           pagination={{ clickable: true }}
           autoplay={{ delay: 5000, disableOnInteraction: false }}
           breakpoints={{

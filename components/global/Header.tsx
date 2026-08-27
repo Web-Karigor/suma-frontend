@@ -1,10 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import {
-  ChevronDownIcon,
   CloseIcon,
   HeadsetIcon,
   MenuIcon,
@@ -13,19 +12,34 @@ import {
 import { Button } from "@/components/ui/Button";
 import { Logo } from "@/components/ui/Logo";
 import { Container } from "@/components/ui/Container";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+} from "@/components/ui/select";
 import { cn } from "@/lib/cn";
 import { company, navLinks } from "@/lib/home-data";
 
 export function Header() {
   const pathname = usePathname();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
-  const [serviceOpen, setServiceOpen] = useState(false);
 
   const isCorporateTour = pathname.startsWith("/corporate-tour");
   const isHajjUmrahDetails = pathname.startsWith("/hajj-umrah-details");
   const isAbout = pathname.startsWith("/about");
   const overlayHeader = isCorporateTour || isHajjUmrahDetails || isAbout;
   const alignWideGrid = overlayHeader;
+
+  useEffect(() => {
+    if (!open) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previous;
+    };
+  }, [open]);
 
   return (
     <header
@@ -38,7 +52,7 @@ export function Header() {
     >
       <Container
         className={cn(
-          "pt-3 desktop:pt-4",
+          "relative z-20 pt-3 desktop:pt-4",
           // Match the 1740px content column (no gutter inset at ≥1920).
           alignWideGrid && "desktop-xl:!px-0",
         )}
@@ -48,7 +62,7 @@ export function Header() {
             "flex w-full items-center gap-3 rounded-full px-3 py-2",
             "bg-linear-to-r from-[#e0e6e9] to-[#f7f8f9]",
             "shadow-[0_10px_32px_rgb(10_12_12/12%),inset_0_1px_0_rgb(255_255_255/80%)]",
-            "desktop:gap-5 desktop:px-5 desktop:py-2.5",
+            "desktop:gap-11 desktop:px-5 desktop:py-2.5",
           )}
         >
           <Logo compact={false} className="hidden shrink-0 wide:flex" />
@@ -56,7 +70,7 @@ export function Header() {
           <Logo compact className="shrink-0 min-[480px]:hidden" />
 
           <nav
-            className="hidden min-w-0 flex-1 items-center justify-center gap-3 desktop:flex wide:gap-6"
+            className="hidden min-w-0 items-center gap-3 desktop:flex wide:gap-6"
             aria-label="Primary"
           >
             {navLinks.map((link) => {
@@ -64,49 +78,46 @@ export function Header() {
                 link.href === "/" ? pathname === "/" : pathname.startsWith(link.href);
 
               if ("children" in link && link.children) {
+                const selected = link.children.find(
+                  (child) =>
+                    pathname === child.href || pathname.startsWith(`${child.href}/`),
+                )?.label;
+
                 return (
-                  <div
+                  <Select
                     key={link.label}
-                    className="relative"
-                    onMouseEnter={() => setServiceOpen(true)}
-                    onMouseLeave={() => setServiceOpen(false)}
+                    value={selected ?? null}
+                    onValueChange={(value) => {
+                      const next = link.children.find((child) => child.label === value);
+                      if (next) router.push(next.href);
+                    }}
                   >
-                    <button
-                      type="button"
+                    <SelectTrigger
                       className={cn(
-                        "inline-flex items-center gap-0.5 text-sm font-medium text-neutral-900 transition-colors hover:text-primary wide:text-[0.92rem]",
+                        "h-auto gap-0.5 rounded-none border-0 bg-transparent p-0 text-sm font-medium text-neutral-900 shadow-none hover:bg-transparent hover:text-primary focus-visible:border-transparent focus-visible:ring-0 wide:text-[0.92rem] dark:bg-transparent dark:hover:bg-transparent [&_svg]:text-current [&_svg:not([class*='size-'])]:size-4",
                         active && "text-primary",
                       )}
-                      aria-expanded={serviceOpen}
-                      aria-haspopup="true"
-                      onClick={() => setServiceOpen((value) => !value)}
                     >
                       {link.label}
-                      <ChevronDownIcon
-                        className={cn(
-                          "size-4 transition-transform",
-                          serviceOpen && "rotate-180",
-                        )}
-                      />
-                    </button>
-                    {serviceOpen ? (
-                      <div className="absolute top-full left-1/2 z-50 min-w-[220px] -translate-x-1/2 pt-3">
-                        <ul className="rounded-2xl border border-gray-200 bg-white py-2 shadow-[0_16px_40px_rgb(10_12_12/16%)]">
-                          {link.children.map((child) => (
-                            <li key={child.label}>
-                              <Link
-                                href={child.href}
-                                className="block px-4 py-2 text-sm text-neutral-800 transition hover:bg-teal-50 hover:text-primary"
-                                onClick={() => setServiceOpen(false)}
-                              >
-                                {child.label}
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    ) : null}
-                  </div>
+                    </SelectTrigger>
+                    <SelectContent
+                      align="center"
+                      side="bottom"
+                      sideOffset={12}
+                      alignItemWithTrigger={false}
+                      className="min-w-[220px] rounded-2xl border border-gray-200 bg-white p-1 shadow-[0_16px_40px_rgb(10_12_12/16%)] ring-0"
+                    >
+                      {link.children.map((child) => (
+                        <SelectItem
+                          key={child.label}
+                          value={child.label}
+                          className="rounded-lg py-2 pr-8 pl-3 text-sm text-neutral-800 focus:bg-teal-50 focus:text-primary data-highlighted:bg-teal-50 data-highlighted:text-primary"
+                        >
+                          {child.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 );
               }
 
@@ -139,13 +150,13 @@ export function Header() {
               </span>
             </a>
 
-            <label className="relative w-[136px] wide:w-[168px]">
+            <label className="relative w-[240px] shrink-0">
               <span className="sr-only">Search</span>
-              <SearchIcon className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-gray-500" />
+              <SearchIcon className="pointer-events-none absolute top-1/2 left-4 size-4 -translate-y-1/2 text-gray-500" />
               <input
                 type="search"
                 placeholder="Search"
-                className="h-11 w-full rounded-full border border-white/70 bg-[#eef1f3] pr-4 pl-10 text-sm text-neutral-800 outline-none placeholder:text-gray-500 focus:border-primary focus:bg-white"
+                className="h-[49px] w-[240px] rounded-full border-0 bg-[#EEEEEE]/80 py-3 pr-4 pl-[42px] text-sm text-neutral-800 outline-none placeholder:text-gray-500 focus:bg-white"
               />
             </label>
 
@@ -167,72 +178,93 @@ export function Header() {
         </div>
       </Container>
 
-      {open ? (
-        <Container className="pt-2 desktop:hidden">
-          <div
-            id="mobile-nav"
-            className="rounded-[28px] border border-gray-200 bg-white p-4 shadow-[0_16px_40px_rgb(10_12_12/12%)]"
-          >
-            <nav className="flex flex-col gap-1" aria-label="Mobile">
-              {navLinks.map((link) => {
-                if ("children" in link && link.children) {
-                  return (
-                    <div key={link.label}>
-                      <p className="px-3 py-2 text-sm font-semibold text-neutral-800">{link.label}</p>
-                      {link.children.map((child) => (
-                        <Link
-                          key={child.label}
-                          href={child.href}
-                          className="block rounded-lg px-5 py-2 text-sm text-neutral-700 hover:bg-teal-50 hover:text-primary"
-                          onClick={() => setOpen(false)}
-                        >
-                          {child.label}
-                        </Link>
-                      ))}
-                    </div>
-                  );
-                }
-
+      <div
+        className={cn(
+          "fixed inset-0 z-10 desktop:hidden",
+          open ? "pointer-events-auto" : "pointer-events-none",
+        )}
+        aria-hidden={!open}
+        {...(!open ? { inert: true } : {})}
+      >
+        <button
+          type="button"
+          className={cn(
+            "absolute inset-0 bg-black/40 transition-opacity duration-1000 ease-out motion-reduce:transition-none",
+            open ? "opacity-100" : "opacity-0",
+          )}
+          aria-label="Close menu"
+          tabIndex={open ? 0 : -1}
+          onClick={() => setOpen(false)}
+        />
+        <div
+          id="mobile-nav"
+          role="dialog"
+          aria-modal="true"
+          className={cn(
+            "absolute inset-x-0 bottom-0 max-h-[min(88vh,720px)] overflow-y-auto rounded-t-[28px] border border-gray-200 bg-white p-4 pb-[max(1rem,env(safe-area-inset-bottom))] shadow-[0_-16px_40px_rgb(10_12_12/16%)]",
+            "transition-transform duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none",
+            open ? "translate-y-0" : "translate-y-full",
+          )}
+        >
+          <nav className="flex flex-col gap-1" aria-label="Mobile">
+            {navLinks.map((link) => {
+              if ("children" in link && link.children) {
                 return (
-                  <Link
-                    key={link.label}
-                    href={link.href}
-                    className="rounded-lg px-3 py-2.5 text-sm font-medium text-neutral-800 hover:bg-teal-50"
-                    onClick={() => setOpen(false)}
-                  >
-                    {link.label}
-                  </Link>
+                  <div key={link.label}>
+                    <p className="px-3 py-2 text-sm font-semibold text-neutral-800">{link.label}</p>
+                    {link.children.map((child) => (
+                      <Link
+                        key={child.label}
+                        href={child.href}
+                        className="block rounded-lg px-5 py-2 text-sm text-neutral-700 hover:bg-teal-50 hover:text-primary"
+                        onClick={() => setOpen(false)}
+                      >
+                        {child.label}
+                      </Link>
+                    ))}
+                  </div>
                 );
-              })}
-            </nav>
+              }
 
-            <a
-              href={`tel:${company.support.phone}`}
-              className="mt-4 flex items-center gap-2 rounded-[10px] border border-teal-600 px-3 py-2 text-teal-700"
-            >
-              <HeadsetIcon className="size-6" />
-              <span className="leading-none">
-                <span className="block text-[0.62rem] font-medium">{company.support.title}</span>
-                <span className="mt-0.5 block text-lg font-bold">{company.support.phone}</span>
-              </span>
-            </a>
+              return (
+                <Link
+                  key={link.label}
+                  href={link.href}
+                  className="rounded-lg px-3 py-2.5 text-sm font-medium text-neutral-800 hover:bg-teal-50"
+                  onClick={() => setOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
+          </nav>
 
-            <label className="relative mt-3 block">
-              <span className="sr-only">Search</span>
-              <SearchIcon className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-gray-500" />
-              <input
-                type="search"
-                placeholder="Search"
-                className="h-11 w-full rounded-full border border-gray-200 bg-gray-50 pr-4 pl-10 text-sm outline-none placeholder:text-gray-500 focus:border-primary focus:bg-white"
-              />
-            </label>
+          <a
+            href={`tel:${company.support.phone}`}
+            className="mt-4 flex items-center gap-2 rounded-[10px] border border-teal-600 px-3 py-2 text-teal-700"
+          >
+            <HeadsetIcon className="size-6" />
+            <span className="leading-none">
+              <span className="block text-[0.62rem] font-medium">{company.support.title}</span>
+              <span className="mt-0.5 block text-lg font-bold">{company.support.phone}</span>
+            </span>
+          </a>
 
-            <Button href="/contact" className="mt-3 h-12 w-full justify-center rounded-full !bg-black text-sm !text-white hover:!bg-[#0A0C0C] [&>span]:size-8 [&>span]:!bg-white [&>span]:!text-black">
-              Get a Free Quote
-            </Button>
-          </div>
-        </Container>
-      ) : null}
+          <label className="relative mt-3 block">
+            <span className="sr-only">Search</span>
+            <SearchIcon className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-gray-500" />
+            <input
+              type="search"
+              placeholder="Search"
+              className="h-11 w-full rounded-full border border-gray-200 bg-gray-50 pr-4 pl-10 text-sm outline-none placeholder:text-gray-500 focus:border-primary focus:bg-white"
+            />
+          </label>
+
+          <Button href="/contact" className="mt-3 h-12 w-full justify-center rounded-full !bg-black text-sm !text-white hover:!bg-[#0A0C0C] [&>span]:size-8 [&>span]:!bg-white [&>span]:!text-black">
+            Get a Free Quote
+          </Button>
+        </div>
+      </div>
     </header>
   );
 }
