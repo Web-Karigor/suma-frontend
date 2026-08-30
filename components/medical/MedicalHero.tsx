@@ -169,7 +169,7 @@ export function MedicalHero({
               {/* CTA Buttons */}
               <div className="mt-5 flex flex-wrap items-center gap-3">
                 <a
-                  href="#contact"
+                  href="#booking"
                   className="inline-flex h-[38px] min-w-[190px] items-center justify-center rounded-[3px] bg-[#176c71] px-6 text-[10px] font-semibold text-white transition-all hover:bg-[#10595d]"
                 >
                   Request a Free Consultation

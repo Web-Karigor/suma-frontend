@@ -16,7 +16,7 @@ const sizes = {
 function PackageCard({ item }: { item: (typeof topPackages)[number] }) {
   return (
     <Link
-      href="/packages"
+      href={item.href}
       className={`package-card relative block w-full overflow-hidden ${sizes[item.area]}`}
     >
       <Image

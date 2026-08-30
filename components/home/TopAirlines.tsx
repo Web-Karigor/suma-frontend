@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { airlines } from "@/lib/home-data";
 import { cn } from "@/lib/cn";
@@ -9,15 +10,15 @@ function takeWrap(list: typeof airlines, start: number, count: number) {
   return Array.from({ length: count }, (_, index) => list[(start + index) % list.length]);
 }
 
-const rowOne = takeWrap(airlines, 0, 8);
-const rowTwo = takeWrap(airlines, 8, 8);
-const rowThree = takeWrap(airlines, 16, 8);
+const rowOne = takeWrap(airlines, 0, 9);
+const rowTwo = takeWrap(airlines, 9, 9);
+const rowThree = takeWrap(airlines, 18, 9);
 
 function AirlineTile({ name, code }: { name: string; code: string }) {
   const [failed, setFailed] = useState(false);
 
   return (
-    <div className="flex size-[72px] shrink-0 items-center justify-center rounded-xl bg-white desktop:size-[174px]">
+    <div className="flex size-[72px] shrink-0 items-center justify-center rounded-xl bg-white desktop:size-[150px]">
       {failed ? (
         <span className="text-xs font-semibold text-primary">{code}</span>
       ) : (
@@ -26,7 +27,7 @@ function AirlineTile({ name, code }: { name: string; code: string }) {
           alt={name}
           width={96}
           height={96}
-          className="max-h-12 max-w-12 object-contain desktop:max-h-20 desktop:max-w-20"
+          className="max-h-12 max-w-12 object-contain desktop:max-h-[68px] desktop:max-w-[68px]"
           onError={() => setFailed(true)}
         />
       )}
@@ -63,7 +64,7 @@ function MarqueeRow({
 export function TopAirlines() {
   return (
     <section className="bg-teal-50 py-16 tablet:py-[120px]">
-      <div className="mx-auto w-full max-w-[1560px] px-4 desktop:w-[1560px] desktop:px-0">
+      <Container>
         <SectionHeading
           title="Top Airlines"
           subtitle="User-friendly platform connects you to top airlines instantly. Enjoy a comfortable and hassle-free journey on any destination and get tickets of top airlines easily."
@@ -80,7 +81,7 @@ export function TopAirlines() {
           <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-linear-to-r from-teal-50 to-transparent tablet:w-28" />
           <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-linear-to-l from-teal-50 to-transparent tablet:w-28" />
         </div>
-      </div>
+      </Container>
     </section>
   );
 }

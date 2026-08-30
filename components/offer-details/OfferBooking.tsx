@@ -1,5 +1,6 @@
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
+import Link from "next/link";
 
 type OfferBookingProps = {
   originalPrice: number;
@@ -41,12 +42,15 @@ export function OfferBooking({
 
             {/* CTA Buttons */}
             <div className="flex flex-wrap justify-center gap-4 pt-4">
-              <Button href="#booking" className="text-lg px-8">
+              <Button href="/contact" className="text-lg px-8">
                 Book Now
               </Button>
-              <button className="h-[49px] px-8 rounded-button border-2 border-white text-white font-medium hover:bg-white/10 transition-colors">
+              <Link
+                href="/contact"
+                className="inline-flex h-[49px] items-center px-8 rounded-button border-2 border-white text-white font-medium hover:bg-white/10 transition-colors"
+              >
                 Contact Us
-              </button>
+              </Link>
             </div>
 
             {/* Trust Badges */}

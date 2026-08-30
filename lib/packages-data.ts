@@ -7,7 +7,7 @@ export const packageList = [
     duration: "6 Nights",
     image: "https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?auto=format&fit=crop&w=1200&q=85",
     price: "6,221",
-    href: "/packages",
+    href: "/hajj-umrah-details",
   },
   {
     title: "AFAQ EXCELLENCE",
@@ -17,7 +17,7 @@ export const packageList = [
     duration: "10 Nights",
     image: "https://images.unsplash.com/photo-1564769625905-50e93615e769?auto=format&fit=crop&w=1200&q=85",
     price: "6,221",
-    href: "/packages",
+    href: "/hajj-umrah-details",
   },
   {
     title: "Al Wateen Package",
@@ -27,6 +27,6 @@ export const packageList = [
     duration: "6 Nights",
     image: "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=1200&q=85",
     price: "6,221",
-    href: "/packages",
+    href: "/hajj-umrah-details",
   },
 ] as const;

@@ -42,7 +42,7 @@ function OfficeCard({ name, address }: { name: string; address: string }) {
       <div className="min-w-0">
         <h3 className="flex items-center gap-2 text-sm font-semibold text-neutral-950"><MapPin className="size-4 shrink-0" /><a href={directionHref} target="_blank" rel="noreferrer" className="hover:text-primary">{name}</a></h3>
         <a href={directionHref} target="_blank" rel="noreferrer" className="mt-3 block text-xs leading-[1.5] text-gray-600 hover:text-primary">{address}</a>
-        <a href="tel:+8801234567890" className="mt-2 flex items-center gap-2 text-xs text-gray-600 hover:text-primary"><Phone className="size-3.5" />+880 0123 456 7890</a>
+        <a href={`tel:${company.hotline}`} className="mt-2 flex items-center gap-2 text-xs text-gray-600 hover:text-primary"><Phone className="size-3.5" />{company.hotline}</a>
         <p className="mt-2 text-xs text-gray-600">From 9:00 AM to 5:00 PM (Working Day)</p>
       </div>
       <div className="relative h-28 w-full shrink-0 overflow-hidden rounded-md tablet:w-44">

@@ -138,7 +138,7 @@ export function MedicalHospitals({
 
                   {/* Button - Always Bottom */}
                   <a
-                    href="#"
+                    href="/contact"
                     className="
                       mt-auto
                       flex

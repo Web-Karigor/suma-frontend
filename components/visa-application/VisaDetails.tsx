@@ -16,7 +16,7 @@ const details = [
 export function VisaDetails() {
   return (
     <section className="bg-[#E8F7F8] py-8 tablet:py-12">
-      <Container className="max-w-[1446px]">
+      <Container>
         <div className="h-auto overflow-hidden rounded-[32px] bg-[#F2F8F8] px-4 py-6 tablet:px-6 desktop:h-[548px] desktop:py-6">
           <div className="grid h-full gap-[22px] desktop:grid-cols-[1.15fr_0.85fr] desktop:items-center">
             <dl className="grid gap-5 text-xs leading-[1.5] text-neutral-900 desktop:self-start">

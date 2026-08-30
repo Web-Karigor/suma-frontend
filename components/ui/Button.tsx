@@ -9,7 +9,7 @@ type ButtonProps = {
   type?: "button" | "submit";
 } & Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "type" | "children">;
 
-function ArrowShift({ className }: { className?: string }) {
+export function ArrowShift({ className }: { className?: string }) {
   return (
     <span className={cn("relative overflow-hidden", className)}>
       <span className="absolute inset-0 flex items-center justify-center transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-[120%] group-hover:-translate-y-[120%] motion-reduce:transition-none">
@@ -128,22 +128,23 @@ export function GoBadge({ href = "/flights", className, label = "Go" }: GoBadgeP
           strokeLinecap="round"
         />
       </svg>
-      <span className="absolute inset-[26.5%] flex items-center justify-center overflow-hidden rounded-full">
-        <span className="relative flex size-full items-center justify-center">
-          <span className="absolute text-[32px] leading-none font-bold tracking-[0.02em] text-white transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-[120%] group-hover:-translate-y-[120%] motion-reduce:transition-none">
-            GO
-          </span>
-          <span className="absolute translate-x-[-120%] translate-y-[120%] text-[32px] leading-none font-bold tracking-[0.02em] text-white transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0 group-hover:translate-y-0 motion-reduce:translate-x-0 motion-reduce:translate-y-0 motion-reduce:transition-none">
-            GO
-          </span>
+      <span className="absolute inset-[26.5%] flex items-center justify-center rounded-full">
+        <span className="text-[32px] leading-none font-bold tracking-[0.02em] text-white transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-125 motion-reduce:transition-none motion-reduce:group-hover:scale-100">
+          GO
         </span>
       </span>
     </>
   );
 
   if (href) {
+    const isExternal = href.startsWith("http");
     return (
-      <Link href={href} className={classes} aria-label={label}>
+      <Link
+        href={href}
+        className={classes}
+        aria-label={label}
+        {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      >
         {content}
       </Link>
     );

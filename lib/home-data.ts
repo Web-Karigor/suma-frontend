@@ -1,16 +1,19 @@
+export const partnerPortalUrl = "https://partner.flight24.co/";
+
 export const serviceLinks = [
   { label: "Hajj & Umrah", href: "/hajj" },
   { label: "Visa Services", href: "/visa-application" },
   { label: "Hotel Booking", href: "/hotels" },
   { label: "Holiday Packages", href: "/packages" },
-  { label: "Corporate Tour", href: "/packages" },
-  { label: "Air Tickets", href: "/packages" },
+  { label: "Corporate Tour", href: "/corporate-tour" },
+  { label: "Air Tickets", href: "/contact" },
+  { label: "Medical Tourism", href: "/medical" },
 ] as const;
 
 export const navLinks = [
   { label: "Home", href: "/" },
   { label: "Service", href: "/hajj", children: serviceLinks },
-  { label: "Build My Trip", href: "/packages" },
+  { label: "Build My Trip", href: partnerPortalUrl },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ] as const;
@@ -27,39 +30,63 @@ export const heroContent = {
 export const heroCards = [
   {
     title: "Hajj & Umrah",
+    description:
+      "Begin your sacred journey with trusted guidance, carefully planned packages, and support at every step — from visa to your stay in the Holy Cities.",
     image:
       "https://images.unsplash.com/photo-1564769625905-50e93615e769?auto=format&fit=crop&w=600&q=80",
+    bgImage:
+      "https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?auto=format&fit=crop&w=1920&h=900&q=80",
     href: "/hajj",
   },
   {
     title: "Visa Assistance",
+    description:
+      "Fast, reliable visa processing for leisure, work, and family travel — with clear checklists and support from start to approval.",
     image:
       "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=600&q=80",
+    bgImage:
+      "https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=1920&h=900&q=80",
     href: "/visa-application",
   },
   {
     title: "Hotel Accommodation",
+    description:
+      "Curated stays from city hotels to beach resorts, chosen for comfort, location, and the way you like to travel.",
     image:
       "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=600&q=80",
+    bgImage:
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1920&h=900&q=80",
     href: "/hotels",
   },
   {
     title: "Holiday Packages",
+    description:
+      "Handpicked getaways shaped around your dates and budget — flights, stays, and plans handled in one place.",
     image:
       "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=600&q=80",
+    bgImage:
+      "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=1920&h=900&q=80",
     href: "/packages",
   },
   {
     title: "Corporate Travel",
+    description:
+      "End-to-end planning for business trips and groups — visas, flights, hotels, and ground support kept on schedule.",
     image:
       "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=600&q=80",
-    href: "/packages",
+    bgImage:
+      "https://images.unsplash.com/photo-1486406149926-1026b31aa87b?auto=format&fit=crop&w=1920&h=900&q=80",
+    href: "/corporate-tour",
   },
   {
     title: "Air Tickets",
+    description:
+      "Domestic and international flights with trusted airlines — tell us your route and we will get you the right fare.",
     image:
       "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=600&q=80",
-    href: "/packages",
+    bgImage:
+      "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1920&h=900&q=80",
+    href: "/contact",
   },
 ] as const;
 
@@ -110,7 +137,7 @@ export const exclusiveOffers = [
     subtitle: "Celebrate with exclusive worldwide fares",
     badge: "Limited",
     image:
-      "https://images.unsplash.com/photo-1488085061387-422e58ed05d0?auto=format&fit=crop&w=1400&q=80",
+      "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=800&q=80",
   },
 ] as const;
 
@@ -122,6 +149,7 @@ export const topPackages = [
     image:
       "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1200&q=80",
     area: "visa",
+    href: "/visa-application",
   },
   {
     id: "medical",
@@ -130,6 +158,7 @@ export const topPackages = [
     image:
       "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=800&q=80",
     area: "medical",
+    href: "/medical",
   },
   {
     id: "corporate",
@@ -138,6 +167,7 @@ export const topPackages = [
     image:
       "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=800&q=80",
     area: "corporate",
+    href: "/corporate-tour",
   },
   {
     id: "hajj-umrah",
@@ -146,6 +176,7 @@ export const topPackages = [
     image:
       "https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?auto=format&fit=crop&w=1200&q=80",
     area: "hajj",
+    href: "/hajj",
   },
   {
     id: "hotels",
@@ -154,6 +185,7 @@ export const topPackages = [
     image:
       "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1000&q=80",
     area: "hotels",
+    href: "/hotels",
   },
   {
     id: "holiday",
@@ -162,6 +194,7 @@ export const topPackages = [
     image:
       "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1000&q=80",
     area: "holiday",
+    href: "/packages",
   },
 ] as const;
 
@@ -339,13 +372,13 @@ export const footerColumns = {
     { label: "Hotel", href: "/hotels" },
     { label: "Holiday Packages", href: "/packages" },
     { label: "Customized Tours", href: "/packages" },
-    { label: "Medical Tourism", href: "/packages" },
-    { label: "Corporate Travel", href: "/packages" },
+    { label: "Medical Tourism", href: "/medical" },
+    { label: "Corporate Travel", href: "/corporate-tour" },
   ],
   pages: [
-    { label: "About Us", href: "/contact" },
+    { label: "About Us", href: "/about" },
     { label: "Contact", href: "/contact" },
-    { label: "Promotions", href: "/packages" },
+    { label: "Promotions", href: "/offer-details" },
     { label: "FAQ", href: "/contact" },
     { label: "Terms & Conditions", href: "/contact" },
     { label: "Privacy Policy", href: "/contact" },

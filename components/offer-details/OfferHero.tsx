@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 
 type OfferHeroProps = {
@@ -21,7 +22,7 @@ export function OfferHero({
   return (
     <section className="relative py-8 md:py-12 bg-paper">
       <Container>
-        <div className="max-w-6xl mx-auto">
+        <div>
           {/* Title Section */}
           <div className="text-center mb-8">
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-hero mb-3">
@@ -57,9 +58,12 @@ export function OfferHero({
                     Valid Until: {validUntil}
                   </p>
                 </div>
-                <button className="bg-secondary-500 hover:bg-secondary-600 text-white px-6 py-3 rounded-button font-semibold transition-colors">
+                <Link
+                  href="/contact"
+                  className="bg-secondary-500 hover:bg-secondary-600 text-white px-6 py-3 rounded-button font-semibold transition-colors"
+                >
                   Book Now
-                </button>
+                </Link>
               </div>
             </div>
           </div>

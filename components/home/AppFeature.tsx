@@ -10,7 +10,7 @@ import {
 import { GoBadge } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { cn } from "@/lib/cn";
-import { appFeatures } from "@/lib/home-data";
+import { appFeatures, partnerPortalUrl } from "@/lib/home-data";
 
 const featureIcons = {
   plane: PlaneIcon,
@@ -27,13 +27,21 @@ export function AppFeature() {
       <Container className="grid gap-10 desktop:grid-cols-[minmax(0,1fr)_minmax(320px,858px)] desktop:items-stretch desktop:gap-8">
         <div className="flex min-w-0 flex-col desktop:h-[855px]">
           <div className="flex w-full max-w-[858px] flex-col items-start gap-5 tablet:h-[79px] tablet:flex-row tablet:items-center tablet:gap-9">
-            <Image
-              src="/images/flight24/logo.png"
-              alt="Flight24.co"
-              width={256}
-              height={79}
-              className="h-auto w-[180px] shrink-0 object-contain tablet:h-[79px] tablet:w-[256px]"
-            />
+            <a
+              href={partnerPortalUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="shrink-0"
+              aria-label="Flight24 partner portal"
+            >
+              <Image
+                src="/images/flight24/logo.png"
+                alt="Flight24.co"
+                width={256}
+                height={79}
+                className="h-auto w-[180px] shrink-0 object-contain tablet:h-[79px] tablet:w-[256px]"
+              />
+            </a>
             <p className="w-full text-[15px] leading-[139%] font-medium tracking-[0.01em] text-[#0A0C0C] tablet:h-[63px] tablet:w-[566px]">
               Our Partner Portal Streamlines Business Operations By Connecting Buyers And Suppliers
               Seamlessly. It Offers Secure Transactions, Real-Time Communication, And Access To A
@@ -108,7 +116,7 @@ export function AppFeature() {
               sizes="(min-width: 1280px) 858px, 100vw"
             />
           </div>
-          <GoBadge href="/packages" className="flight-go-badge" />
+          <GoBadge href={partnerPortalUrl} className="flight-go-badge" />
         </div>
       </Container>
     </section>

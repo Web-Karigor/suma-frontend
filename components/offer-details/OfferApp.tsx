@@ -5,7 +5,7 @@ export function OfferApp() {
   return (
     <section className="py-12 md:py-16 bg-gradient-to-br from-teal-50 to-white">
       <Container>
-        <div className="max-w-6xl mx-auto">
+        <div>
           <div className="grid lg:grid-cols-2 gap-8 items-center">
             {/* Left Content */}
             <div className="space-y-6">

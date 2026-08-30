@@ -26,10 +26,11 @@ export function Header() {
   const router = useRouter();
   const [open, setOpen] = useState(false);
 
+  const isHome = pathname === "/";
   const isCorporateTour = pathname.startsWith("/corporate-tour");
   const isHajjUmrahDetails = pathname.startsWith("/hajj-umrah-details");
   const isAbout = pathname.startsWith("/about");
-  const overlayHeader = isCorporateTour || isHajjUmrahDetails || isAbout;
+  const overlayHeader = isHome || isCorporateTour || isHajjUmrahDetails || isAbout;
   const alignWideGrid = overlayHeader;
 
   useEffect(() => {
@@ -52,30 +53,35 @@ export function Header() {
     >
       <Container
         className={cn(
-          "relative z-20 pt-3 desktop:pt-4",
+          "relative z-20 pt-3 desktop:pt-8",
           // Match the 1740px content column (no gutter inset at ≥1920).
           alignWideGrid && "desktop-xl:!px-0",
         )}
       >
         <div
           className={cn(
-            "flex w-full items-center gap-3 rounded-full px-3 py-2",
-            "bg-linear-to-r from-[#e0e6e9] to-[#f7f8f9]",
-            "shadow-[0_10px_32px_rgb(10_12_12/12%),inset_0_1px_0_rgb(255_255_255/80%)]",
-            "desktop:gap-11 desktop:px-5 desktop:py-2.5",
+            "flex w-full items-center justify-between gap-3 rounded-full px-3 py-2",
+            "bg-white/80 backdrop-blur-3xl",
+            "shadow-[3px_4px_16px_0_rgb(0_0_0/6%)]",
+            "desktop:min-h-[90px] desktop:p-4",
           )}
         >
-          <Logo compact={false} className="hidden shrink-0 wide:flex" />
-          <Logo compact className="hidden shrink-0 min-[480px]:flex wide:hidden" />
-          <Logo compact className="shrink-0 min-[480px]:hidden" />
+          <div className="flex min-w-0 items-center gap-3 desktop:gap-[44px]">
+            <Logo compact={false} className="hidden shrink-0 wide:flex" />
+            <Logo compact className="hidden shrink-0 min-[480px]:flex wide:hidden" />
+            <Logo compact className="shrink-0 min-[480px]:hidden" />
 
-          <nav
-            className="hidden min-w-0 items-center gap-3 desktop:flex wide:gap-6"
-            aria-label="Primary"
-          >
+            <nav
+              className="hidden min-w-0 items-center gap-3 desktop:flex wide:gap-6"
+              aria-label="Primary"
+            >
             {navLinks.map((link) => {
               const active =
-                link.href === "/" ? pathname === "/" : pathname.startsWith(link.href);
+                link.href.startsWith("http")
+                  ? false
+                  : link.href === "/"
+                    ? pathname === "/"
+                    : pathname.startsWith(link.href);
 
               if ("children" in link && link.children) {
                 const selected = link.children.find(
@@ -94,7 +100,7 @@ export function Header() {
                   >
                     <SelectTrigger
                       className={cn(
-                        "h-auto gap-0.5 rounded-none border-0 bg-transparent p-0 text-sm font-medium text-neutral-900 shadow-none hover:bg-transparent hover:text-primary focus-visible:border-transparent focus-visible:ring-0 wide:text-[0.92rem] dark:bg-transparent dark:hover:bg-transparent [&_svg]:text-current [&_svg:not([class*='size-'])]:size-4",
+                        "h-auto gap-0.5 rounded-none border-0 bg-transparent p-0 text-[16px] font-medium text-black shadow-none hover:bg-transparent hover:text-primary focus-visible:border-transparent focus-visible:ring-0 dark:bg-transparent dark:hover:bg-transparent [&_svg]:text-current [&_svg:not([class*='size-'])]:size-4",
                         active && "text-primary",
                       )}
                     >
@@ -125,8 +131,11 @@ export function Header() {
                 <Link
                   key={link.label}
                   href={link.href}
+                  {...(link.href.startsWith("http")
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {})}
                   className={cn(
-                    "text-sm font-medium whitespace-nowrap text-neutral-900 transition-colors hover:text-primary wide:text-[0.92rem]",
+                    "text-[16px] font-medium whitespace-nowrap text-black transition-colors hover:text-primary",
                     active && "text-primary",
                   )}
                 >
@@ -135,6 +144,7 @@ export function Header() {
               );
             })}
           </nav>
+          </div>
 
           <div className="ml-auto hidden shrink-0 items-center gap-2.5 desktop:flex wide:gap-3">
             <a
@@ -230,6 +240,9 @@ export function Header() {
                 <Link
                   key={link.label}
                   href={link.href}
+                  {...(link.href.startsWith("http")
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {})}
                   className="rounded-lg px-3 py-2.5 text-sm font-medium text-neutral-800 hover:bg-teal-50"
                   onClick={() => setOpen(false)}
                 >

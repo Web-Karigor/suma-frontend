@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
+import { company } from "@/lib/home-data";
 
 const contactItems = [
   {
@@ -8,7 +9,7 @@ const contactItems = [
     description: (
       <>
         For any concerns, complaints or even suggestions please email us:{" "}
-        <span className="font-semibold">umrah@sumabd.com</span>
+        <span className="font-semibold">{company.email}</span>
       </>
     ),
     meta: [
@@ -16,7 +17,7 @@ const contactItems = [
       { label: "Response Time", value: "1 Day" },
     ],
     action: "Contact Us",
-    href: "mailto:umrah@sumabd.com",
+    href: `mailto:${company.email}`,
     buttonWidth: "w-[122px]",
   },
   {
@@ -33,14 +34,14 @@ const contactItems = [
     icon: "/images/corporate-tour/icons/call.svg",
     description: (
       <>
-        Contact Number: <span className="font-semibold">+123 456 789</span>
+        Contact Number: <span className="font-semibold">{company.hotline}</span>
         <br />
         Or send us a WhatsApp message and Our team will get back to you withing 24 hours.
       </>
     ),
     meta: [{ label: "Availability", value: "Working days" }],
     action: "Contact Us",
-    href: "tel:+123456789",
+    href: "/contact",
     buttonWidth: "w-[122px]",
   },
 ] as const;
@@ -49,11 +50,11 @@ export function CorporateBooking() {
   return (
     <section id="booking" className="scroll-mt-28 bg-teal-950 pt-12 pb-16 tablet:pt-16 tablet:pb-20 desktop-xl:pt-[100px] desktop-xl:pb-[100px]">
       <Container className="desktop-xl:!px-0">
-        <div className="mx-auto grid grid-cols-1 gap-6 tablet:grid-cols-2 desktop:grid-cols-3 desktop:gap-12 desktop-xl:w-[1536px] desktop-xl:gap-12">
+        <div className="mx-auto grid w-full grid-cols-1 gap-6 tablet:grid-cols-2 desktop:grid-cols-3 desktop:gap-12">
           {contactItems.map((item) => (
             <article
               key={item.title}
-              className="flex flex-col rounded-2xl bg-overlay-white-16 p-6 tablet:p-8 desktop-xl:h-[405px] desktop-xl:w-[480px]"
+              className="flex w-full flex-col rounded-2xl bg-overlay-white-16 p-6 tablet:p-8 desktop-xl:h-[405px]"
             >
               <div className="flex h-full flex-col gap-5 desktop-xl:w-[415px]">
                 <span className="flex size-[52px] items-center justify-center rounded-full bg-overlay-white-84 p-2.5">

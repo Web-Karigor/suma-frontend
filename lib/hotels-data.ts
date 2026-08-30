@@ -83,6 +83,25 @@ export const hotelListings: HotelListing[] = [
     refundable: true,
   },
   {
+    id: "sea-pearl",
+    name: "Sea Pearl Beach Resort",
+    image:
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80",
+    rating: 5,
+    score: "4.7",
+    roomType: "Ocean View",
+    location: "Cox's Bazar, Bangladesh",
+    amenities: ["Private beach", "Infinity pool", "SPA", "Free Wi-Fi", "Restaurant"],
+    extraCount: 4,
+    breakfast: true,
+    service247: true,
+    price: 15600,
+    originalPrice: 25000,
+    href: "/hotels/sea-pearl",
+    tags: ["balcony", "breakfast", "pool", "ac", "wifi"],
+    refundable: true,
+  },
+  {
     id: "sayeman",
     name: "Sayeman Beach Resort",
     image:

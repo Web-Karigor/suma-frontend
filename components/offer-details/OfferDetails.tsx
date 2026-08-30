@@ -11,7 +11,7 @@ export function OfferDetails({ description, included, terms }: OfferDetailsProps
   return (
     <section className="py-12 md:py-16 bg-paper">
       <Container>
-        <div className="max-w-6xl mx-auto space-y-12">
+        <div className="space-y-12">
           {/* Description */}
           <div>
             <h2 className="text-2xl md:text-3xl font-bold text-hero mb-6">

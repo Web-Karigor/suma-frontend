@@ -4,9 +4,9 @@ import { visaRequirements } from "@/lib/visa-data";
 export function VisaRequirements() {
   return (
     <section className="bg-[#E8F7F8] pb-16 tablet:pb-24">
-      <Container className="max-w-[1450px]">
+      <Container>
         <h2 className="text-lg font-semibold text-neutral-950">Visa Requirements</h2>
-        <div className="mt-5 max-w-[1320px] space-y-2 text-xs leading-[1.45] text-neutral-950">
+        <div className="mt-5 space-y-2 text-xs leading-[1.45] text-neutral-950">
           {visaRequirements.map((item, index) => <p key={`${item}-${index}`} className={index === 1 || index === 2 ? "font-semibold" : undefined}>{item}</p>)}
           <h3 className="pt-4 font-semibold">For Business Person:-</h3>
           <p>Renewal Trade license copy with notary public (English Translated). Memorandum of Article for limited company if the applicant&apos;s name not mention in trade license.</p>

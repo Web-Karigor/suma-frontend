@@ -10,7 +10,7 @@ export function AboutCEO() {
   return (
     <section className="bg-white py-16 tablet:py-20 desktop:py-[100px]">
       <Container className="desktop-xl:!px-0">
-        <div className="mx-auto flex w-full max-w-[1469px] flex-col items-center gap-10 desktop:flex-row desktop:items-center desktop:gap-[59px]">
+        <div className="mx-auto flex w-full flex-col items-center gap-10 desktop:flex-row desktop:items-center desktop:gap-[59px]">
           <div className="relative w-full min-w-0 shrink-0 [--ceo-r:24px] [--ceo-cut-w:164px] [--ceo-cut-h:56px] tablet:[--ceo-r:28px] tablet:[--ceo-cut-w:184px] tablet:[--ceo-cut-h:64px] desktop:w-[699px] desktop:[--ceo-r:32px] desktop:[--ceo-cut-w:200px] desktop:[--ceo-cut-h:70px]">
             <div
               className="relative aspect-[699/710] w-full bg-neutral-100 desktop:h-[710px] desktop:aspect-auto"

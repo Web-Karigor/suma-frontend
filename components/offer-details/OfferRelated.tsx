@@ -19,7 +19,7 @@ export function OfferRelated({ offers }: OfferRelatedProps) {
   return (
     <section className="py-12 md:py-16 bg-white">
       <Container>
-        <div className="max-w-6xl mx-auto">
+        <div>
           <div className="text-center mb-10">
             <h2 className="text-2xl md:text-3xl font-bold text-hero mb-3">
               Offers You May Like
@@ -33,7 +33,7 @@ export function OfferRelated({ offers }: OfferRelatedProps) {
             {offers.map((offer) => (
               <Link
                 key={offer.id}
-                href={`/offers/${offer.id}`}
+                href="/offer-details"
                 className="group bg-paper rounded-2xl overflow-hidden border border-neutral-200 hover:shadow-xl transition-all"
               >
                 <div className="relative aspect-[16/10]">

@@ -35,7 +35,7 @@ export function OfferHighlights({ highlights }: OfferHighlightsProps) {
   return (
     <section className="py-12 md:py-16 bg-white">
       <Container>
-        <div className="max-w-6xl mx-auto">
+        <div>
           <h2 className="text-2xl md:text-3xl font-bold text-hero mb-8 text-center">
             Offer Highlights
           </h2>
