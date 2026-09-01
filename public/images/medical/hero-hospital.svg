@@ -1,7 +1,0 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1200" role="img" aria-label="Hospital building image">
-  <rect width="900" height="1200" fill="#f0fdfa"/>
-  <rect x="190" y="220" width="520" height="760" rx="24" fill="#115e59"/>
-  <rect x="395" y="350" width="110" height="280" fill="#5eead4"/>
-  <rect x="315" y="435" width="270" height="110" fill="#5eead4"/>
-  <text x="450" y="1080" fill="#134e4a" text-anchor="middle" font-size="54" font-family="Trebuchet MS, sans-serif" font-weight="700">Accredited Hospitals</text>
-</svg>

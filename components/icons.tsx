@@ -664,6 +664,28 @@ export function HeartPulseIcon(props: IconProps) {
   );
 }
 
+export function PassportIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
+      <rect
+        x="8.9"
+        y="0.5"
+        width="9.8"
+        height="5.4"
+        rx="1.5"
+        fill="currentColor"
+        transform="rotate(12 13.8 3.2)"
+      />
+      <rect x="6.45" y="2.2" width="11.1" height="19.2" rx="2.2" fill="currentColor" />
+      <circle cx="12" cy="9.15" r="3.05" fill="none" stroke="#FEFEFC" strokeWidth="1.25" />
+      <ellipse cx="12" cy="9.15" rx="3.05" ry="1.15" fill="none" stroke="#FEFEFC" strokeWidth="1.2" />
+      <path d="M12 6.1v6.1" stroke="#FEFEFC" strokeWidth="1.2" />
+      <rect x="8.45" y="14.85" width="7.1" height="1.2" rx="0.6" fill="#FEFEFC" />
+      <rect x="8.45" y="17.45" width="5" height="1.2" rx="0.6" fill="#FEFEFC" />
+    </svg>
+  );
+}
+
 export function StethoscopeIcon(props: IconProps) {
   return (
     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>

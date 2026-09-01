@@ -30,7 +30,8 @@ export function Header() {
   const isCorporateTour = pathname.startsWith("/corporate-tour");
   const isHajjUmrahDetails = pathname.startsWith("/hajj-umrah-details");
   const isAbout = pathname.startsWith("/about");
-  const overlayHeader = isHome || isCorporateTour || isHajjUmrahDetails || isAbout;
+  const isMedical = pathname.startsWith("/medical");
+  const overlayHeader = isHome || isCorporateTour || isHajjUmrahDetails || isAbout || isMedical;
   const alignWideGrid = overlayHeader;
 
   useEffect(() => {

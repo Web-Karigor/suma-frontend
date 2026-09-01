@@ -55,25 +55,25 @@ export function Footer() {
             <FooterList title="Important Pages" links={footerColumns.pages} />
           </div>
 
-          <div className="w-full desktop:w-auto desktop:shrink-0">
+          <div className="flex w-full flex-col items-center tablet:items-start desktop:w-auto desktop:shrink-0">
             <h3 className="text-[20px] font-semibold text-[#FEFEFC] font-poppins">Get In Touch</h3>
-            <div className="mt-5 flex flex-col gap-6 tablet:flex-row tablet:gap-6 desktop:gap-8">
-              <div className="w-full max-w-[240px] ">
+            <div className="mt-5 flex w-full flex-col items-center gap-6 tablet:flex-row tablet:items-start tablet:gap-6 desktop:gap-8">
+              <div className="w-full max-w-[240px]">
                 <OfficeList offices={footerOffices.left} />
               </div>
               <div className="w-full max-w-[240px]">
                 <OfficeList offices={footerOffices.right} />
-                <div className="mt-4 space-y-3 border-t border-[#268F8E] boder-[0.5px] pt-4">
+                <div className="mt-4 flex flex-col items-center space-y-3 border-t border-[#268F8E] pt-4 tablet:items-start">
                   <a
                     href={`tel:${company.hotline}`}
-                    className="flex items-center justify-center gap-2 text-[14px] text-white tablet:justify-start"
+                    className="inline-flex items-center gap-2 text-[14px] text-white"
                   >
                     <PhoneIcon className="size-4 shrink-0" />
                     {company.hotline}
                   </a>
                   <a
                     href={`mailto:${company.email}`}
-                    className="flex items-center justify-center gap-2 text-[14px] text-white tablet:justify-start"
+                    className="inline-flex items-center gap-2 text-[14px] text-white"
                   >
                     <MailIcon className="size-4 shrink-0" />
                     {company.email}
@@ -129,17 +129,19 @@ function OfficeList({
   offices: readonly { name: string; address: string }[];
 }) {
   return (
-    <ul>
+    <ul className="w-full">
       {offices.map((office, index) => (
         <li
           key={office.name}
-          className={index < offices.length - 1 ? "border-b border-white/25 pb-4 mb-4" : ""}
+          className={index < offices.length - 1 ? "mb-4 border-b border-white/25 pb-4" : ""}
         >
-          <p className="flex items-start justify-center gap-2 text-[16px] font-semibold font-poppins text-[#BFDEDD] tablet:justify-start">
-            <PinIcon className="mt-0.5 size-4 shrink-0" />
-            {office.name}
+          <p className="flex justify-center tablet:justify-start">
+            <span className="inline-flex items-center gap-2 text-[16px] font-semibold font-poppins text-[#BFDEDD]">
+              <PinIcon className="size-4 shrink-0" />
+              {office.name}
+            </span>
           </p>
-          <p className="mt-1.5 text-[14px] font-regular font-poppins text-[#99CACA]">
+          <p className="mt-1.5 text-center text-[14px] font-regular font-poppins text-[#99CACA] tablet:text-left">
             {office.address}
           </p>
         </li>

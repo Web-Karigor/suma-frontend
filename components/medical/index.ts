@@ -7,4 +7,4 @@ export { MedicalAccommodation } from "./MedicalAccommodation";
 export { MedicalProcess } from "./MedicalProcess";
 export { MedicalTestimonials } from "./MedicalTestimonials";
 export { MedicalServices } from "./MedicalServices";
-
+export { MedicalContact } from "./MedicalContact";

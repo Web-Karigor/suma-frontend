@@ -639,62 +639,174 @@
   overflow: hidden;
 }
 
-.hero-bg-slide {
+.hero-bg-layer {
   position: absolute;
   inset: 0;
-  will-change: transform;
+  opacity: 0;
+  transition: opacity 1000ms ease;
+  will-change: opacity;
+  pointer-events: none;
 }
 
-@keyframes hero-bg-in-right {
-  from {
-    transform: translateX(100%);
-  }
-  to {
-    transform: translateX(0);
-  }
+.hero-bg-layer.is-active {
+  opacity: 1;
+  z-index: 1;
 }
 
-@keyframes hero-bg-in-left {
-  from {
-    transform: translateX(-100%);
-  }
-  to {
-    transform: translateX(0);
-  }
+.offer-html {
+  overflow: hidden;
+  border: 1px solid #d9d9d9;
+  color: var(--color-neutral-700);
+  font-size: 18px;
+  line-height: 1.7;
 }
 
-@keyframes hero-bg-out-left {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-100%);
-  }
+.visa-requirements-html {
+  color: #000000;
+  font-family: var(--font-poppins), Poppins, ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 159%;
 }
 
-@keyframes hero-bg-out-right {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(100%);
-  }
+.visa-requirements-html p {
+  margin: 0;
 }
 
-.hero-bg-in-right {
-  animation: hero-bg-in-right 1000ms cubic-bezier(0.22, 1, 0.36, 1) both;
+.visa-requirements-html p + p {
+  margin-top: 0;
 }
 
-.hero-bg-in-left {
-  animation: hero-bg-in-left 1000ms cubic-bezier(0.22, 1, 0.36, 1) both;
+.visa-requirements-html .visa-requirements-section {
+  display: block;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 158%;
 }
 
-.hero-bg-out-left {
-  animation: hero-bg-out-left 1000ms cubic-bezier(0.22, 1, 0.36, 1) both;
+.visa-requirements-html p:has(.visa-requirements-section) {
+  margin-top: 1.25rem;
 }
 
-.hero-bg-out-right {
-  animation: hero-bg-out-right 1000ms cubic-bezier(0.22, 1, 0.36, 1) both;
+.visa-requirements-html p:first-child {
+  margin-top: 0;
+}
+
+.visa-requirements-html strong:not(.visa-requirements-section) {
+  font-weight: 600;
+}
+
+.visa-requirements-html a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.visa-requirements-html ul,
+.visa-requirements-html ol {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.visa-requirements-html li + li {
+  margin-top: 0;
+}
+
+.visa-requirements-html h2,
+.visa-requirements-html h3,
+.visa-requirements-html h4 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 158%;
+}
+
+.visa-requirements-html h2:not(:first-child),
+.visa-requirements-html h3:not(:first-child),
+.visa-requirements-html h4:not(:first-child) {
+  margin-top: 1.25rem;
+}
+
+.visa-requirements-html img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.offer-html h2,
+.offer-html h3 {
+  margin: 0;
+  border-bottom: 1px solid #d9d9d9;
+  background: #f3f3f3;
+  padding: 14px 18px;
+  color: var(--color-neutral-950);
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.offer-html h2:not(:first-child),
+.offer-html h3:not(:first-child) {
+  border-top: 1px solid #d9d9d9;
+}
+
+.offer-html p {
+  margin: 0;
+  padding: 12px 18px 6px;
+}
+
+.offer-html p:last-child {
+  padding-bottom: 18px;
+}
+
+.offer-html ul,
+.offer-html ol {
+  margin: 0;
+  padding: 14px 18px 18px 40px;
+}
+
+.offer-html ul {
+  list-style: disc;
+}
+
+.offer-html ol {
+  list-style: decimal;
+}
+
+.offer-html li {
+  margin-bottom: 8px;
+}
+
+.offer-html li:last-child {
+  margin-bottom: 0;
+}
+
+.offer-html a {
+  color: #1573d6;
+  text-decoration: underline;
+}
+
+.offer-html strong {
+  color: var(--color-neutral-950);
+  font-weight: 600;
+}
+
+.offer-html img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 1rem 0;
+}
+
+.offer-html table {
+  width: 100%;
+  margin: 0;
+  border-collapse: collapse;
+}
+
+.offer-html th,
+.offer-html td {
+  border: 1px solid #d9d9d9;
+  padding: 12px 16px;
+  text-align: left;
 }
 
 .hero-cards-wrap {

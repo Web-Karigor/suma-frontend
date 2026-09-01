@@ -1,78 +1,35 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { HeroCardsSlider } from "@/components/home/HeroCardsSlider";
 import { heroCards, heroContent } from "@/lib/home-data";
 
-const BG_DURATION_MS = 1000;
-
 export function HeroSection() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [outgoingIndex, setOutgoingIndex] = useState<number | null>(null);
-  const [direction, setDirection] = useState<1 | -1>(1);
-  const activeRef = useRef(0);
   const active = heroCards[activeIndex] ?? heroCards[0];
-  const outgoing = outgoingIndex !== null ? heroCards[outgoingIndex] : null;
-
-  function handleActiveChange(index: number) {
-    const from = activeRef.current;
-    if (index === from) return;
-
-    const length = heroCards.length;
-    const forward = (index - from + length) % length;
-    const backward = (from - index + length) % length;
-    setDirection(forward <= backward ? 1 : -1);
-    setOutgoingIndex(from);
-    setActiveIndex(index);
-    activeRef.current = index;
-  }
-
-  useEffect(() => {
-    if (outgoingIndex === null) return;
-    const timer = window.setTimeout(() => setOutgoingIndex(null), BG_DURATION_MS);
-    return () => window.clearTimeout(timer);
-  }, [outgoingIndex, activeIndex]);
 
   return (
     <section className="relative overflow-hidden">
       <div className="relative min-h-[520px] tablet:min-h-[680px] desktop:h-[900px] desktop:min-h-[900px]">
         <div className="hero-bg-track" aria-hidden>
-          {outgoing && (
+          {heroCards.map((card, index) => (
             <div
-              key={`out-${outgoingIndex}`}
-              className={`hero-bg-slide ${direction === 1 ? "hero-bg-out-left" : "hero-bg-out-right"}`}
+              key={card.title}
+              className={`hero-bg-layer${index === activeIndex ? " is-active" : ""}`}
             >
               <Image
-                src={outgoing.bgImage}
+                src={card.bgImage}
                 alt=""
                 fill
+                priority={index === 0}
                 className="object-cover"
                 sizes="100vw"
               />
             </div>
-          )}
-          <div
-            key={`in-${activeIndex}`}
-            className={`hero-bg-slide ${
-              outgoing
-                ? direction === 1
-                  ? "hero-bg-in-right"
-                  : "hero-bg-in-left"
-                : ""
-            }`}
-          >
-            <Image
-              src={active.bgImage}
-              alt=""
-              fill
-              priority
-              className="object-cover"
-              sizes="100vw"
-            />
-          </div>
+          ))}
         </div>
         <div className="absolute inset-0 z-[1] bg-overlay-black-48" />
 
@@ -93,7 +50,7 @@ export function HeroSection() {
           </div>
 
           <div className="mt-12 w-full min-w-0 desktop:mt-0 desktop:ml-auto desktop:-translate-x-6 desktop:mr-[calc(-1*var(--page-gutter))] desktop:w-[970px] desktop:max-w-none desktop:shrink-0">
-            <HeroCardsSlider onActiveChange={handleActiveChange} />
+            <HeroCardsSlider onActiveChange={setActiveIndex} />
           </div>
         </Container>
       </div>

@@ -1,91 +1,51 @@
 import Image from "next/image";
 import { Container } from "@/components/ui/Container";
+import { medicalTreatments } from "@/lib/medical-data";
 
-type Treatment = {
-  icon: "heart" | "stethoscope";
-  title: string;
-  procedures: string[];
-};
-
-type MedicalTreatmentsProps = {
-  treatments: Treatment[];
-};
-
-const treatmentImages = [
-  "https://images.unsplash.com/photo-1530026405186-ed1f139313f8?auto=format&fit=crop&w=200&q=80",
-  "https://images.unsplash.com/photo-1551076805-e1869033e561?auto=format&fit=crop&w=200&q=80",
-  "https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=200&q=80",
-  "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=200&q=80",
-  "https://images.unsplash.com/photo-1584515933487-779824d29309?auto=format&fit=crop&w=200&q=80",
-  "https://images.unsplash.com/photo-1579154203451-e4b3f0b25b5f?auto=format&fit=crop&w=200&q=80",
-  "https://images.unsplash.com/photo-1559757175-0eb30cd8c063?auto=format&fit=crop&w=200&q=80",
-  "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=200&q=80",
-];
-
-export function MedicalTreatments({
-  treatments,
-}: MedicalTreatmentsProps) {
+export function MedicalTreatments() {
   return (
-    <section className="w-full bg-[#f2f5f5] py-10 sm:py-12 md:py-14 lg:py-16">
+    <section className="bg-teal-50 py-12 tablet:py-16 desktop-xl:py-0 desktop-xl:pb-[109px]">
       <Container>
-        <div className="w-full">
-          {/* ================= HEADER ================= */}
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[0.9fr_1.3fr] lg:items-start lg:gap-16">
-            {/* LEFT */}
-            <div>
-              <div className="mb-3 flex items-center gap-2">
-                <span className="h-px w-4 bg-[#176d73]" />
-
-                <span className="text-[11px] font-medium text-[#176d73] sm:text-[12px]">
+        <div className="flex flex-col gap-12 desktop-xl:h-[452px] desktop-xl:gap-[72px]">
+          <div className="grid grid-cols-1 gap-8 desktop:grid-cols-[minmax(0,711px)_minmax(0,1005px)] desktop:gap-6 desktop-xl:h-[108px]">
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center gap-2">
+                <span className="h-px w-[30px] bg-teal-600" />
+                <span className="text-[15px] leading-[1.39] font-medium tracking-[1px] text-teal-600">
                   Specialties
                 </span>
               </div>
-
-              <h2 className="text-[24px] font-bold leading-[1.2] text-[#202d33] sm:text-[28px] md:text-[30px] lg:text-[32px]">
-                Treatments we{" "}
-                <span className="text-[#176d73]">
-                  facilitate
-                </span>
+              <h2 className="text-[28px] font-semibold leading-[1.23] text-black tablet:text-[32px]">
+                Treatments we <span className="text-teal-600">facilitate</span>
               </h2>
             </div>
-
-            {/* RIGHT */}
-            <div className="border-l-[3px] border-[#1d7a7e] pl-4 sm:pl-5">
-              <p className="max-w-[760px] text-[15px] font-medium leading-[1.35] text-[#176d73] sm:text-[17px] md:text-[18px]">
-                We connect patients with hospitals and specialists across a
-                range of treatment areas. Availability depends on the hospital
-                and destination selected.
+            <div className="border-l-[3px] border-teal-600 pl-5">
+              <p className="text-[18px] font-medium leading-[1.5] text-teal-600 tablet:text-[22px]">
+                We connect patients with hospitals and specialists across a range of treatment areas. Availability
+                depends on the hospital and destination selected.
               </p>
             </div>
           </div>
 
-          {/* ================= TREATMENT CARDS ================= */}
-          <div className="mt-8 grid w-full grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 lg:gap-x-3 lg:gap-y-3">
-            {treatments.slice(0, 8).map((treatment, index) => (
-              <div
-                key={`${treatment.title}-${index}`}
-                className="group flex h-[62px] w-full min-w-0 items-center gap-3 overflow-hidden rounded-[12px] border border-[#d7dfe1] bg-white/70 p-[5px] shadow-[0_3px_10px_rgba(0,0,0,0.03)] transition-all duration-300 hover:-translate-y-[2px] hover:shadow-md"
+          <div className="grid grid-cols-1 gap-6 tablet:grid-cols-2 desktop:grid-cols-4 desktop-xl:h-[272px] desktop-xl:gap-6">
+            {medicalTreatments.map((treatment) => (
+              <article
+                key={treatment.title}
+                className="flex items-center gap-3 rounded-2xl border border-gray-200 bg-white p-3 desktop-xl:h-[124px] desktop-xl:w-[417px]"
               >
-                {/* IMAGE */}
-                <div className="relative h-[50px] w-[50px] shrink-0 overflow-hidden rounded-[8px]">
+                <div className="relative size-[72px] shrink-0 overflow-hidden rounded-xl tablet:size-[88px] desktop-xl:size-[100px]">
                   <Image
-                    src={
-                      treatmentImages[
-                        index % treatmentImages.length
-                      ]
-                    }
-                    alt={treatment.title}
+                    src={treatment.image}
+                    alt=""
                     fill
-                    sizes="50px"
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    sizes="100px"
+                    className="object-cover"
                   />
                 </div>
-
-                {/* TITLE */}
-                <h3 className="min-w-0 pr-2 text-[12px] font-medium leading-[1.3] text-[#2d3539] sm:text-[13px]">
+                <h3 className="min-w-0 text-[16px] leading-[1.5] font-medium text-black tablet:text-[20px]">
                   {treatment.title}
                 </h3>
-              </div>
+              </article>
             ))}
           </div>
         </div>

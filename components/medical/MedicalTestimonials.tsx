@@ -1,93 +1,58 @@
 import Image from "next/image";
 import { Container } from "@/components/ui/Container";
+import { medicalCountries } from "@/lib/medical-data";
 
-type Testimonial = {
-  name: string;
-  country: string;
-  image: string;
-  treatment: string;
-  rating: number;
-  feedback: string;
-};
-
-type MedicalTestimonialsProps = {
-  testimonials?: Testimonial[];
-};
-
-export function MedicalTestimonials({
-  testimonials = [],
-}: MedicalTestimonialsProps) {
+export function MedicalTestimonials() {
   return (
-    <section className="w-full bg-[#edf4f6] py-10 sm:py-12 md:py-14 lg:py-16 xl:py-[72px]">
+    <section className="bg-teal-50 py-12 tablet:py-16 desktop-xl:py-[127px]">
       <Container>
-        <div className="w-full">
-          {/* ================= HEADER ================= */}
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-start lg:gap-16">
-            {/* LEFT SIDE */}
-            <div>
-              <div className="mb-3 flex items-center gap-2">
-                <span className="h-px w-4 bg-[#176d73]" />
-
-                <span className="text-[11px] font-medium text-[#176d73] sm:text-[12px]">
+        <div className="flex flex-col gap-10 desktop-xl:h-[521px] desktop-xl:gap-10">
+          <div className="grid grid-cols-1 gap-8 desktop:grid-cols-[minmax(0,711px)_minmax(0,1005px)] desktop:gap-6">
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center gap-2">
+                <span className="h-px w-[30px] bg-teal-600" />
+                <span className="text-[15px] leading-[1.39] font-medium tracking-[1px] text-teal-600">
                   Destinations
                 </span>
               </div>
-
-              <h2 className="text-[25px] font-bold leading-[1.2] text-[#202d33] sm:text-[28px] md:text-[30px] lg:text-[32px]">
-                Countries{" "}
-                <span className="text-[#176d73]">
-                  available
-                </span>
+              <h2 className="text-[28px] font-semibold leading-[1.23] text-black tablet:text-[32px]">
+                Countries <span className="text-teal-600">available</span>
               </h2>
             </div>
-
-            {/* RIGHT SIDE */}
-            <div className="border-l-[3px] border-[#1d7a7e] pl-4 sm:pl-5">
-              <p className="max-w-[760px] text-[15px] font-medium leading-[1.35] text-[#176d73] sm:text-[16px] md:text-[17px] lg:text-[18px]">
-                We currently coordinate treatment access in the following
-                countries. Availability may vary by treatment type.
+            <div className="border-l-[3px] border-teal-600 pl-5">
+              <p className="text-[18px] font-medium leading-[1.5] text-teal-600 tablet:text-[22px]">
+                We currently coordinate treatment access in the following countries. Availability may vary by treatment
+                type.
               </p>
             </div>
           </div>
 
-          {/* ================= COUNTRY CARDS ================= */}
-          {testimonials.length > 0 && (
-            <div className="mt-10 grid w-full grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 lg:gap-4 xl:gap-[16px]">
-              {testimonials.slice(0, 5).map((testimonial, index) => (
-                <div
-                  key={`${testimonial.name}-${index}`}
-                  className="flex min-h-[235px] w-full flex-col items-center rounded-[24px] bg-white/55 px-3 pb-4 pt-4 shadow-[0_3px_12px_rgba(0,0,0,0.02)] transition-all duration-300 hover:-translate-y-1 hover:shadow-md sm:min-h-[245px] md:min-h-[250px] lg:min-h-[242px] xl:min-h-[242px]"
-                >
-                  {/* COUNTRY IMAGE */}
-                  <div className="relative h-[118px] w-[118px] shrink-0 overflow-hidden rounded-full sm:h-[125px] sm:w-[125px] md:h-[130px] md:w-[130px] lg:h-[128px] lg:w-[128px]">
-                    <Image
-                      src={testimonial.image}
-                      alt={testimonial.name}
-                      fill
-                      sizes="(max-width: 640px) 118px, 130px"
-                      className="object-cover"
-                    />
-                  </div>
-
-                  {/* COUNTRY NAME */}
-                  <h3 className="mt-4 text-center text-[16px] font-bold leading-[1.25] text-[#283238] sm:text-[17px] lg:text-[16px]">
-                    {testimonial.country || testimonial.name}
-                  </h3>
-
-                  {/* DIVIDER */}
-                  <div className="my-3 h-px w-full bg-[#d9e1e3]" />
-
-                  {/* KNOWN FOR */}
-                  <p className="text-center text-[9px] leading-[1.5] text-[#3d474c] sm:text-[10px]">
-                    <span className="font-bold text-[#303a3f]">
-                      Known for:
-                    </span>{" "}
-                    {testimonial.treatment}
-                  </p>
+          <div className="flex gap-6 overflow-x-auto pb-2 tablet:grid tablet:grid-cols-3 tablet:overflow-visible desktop:grid-cols-5 desktop-xl:h-[357px] desktop-xl:gap-6 desktop-xl:overflow-visible desktop-xl:pb-0">
+            {medicalCountries.map((country) => (
+              <article
+                key={country.name}
+                className="flex w-[240px] shrink-0 flex-col items-center rounded-2xl bg-white/55 px-4 py-6 tablet:w-auto desktop-xl:h-[357px] desktop-xl:w-[328.8px]"
+              >
+                <div className="relative size-[140px] overflow-hidden rounded-full tablet:size-[160px] desktop-xl:size-[200px]">
+                  <Image
+                    src={country.image}
+                    alt={country.name}
+                    fill
+                    sizes="200px"
+                    className="object-cover"
+                  />
                 </div>
-              ))}
-            </div>
-          )}
+                <h3 className="mt-4 text-center text-[20px] leading-[1.5] font-semibold text-black">
+                  {country.name}
+                </h3>
+                <div className="my-3 h-px w-full bg-gray-200" />
+                <p className="text-center text-[14px] leading-[1.5] text-neutral-700">
+                  <span className="font-semibold text-black">Known for: </span>
+                  {country.knownFor}
+                </p>
+              </article>
+            ))}
+          </div>
         </div>
       </Container>
     </section>

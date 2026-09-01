@@ -1,21 +1,39 @@
 import Image from "next/image";
-import { CardIcon } from "@/components/icons";
+import Link from "next/link";
+import { PassportIcon } from "@/components/icons";
 import { Container } from "@/components/ui/Container";
 
 export function VisaBanner() {
   return (
     <section className="bg-[#E8F7F8] py-3 tablet:py-5">
-      <Container>
-        <div className="relative flex min-h-[94px] items-center justify-between gap-5 overflow-hidden px-6 py-4 tablet:px-10">
-          <Image src="/images/build-my-trip-sky.png" alt="" fill className="object-cover" sizes="(min-width: 1280px) 1740px, 100vw" />
-          <div className="relative z-10 flex items-center gap-4 text-neutral-950">
-            <span className="inline-flex size-9 items-center justify-center rounded-md bg-black text-white"><CardIcon className="size-5" /></span>
-            <div>
-              <p className="text-sm leading-none">Need assistant in</p>
-              <h2 className="mt-1 text-2xl leading-none font-semibold tablet:text-4xl">VISA APPLICATION?</h2>
+      <Container className="max-w-[1446px]">
+        <div className="shadow-[0_4px_18px_0_rgba(0,0,0,0.04)]">
+          <div className="relative flex h-auto flex-col items-start justify-center gap-4 overflow-hidden px-6 py-5 tablet:h-[160px] tablet:flex-row tablet:items-center tablet:justify-between tablet:gap-2.5 tablet:pt-[26px] tablet:pr-12 tablet:pb-[27px] tablet:pl-[38px]">
+            <Image
+              src="/images/build-my-trip-sky.png"
+              alt=""
+              fill
+              sizes="(min-width: 1440px) 1446px, 100vw"
+              className="object-cover"
+            />
+            <div className="relative z-10 flex items-center gap-3 text-black tablet:gap-4">
+              <PassportIcon className="size-10 shrink-0 tablet:size-[52px]" />
+              <div className="flex flex-col gap-2.5">
+                <p className="text-[18px] leading-[129%] font-medium tablet:text-[22px] desktop:text-[28px]">
+                  Need assistant in
+                </p>
+                <h2 className="text-[28px] leading-[108%] font-semibold tracking-[-0.28px] tablet:text-[40px] desktop:text-[56px]">
+                  VISA APPLICATION?
+                </h2>
+              </div>
             </div>
+            <Link
+              href="/contact"
+              className="relative z-10 inline-flex h-[49px] shrink-0 items-center rounded-button bg-black pt-3 pr-3 pb-3 pl-4 text-base font-medium whitespace-nowrap text-white transition-colors hover:bg-neutral-800"
+            >
+              Contact Us Now
+            </Link>
           </div>
-          <a href="/contact" className="relative z-10 inline-flex h-10 shrink-0 items-center rounded-md bg-black px-5 text-[10px] text-white transition-colors hover:bg-neutral-800">Contact Us Now</a>
         </div>
       </Container>
     </section>
