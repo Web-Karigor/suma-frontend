@@ -1,27 +1,21 @@
+"use client";
+
 import Image from "next/image";
-import {
-  BellIcon,
-  CardIcon,
-  GaugeIcon,
-  PlaneIcon,
-  RefundIcon,
-  WalletIcon,
-} from "@/components/icons";
 import { GoBadge } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
+import { useFlightInfoQuery } from "@/hooks/queries/useFlightInfoQuery";
+import type { FlightInfoFeature } from "@/types/flight-info";
 import { cn } from "@/lib/cn";
-import { appFeatures, partnerPortalUrl } from "@/lib/home-data";
-
-const featureIcons = {
-  plane: PlaneIcon,
-  card: CardIcon,
-  wallet: WalletIcon,
-  refund: RefundIcon,
-  gauge: GaugeIcon,
-  bell: BellIcon,
-} as const;
+import { partnerPortalUrl } from "@/lib/home-data";
 
 export function AppFeature() {
+  const { data, isLoading } = useFlightInfoQuery();
+
+  if (isLoading || !data) return null;
+
+  const leftFeatures = data.features.filter((_, index) => index % 2 === 0);
+  const rightFeatures = data.features.filter((_, index) => index % 2 === 1);
+
   return (
     <section className="bg-paper pt-28 pb-20 tablet:pt-40 tablet:pb-28">
       <Container className="grid gap-10 desktop:grid-cols-[minmax(0,1fr)_minmax(320px,858px)] desktop:items-stretch desktop:gap-8">
@@ -31,27 +25,25 @@ export function AppFeature() {
               href={partnerPortalUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="shrink-0"
-              aria-label="Flight24 partner portal"
+              className="relative block h-[79px] w-[256px] shrink-0"
+              aria-label={data.logoAlt}
             >
               <Image
-                src="/images/flight24/logo.png"
-                alt="Flight24.co"
-                width={256}
-                height={79}
-                className="h-auto w-[180px] shrink-0 object-contain tablet:h-[79px] tablet:w-[256px]"
+                src={data.logo}
+                alt={data.logoAlt}
+                fill
+                className="object-contain object-left"
+                sizes="256px"
               />
             </a>
             <p className="w-full text-[15px] leading-[139%] font-medium tracking-[0.01em] text-[#0A0C0C] tablet:h-[63px] tablet:w-[566px]">
-              Our Partner Portal Streamlines Business Operations By Connecting Buyers And Suppliers
-              Seamlessly. It Offers Secure Transactions, Real-Time Communication, And Access To A
-              Global Network Of Trusted Partners.
+              {data.description}
             </p>
           </div>
 
           <div className="mt-10 flex w-full max-w-[858px] flex-1 flex-col gap-8 tablet:mt-12 tablet:flex-row tablet:gap-[138px]">
-            <FeatureColumn features={appFeatures.filter((_, i) => i % 2 === 0)} />
-            <FeatureColumn features={appFeatures.filter((_, i) => i % 2 === 1)} />
+            <FeatureColumn features={leftFeatures} />
+            <FeatureColumn features={rightFeatures} />
           </div>
 
           <div className="relative mt-16 w-full max-w-[858px] overflow-visible desktop:mt-auto tablet:h-[177px]">
@@ -109,8 +101,8 @@ export function AppFeature() {
         <div className="flight-visual relative mx-auto aspect-[858/816] w-full max-w-[858px] desktop:h-[816px] desktop:aspect-auto">
           <div className="flight-art-mask absolute inset-0">
             <Image
-              src="/images/flight24-travel.jpg"
-              alt="Travel the world with Flight24"
+              src={data.image}
+              alt={data.imageAlt}
               fill
               className="object-cover"
               sizes="(min-width: 1280px) 858px, 100vw"
@@ -123,31 +115,24 @@ export function AppFeature() {
   );
 }
 
-function FeatureColumn({
-  features,
-}: {
-  features: typeof appFeatures[number][];
-}) {
+function FeatureColumn({ features }: { features: FlightInfoFeature[] }) {
   return (
     <ul className="flex w-full flex-col gap-6 tablet:w-[360px] desktop:flex-1 desktop:gap-10">
-      {features.map((feature) => {
-        const Icon = featureIcons[feature.icon];
-        return (
-          <li key={feature.title} className="flex gap-3">
-            <span className="mt-0.5 inline-flex size-8 shrink-0 text-primary">
-              <Icon className="size-8" />
+      {features.map((feature) => (
+        <li key={feature.title} className="flex gap-3">
+          <span className="relative mt-0.5 inline-flex size-8 shrink-0 overflow-hidden rounded-md">
+            <Image src={feature.icon} alt="" fill className="object-cover" sizes="32px" />
+          </span>
+          <span>
+            <span className="block text-[22px] leading-tight font-semibold text-[#0A0C0C]">
+              {feature.title}
             </span>
-            <span>
-              <span className="block text-[22px] leading-tight font-semibold text-[#0A0C0C]">
-                {feature.title}
-              </span>
-              <span className="mt-3 block text-[14px] leading-[139%] font-medium tracking-[0.01em] text-neutral-600">
-                {feature.description}
-              </span>
+            <span className="mt-3 block text-[14px] leading-[139%] font-medium tracking-[0.01em] text-neutral-600">
+              {feature.description}
             </span>
-          </li>
-        );
-      })}
+          </span>
+        </li>
+      ))}
     </ul>
   );
 }

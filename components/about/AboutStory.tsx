@@ -1,44 +1,19 @@
 import { Container } from "@/components/ui/Container";
+import type { AboutStory as AboutStoryItem } from "@/types/about";
 
-const stories = [
-  {
-    title: "How We Started",
-    description:
-      "Founded in 1997, Suma International began with one purpose: guiding pilgrims through the sacred journeys of Hajj and Umrah with unwavering dedication. From the very first client, every detail — spiritual and logistical — was handled with the same personal care.",
-    side: "left",
-    marker: "teal",
-  },
-  {
-    title: "How We Grew",
-    description:
-      "As trust grew, so did our scope. We recognized that the same principles guiding spiritual travel — patience, precision, and care — could serve every kind of journey, leading to a steady, deliberate expansion of what we offer.",
-    side: "right",
-    marker: "yellow",
-  },
-  {
-    title: "What We Do Today",
-    description:
-      "Today, Suma International operates across 8 specialized verticals — from Hajj & Umrah to Visa Assistance, Hotel Accommodation, and Holiday Packages. This growth was never about scale for its own sake — it was about making modern travel simpler for the people who trust us.",
-    side: "left",
-    marker: "teal",
-  },
-  {
-    title: "Our Approach",
-    description:
-      "Whether we're organizing a once-in-a-lifetime pilgrimage or a family holiday, our approach stays rooted in Sakinah — tranquility and peace of mind — at every step of the journey.",
-    side: "right",
-    marker: "yellow",
-  },
-] as const;
+type AboutStoryProps = {
+  title: string;
+  stories: AboutStoryItem[];
+};
 
-export function AboutStory() {
+export function AboutStory({ title, stories }: AboutStoryProps) {
   return (
     <section className="bg-teal-100 pt-8 pb-16 tablet:pt-10 tablet:pb-20 desktop:pb-[88px]">
       <Container className="desktop-xl:!px-0">
         <div className="mx-auto w-full max-w-[1513px] desktop-xl:w-[1513px]">
           <div className="mb-12 text-center tablet:mb-14 desktop:mb-16">
             <h2 className="text-[32px] leading-[1.15] font-bold tracking-[-0.02em] text-hero tablet:text-[42px] desktop:text-[48px]">
-              Built on Legacy, Growing with Purpose
+              {title}
             </h2>
           </div>
 

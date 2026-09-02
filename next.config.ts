@@ -13,6 +13,14 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "images.kiwi.com",
       },
+      {
+        protocol: "https",
+        hostname: "suma.webkarigor.com",
+      },
+      {
+        protocol: "https",
+        hostname: "**.digitaloceanspaces.com",
+      },
     ],
   },
 };

@@ -4,3 +4,4 @@ export { AboutCEO } from "./AboutCEO";
 export { AboutProcess } from "./AboutProcess";
 export { AboutValues } from "./AboutValues";
 export { AboutCTA } from "./AboutCTA";
+export { AboutPageContent } from "./AboutPageContent";

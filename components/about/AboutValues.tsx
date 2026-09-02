@@ -1,28 +1,22 @@
 import { Container } from "@/components/ui/Container";
+import type { AboutValue } from "@/types/about";
 
-const values = [
-  {
-    title: "Our Mission",
-    description:
-      "To provide seamless, spiritually uplifting travel through meticulous planning and unwavering support for every client.",
-  },
-  {
-    title: "Our Vision",
-    description:
-      "To be the most trusted travel partner globally, recognized for excellence, integrity, and the pursuit of Sakinah in every journey.",
-  },
-  {
-    title: "Our Values",
-    description:
-      "Built on reverence, reliability, and profound trust. We act with transparency and prioritize the well-being and peace of mind of every traveler.",
-  },
-];
+type AboutValuesProps = {
+  values: AboutValue[];
+};
 
-export function AboutValues() {
+export function AboutValues({ values }: AboutValuesProps) {
+  const gridClass =
+    values.length === 1
+      ? "desktop:grid-cols-1"
+      : values.length === 2
+        ? "desktop:grid-cols-2"
+        : "desktop:grid-cols-3";
+
   return (
     <section className="bg-white py-14 tablet:py-16 desktop:py-[80px]">
       <Container className="desktop-xl:!px-0">
-        <div className="mx-auto grid grid-cols-1 desktop:grid-cols-3">
+        <div className={`mx-auto grid grid-cols-1 ${gridClass}`}>
           {values.map((value, index) => (
             <div
               key={value.title}

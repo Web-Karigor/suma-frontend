@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Poppins } from "next/font/google";
 import { Header } from "@/components/global/Header";
 import { Footer } from "@/components/global/Footer";
+import { QueryProvider } from "@/components/providers/QueryProvider";
 import "./globals.css";
 
 const poppins = Poppins({
@@ -29,9 +30,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${poppins.variable} ${poppins.className} h-full antialiased`}>
       <body className="flex min-h-full flex-col overflow-x-hidden font-sans">
-        <Header />
-        <div className="flex-1">{children}</div>
-        <Footer />
+        <QueryProvider>
+          <Header />
+          <div className="flex-1">{children}</div>
+          <Footer />
+        </QueryProvider>
       </body>
     </html>
   );

@@ -1,35 +1,9 @@
 import { Container } from "@/components/ui/Container";
+import type { AboutProcessStep } from "@/types/about";
 
-const processSteps = [
-  {
-    number: "1",
-    title: "We Talk to You",
-    description:
-      "We start with a conversation, not a sales pitch. We take time to understand your travel goals, your budget, and — for Hajj and Umrah — your spiritual priorities, so every recommendation actually fits your journey.",
-    align: "left",
-  },
-  {
-    number: "2",
-    title: "We Plan Your Trip",
-    description:
-      "From flights and visas to hotels and transport, we map out every detail in advance. Nothing is left to chance — accommodations, transfers, and timing are all planned around your comfort and peace of mind.",
-    align: "right",
-  },
-  {
-    number: "3",
-    title: "We Handle Everything",
-    description:
-      "Once your trip begins, we manage the logistics so you don't have to. Documents, check-ins, transport, coordination — it's all taken care of, leaving you free to focus on the journey itself.",
-    align: "left",
-  },
-  {
-    number: "4",
-    title: "We Follow Up",
-    description:
-      "Our support doesn't end when you get home. We check in after your trip, welcome your feedback, and use it to keep improving the experience for every traveler who comes after you.",
-    align: "right",
-  },
-] as const;
+type AboutProcessProps = {
+  steps: AboutProcessStep[];
+};
 
 function StepNumber({ value }: { value: string }) {
   return (
@@ -55,7 +29,7 @@ function StepCopy({ title, description }: { title: string; description: string }
   );
 }
 
-export function AboutProcess() {
+export function AboutProcess({ steps }: AboutProcessProps) {
   return (
     <section className="bg-teal-100 py-12 tablet:py-16 desktop:h-[1223px] desktop:py-16">
       <Container className="h-full desktop-xl:!px-0">
@@ -65,7 +39,7 @@ export function AboutProcess() {
           </h2>
 
           <div className="mt-10 flex flex-col gap-10 tablet:mt-12 tablet:gap-12 desktop:mt-[60px] desktop:min-h-0 desktop:flex-1 desktop:gap-[60px]">
-            {processSteps.map((step) => {
+            {steps.map((step) => {
               const isLeft = step.align === "left";
 
               return (

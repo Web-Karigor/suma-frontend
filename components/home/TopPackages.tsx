@@ -1,19 +1,22 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { topPackages } from "@/lib/home-data";
+import { useServicesQuery } from "@/hooks/queries/useServicesQuery";
+import type { ServiceArea, ServiceCard } from "@/types/service";
 
-const sizes = {
+const sizes: Record<ServiceArea, string> = {
   visa: "h-[210px] w-full desktop:h-[322px]",
   medical: "h-[210px] w-full desktop:h-[398px]",
   corporate: "h-[210px] w-full desktop:h-[398px]",
   hajj: "h-[280px] w-full desktop:h-[760px]",
   hotels: "h-[210px] w-full desktop:h-[360px]",
   holiday: "h-[210px] w-full desktop:h-[360px]",
-} as const;
+};
 
-function PackageCard({ item }: { item: (typeof topPackages)[number] }) {
+function PackageCard({ item }: { item: ServiceCard }) {
   return (
     <Link
       href={item.href}
@@ -34,54 +37,59 @@ function PackageCard({ item }: { item: (typeof topPackages)[number] }) {
           {item.title}
         </h3>
 
-        <p className="mt-1 line-clamp-2 text-sm leading-snug text-white/90">
-          {item.description}
-        </p>
+        {item.description ? (
+          <p className="mt-1 line-clamp-2 text-sm leading-snug text-white/90">
+            {item.description}
+          </p>
+        ) : null}
       </div>
     </Link>
   );
 }
 
 export function TopPackages() {
+  const { data: services = [], isLoading } = useServicesQuery();
+
   const byArea = Object.fromEntries(
-    topPackages.map((item) => [item.area, item]),
-  ) as Record<
-    (typeof topPackages)[number]["area"],
-    (typeof topPackages)[number]
-  >;
+    services.map((item) => [item.area, item]),
+  ) as Partial<Record<ServiceArea, ServiceCard>>;
+
+  if (isLoading || services.length === 0) return null;
 
   return (
     <section className="bg-paper py-16 tablet:py-20">
       <Container>
-        <SectionHeading title="Our Top Packages" className="mb-10" />
+        <SectionHeading title="Our Services" className="mb-10" />
 
-        {/* Everything stays inside the container */}
         <div className="w-full">
           <div className="flex flex-col gap-3 desktop:grid desktop:grid-cols-[minmax(0,711fr)_minmax(0,508fr)_minmax(0,441fr)] desktop:items-start desktop:gap-10">
-            {/* Left column */}
             <div className="flex min-w-0 flex-col gap-3 desktop:gap-10">
-              <PackageCard item={byArea.visa} />
+              {byArea.visa ? <PackageCard item={byArea.visa} /> : null}
 
               <div className="flex flex-col gap-3 tablet:flex-row desktop:gap-10">
-                <div className="min-w-0 flex-1">
-                  <PackageCard item={byArea.medical} />
-                </div>
+                {byArea.medical ? (
+                  <div className="min-w-0 flex-1">
+                    <PackageCard item={byArea.medical} />
+                  </div>
+                ) : null}
 
-                <div className="min-w-0 flex-1">
-                  <PackageCard item={byArea.corporate} />
-                </div>
+                {byArea.corporate ? (
+                  <div className="min-w-0 flex-1">
+                    <PackageCard item={byArea.corporate} />
+                  </div>
+                ) : null}
               </div>
             </div>
 
-            {/* Middle column */}
-            <div className="min-w-0">
-              <PackageCard item={byArea.hajj} />
-            </div>
+            {byArea.hajj ? (
+              <div className="min-w-0">
+                <PackageCard item={byArea.hajj} />
+              </div>
+            ) : null}
 
-            {/* Right column */}
             <div className="flex min-w-0 flex-col gap-3 desktop:gap-10">
-              <PackageCard item={byArea.hotels} />
-              <PackageCard item={byArea.holiday} />
+              {byArea.hotels ? <PackageCard item={byArea.hotels} /> : null}
+              {byArea.holiday ? <PackageCard item={byArea.holiday} /> : null}
             </div>
           </div>
         </div>

@@ -7,7 +7,7 @@ import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { StarIcon } from "@/components/icons";
 import { ArrowShift } from "@/components/ui/Button";
-import { heroCards } from "@/lib/home-data";
+import type { HeroCard } from "@/types/hero";
 
 import "swiper/css";
 
@@ -33,15 +33,17 @@ function animateHeroCards(swiper: SwiperClass) {
 }
 
 export function HeroCardsSlider({
+  cards,
   onActiveChange,
 }: {
+  cards: HeroCard[];
   onActiveChange?: (index: number) => void;
 }) {
   return (
     <div className="hero-cards-wrap mx-auto w-full desktop:ml-auto desktop:mr-0">
       <Swiper
         modules={[Autoplay]}
-        loop
+        loop={cards.length > 1}
         grabCursor
         watchSlidesProgress
         watchOverflow={false}
@@ -57,11 +59,15 @@ export function HeroCardsSlider({
             centeredSlides: false,
           },
         }}
-        autoplay={{
-          delay: 4200,
-          disableOnInteraction: false,
-          pauseOnMouseEnter: true,
-        }}
+        autoplay={
+          cards.length > 1
+            ? {
+                delay: 4200,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+              }
+            : false
+        }
         onInit={(swiper) => {
           animateHeroCards(swiper);
           onActiveChange?.(swiper.realIndex);
@@ -72,14 +78,17 @@ export function HeroCardsSlider({
         onResize={animateHeroCards}
         className="hero-cards-swiper"
       >
-        {heroCards.map((card) => (
-          <SwiperSlide key={card.title}>
+        {cards.map((card, index) => (
+          <SwiperSlide key={`${card.title}-${index}`}>
             <Link href={card.href} className="hero-card group block">
               <div className="hero-card-head">
                 <h3 className="truncate text-sm xl:text-lg font-semibold text-white">{card.title}</h3>
                 <div className="mt-1 flex items-center gap-0.5">
                   {Array.from({ length: 5 }).map((_, starIndex) => (
-                    <StarIcon key={starIndex} className="size-4 xl:size-4 text-white" />
+                    <StarIcon
+                      key={starIndex}
+                      className={`size-4 xl:size-4 ${starIndex < card.rating ? "text-white" : "text-white/30"}`}
+                    />
                   ))}
                 </div>
               </div>
@@ -87,7 +96,7 @@ export function HeroCardsSlider({
                 <div className="hero-card-photo">
                   <Image
                     src={card.image}
-                    alt={card.title}
+                    alt={card.imageAlt}
                     fill
                     className="object-cover transition-transform duration-700"
                     sizes="318px"

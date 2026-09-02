@@ -5,11 +5,14 @@ import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { HeroCardsSlider } from "@/components/home/HeroCardsSlider";
-import { heroCards, heroContent } from "@/lib/home-data";
+import { useHeroQuery } from "@/hooks/queries/useHeroQuery";
 
 export function HeroSection() {
+  const { data: heroCards = [], isLoading } = useHeroQuery();
   const [activeIndex, setActiveIndex] = useState(0);
   const active = heroCards[activeIndex] ?? heroCards[0];
+
+  if (isLoading || !active) return null;
 
   return (
     <section className="relative overflow-hidden">
@@ -17,12 +20,12 @@ export function HeroSection() {
         <div className="hero-bg-track" aria-hidden>
           {heroCards.map((card, index) => (
             <div
-              key={card.title}
+              key={`${card.title}-${index}`}
               className={`hero-bg-layer${index === activeIndex ? " is-active" : ""}`}
             >
               <Image
                 src={card.bgImage}
-                alt=""
+                alt={card.bgImageAlt}
                 fill
                 priority={index === 0}
                 className="object-cover"
@@ -45,12 +48,12 @@ export function HeroSection() {
               href={active.href}
               className="mt-8 h-[49px] w-fit gap-8 rounded-button !bg-gray-50 pt-3 pr-3 pb-3 pl-4 !text-black hover:!bg-gray-50 [&>span]:size-[25px] [&>span]:!bg-black [&>span]:!text-white"
             >
-              {heroContent.cta.label}
+              Book Now
             </Button>
           </div>
 
           <div className="mt-12 w-full min-w-0 desktop:mt-0 desktop:ml-auto desktop:-translate-x-6 desktop:mr-[calc(-1*var(--page-gutter))] desktop:w-[970px] desktop:max-w-none desktop:shrink-0">
-            <HeroCardsSlider onActiveChange={setActiveIndex} />
+            <HeroCardsSlider cards={heroCards} onActiveChange={setActiveIndex} />
           </div>
         </Container>
       </div>

@@ -2,7 +2,7 @@ import { Container } from "@/components/ui/Container";
 
 export function ContactHero() {
   return (
-    <section className="bg-[#DCEFF0] py-12 tablet:py-16 desktop:py-20">
+    <section className="bg-[#DCEFF0] pt-28 pb-12 tablet:pt-32 tablet:pb-16 desktop:pt-36 desktop:pb-20">
       <Container className="flex flex-col gap-6 desktop:flex-row desktop:items-center desktop:justify-between">
         <h1 className="text-5xl leading-[1.05] font-medium tracking-[-0.03em] text-neutral-950 tablet:text-6xl desktop:text-[72px]">
           Contact Us

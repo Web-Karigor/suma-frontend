@@ -31,7 +31,18 @@ export function Header() {
   const isHajjUmrahDetails = pathname.startsWith("/hajj-umrah-details");
   const isAbout = pathname.startsWith("/about");
   const isMedical = pathname.startsWith("/medical");
-  const overlayHeader = isHome || isCorporateTour || isHajjUmrahDetails || isAbout || isMedical;
+  const isOfferDetails = pathname.startsWith("/offer-details");
+  const isContact = pathname.startsWith("/contact");
+  const isVisaApplication = pathname.startsWith("/visa-application");
+  const overlayHeader =
+    isHome ||
+    isCorporateTour ||
+    isHajjUmrahDetails ||
+    isAbout ||
+    isMedical ||
+    isOfferDetails ||
+    isContact ||
+    isVisaApplication;
   const alignWideGrid = overlayHeader;
 
   useEffect(() => {
@@ -47,9 +58,7 @@ export function Header() {
     <header
       className={cn(
         "z-50 bg-transparent",
-        // Overlay so the current section color shows through — no extra body-paper strip.
         overlayHeader ? "fixed top-0 right-0 left-0" : "sticky top-0",
-        pathname.startsWith("/visa-application") && "absolute top-0 right-0 left-0",
       )}
     >
       <Container

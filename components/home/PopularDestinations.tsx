@@ -7,29 +7,32 @@ import type { Swiper as SwiperClass } from "swiper";
 import { Autoplay, EffectCoverflow } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Container } from "@/components/ui/Container";
-import { destinations } from "@/lib/home-data";
+import { useDestinationsQuery } from "@/hooks/queries/useDestinationsQuery";
 
 import "swiper/css";
 import "swiper/css/effect-coverflow";
 
-const DOT_COUNT = 5;
-
 export function PopularDestinations() {
+  const { data: destinations = [], isLoading } = useDestinationsQuery();
   const swiperRef = useRef<SwiperClass | null>(null);
   const [activeDot, setActiveDot] = useState(0);
+  const dotCount = Math.min(destinations.length, 5);
 
   function syncDot(swiper: SwiperClass) {
-    setActiveDot(swiper.realIndex % DOT_COUNT);
+    if (dotCount === 0) return;
+    setActiveDot(swiper.realIndex % dotCount);
   }
 
   function goToDot(index: number) {
     const swiper = swiperRef.current;
-    if (!swiper) return;
+    if (!swiper || dotCount === 0) return;
     const total = destinations.length;
     const current = swiper.realIndex;
-    const diff = index - (current % DOT_COUNT);
+    const diff = index - (current % dotCount);
     swiper.slideToLoop((current + diff + total) % total);
   }
+
+  if (isLoading || destinations.length === 0) return null;
 
   return (
     <section
@@ -52,10 +55,10 @@ export function PopularDestinations() {
           effect="coverflow"
           centeredSlides
           grabCursor
-          loop
+          loop={destinations.length > 1}
           slidesPerView="auto"
           spaceBetween={20}
-          autoplay
+          autoplay={destinations.length > 1}
           breakpoints={{
             0: { spaceBetween: 12 },
             640: { spaceBetween: 18 },
@@ -79,13 +82,13 @@ export function PopularDestinations() {
           className="mb-0 select-none"
         >
           {destinations.map((place) => (
-            <SwiperSlide key={place.name}>
-              <Link href="/packages">
+            <SwiperSlide key={place.id}>
+              <Link href={place.href}>
                 <div className="st-card">
                   <div className="img">
                     <Image
                       src={place.image}
-                      alt={place.name}
+                      alt={place.imageAlt}
                       width={379}
                       height={402}
                     />
@@ -100,18 +103,20 @@ export function PopularDestinations() {
           ))}
         </Swiper>
 
-        <div className="popular-dots" role="tablist" aria-label="Popular destinations">
-          {Array.from({ length: DOT_COUNT }).map((_, index) => (
-            <button
-              key={index}
-              type="button"
-              aria-label={`Go to destination ${index + 1}`}
-              aria-current={activeDot === index ? "true" : undefined}
-              className={`swiper-pagination-bullet${activeDot === index ? " swiper-pagination-bullet-active" : ""}`}
-              onClick={() => goToDot(index)}
-            />
-          ))}
-        </div>
+        {dotCount > 1 ? (
+          <div className="popular-dots" role="tablist" aria-label="Popular destinations">
+            {Array.from({ length: dotCount }).map((_, index) => (
+              <button
+                key={index}
+                type="button"
+                aria-label={`Go to destination ${index + 1}`}
+                aria-current={activeDot === index ? "true" : undefined}
+                className={`swiper-pagination-bullet${activeDot === index ? " swiper-pagination-bullet-active" : ""}`}
+                onClick={() => goToDot(index)}
+              />
+            ))}
+          </div>
+        ) : null}
       </Container>
     </section>
   );

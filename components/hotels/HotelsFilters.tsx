@@ -2,13 +2,7 @@
 
 import { FilterCheckbox } from "@/components/hotels/FilterCheckbox";
 import { FilterSection } from "@/components/hotels/FilterSection";
-import {
-  PRICE_MAX,
-  PRICE_MIN,
-  amenityFilters,
-  popularFilters,
-  priceBands,
-} from "@/lib/hotels-data";
+import { PRICE_MAX, PRICE_MIN, priceBands } from "@/components/hotels/useHotelFilters";
 import type { HotelFilters } from "@/components/hotels/useHotelFilters";
 
 export function HotelsFilters({
@@ -38,20 +32,6 @@ export function HotelsFilters({
           Reset
         </button>
       </div>
-
-      <FilterSection title="Popular Filters" open={filters.open.has("popular")} onToggle={() => toggleSection("popular")}>
-        <div className="space-y-2.5">
-          {popularFilters.map((item) => (
-            <FilterCheckbox
-              key={item.id}
-              label={item.label}
-              count={item.count}
-              checked={filters.tags.has(item.id)}
-              onChange={() => onToggle("tags", item.id)}
-            />
-          ))}
-        </div>
-      </FilterSection>
 
       <FilterSection title="Price Per Night" open={filters.open.has("price")} onToggle={() => toggleSection("price")}>
         <div className="space-y-2.5">
@@ -136,26 +116,6 @@ export function HotelsFilters({
             checked={filters.refundable === false}
             onChange={() => onToggle("refundable", "false")}
           />
-        </div>
-      </FilterSection>
-
-      <FilterSection title="Amenities" open={filters.open.has("amenities")} onToggle={() => toggleSection("amenities")}>
-        <div className="space-y-2.5">
-          {(filters.showAllAmenities ? amenityFilters : amenityFilters.slice(0, 4)).map((item) => (
-            <FilterCheckbox
-              key={item.id}
-              label={item.label}
-              checked={filters.tags.has(item.id)}
-              onChange={() => onToggle("tags", item.id)}
-            />
-          ))}
-          <button
-            type="button"
-            onClick={() => onToggle("showAllAmenities", "toggle")}
-            className="cursor-pointer text-sm font-medium text-primary hover:underline"
-          >
-            {filters.showAllAmenities ? "View Less" : "View More"}
-          </button>
         </div>
       </FilterSection>
     </aside>

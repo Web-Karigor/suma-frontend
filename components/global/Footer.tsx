@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { Container } from "@/components/ui/Container";
@@ -70,6 +71,18 @@ export function Footer() {
                   <Icon className="size-7" />
                 </a>
               ))}
+            </div>
+
+            <div className="mt-10">
+              <div className="bg-teal-700 p-2 rounded-lg max-w-[200px] tablet:max-w-[240px] desktop:max-w-[280px]">
+                <Image
+                  src="/exralogofooter.jpeg"
+                  alt="ISO 9001:2015 Certified Company"
+                  width={280}
+                  height={120}
+                  className="h-auto w-full rounded-sm"
+                />
+              </div>
             </div>
           </div>
 

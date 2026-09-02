@@ -2,7 +2,6 @@ import {
   AdPlacement,
   AppFeature,
   BestHotels,
-  BuildMyTrip,
   ExclusiveOffers,
   HeroSection,
   PopularDestinations,
@@ -20,7 +19,6 @@ export default function Home() {
       <AdPlacement />
       <TopAirlines />
       <PopularDestinations />
-      <BuildMyTrip />
       <BestHotels />
       <AppFeature />
       <ValueProposition />

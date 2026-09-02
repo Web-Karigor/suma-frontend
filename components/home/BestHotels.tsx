@@ -4,15 +4,20 @@ import Image from "next/image";
 import Link from "next/link";
 import { Autoplay, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { ArrowRightIcon, PinIcon, StarIcon } from "@/components/icons";
+import { ArrowRightIcon, StarIcon } from "@/components/icons";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
-import { hotels } from "@/lib/home-data";
+import { useHotelsQuery } from "@/hooks/queries/useHotelsQuery";
 
 import "swiper/css";
 import "swiper/css/pagination";
 
 export function BestHotels() {
+  const { data, isLoading } = useHotelsQuery();
+  const hotels = data?.hotels ?? [];
+
+  if (isLoading || hotels.length === 0) return null;
+
   return (
     <section className="bg-paper py-16 tablet:py-20">
       <Container>
@@ -37,13 +42,17 @@ export function BestHotels() {
 
         <Swiper
           modules={[Pagination, Autoplay]}
-          loop
+          loop={hotels.length > 1}
           grabCursor
           speed={800}
           spaceBetween={24}
           slidesPerView={1}
           pagination={{ clickable: true }}
-          autoplay={{ delay: 5000, disableOnInteraction: false }}
+          autoplay={
+            hotels.length > 1
+              ? { delay: 5000, disableOnInteraction: false }
+              : false
+          }
           breakpoints={{
             768: { slidesPerView: 1.4, spaceBetween: 24 },
             1280: { slidesPerView: "auto", spaceBetween: 24 },
@@ -51,12 +60,12 @@ export function BestHotels() {
           className="hotels-swiper"
         >
           {hotels.map((hotel) => (
-            <SwiperSlide key={hotel.name} className="!h-auto desktop:!w-[593px]">
+            <SwiperSlide key={hotel.id} className="!h-auto desktop:!w-[593px]">
               <article className="relative mx-auto w-full max-w-[593px] desktop:h-[360px]">
                 <div className="relative z-20 h-[240px] overflow-hidden rounded-xl shadow-[4px_0_16px_rgb(0_0_0/6%)] desktop:absolute desktop:top-0 desktop:left-0 desktop:h-[360px] desktop:w-[240px]">
                   <Image
                     src={hotel.image}
-                    alt={hotel.name}
+                    alt={hotel.imageAlt}
                     fill
                     className="object-cover"
                     sizes="240px"
@@ -69,11 +78,7 @@ export function BestHotels() {
                       <StarIcon key={index} className="size-3.5" />
                     ))}
                   </div>
-                  <h3 className="text-lg font-semibold text-black">{hotel.name}</h3>
-                  <p className="flex items-start gap-1.5 text-xs leading-snug text-gray-500">
-                    <PinIcon className="mt-0.5 size-3.5 shrink-0" />
-                    <span className="line-clamp-2">{hotel.location}</span>
-                  </p>
+                  <h3 className="text-lg font-semibold text-black">{hotel.title}</h3>
                   <p className="line-clamp-2 text-sm leading-relaxed text-gray-600">{hotel.description}</p>
                   <div className="mt-auto pt-1">
                     <Button href={hotel.href}>Explore</Button>

@@ -7,7 +7,7 @@ import { Autoplay, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { exclusiveOffers } from "@/lib/home-data";
+import { useOffersQuery } from "@/hooks/queries/useOffersQuery";
 
 import "swiper/css";
 import "swiper/css/pagination";
@@ -29,6 +29,10 @@ function scaleOfferCards(swiper: SwiperClass) {
 }
 
 export function ExclusiveOffers() {
+  const { data: offers = [], isLoading } = useOffersQuery();
+
+  if (isLoading || offers.length === 0) return null;
+
   return (
     <section className="bg-paper py-16 tablet:py-20">
       <Container>
@@ -36,17 +40,21 @@ export function ExclusiveOffers() {
 
         <Swiper
           modules={[Pagination, Autoplay]}
-          loop
+          loop={offers.length > 1}
           centeredSlides
           grabCursor
           watchSlidesProgress
           speed={900}
           roundLengths
-          initialSlide={1}
+          initialSlide={offers.length > 1 ? 1 : 0}
           spaceBetween={8}
           slidesPerView={1.15}
           pagination={{ clickable: true }}
-          autoplay={{ delay: 4500, disableOnInteraction: false }}
+          autoplay={
+            offers.length > 1
+              ? { delay: 4500, disableOnInteraction: false }
+              : false
+          }
           breakpoints={{
             768: { slidesPerView: 3, spaceBetween: 0 },
             1280: { slidesPerView: 3, spaceBetween: 0 },
@@ -56,22 +64,17 @@ export function ExclusiveOffers() {
           onResize={scaleOfferCards}
           className="offers-swiper !overflow-hidden !pt-12 !pb-12"
         >
-          {exclusiveOffers.map((offer) => (
+          {offers.map((offer) => (
             <SwiperSlide key={offer.id}>
-              <Link href="/offer-details" className="offer-card relative block w-full overflow-hidden rounded-2xl">
+              <Link href={offer.href} className="offer-card relative block w-full overflow-hidden rounded-2xl">
                 <Image
                   src={offer.image}
-                  alt={offer.title}
+                  alt={offer.imageAlt}
                   fill
                   className="object-cover"
                   sizes="(min-width: 768px) 33vw, 90vw"
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-black/75 via-black/20 to-transparent" />
-                
-                <div className="absolute inset-x-0 bottom-0 p-5 text-white tablet:p-7">
-                  <h3 className="text-xl font-semibold tablet:text-2xl">{offer.title}</h3>
-                  <p className="mt-1 text-sm text-white/85">{offer.subtitle}</p>
-                </div>
               </Link>
             </SwiperSlide>
           ))}

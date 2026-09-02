@@ -1,12 +1,25 @@
 import { Container } from "@/components/ui/Container";
 
-export function OfferContent({ html }: { html?: string }) {
-  if (!html?.trim()) return null;
+export function OfferContent({
+  shortDescription,
+  html,
+}: {
+  shortDescription?: string;
+  html?: string;
+}) {
+  if (!shortDescription?.trim() && !html?.trim()) return null;
 
   return (
-    <section className="bg-white pt-2 pb-16 tablet:pb-20">
+    <section className="bg-white py-10 tablet:py-12">
       <Container>
-        <div className="offer-html" dangerouslySetInnerHTML={{ __html: html }} />
+        {shortDescription ? (
+          <p className="mb-6 max-w-3xl text-base leading-relaxed text-neutral-700">
+            {shortDescription}
+          </p>
+        ) : null}
+        {html?.trim() ? (
+          <div className="offer-html" dangerouslySetInnerHTML={{ __html: html }} />
+        ) : null}
       </Container>
     </section>
   );
