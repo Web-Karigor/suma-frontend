@@ -79,7 +79,9 @@ export function CorporateItinerary({ itinerary }: CorporateItineraryProps) {
                     key={item.title}
                     className="flex flex-col items-center gap-8 desktop:flex-row desktop:gap-10 desktop-xl:min-h-[511px]"
                   >
-                    <div className={imageFirst ? "desktop:order-1" : "desktop:order-2"}>
+                    <div
+                      className={`hidden tablet:block ${imageFirst ? "desktop:order-1" : "desktop:order-2"}`}
+                    >
                       <ItineraryImage src={item.image} alt={item.title} />
                     </div>
                     <div

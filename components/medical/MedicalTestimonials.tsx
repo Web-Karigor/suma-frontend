@@ -1,6 +1,65 @@
+"use client";
+
 import Image from "next/image";
+import { Swiper, SwiperSlide } from "swiper/react";
 import { Container } from "@/components/ui/Container";
 import { medicalCountries } from "@/lib/medical-data";
+
+import "swiper/css";
+
+const VISIBLE_COUNT = 5;
+const needsSlider = medicalCountries.length > VISIBLE_COUNT;
+
+function CountryCard({ country }: { country: (typeof medicalCountries)[number] }) {
+  return (
+    <article className="flex w-[240px] shrink-0 flex-col items-center rounded-2xl bg-white/55 px-4 py-6 tablet:w-full desktop-xl:h-[357px] desktop-xl:w-[328.8px]">
+      <div className="relative size-[140px] overflow-hidden rounded-full tablet:size-[160px] desktop-xl:size-[200px]">
+        <Image src={country.image} alt={country.name} fill sizes="200px" className="object-cover" />
+      </div>
+      <h3 className="mt-4 text-center text-[20px] leading-[1.5] font-semibold text-black">{country.name}</h3>
+      <div className="my-3 h-px w-full bg-gray-200" />
+      <p className="text-center text-[14px] leading-[1.5] text-neutral-700">
+        <span className="font-semibold text-black">Known for: </span>
+        {country.knownFor}
+      </p>
+    </article>
+  );
+}
+
+function CountriesSlider({ mobileOnly = false }: { mobileOnly?: boolean }) {
+  return (
+    <Swiper
+      speed={600}
+      grabCursor
+      spaceBetween={24}
+      slidesPerView="auto"
+      className="medical-countries-swiper"
+      breakpoints={
+        mobileOnly
+          ? undefined
+          : {
+              768: {
+                slidesPerView: 3,
+                spaceBetween: 24,
+              },
+              1280: {
+                slidesPerView: VISIBLE_COUNT,
+                spaceBetween: 24,
+              },
+            }
+      }
+    >
+      {medicalCountries.map((country) => (
+        <SwiperSlide
+          key={country.name}
+          className={`!h-auto !w-[240px] ${mobileOnly ? "" : "tablet:!w-auto"}`}
+        >
+          <CountryCard country={country} />
+        </SwiperSlide>
+      ))}
+    </Swiper>
+  );
+}
 
 export function MedicalTestimonials() {
   return (
@@ -27,32 +86,22 @@ export function MedicalTestimonials() {
             </div>
           </div>
 
-          <div className="flex gap-6 overflow-x-auto pb-2 tablet:grid tablet:grid-cols-3 tablet:overflow-visible desktop:grid-cols-5 desktop-xl:h-[357px] desktop-xl:gap-6 desktop-xl:overflow-visible desktop-xl:pb-0">
-            {medicalCountries.map((country) => (
-              <article
-                key={country.name}
-                className="flex w-[240px] shrink-0 flex-col items-center rounded-2xl bg-white/55 px-4 py-6 tablet:w-auto desktop-xl:h-[357px] desktop-xl:w-[328.8px]"
-              >
-                <div className="relative size-[140px] overflow-hidden rounded-full tablet:size-[160px] desktop-xl:size-[200px]">
-                  <Image
-                    src={country.image}
-                    alt={country.name}
-                    fill
-                    sizes="200px"
-                    className="object-cover"
-                  />
-                </div>
-                <h3 className="mt-4 text-center text-[20px] leading-[1.5] font-semibold text-black">
-                  {country.name}
-                </h3>
-                <div className="my-3 h-px w-full bg-gray-200" />
-                <p className="text-center text-[14px] leading-[1.5] text-neutral-700">
-                  <span className="font-semibold text-black">Known for: </span>
-                  {country.knownFor}
-                </p>
-              </article>
-            ))}
-          </div>
+          {needsSlider ? (
+            <div className="desktop-xl:h-[357px]">
+              <CountriesSlider />
+            </div>
+          ) : (
+            <>
+              <div className="tablet:hidden">
+                <CountriesSlider mobileOnly />
+              </div>
+              <div className="hidden gap-6 tablet:grid tablet:grid-cols-3 tablet:gap-6 desktop:grid-cols-5 desktop-xl:h-[357px] desktop-xl:gap-6">
+                {medicalCountries.map((country) => (
+                  <CountryCard key={country.name} country={country} />
+                ))}
+              </div>
+            </>
+          )}
         </div>
       </Container>
     </section>
