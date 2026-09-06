@@ -3,14 +3,13 @@
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Container } from "@/components/ui/Container";
-import { medicalAccommodations } from "@/lib/medical-data";
+import type { ServiceStay } from "@/types/service-detail";
 
 import "swiper/css";
 
 const VISIBLE_COUNT = 5;
-const needsSlider = medicalAccommodations.length > VISIBLE_COUNT;
 
-function AccommodationCard({ accommodation }: { accommodation: (typeof medicalAccommodations)[number] }) {
+function AccommodationCard({ accommodation }: { accommodation: ServiceStay }) {
   return (
     <article className="flex h-full overflow-hidden rounded-2xl border border-gray-200 bg-white p-3 desktop-xl:h-[282px] desktop-xl:w-[564px]">
       <div className="relative h-[180px] w-[120px] shrink-0 overflow-hidden rounded-xl tablet:h-[220px] tablet:w-[150px] desktop-xl:h-[258px] desktop-xl:w-[180px]">
@@ -29,7 +28,7 @@ function AccommodationCard({ accommodation }: { accommodation: (typeof medicalAc
   );
 }
 
-function AccommodationSlider() {
+function AccommodationSlider({ items }: { items: ServiceStay[] }) {
   return (
     <Swiper
       speed={600}
@@ -38,17 +37,11 @@ function AccommodationSlider() {
       slidesPerView={1.1}
       className="medical-accommodation-swiper"
       breakpoints={{
-        768: {
-          slidesPerView: 2,
-          spaceBetween: 24,
-        },
-        1280: {
-          slidesPerView: 3,
-          spaceBetween: 24,
-        },
+        768: { slidesPerView: 2, spaceBetween: 24 },
+        1280: { slidesPerView: 3, spaceBetween: 24 },
       }}
     >
-      {medicalAccommodations.map((accommodation) => (
+      {items.map((accommodation) => (
         <SwiperSlide key={accommodation.title} className="!h-auto">
           <AccommodationCard accommodation={accommodation} />
         </SwiperSlide>
@@ -57,11 +50,21 @@ function AccommodationSlider() {
   );
 }
 
-export function MedicalAccommodation() {
+export function MedicalAccommodation({
+  title = "Accommodation",
+  items,
+}: {
+  title?: string;
+  items: ServiceStay[];
+}) {
+  if (!items.length) return null;
+
+  const needsSlider = items.length > VISIBLE_COUNT;
+
   return (
     <section className="bg-teal-50 py-12 tablet:py-16 desktop-xl:py-[109px]">
       <Container>
-        <div className="flex flex-col gap-8 desktop-xl:h-[446px] desktop-xl:gap-8">
+        <div className="flex flex-col gap-8">
           <div className="grid grid-cols-1 gap-8 desktop:grid-cols-[minmax(0,711px)_minmax(0,1005px)] desktop:gap-6">
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-2">
@@ -71,22 +74,16 @@ export function MedicalAccommodation() {
                 </span>
               </div>
               <h2 className="text-[28px] font-semibold leading-[1.23] text-black tablet:text-[32px]">
-                Accommodation
+                {title}
               </h2>
-            </div>
-            <div className="border-l-[3px] border-teal-600 pl-5">
-              <p className="text-[18px] font-medium leading-[1.5] text-teal-600 tablet:text-[22px]">
-                Accommodation needs vary depending on your treatment. We arrange the right option for you and anyone
-                traveling with you.
-              </p>
             </div>
           </div>
 
           {needsSlider ? (
-            <AccommodationSlider />
+            <AccommodationSlider items={items} />
           ) : (
             <div className="grid grid-cols-1 gap-6 tablet:grid-cols-2 desktop:grid-cols-3">
-              {medicalAccommodations.map((accommodation) => (
+              {items.map((accommodation) => (
                 <AccommodationCard key={accommodation.title} accommodation={accommodation} />
               ))}
             </div>

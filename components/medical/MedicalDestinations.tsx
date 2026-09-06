@@ -3,12 +3,14 @@
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Container } from "@/components/ui/Container";
-import { medicalImageStrip } from "@/lib/medical-data";
 
 import "swiper/css";
 
+type MedicalDestinationsProps = {
+  images: string[];
+};
+
 const VISIBLE_COUNT = 5;
-const needsSlider = medicalImageStrip.length > VISIBLE_COUNT;
 
 function StripImage({ src, index }: { src: string; index: number }) {
   const offset = index % 2 === 1;
@@ -24,7 +26,7 @@ function StripImage({ src, index }: { src: string; index: number }) {
   );
 }
 
-function ImageStripSlider() {
+function ImageStripSlider({ images, needsSlider }: { images: string[]; needsSlider: boolean }) {
   return (
     <Swiper
       speed={600}
@@ -43,7 +45,7 @@ function ImageStripSlider() {
           : undefined
       }
     >
-      {medicalImageStrip.map((src, index) => (
+      {images.map((src, index) => (
         <SwiperSlide
           key={`${src}-${index}`}
           className={`!h-auto ${needsSlider ? "desktop-xl:!w-auto" : "!w-[220px] tablet:!w-[280px]"}`}
@@ -55,21 +57,25 @@ function ImageStripSlider() {
   );
 }
 
-export function MedicalDestinations() {
+export function MedicalDestinations({ images }: MedicalDestinationsProps) {
+  if (!images.length) return null;
+
+  const needsSlider = images.length > VISIBLE_COUNT;
+
   return (
     <section className="overflow-x-hidden bg-teal-50 py-12 tablet:py-16 desktop-xl:pt-[100px] desktop-xl:pb-[100px]">
       <Container>
         {needsSlider ? (
           <div className="desktop-xl:h-[469px]">
-            <ImageStripSlider />
+            <ImageStripSlider images={images} needsSlider={needsSlider} />
           </div>
         ) : (
           <>
             <div className="desktop-xl:hidden">
-              <ImageStripSlider />
+              <ImageStripSlider images={images} needsSlider={needsSlider} />
             </div>
             <div className="hidden gap-[22px] desktop-xl:grid desktop-xl:h-[469px] desktop-xl:grid-cols-5 desktop-xl:gap-[22px]">
-              {medicalImageStrip.map((src, index) => (
+              {images.map((src, index) => (
                 <StripImage key={`${src}-${index}`} src={src} index={index} />
               ))}
             </div>

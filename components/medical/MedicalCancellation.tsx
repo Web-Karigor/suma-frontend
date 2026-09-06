@@ -1,13 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { medicalCancellationPolicies } from "@/lib/medical-data";
 
-export function MedicalCancellation() {
+export function MedicalCancellation({ html }: { html: string | null }) {
   const [disclaimerOpen, setDisclaimerOpen] = useState(true);
 
+  if (!html) return null;
+
   return (
-    <div className="flex w-full flex-col gap-8 desktop-xl:h-[405px]">
+    <div className="flex w-full flex-col gap-8">
       <div className="flex flex-col gap-5">
         <h3 className="text-[24px] font-semibold leading-[1.28] text-white tablet:text-[28px]">
           Cancellation Policy
@@ -47,11 +48,10 @@ export function MedicalCancellation() {
         ) : null}
       </div>
 
-      <ul className="list-disc space-y-0 pl-[27px] text-[16px] leading-[1.64] font-light text-teal-50 tablet:text-[18px]">
-        {medicalCancellationPolicies.map((policy) => (
-          <li key={policy.timeframe}>{policy.timeframe}</li>
-        ))}
-      </ul>
+      <div
+        className="text-[16px] leading-[1.64] font-light text-teal-50 tablet:text-[18px] [&_p]:mb-3"
+        dangerouslySetInnerHTML={{ __html: html }}
+      />
     </div>
   );
 }

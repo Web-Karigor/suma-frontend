@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
   CloseIcon,
@@ -12,19 +12,37 @@ import {
 import { Button } from "@/components/ui/Button";
 import { Logo } from "@/components/ui/Logo";
 import { Container } from "@/components/ui/Container";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-} from "@/components/ui/select";
 import { cn } from "@/lib/cn";
-import { company, navLinks } from "@/lib/home-data";
+import { navLinks } from "@/lib/home-data";
+import { useSettingsQuery } from "@/hooks/queries/useSettingsQuery";
+import { FALLBACK_SETTINGS } from "@/helpers/settings";
+
+function isLinkActive(pathname: string, href: string) {
+  if (href.startsWith("http")) return false;
+  if (href === "/") return pathname === "/";
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
+function NavUnderline({ active }: { active: boolean }) {
+  return (
+    <span
+      aria-hidden
+      className={cn(
+        "pointer-events-none absolute inset-x-0 bottom-0 mx-auto h-[4px] w-7 origin-center rounded-full bg-teal-600",
+        "transition-[opacity,transform] duration-300 ease-out",
+        active
+          ? "scale-x-100 opacity-100"
+          : "scale-x-75 opacity-0 group-hover:scale-x-100 group-hover:opacity-100",
+      )}
+    />
+  );
+}
 
 export function Header() {
   const pathname = usePathname();
-  const router = useRouter();
   const [open, setOpen] = useState(false);
+  const { data: settings = FALLBACK_SETTINGS } = useSettingsQuery();
+  const supportPhone = settings.hotline || settings.phone;
 
   const isHome = pathname === "/";
   const isCorporateTour = pathname.startsWith("/corporate-tour");
@@ -34,6 +52,10 @@ export function Header() {
   const isOfferDetails = pathname.startsWith("/offer-details");
   const isContact = pathname.startsWith("/contact");
   const isVisaApplication = pathname.startsWith("/visa-application");
+  const isCmsPage =
+    pathname === "/faq" ||
+    pathname === "/privacy-policy" ||
+    pathname === "/terms-and-conditions";
   const overlayHeader =
     isHome ||
     isCorporateTour ||
@@ -42,7 +64,8 @@ export function Header() {
     isMedical ||
     isOfferDetails ||
     isContact ||
-    isVisaApplication;
+    isVisaApplication ||
+    isCmsPage;
   const alignWideGrid = overlayHeader;
 
   useEffect(() => {
@@ -64,7 +87,6 @@ export function Header() {
       <Container
         className={cn(
           "relative z-20 pt-3 desktop:pt-8",
-          // Match the 1740px content column (no gutter inset at ≥1920).
           alignWideGrid && "desktop-xl:!px-0",
         )}
       >
@@ -85,87 +107,103 @@ export function Header() {
               className="hidden min-w-0 items-center gap-3 desktop:flex wide:gap-6"
               aria-label="Primary"
             >
-            {navLinks.map((link) => {
-              const active =
-                link.href.startsWith("http")
-                  ? false
-                  : link.href === "/"
-                    ? pathname === "/"
-                    : pathname.startsWith(link.href);
+              {navLinks.map((link) => {
+                if ("children" in link && link.children) {
+                  const childActive = link.children.some((child) =>
+                    isLinkActive(pathname, child.href),
+                  );
+                  const active = childActive || isLinkActive(pathname, link.href);
 
-              if ("children" in link && link.children) {
-                const selected = link.children.find(
-                  (child) =>
-                    pathname === child.href || pathname.startsWith(`${child.href}/`),
-                )?.label;
+                  return (
+                    <div key={link.label} className="group relative">
+                      <button
+                        type="button"
+                        className={cn(
+                          "relative inline-flex items-center gap-0.5 py-1 text-[16px] font-medium text-black transition-colors hover:text-primary",
+                          active && "text-primary",
+                        )}
+                      >
+                        {link.label}
+                        <svg
+                          aria-hidden
+                          viewBox="0 0 16 16"
+                          className="size-4 transition-transform duration-300 ease-out group-hover:rotate-180"
+                          fill="none"
+                        >
+                          <path
+                            d="M4 6l4 4 4-4"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                        <NavUnderline active={active} />
+                      </button>
+
+                      <div
+                        className={cn(
+                          "pointer-events-none absolute top-full left-1/2 z-50 pt-2",
+                          "invisible translate-y-1 opacity-0",
+                          "transition-[opacity,transform,visibility] duration-300 ease-out",
+                          "group-hover:pointer-events-auto group-hover:visible group-hover:translate-y-0 group-hover:opacity-100",
+                          "group-focus-within:pointer-events-auto group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100",
+                        )}
+                      >
+                        <div className="-translate-x-1/2 min-w-[220px] rounded-2xl border border-gray-200 bg-white p-1 shadow-[0_16px_40px_rgb(10_12_12/16%)] transition-shadow duration-300">
+                          {link.children.map((child) => {
+                            const childIsActive = isLinkActive(pathname, child.href);
+                            return (
+                              <Link
+                                key={child.label}
+                                href={child.href}
+                                className={cn(
+                                  "block rounded-lg py-2 pr-8 pl-3 text-sm text-neutral-800 transition-colors duration-200 hover:bg-teal-50 hover:text-primary",
+                                  childIsActive && "bg-teal-50 text-primary",
+                                )}
+                              >
+                                {child.label}
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                }
+
+                const active = isLinkActive(pathname, link.href);
 
                 return (
-                  <Select
+                  <Link
                     key={link.label}
-                    value={selected ?? null}
-                    onValueChange={(value) => {
-                      const next = link.children.find((child) => child.label === value);
-                      if (next) router.push(next.href);
-                    }}
+                    href={link.href}
+                    {...(link.href.startsWith("http")
+                      ? { target: "_blank", rel: "noopener noreferrer" }
+                      : {})}
+                    className={cn(
+                      "group relative py-1 text-[16px] font-medium whitespace-nowrap text-black transition-colors hover:text-primary",
+                      active && "text-primary",
+                    )}
                   >
-                    <SelectTrigger
-                      className={cn(
-                        "h-auto gap-0.5 rounded-none border-0 bg-transparent p-0 text-[16px] font-medium text-black shadow-none hover:bg-transparent hover:text-primary focus-visible:border-transparent focus-visible:ring-0 dark:bg-transparent dark:hover:bg-transparent [&_svg]:text-current [&_svg:not([class*='size-'])]:size-4",
-                        active && "text-primary",
-                      )}
-                    >
-                      {link.label}
-                    </SelectTrigger>
-                    <SelectContent
-                      align="center"
-                      side="bottom"
-                      sideOffset={12}
-                      alignItemWithTrigger={false}
-                      className="min-w-[220px] rounded-2xl border border-gray-200 bg-white p-1 shadow-[0_16px_40px_rgb(10_12_12/16%)] ring-0"
-                    >
-                      {link.children.map((child) => (
-                        <SelectItem
-                          key={child.label}
-                          value={child.label}
-                          className="rounded-lg py-2 pr-8 pl-3 text-sm text-neutral-800 focus:bg-teal-50 focus:text-primary data-highlighted:bg-teal-50 data-highlighted:text-primary"
-                        >
-                          {child.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                    {link.label}
+                    <NavUnderline active={active} />
+                  </Link>
                 );
-              }
-
-              return (
-                <Link
-                  key={link.label}
-                  href={link.href}
-                  {...(link.href.startsWith("http")
-                    ? { target: "_blank", rel: "noopener noreferrer" }
-                    : {})}
-                  className={cn(
-                    "text-[16px] font-medium whitespace-nowrap text-black transition-colors hover:text-primary",
-                    active && "text-primary",
-                  )}
-                >
-                  {link.label}
-                </Link>
-              );
-            })}
-          </nav>
+              })}
+            </nav>
           </div>
 
           <div className="ml-auto hidden shrink-0 items-center gap-2.5 desktop:flex wide:gap-3">
             <a
-              href={`tel:${company.support.phone}`}
+              href={`tel:${supportPhone}`}
               className="inline-flex items-center gap-2 rounded-[10px] border border-teal-600 px-2.5 py-1.5 text-teal-700"
             >
               <HeadsetIcon className="size-6 shrink-0" />
               <span className="leading-none">
-                <span className="block text-[0.58rem] font-medium">{company.support.title}</span>
+                <span className="block text-[0.58rem] font-medium">{settings.supportTitle}</span>
                 <span className="mt-0.5 block text-[1.15rem] font-bold tracking-tight">
-                  {company.support.phone}
+                  {supportPhone}
                 </span>
               </span>
             </a>
@@ -263,13 +301,13 @@ export function Header() {
           </nav>
 
           <a
-            href={`tel:${company.support.phone}`}
+            href={`tel:${supportPhone}`}
             className="mt-4 flex items-center gap-2 rounded-[10px] border border-teal-600 px-3 py-2 text-teal-700"
           >
             <HeadsetIcon className="size-6" />
             <span className="leading-none">
-              <span className="block text-[0.62rem] font-medium">{company.support.title}</span>
-              <span className="mt-0.5 block text-lg font-bold">{company.support.phone}</span>
+              <span className="block text-[0.62rem] font-medium">{settings.supportTitle}</span>
+              <span className="mt-0.5 block text-lg font-bold">{supportPhone}</span>
             </span>
           </a>
 

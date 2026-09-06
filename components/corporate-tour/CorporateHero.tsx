@@ -40,8 +40,12 @@ const COLLAGE = [
   },
 ] as const;
 
-export function CorporateHero({ title, subtitle, price }: CorporateHeroProps) {
+export function CorporateHero({ title, subtitle, price, images }: CorporateHeroProps) {
   const formattedPrice = `৳ ${price.toLocaleString("en-US")}`;
+  const collage = COLLAGE.map((item, index) => ({
+    ...item,
+    src: images[index] ?? item.src,
+  }));
 
   return (
     <section className="relative overflow-hidden bg-teal-950">
@@ -133,8 +137,8 @@ export function CorporateHero({ title, subtitle, price }: CorporateHeroProps) {
         </div>
 
         <div className="mt-10 flex w-full items-end gap-3.5 overflow-x-auto pb-2 tablet:mt-12 desktop-xl:mt-[100px] desktop-xl:gap-[14px] desktop-xl:overflow-visible desktop-xl:pb-0">
-          {COLLAGE.map((item) => (
-            <div key={item.src} className={`relative shrink-0 overflow-hidden rounded-[32px] ${item.className}`}>
+          {collage.map((item) => (
+            <div key={`${item.src}-${item.alt}`} className={`relative shrink-0 overflow-hidden rounded-[32px] ${item.className}`}>
               <Image src={item.src} alt={item.alt} fill className="object-cover" sizes="369px" />
             </div>
           ))}

@@ -1,47 +1,52 @@
+"use client";
+
 import { GlobeIcon, MailIcon, PhoneIcon } from "@/components/icons";
 import { Container } from "@/components/ui/Container";
 import { cn } from "@/lib/cn";
-import { company } from "@/lib/home-data";
+import { useSettingsQuery } from "@/hooks/queries/useSettingsQuery";
+import { FALLBACK_SETTINGS } from "@/helpers/settings";
 import Link from "next/link";
-
-const contactItems = [
-  {
-    title: "Support Email",
-    description: "For any concerns, complaints or even suggestions please email us:",
-    value: company.email,
-    meta: "Availability: All Week",
-    detail: "Response Time: 1 Day",
-    action: "Contact Us",
-    href: `mailto:${company.email}`,
-    Icon: MailIcon,
-  },
-  {
-    title: "Website",
-    description: "Explore our Website for more information.",
-    value: "Available: All Week",
-    meta: "",
-    detail: "",
-    action: "Visit Our Website",
-    href: "/",
-    Icon: GlobeIcon,
-  },
-  {
-    title: "Contact Us",
-    description: `Contact Number: ${company.hotline}. Or send us a WhatsApp message and our Team will get back to you within 24 hours.`,
-    value: "Availability: Working days",
-    meta: "",
-    detail: "",
-    action: "Contact Us",
-    href: "/contact",
-    Icon: PhoneIcon,
-  },
-] as const;
 
 type HajjContactProps = {
   alignWide?: boolean;
 };
 
 export function HajjContact({ alignWide = false }: HajjContactProps) {
+  const { data: settings = FALLBACK_SETTINGS } = useSettingsQuery();
+
+  const contactItems = [
+    {
+      title: "Support Email",
+      description: "For any concerns, complaints or even suggestions please email us:",
+      value: settings.email,
+      meta: "Availability: All Week",
+      detail: "Response Time: 1 Day",
+      action: "Contact Us",
+      href: `mailto:${settings.email}`,
+      Icon: MailIcon,
+    },
+    {
+      title: "Website",
+      description: "Explore our Website for more information.",
+      value: "Available: All Week",
+      meta: "",
+      detail: "",
+      action: "Visit Our Website",
+      href: "/",
+      Icon: GlobeIcon,
+    },
+    {
+      title: "Contact Us",
+      description: `Contact Number: ${settings.hotline}. Or send us a WhatsApp message and our Team will get back to you within 24 hours.`,
+      value: "Availability: Working days",
+      meta: "",
+      detail: "",
+      action: "Contact Us",
+      href: "/contact",
+      Icon: PhoneIcon,
+    },
+  ];
+
   return (
     <section
       id="booking"

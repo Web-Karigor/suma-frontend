@@ -379,9 +379,9 @@ export const footerColumns = {
     { label: "About Us", href: "/about" },
     { label: "Contact", href: "/contact" },
     { label: "Promotions", href: "/offer-details" },
-    { label: "FAQ", href: "/contact" },
-    { label: "Terms & Conditions", href: "/contact" },
-    { label: "Privacy Policy", href: "/contact" },
+    { label: "FAQ", href: "/faq" },
+    { label: "Terms & Conditions", href: "/terms-and-conditions" },
+    { label: "Privacy Policy", href: "/privacy-policy" },
   ],
 } as const;
 

@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 
@@ -7,6 +9,7 @@ import {
   ArrowRightIcon,
   FacebookIcon,
   InstagramIcon,
+  LinkedInIcon,
   MailIcon,
   PhoneIcon,
   PinIcon,
@@ -16,21 +19,40 @@ import {
 } from "@/components/icons";
 
 import {
-  company,
   footerAbout,
   footerColumns,
   footerOffices,
 } from "@/lib/home-data";
+import { useSettingsQuery } from "@/hooks/queries/useSettingsQuery";
+import { FALLBACK_SETTINGS } from "@/helpers/settings";
+import type { SettingsSocialLink } from "@/types/settings";
 
-const socials = [
-  { name: "Facebook", href: "#", Icon: FacebookIcon },
-  { name: "Instagram", href: "#", Icon: InstagramIcon },
-  { name: "YouTube", href: "#", Icon: YouTubeIcon },
-  { name: "TikTok", href: "#", Icon: TikTokIcon },
-  { name: "X", href: "#", Icon: TwitterIcon },
-] as const;
+const SOCIAL_ICONS: Record<
+  SettingsSocialLink["key"],
+  React.ComponentType<{ className?: string }>
+> = {
+  facebook: FacebookIcon,
+  instagram: InstagramIcon,
+  youtube: YouTubeIcon,
+  tiktok: TikTokIcon,
+  twitter: TwitterIcon,
+  linkedin: LinkedInIcon,
+  pinterest: InstagramIcon,
+};
+
+const DEFAULT_SOCIALS = [
+  { name: "Facebook", href: "#", key: "facebook" as const },
+  { name: "Instagram", href: "#", key: "instagram" as const },
+  { name: "YouTube", href: "#", key: "youtube" as const },
+  { name: "TikTok", href: "#", key: "tiktok" as const },
+  { name: "X", href: "#", key: "twitter" as const },
+];
 
 export function Footer() {
+  const { data: settings = FALLBACK_SETTINGS } = useSettingsQuery();
+  const socials =
+    settings.socials.length > 0 ? settings.socials : DEFAULT_SOCIALS;
+
   return (
     <footer className="bg-[#005655] text-white">
       <Container className="pt-14 pb-8 tablet:pt-16">
@@ -61,16 +83,21 @@ export function Footer() {
             </p>
 
             <div className="mt-3 flex items-center justify-start gap-2.5">
-              {socials.map(({ name, href, Icon }) => (
-                <a
-                  key={name}
-                  href={href}
-                  className="inline-flex size-8 items-center justify-center rounded-full bg-[#FEFEFC] text-[#005655] transition hover:bg-[#FEFEFC]/90"
-                  aria-label={name}
-                >
-                  <Icon className="size-7" />
-                </a>
-              ))}
+              {socials.map(({ name, href, key }) => {
+                const Icon = SOCIAL_ICONS[key] ?? FacebookIcon;
+                return (
+                  <a
+                    key={name}
+                    href={href}
+                    target={href.startsWith("http") ? "_blank" : undefined}
+                    rel={href.startsWith("http") ? "noreferrer" : undefined}
+                    className="inline-flex size-8 items-center justify-center rounded-full bg-[#FEFEFC] text-[#005655] transition hover:bg-[#FEFEFC]/90"
+                    aria-label={name}
+                  >
+                    <Icon className="size-7" />
+                  </a>
+                );
+              })}
             </div>
 
             <div className="mt-10">
@@ -85,7 +112,6 @@ export function Footer() {
               </div>
             </div>
           </div>
-
 
           {/* Services + Pages */}
           <div
@@ -102,17 +128,10 @@ export function Footer() {
               desktop:gap-16
             "
           >
-            <FooterList
-              title="Services"
-              links={footerColumns.services}
-            />
+            <FooterList title="Services" links={footerColumns.services} />
 
-            <FooterList
-              title="Important Pages"
-              links={footerColumns.pages}
-            />
+            <FooterList title="Important Pages" links={footerColumns.pages} />
           </div>
-
 
           {/* Contact */}
           <div
@@ -160,19 +179,19 @@ export function Footer() {
                   "
                 >
                   <a
-                    href={`tel:${company.hotline}`}
+                    href={`tel:${settings.hotline}`}
                     className="inline-flex items-center gap-2 text-[14px] text-white"
                   >
                     <PhoneIcon className="size-4 shrink-0" />
-                    {company.hotline}
+                    {settings.hotline}
                   </a>
 
                   <a
-                    href={`mailto:${company.email}`}
+                    href={`mailto:${settings.email}`}
                     className="inline-flex items-center gap-2 text-[14px] text-white"
                   >
                     <MailIcon className="size-4 shrink-0" />
-                    {company.email}
+                    {settings.email}
                   </a>
                 </div>
               </div>
@@ -180,15 +199,13 @@ export function Footer() {
           </div>
         </div>
 
-
-        <p className="mt-14 text-center text-[13px] text-white">
+        <p className="mt-14 text-center text-[16px] text-[#59A9A8]">
           © Copyright {new Date().getFullYear()} | Suma Group All Rights Reserved.
         </p>
       </Container>
     </footer>
   );
 }
-
 
 function FooterList({
   title,
@@ -224,7 +241,6 @@ function FooterList({
     </div>
   );
 }
-
 
 function OfficeList({
   offices,

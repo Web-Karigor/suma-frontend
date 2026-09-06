@@ -1,11 +1,9 @@
-import { HajjContact, HajjIntro, HajjPackages } from "@/components/hajj";
+import { HajjPageContent } from "@/components/hajj/HajjPageContent";
 
-export default function Home() {
+export default function HajjPage() {
   return (
     <main>
-      <HajjIntro />
-      <HajjPackages />
-      <HajjContact />
+      <HajjPageContent />
     </main>
   );
 }

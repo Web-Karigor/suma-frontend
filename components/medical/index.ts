@@ -8,3 +8,4 @@ export { MedicalProcess } from "./MedicalProcess";
 export { MedicalTestimonials } from "./MedicalTestimonials";
 export { MedicalServices } from "./MedicalServices";
 export { MedicalContact } from "./MedicalContact";
+export { MedicalPageContent } from "./MedicalPageContent";

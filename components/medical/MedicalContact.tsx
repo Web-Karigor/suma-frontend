@@ -1,44 +1,49 @@
+"use client";
+
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
-import { company } from "@/lib/home-data";
-
-const contactItems = [
-  {
-    title: "Support Email",
-    description: "For any concerns, complaints or even suggestions please email us:",
-    value: company.email,
-    meta: "Availability: All Week",
-    detail: "Response Time: 1 Day",
-    action: "Contact Us",
-    href: `mailto:${company.email}`,
-    icon: "/images/corporate-tour/icons/sms.svg",
-    buttonWidth: "w-[122px]",
-  },
-  {
-    title: "Website",
-    description: "Explore our Website for more information.",
-    value: "Available: All Week",
-    meta: "",
-    detail: "",
-    action: "Visit Our Website",
-    href: "/",
-    icon: "/images/corporate-tour/icons/global.svg",
-    buttonWidth: "w-[169px]",
-  },
-  {
-    title: "Contact Us",
-    description: `Contact Number: ${company.hotline}. Or send us a WhatsApp message and our Team will get back to you within 24 hours.`,
-    value: "Availability: Working days",
-    meta: "",
-    detail: "",
-    action: "Contact Us",
-    href: "/contact",
-    icon: "/images/corporate-tour/icons/call.svg",
-    buttonWidth: "w-[122px]",
-  },
-] as const;
+import { useSettingsQuery } from "@/hooks/queries/useSettingsQuery";
+import { FALLBACK_SETTINGS } from "@/helpers/settings";
 
 export function MedicalContact() {
+  const { data: settings = FALLBACK_SETTINGS } = useSettingsQuery();
+
+  const contactItems = [
+    {
+      title: "Support Email",
+      description: "For any concerns, complaints or even suggestions please email us:",
+      value: settings.email,
+      meta: "Availability: All Week",
+      detail: "Response Time: 1 Day",
+      action: "Contact Us",
+      href: `mailto:${settings.email}`,
+      icon: "/images/corporate-tour/icons/sms.svg",
+      buttonWidth: "w-[122px]",
+    },
+    {
+      title: "Website",
+      description: "Explore our Website for more information.",
+      value: "Available: All Week",
+      meta: "",
+      detail: "",
+      action: "Visit Our Website",
+      href: "/",
+      icon: "/images/corporate-tour/icons/global.svg",
+      buttonWidth: "w-[169px]",
+    },
+    {
+      title: "Contact Us",
+      description: `Contact Number: ${settings.hotline}. Or send us a WhatsApp message and our Team will get back to you within 24 hours.`,
+      value: "Availability: Working days",
+      meta: "",
+      detail: "",
+      action: "Contact Us",
+      href: "/contact",
+      icon: "/images/corporate-tour/icons/call.svg",
+      buttonWidth: "w-[122px]",
+    },
+  ];
+
   return (
     <section id="booking" className="scroll-mt-28 bg-gold-50 py-12 tablet:py-16 desktop-xl:py-[100px]">
       <Container>

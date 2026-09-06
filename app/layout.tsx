@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import { Header } from "@/components/global/Header";
 import { Footer } from "@/components/global/Footer";
 import { QueryProvider } from "@/components/providers/QueryProvider";
+import { fetchSettings } from "@/helpers/settings";
 import "./globals.css";
 
 const poppins = Poppins({
@@ -12,14 +13,20 @@ const poppins = Poppins({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  title: {
-    default: "Suma BD Travel Management",
-    template: "%s · Suma BD",
-  },
-  description:
-    "Hajj, Umrah, visa, hotels, and holiday packages from Suma BD — trusted travel management in Bangladesh.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await fetchSettings();
+
+  return {
+    title: {
+      default: settings.metaTitle || settings.siteName || "Suma BD Travel Management",
+      template: `%s · ${settings.siteName || "Suma BD"}`,
+    },
+    description:
+      settings.metaDescription ||
+      "Hajj, Umrah, visa, hotels, and holiday packages from Suma BD — trusted travel management in Bangladesh.",
+    icons: settings.favicon ? { icon: settings.favicon } : undefined,
+  };
+}
 
 export const viewport: Viewport = {
   themeColor: "#007B7A",

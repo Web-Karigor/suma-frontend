@@ -3,12 +3,14 @@
 import { useState } from "react";
 import { ArrowUpRightIcon } from "@/components/icons";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { company } from "@/lib/home-data";
+import { useSettingsQuery } from "@/hooks/queries/useSettingsQuery";
+import { FALLBACK_SETTINGS } from "@/helpers/settings";
 
 const fieldClass = "h-11 w-full rounded-md border-0 bg-gray-100 px-3 text-sm text-neutral-900 outline-none placeholder:text-gray-500 focus:ring-2 focus:ring-primary/30";
 
 export function ContactForm() {
   const [sent, setSent] = useState(false);
+  const { data: settings = FALLBACK_SETTINGS } = useSettingsQuery();
 
   return (
     <form
@@ -50,7 +52,7 @@ export function ContactForm() {
           </span>
         </button>
         <p className="max-w-[220px] text-[10px] leading-[1.4] text-gray-500">
-          Our representative will contact you within 24 hours. Or you can call <a href={`tel:${company.hotline}`} className="font-semibold text-primary">{company.hotline}</a> directly.
+          Our representative will contact you within 24 hours. Or you can call <a href={`tel:${settings.hotline}`} className="font-semibold text-primary">{settings.hotline}</a> directly.
         </p>
       </div>
     </form>

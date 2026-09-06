@@ -1,52 +1,57 @@
+"use client";
+
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
-import { company } from "@/lib/home-data";
-
-const contactItems = [
-  {
-    title: "Support Email",
-    icon: "/images/corporate-tour/icons/sms.svg",
-    description: (
-      <>
-        For any concerns, complaints or even suggestions please email us:{" "}
-        <span className="font-semibold">{company.email}</span>
-      </>
-    ),
-    meta: [
-      { label: "Availability", value: "All Week" },
-      { label: "Response Time", value: "1 Day" },
-    ],
-    action: "Contact Us",
-    href: `mailto:${company.email}`,
-    buttonWidth: "w-[122px]",
-  },
-  {
-    title: "Website",
-    icon: "/images/corporate-tour/icons/global.svg",
-    description: "Explore our Website for more information.",
-    meta: [{ label: "Availability", value: "All Week" }],
-    action: "Visit Our Website",
-    href: "/",
-    buttonWidth: "w-[169px]",
-  },
-  {
-    title: "Contact Us",
-    icon: "/images/corporate-tour/icons/call.svg",
-    description: (
-      <>
-        Contact Number: <span className="font-semibold">{company.hotline}</span>
-        <br />
-        Or send us a WhatsApp message and Our team will get back to you withing 24 hours.
-      </>
-    ),
-    meta: [{ label: "Availability", value: "Working days" }],
-    action: "Contact Us",
-    href: "/contact",
-    buttonWidth: "w-[122px]",
-  },
-] as const;
+import { useSettingsQuery } from "@/hooks/queries/useSettingsQuery";
+import { FALLBACK_SETTINGS } from "@/helpers/settings";
 
 export function CorporateBooking() {
+  const { data: settings = FALLBACK_SETTINGS } = useSettingsQuery();
+
+  const contactItems = [
+    {
+      title: "Support Email",
+      icon: "/images/corporate-tour/icons/sms.svg",
+      description: (
+        <>
+          For any concerns, complaints or even suggestions please email us:{" "}
+          <span className="font-semibold">{settings.email}</span>
+        </>
+      ),
+      meta: [
+        { label: "Availability", value: "All Week" },
+        { label: "Response Time", value: "1 Day" },
+      ],
+      action: "Contact Us",
+      href: `mailto:${settings.email}`,
+      buttonWidth: "w-[122px]",
+    },
+    {
+      title: "Website",
+      icon: "/images/corporate-tour/icons/global.svg",
+      description: "Explore our Website for more information.",
+      meta: [{ label: "Availability", value: "All Week" }],
+      action: "Visit Our Website",
+      href: "/",
+      buttonWidth: "w-[169px]",
+    },
+    {
+      title: "Contact Us",
+      icon: "/images/corporate-tour/icons/call.svg",
+      description: (
+        <>
+          Contact Number: <span className="font-semibold">{settings.hotline}</span>
+          <br />
+          Or send us a WhatsApp message and Our team will get back to you withing 24 hours.
+        </>
+      ),
+      meta: [{ label: "Availability", value: "Working days" }],
+      action: "Contact Us",
+      href: "/contact",
+      buttonWidth: "w-[122px]",
+    },
+  ];
+
   return (
     <section id="booking" className="scroll-mt-28 bg-teal-950 pt-12 pb-16 tablet:pt-16 tablet:pb-20 desktop-xl:pt-[100px] desktop-xl:pb-[100px]">
       <Container className="desktop-xl:!px-0">

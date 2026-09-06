@@ -4,7 +4,8 @@ import Image from "next/image";
 import { Clock, Mail, MapPin, Phone } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { useContactInfoQuery } from "@/hooks/queries/useContactInfoQuery";
-import { company } from "@/lib/home-data";
+import { useSettingsQuery } from "@/hooks/queries/useSettingsQuery";
+import { FALLBACK_SETTINGS } from "@/helpers/settings";
 import type { ContactOfficeCard } from "@/types/contact-info";
 
 const mapImage =
@@ -12,6 +13,7 @@ const mapImage =
 
 export function ContactOffices() {
   const { data: offices, isLoading } = useContactInfoQuery();
+  const { data: settings = FALLBACK_SETTINGS } = useSettingsQuery();
 
   return (
     <section className="bg-[#F1FAFA] py-12 tablet:py-16 desktop:py-20">
@@ -26,14 +28,14 @@ export function ContactOffices() {
             <ContactLink
               icon={<Phone className="size-4" />}
               label="Give a Call"
-              value={company.hotline}
-              href={`tel:${company.hotline}`}
+              value={settings.hotline}
+              href={`tel:${settings.hotline}`}
             />
             <ContactLink
               icon={<Mail className="size-4" />}
               label="Send Email"
-              value={company.email}
-              href={`mailto:${company.email}`}
+              value={settings.email}
+              href={`mailto:${settings.email}`}
             />
           </div>
         </div>
