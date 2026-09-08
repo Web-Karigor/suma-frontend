@@ -615,7 +615,8 @@
     hline to calc(var(--cut-w) + var(--r)),
     arc to var(--cut-w) calc(100% - var(--r)) of var(--r) cw,
     vline to calc(100% - var(--cut-h) + var(--r)),
-    arc to calc(var(--cut-w) - var(--r)) calc(100% - var(--cut-h)) of var(--r) ccw,
+    arc to calc(var(--cut-w) - var(--r)) calc(100% - var(--cut-h)) of var(--r)
+      ccw,
     hline to var(--r),
     arc to 0 calc(100% - var(--cut-h) - var(--r)) of var(--r) cw,
     vline to var(--r),
@@ -663,7 +664,8 @@
 
 .visa-requirements-html {
   color: #000000;
-  font-family: var(--font-poppins), Poppins, ui-sans-serif, system-ui, sans-serif;
+  font-family:
+    var(--font-poppins), Poppins, ui-sans-serif, system-ui, sans-serif;
   font-size: 16px;
   font-weight: 500;
   line-height: 159%;
@@ -877,9 +879,11 @@
     hline to calc(100% - var(--hero-r)),
     arc to 100% var(--hero-r) of var(--hero-r) cw,
     vline to calc(100% - var(--hero-cut) - var(--hero-r)),
-    arc to calc(100% - var(--hero-r)) calc(100% - var(--hero-cut)) of var(--hero-r) cw,
+    arc to calc(100% - var(--hero-r)) calc(100% - var(--hero-cut)) of
+      var(--hero-r) cw,
     hline to calc(100% - var(--hero-cut) + var(--hero-r)),
-    arc to calc(100% - var(--hero-cut)) calc(100% - var(--hero-cut) + var(--hero-r)) of var(--hero-r) ccw,
+    arc to calc(100% - var(--hero-cut))
+      calc(100% - var(--hero-cut) + var(--hero-r)) of var(--hero-r) ccw,
     vline to calc(100% - var(--hero-r)),
     arc to calc(100% - var(--hero-cut) - var(--hero-r)) 100% of var(--hero-r) cw,
     hline to var(--hero-r),

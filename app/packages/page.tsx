@@ -1,9 +1,5 @@
-import { PackageList } from "@/components/packages/PackageList";
+import { redirect } from "next/navigation";
 
 export default function PackagesPage() {
-  return (
-    <main>
-      <PackageList />
-    </main>
-  );
+  redirect("/packages/holiday-packages");
 }

@@ -8,18 +8,24 @@ import {
   PackageCancellation,
 } from "@/components/package-details";
 import { HajjContact } from "@/components/hajj";
+import { fetchPackageBySlug } from "@/helpers/packages";
 
-export default function HajjUmrahDetailsPage() {
+type Props = { searchParams: Promise<{ package?: string }> };
+
+export default async function HajjUmrahDetailsPage({ searchParams }: Props) {
+  const { package: packageSlug } = await searchParams;
+  const packageData = packageSlug ? await fetchPackageBySlug(packageSlug) : null;
   const heroData = {
-    title: "Exclusive Umrah Package",
-    subtitle: "14 Days Umrah Package by Suma International",
-    price: 245000,
-    groupSize: "Luxury Makkah",
+    title: packageData?.title ?? "Exclusive Umrah Package",
+    subtitle: packageData?.subtitle ?? "14 Days Umrah Package by Suma International",
+    price: packageData?.price ?? 245000,
+    groupSize: packageData?.packageType?.name ?? "Luxury Makkah",
     departureDate: "22 June – 31 July, 2026",
-    duration: "Total 5 Nights",
+    duration: packageData?.nights || "Total 5 Nights",
   };
 
   const galleryImages = [
+    ...(packageData ? [packageData.image] : []),
     "https://images.unsplash.com/photo-1564769625905-50e93615e769?auto=format&fit=crop&w=800&q=85",
     "https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=800&q=85",
     "https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?auto=format&fit=crop&w=1400&q=85",
@@ -27,7 +33,7 @@ export default function HajjUmrahDetailsPage() {
     "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?auto=format&fit=crop&w=800&q=85",
   ];
 
-  const overview =
+  const overview = packageData?.description ||
     "Suma International presents a meticulously crafted luxury package, opening the doors to an exceptional spiritual experience in the blessed city of Makkah, where serenity and tranquility embrace you in the holiest place on earth. Enjoy an elegant stay at Fairmont Hotel Makkah, with seamless and effortless access to Al-Masjid Al-Haram, allowing you to experience an atmosphere filled with devotion, peace, and spiritual closeness—right in the heart of the Sacred Mosque. Because your comfort is our priority, this package has been thoughtfully designed to spare you the hassle of planning and transportation. It includes daily breakfast, private luxury transfers from Jeddah Airport to your hotel in Makkah and return, and comfortable, personalized transportation throughout the entire program. The journey also features a special enrichment tour in a luxury vehicle to visit the most prominent religious and historical landmarks in Makkah—an experience that beautifully combines spirituality and knowledge, adding deeper meaning and unforgettable memories to your trip.";
 
   const hotels = [
@@ -77,7 +83,7 @@ export default function HajjUmrahDetailsPage() {
     },
   ];
 
-  const included = [
+  const included = packageData?.features.length ? packageData.features : [
     "Return economy class airfare (Dhaka-Jeddah-Dhaka)",
     "All airport transfers in Saudi Arabia",
     "4 & 5 star hotel accommodation (twin/triple sharing)",

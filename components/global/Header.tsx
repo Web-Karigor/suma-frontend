@@ -50,6 +50,8 @@ export function Header() {
   const isAbout = pathname.startsWith("/about");
   const isMedical = pathname.startsWith("/medical");
   const isOfferDetails = pathname.startsWith("/offer-details");
+  const isPackages = pathname.startsWith("/packages");
+  const isHajj = pathname.startsWith("/hajj");
   const isContact = pathname.startsWith("/contact");
   const isVisaApplication = pathname.startsWith("/visa-application");
   const isCmsPage =
@@ -80,7 +82,8 @@ export function Header() {
   return (
     <header
       className={cn(
-        "z-50 bg-transparent",
+        "z-50",
+        isPackages || isHajj ? "bg-gold-100" : "bg-transparent",
         overlayHeader ? "fixed top-0 right-0 left-0" : "sticky top-0",
       )}
     >
@@ -100,7 +103,10 @@ export function Header() {
         >
           <div className="flex min-w-0 items-center gap-3 desktop:gap-[44px]">
             <Logo compact={false} className="hidden shrink-0 wide:flex" />
-            <Logo compact className="hidden shrink-0 min-[480px]:flex wide:hidden" />
+            <Logo
+              compact
+              className="hidden shrink-0 min-[480px]:flex wide:hidden"
+            />
             <Logo compact className="shrink-0 min-[480px]:hidden" />
 
             <nav
@@ -112,7 +118,8 @@ export function Header() {
                   const childActive = link.children.some((child) =>
                     isLinkActive(pathname, child.href),
                   );
-                  const active = childActive || isLinkActive(pathname, link.href);
+                  const active =
+                    childActive || isLinkActive(pathname, link.href);
 
                   return (
                     <div key={link.label} className="group relative">
@@ -152,7 +159,10 @@ export function Header() {
                       >
                         <div className="-translate-x-1/2 min-w-[220px] rounded-2xl border border-gray-200 bg-white p-1 shadow-[0_16px_40px_rgb(10_12_12/16%)] transition-shadow duration-300">
                           {link.children.map((child) => {
-                            const childIsActive = isLinkActive(pathname, child.href);
+                            const childIsActive = isLinkActive(
+                              pathname,
+                              child.href,
+                            );
                             return (
                               <Link
                                 key={child.label}
@@ -201,7 +211,9 @@ export function Header() {
             >
               <HeadsetIcon className="size-6 shrink-0" />
               <span className="leading-none">
-                <span className="block text-[0.58rem] font-medium">{settings.supportTitle}</span>
+                <span className="block text-[0.58rem] font-medium">
+                  {settings.supportTitle}
+                </span>
                 <span className="mt-0.5 block text-[1.15rem] font-bold tracking-tight">
                   {supportPhone}
                 </span>
@@ -218,7 +230,10 @@ export function Header() {
               />
             </label>
 
-            <Button href="/contact" className="h-11 gap-3 rounded-full !bg-black text-sm !text-white hover:!bg-[#0A0C0C] [&>span]:size-8 [&>span]:!bg-white [&>span]:!text-black">
+            <Button
+              href="/contact"
+              className="h-11 gap-3 rounded-full !bg-black text-sm !text-white hover:!bg-[#0A0C0C] [&>span]:size-8 [&>span]:!bg-white [&>span]:!text-black"
+            >
               Get a Free Quote
             </Button>
           </div>
@@ -230,7 +245,11 @@ export function Header() {
             aria-controls="mobile-nav"
             onClick={() => setOpen((value) => !value)}
           >
-            {open ? <CloseIcon className="size-5" /> : <MenuIcon className="size-5" />}
+            {open ? (
+              <CloseIcon className="size-5" />
+            ) : (
+              <MenuIcon className="size-5" />
+            )}
             <span className="sr-only">Toggle menu</span>
           </button>
         </div>
@@ -269,7 +288,9 @@ export function Header() {
               if ("children" in link && link.children) {
                 return (
                   <div key={link.label}>
-                    <p className="px-3 py-2 text-sm font-semibold text-neutral-800">{link.label}</p>
+                    <p className="px-3 py-2 text-sm font-semibold text-neutral-800">
+                      {link.label}
+                    </p>
                     {link.children.map((child) => (
                       <Link
                         key={child.label}
@@ -306,8 +327,12 @@ export function Header() {
           >
             <HeadsetIcon className="size-6" />
             <span className="leading-none">
-              <span className="block text-[0.62rem] font-medium">{settings.supportTitle}</span>
-              <span className="mt-0.5 block text-lg font-bold">{supportPhone}</span>
+              <span className="block text-[0.62rem] font-medium">
+                {settings.supportTitle}
+              </span>
+              <span className="mt-0.5 block text-lg font-bold">
+                {supportPhone}
+              </span>
             </span>
           </a>
 
@@ -321,7 +346,10 @@ export function Header() {
             />
           </label>
 
-          <Button href="/contact" className="mt-3 h-12 w-full justify-center rounded-full !bg-black text-sm !text-white hover:!bg-[#0A0C0C] [&>span]:size-8 [&>span]:!bg-white [&>span]:!text-black">
+          <Button
+            href="/contact"
+            className="mt-3 h-12 w-full justify-center rounded-full !bg-black text-sm !text-white hover:!bg-[#0A0C0C] [&>span]:size-8 [&>span]:!bg-white [&>span]:!text-black"
+          >
             Get a Free Quote
           </Button>
         </div>

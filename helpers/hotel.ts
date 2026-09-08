@@ -12,6 +12,14 @@ import type {
 const FALLBACK_IMAGE =
   "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1000&q=80";
 
+function normalizeRating(rating: number | null | undefined): number {
+  return typeof rating === "number" && Number.isFinite(rating) ? rating : 0;
+}
+
+function normalizePrice(price: number | null | undefined): number {
+  return typeof price === "number" && Number.isFinite(price) ? price : 0;
+}
+
 export function resolveHotelImage(image: string): string {
   if (!image.trim()) return FALLBACK_IMAGE;
   if (
@@ -23,15 +31,24 @@ export function resolveHotelImage(image: string): string {
   return FALLBACK_IMAGE;
 }
 
-function getFinalPrice(item: HotelDetailItem): { finalPrice: number; discountAmount: number | null } {
-  if (item.discount_price && item.discount_type === "fixed" && item.discount_price > 0) {
+function getFinalPrice(item: HotelDetailItem): {
+  finalPrice: number;
+  discountAmount: number | null;
+} {
+  const price = normalizePrice(item.price);
+
+  if (
+    item.discount_price &&
+    item.discount_type === "fixed" &&
+    item.discount_price > 0
+  ) {
     return {
-      finalPrice: Math.max(item.price - item.discount_price, 0),
+      finalPrice: Math.max(price - item.discount_price, 0),
       discountAmount: item.discount_price,
     };
   }
 
-  return { finalPrice: item.price, discountAmount: null };
+  return { finalPrice: price, discountAmount: null };
 }
 
 function normalizeGallery(item: HotelDetailItem): HotelGalleryImage[] {
@@ -73,15 +90,18 @@ export function normalizeHotelDetail(item: HotelDetailItem): HotelDetail {
     descriptionHtml: item.description,
     address: item.address,
     mapEmbedHtml: item.address_map_url,
-    rating: item.rating,
-    price: item.price,
+    rating: normalizeRating(item.rating),
+    price: normalizePrice(item.price),
     finalPrice,
     discountAmount,
     isRefundable: item.is_refundable,
     linkUrl: item.link_url ?? "/contact",
     gallery: normalizeGallery(item),
     amenities: amenities.map((amenity) => amenity.name),
-    highlights: highlights.length > 0 ? highlights : amenities.slice(0, 5).map((a) => a.name),
+    highlights:
+      highlights.length > 0
+        ? highlights
+        : amenities.slice(0, 5).map((a) => a.name),
     features: item.features ?? [],
     nearbyAttractions: item.nearby_attractions ?? [],
     howToReach: item.how_to_reach ?? [],
@@ -89,7 +109,9 @@ export function normalizeHotelDetail(item: HotelDetailItem): HotelDetail {
   };
 }
 
-export function normalizeHotelsResponse(response: HotelsApiResponse): HotelCard[] {
+export function normalizeHotelsResponse(
+  response: Pick<HotelsApiResponse, "data">,
+): HotelCard[] {
   return response.data.map((item) => ({
     id: item.id,
     title: item.title,
@@ -97,14 +119,16 @@ export function normalizeHotelsResponse(response: HotelsApiResponse): HotelCard[
     image: resolveHotelImage(item.image),
     imageAlt: item.image_alt_text ?? item.title,
     description: item.short_description,
-    rating: item.rating,
-    price: item.price,
+    rating: normalizeRating(item.rating),
+    price: normalizePrice(item.price),
     isRefundable: item.is_refundable,
     href: `/hotels/${item.slug}`,
   }));
 }
 
-export function normalizeHotelsPageResponse(response: HotelsApiResponse): HotelsPageData {
+export function normalizeHotelsPageResponse(
+  response: HotelsApiResponse,
+): HotelsPageData {
   return {
     page: {
       title: response.page.title,
@@ -126,7 +150,9 @@ export async function fetchHotelSlugs(): Promise<string[]> {
   return response.data.map((item) => item.slug);
 }
 
-export async function fetchHotelBySlug(slug: string): Promise<HotelDetail | null> {
+export async function fetchHotelBySlug(
+  slug: string,
+): Promise<HotelDetail | null> {
   try {
     const response = await apiFetch<HotelDetailApiResponse>(`/hotel/${slug}`);
     const item = response.data[0];

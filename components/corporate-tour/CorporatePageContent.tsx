@@ -11,6 +11,7 @@ import {
   CorporateBooking,
 } from "@/components/corporate-tour";
 import { useServiceDetailQuery } from "@/hooks/queries/useServiceDetailQuery";
+import { usePackageDetailQuery } from "@/hooks/queries/usePackageDetailQuery";
 
 const CORPORATE_SLUG = "corporate-travel";
 
@@ -120,10 +121,12 @@ const fallbackCancellation = [
   },
 ];
 
-export function CorporatePageContent() {
+export function CorporatePageContent({ packageSlug }: { packageSlug?: string }) {
   const { data, isLoading } = useServiceDetailQuery(CORPORATE_SLUG);
+  const packageQuery = usePackageDetailQuery(packageSlug);
 
-  if (isLoading) return null;
+  if (isLoading || packageQuery.isLoading) return null;
+  const packageData = packageQuery.data;
 
   const galleryImages = data?.gallery.map((item) => item.src) ?? [];
   const thumbImages = data?.thumbnails.map((item) => item.src) ?? [];
@@ -132,7 +135,7 @@ export function CorporatePageContent() {
       ? [...galleryImages, ...thumbImages].slice(0, 5)
       : fallbackHero.images;
 
-  const overviewDescription =
+  const overviewDescription = packageData?.description ||
     data?.overview?.description ||
     data?.overview?.subtitle ||
     fallbackOverview.description;
@@ -174,12 +177,12 @@ export function CorporatePageContent() {
   return (
     <>
       <CorporateHero
-        title={data?.travelInfo?.title || data?.title || fallbackHero.title}
+      title={packageData?.title || data?.travelInfo?.title || data?.title || fallbackHero.title}
         subtitle={
-          data?.travelInfo?.subtitle || data?.subtitle || fallbackHero.subtitle
+          packageData?.subtitle || data?.travelInfo?.subtitle || data?.subtitle || fallbackHero.subtitle
         }
-        price={fallbackHero.price}
-        images={heroImages}
+        price={packageData?.price || fallbackHero.price}
+        images={packageData ? [packageData.image, ...heroImages].slice(0, 5) : heroImages}
       />
       <CorporateOverview
         description={overviewDescription}

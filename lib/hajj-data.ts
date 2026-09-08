@@ -15,7 +15,7 @@ export const hajjPackages = [
       "24/7 Dedicated Ground Support",
     ],
     price: "৳6,50,000",
-    href: "/hajj-umrah-details",
+    href: "/packages/hajj-and-umrah?type=hajj",
   },
   {
     type: "Anytime",
@@ -33,6 +33,6 @@ export const hajjPackages = [
       "On-call Multilingual Assistance",
     ],
     price: "৳1,50,000",
-    href: "/hajj-umrah-details",
+    href: "/packages/hajj-and-umrah?type=umrah",
   },
 ] as const;

@@ -2,6 +2,7 @@ import { Container } from "@/components/ui/Container";
 import type { AboutProcessStep } from "@/types/about";
 
 type AboutProcessProps = {
+  title: string;
   steps: AboutProcessStep[];
 };
 
@@ -29,13 +30,13 @@ function StepCopy({ title, description }: { title: string; description: string }
   );
 }
 
-export function AboutProcess({ steps }: AboutProcessProps) {
+export function AboutProcess({ title, steps }: AboutProcessProps) {
   return (
     <section className="bg-teal-100 py-12 tablet:py-16 desktop:h-[1223px] desktop:py-16">
       <Container className="h-full desktop-xl:!px-0">
         <div className="mx-auto flex h-full w-full max-w-[1151px] flex-col desktop:justify-center">
           <h2 className="shrink-0 text-center text-[32px] leading-tight font-bold text-hero tablet:text-[40px] desktop:text-[48px]">
-            Our Process
+            {title}
           </h2>
 
           <div className="mt-10 flex flex-col gap-10 tablet:mt-12 tablet:gap-12 desktop:mt-[60px] desktop:min-h-0 desktop:flex-1 desktop:gap-[60px]">

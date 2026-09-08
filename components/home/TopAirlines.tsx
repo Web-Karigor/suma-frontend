@@ -9,16 +9,29 @@ import { cn } from "@/lib/cn";
 
 function takeWrap(list: AirlineCard[], start: number, count: number) {
   if (list.length === 0) return [];
-  return Array.from({ length: count }, (_, index) => list[(start + index) % list.length]);
+  return Array.from(
+    { length: count },
+    (_, index) => list[(start + index) % list.length],
+  );
 }
 
-function AirlineTile({ name, image, imageAlt }: { name: string; image: string; imageAlt: string }) {
+function AirlineTile({
+  name,
+  image,
+  imageAlt,
+}: {
+  name: string;
+  image: string;
+  imageAlt: string;
+}) {
   const [failed, setFailed] = useState(false);
 
   return (
     <div className="flex size-[72px] shrink-0 items-center justify-center rounded-xl bg-white desktop:size-[150px]">
       {!image || failed ? (
-        <span className="px-1 text-center text-xs font-semibold text-primary">{name}</span>
+        <span className="px-1 text-center text-xs font-semibold text-primary">
+          {name}
+        </span>
       ) : (
         <img
           src={image}
@@ -50,7 +63,12 @@ function MarqueeRow({
 
   return (
     <div className="airlines-row overflow-hidden">
-      <div className={cn("airlines-track flex w-max gap-3 desktop:gap-6", trackClass)}>
+      <div
+        className={cn(
+          "airlines-track flex w-max gap-3 desktop:gap-6",
+          trackClass,
+        )}
+      >
         {track.map((airline, index) => (
           <AirlineTile
             key={`${airline.id}-${index}`}

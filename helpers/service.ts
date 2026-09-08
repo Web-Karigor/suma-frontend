@@ -12,10 +12,10 @@ const SLUG_AREA: Record<string, ServiceArea> = {
 const SLUG_HREF: Record<string, string> = {
   "visa-assistance": "/visa-application",
   "medical-tourism": "/medical",
-  "corporate-travel": "/corporate-tour",
+  "corporate-travel": "/packages/corporate-travel",
   "hajj-and-umrah": "/hajj",
   "hotel-accomodation": "/hotels",
-  "holiday-packages": "/packages",
+  "holiday-packages": "/packages/holiday-packages",
 };
 
 const FALLBACK_IMAGE =

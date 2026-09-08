@@ -17,13 +17,18 @@ export function AboutPageContent() {
 
   return (
     <>
-      <AboutHero title={data.title} gallery={data.gallery} />
+      <AboutHero
+        title={data.title}
+        banner={data.banner}
+        bannerAlt={data.bannerAlt}
+        gallery={data.gallery}
+      />
       {data.stories.length > 0 && (
         <AboutStory title={data.storyTitle} stories={data.stories} />
       )}
       {data.founder && <AboutCEO founder={data.founder} />}
       {data.processSteps.length > 0 && (
-        <AboutProcess steps={data.processSteps} />
+        <AboutProcess title={data.processTitle} steps={data.processSteps} />
       )}
       {data.values.length > 0 && <AboutValues values={data.values} />}
       <AboutCTA />

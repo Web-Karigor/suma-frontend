@@ -5,7 +5,7 @@ export const serviceLinks = [
   { label: "Visa Services", href: "/visa-application" },
   { label: "Hotel Booking", href: "/hotels" },
   { label: "Holiday Packages", href: "/packages" },
-  { label: "Corporate Tour", href: "/corporate-tour" },
+  { label: "Corporate Tour", href: "/packages/corporate-travel" },
   { label: "Air Tickets", href: "/contact" },
   { label: "Medical Tourism", href: "/medical" },
 ] as const;

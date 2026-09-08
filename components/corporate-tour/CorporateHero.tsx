@@ -16,31 +16,41 @@ const COLLAGE = [
   {
     src: "/images/corporate-tour/collage-1.png",
     alt: "First class cabin",
-    className: "h-[280px] w-[198px] tablet:h-[400px] tablet:w-[284px] desktop-xl:h-[519px] desktop-xl:w-[368px]",
+    className:
+      "h-[280px] w-[198px] tablet:h-[400px] tablet:w-[284px] desktop-xl:h-[519px] desktop-xl:w-[368px]",
   },
   {
     src: "/images/corporate-tour/collage-2.png",
     alt: "Global business travel",
-    className: "h-[193px] w-[186px] tablet:h-[276px] tablet:w-[266px] desktop-xl:h-[358px] desktop-xl:w-[345px]",
+    className:
+      "h-[193px] w-[186px] tablet:h-[276px] tablet:w-[266px] desktop-xl:h-[358px] desktop-xl:w-[345px]",
   },
   {
     src: "/images/corporate-tour/collage-3.png",
     alt: "Connected destinations",
-    className: "h-[121px] w-[155px] tablet:h-[173px] tablet:w-[222px] desktop-xl:h-[225px] desktop-xl:w-[288px]",
+    className:
+      "h-[121px] w-[155px] tablet:h-[173px] tablet:w-[222px] desktop-xl:h-[225px] desktop-xl:w-[288px]",
   },
   {
     src: "/images/corporate-tour/collage-4.png",
     alt: "Business traveler",
-    className: "h-[207px] w-[169px] tablet:h-[295px] tablet:w-[242px] desktop-xl:h-[383px] desktop-xl:w-[314px]",
+    className:
+      "h-[207px] w-[169px] tablet:h-[295px] tablet:w-[242px] desktop-xl:h-[383px] desktop-xl:w-[314px]",
   },
   {
     src: "/images/corporate-tour/collage-5.png",
     alt: "Corporate flight",
-    className: "h-[279px] w-[199px] tablet:h-[398px] tablet:w-[284px] desktop-xl:h-[517px] desktop-xl:w-[369px]",
+    className:
+      "h-[279px] w-[199px] tablet:h-[398px] tablet:w-[284px] desktop-xl:h-[517px] desktop-xl:w-[369px]",
   },
 ] as const;
 
-export function CorporateHero({ title, subtitle, price, images }: CorporateHeroProps) {
+export function CorporateHero({
+  title,
+  subtitle,
+  price,
+  images,
+}: CorporateHeroProps) {
   const formattedPrice = `৳ ${price.toLocaleString("en-US")}`;
   const collage = COLLAGE.map((item, index) => ({
     ...item,
@@ -86,12 +96,18 @@ export function CorporateHero({ title, subtitle, price, images }: CorporateHeroP
                 onClick={() => {
                   const url = window.location.href;
                   if (navigator.share) {
-                    void navigator.share({ title: document.title, url }).catch(() => {
-                      void navigator.clipboard.writeText(url).catch(() => undefined);
-                    });
+                    void navigator
+                      .share({ title: document.title, url })
+                      .catch(() => {
+                        void navigator.clipboard
+                          .writeText(url)
+                          .catch(() => undefined);
+                      });
                     return;
                   }
-                  void navigator.clipboard.writeText(url).catch(() => undefined);
+                  void navigator.clipboard
+                    .writeText(url)
+                    .catch(() => undefined);
                 }}
               >
                 <span className="relative size-6 shrink-0 overflow-clip">
@@ -110,19 +126,25 @@ export function CorporateHero({ title, subtitle, price, images }: CorporateHeroP
 
           <div className="flex flex-col items-start gap-4 tablet:items-end desktop-xl:w-[304px] desktop-xl:gap-6">
             <div className="flex flex-col items-start gap-2.5 text-white tablet:items-end tablet:text-right">
-              <p className="text-base font-semibold leading-[1.58]">Starts From</p>
+              <p className="text-base font-semibold leading-[1.58]">
+                Starts From
+              </p>
               <div className="flex flex-col items-start gap-1.5 tablet:items-end">
                 <p className="text-[40px] font-semibold leading-[1.08] tracking-[-0.28px] tablet:text-[56px]">
                   {formattedPrice}
                 </p>
-                <p className="text-base font-normal leading-[1.6]">Per Person (VAT Included)</p>
+                <p className="text-base font-normal leading-[1.6]">
+                  Per Person (VAT Included)
+                </p>
               </div>
             </div>
             <a
               href="#services"
               className="flex w-full items-center justify-between text-neutral-50 desktop-xl:w-[304px]"
             >
-              <span className="text-base font-semibold leading-[1.58]">See What&apos;s Included in This Price?</span>
+              <span className="text-base font-semibold leading-[1.58]">
+                See What&apos;s Included in This Price?
+              </span>
               <span className="relative size-5 shrink-0 overflow-clip">
                 <img
                   src="/images/corporate-tour/icons/arrow-down.svg"
@@ -138,8 +160,17 @@ export function CorporateHero({ title, subtitle, price, images }: CorporateHeroP
 
         <div className="mt-10 flex w-full items-end gap-3.5 overflow-x-auto pb-2 tablet:mt-12 desktop-xl:mt-[100px] desktop-xl:gap-[14px] desktop-xl:overflow-visible desktop-xl:pb-0">
           {collage.map((item) => (
-            <div key={`${item.src}-${item.alt}`} className={`relative shrink-0 overflow-hidden rounded-[32px] ${item.className}`}>
-              <Image src={item.src} alt={item.alt} fill className="object-cover" sizes="369px" />
+            <div
+              key={`${item.src}-${item.alt}`}
+              className={`relative shrink-0 overflow-hidden rounded-[32px] ${item.className}`}
+            >
+              <Image
+                src={item.src}
+                alt={item.alt}
+                fill
+                className="object-cover"
+                sizes="369px"
+              />
             </div>
           ))}
         </div>

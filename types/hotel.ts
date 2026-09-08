@@ -34,6 +34,8 @@ export type HotelsApiResponse = {
   status: number;
 };
 
+export type HomepageHotelsApiResponse = Omit<HotelsApiResponse, "page">;
+
 export type HotelsPageMeta = {
   title: string;
   headerTitle: string;

@@ -1,19 +1,21 @@
 import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { visaCountry } from "@/lib/visa-data";
+import type { VisaCountryInfo } from "@/types/visa-application";
 
 const countryImage = "/images/visa/visa-map2.png";
 
-const details = [
-  ["Capital City", visaCountry.capital],
-  ["Local Time", visaCountry.localTime],
-  ["Telephone Code", visaCountry.telephoneCode],
-  ["Bank Time", visaCountry.bankTime],
-  ["Exchange Rate", visaCountry.exchangeRate],
-  ["Embassy Address", visaCountry.embassy],
-] as const;
+export function VisaDetails({ countryInfo }: { countryInfo?: VisaCountryInfo | null }) {
+  const details = [
+    ["Capital City", countryInfo?.city || visaCountry.capital],
+    ["Local Time", countryInfo?.local_time || visaCountry.localTime],
+    ["Telephone Code", countryInfo?.telephone_code || visaCountry.telephoneCode],
+    ["Bank Time", countryInfo?.bank_time || visaCountry.bankTime],
+    ["Exchange Rate", countryInfo?.exchange_rate || visaCountry.exchangeRate],
+    ["Embassy Address", countryInfo?.embassy_address || visaCountry.embassy],
+  ] as const;
 
-export function VisaDetails() {
+  const mapImage = countryInfo?.map_image || countryImage;
   return (
     <section className="py-8 tablet:py-12">
       <Container className="max-w-[1446px]">
@@ -31,7 +33,7 @@ export function VisaDetails() {
             ))}
           </dl>
             <div className="relative min-h-[240px] overflow-hidden rounded-[24px]  desktop:h-full">
-              <Image src={countryImage} alt={`${visaCountry.name} travel map`} fill className="object-contain" sizes="(min-width: 1280px) 35vw, 100vw" />
+              <Image src={mapImage} alt={`${visaCountry.name} travel map`} fill className="object-contain" sizes="(min-width: 1280px) 35vw, 100vw" />
             </div>
           </div>
         </div>

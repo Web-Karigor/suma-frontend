@@ -122,7 +122,12 @@ function normalizeWhyChoose(
 
   const images = (why.images ?? []).map((src) => resolveServiceImage(src));
 
-  if (!why.title && !why.subtitle && items.length === 0 && images.length === 0) {
+  if (
+    !why.title &&
+    !why.subtitle &&
+    items.length === 0 &&
+    images.length === 0
+  ) {
     return null;
   }
 
@@ -152,7 +157,7 @@ function normalizePackageSide(
     image: resolveServiceImage(side.image || fallbackImage),
     highlights: side.highlights ?? [],
     price,
-    href: "/hajj-umrah-details",
+    href: `/packages/hajj-and-umrah?type=${type === "Annual" ? "hajj" : "umrah"}`,
   };
 }
 
@@ -163,8 +168,18 @@ function normalizePackageSummary(
   if (!summary) return null;
 
   const packages = [
-    normalizePackageSide(summary.hajj, "Annual", "Hajj Package Summary", fallbackImage),
-    normalizePackageSide(summary.umrah, "Anytime", "Umrah Package Summary", fallbackImage),
+    normalizePackageSide(
+      summary.hajj,
+      "Annual",
+      "Hajj Package Summary",
+      fallbackImage,
+    ),
+    normalizePackageSide(
+      summary.umrah,
+      "Anytime",
+      "Umrah Package Summary",
+      fallbackImage,
+    ),
   ].filter(Boolean) as ServiceHajjPackage[];
 
   if (!summary.title && !summary.subtitle && packages.length === 0) return null;
@@ -215,7 +230,10 @@ export function normalizeServiceDetailResponse(
         location: asText(entry.location),
         accreditation: asText(entry.certificate_name) || "Accredited",
         specialties: asText(entry.specialities_in)
-          ? asText(entry.specialities_in).split(",").map((part) => part.trim()).filter(Boolean)
+          ? asText(entry.specialities_in)
+              .split(",")
+              .map((part) => part.trim())
+              .filter(Boolean)
           : [],
         image: resolveServiceImage(entry.image),
         mapUrl: asText(entry.map_url),
@@ -268,7 +286,9 @@ export async function fetchServiceBySlug(
 ): Promise<ServiceDetailPageData | null> {
   try {
     const { apiFetch } = await import("@/lib/apiFetch");
-    const response = await apiFetch<ServiceDetailApiResponse>(`/service/${slug}`);
+    const response = await apiFetch<ServiceDetailApiResponse>(
+      `/service/${slug}`,
+    );
     return normalizeServiceDetailResponse(response);
   } catch {
     return null;

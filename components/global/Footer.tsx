@@ -18,11 +18,7 @@ import {
   YouTubeIcon,
 } from "@/components/icons";
 
-import {
-  footerAbout,
-  footerColumns,
-  footerOffices,
-} from "@/lib/home-data";
+import { footerAbout, footerColumns, footerOffices } from "@/lib/home-data";
 import { useSettingsQuery } from "@/hooks/queries/useSettingsQuery";
 import { FALLBACK_SETTINGS } from "@/helpers/settings";
 import type { SettingsSocialLink } from "@/types/settings";
@@ -200,7 +196,8 @@ export function Footer() {
         </div>
 
         <p className="mt-14 text-center text-[16px] text-[#59A9A8]">
-          © Copyright {new Date().getFullYear()} | Suma Group All Rights Reserved.
+          © Copyright {new Date().getFullYear()} | Suma Group All Rights
+          Reserved.
         </p>
       </Container>
     </footer>

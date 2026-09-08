@@ -7,14 +7,13 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { ArrowRightIcon, StarIcon } from "@/components/icons";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
-import { useHotelsQuery } from "@/hooks/queries/useHotelsQuery";
+import { useHomepageHotelsQuery } from "@/hooks/queries/useHomepageHotelsQuery";
 
 import "swiper/css";
 import "swiper/css/pagination";
 
 export function BestHotels() {
-  const { data, isLoading } = useHotelsQuery();
-  const hotels = data?.hotels ?? [];
+  const { data: hotels = [], isLoading } = useHomepageHotelsQuery();
 
   if (isLoading || hotels.length === 0) return null;
 
@@ -35,8 +34,9 @@ export function BestHotels() {
             </Link>
           </div>
           <p className="mt-2 max-w-2xl text-sm leading-relaxed text-neutral-600 tablet:text-base">
-            For budget-friendly hotels, villas or resorts, browse accommodations that you need.
-            Book long-term or short-term accommodation from our hotel collection.
+            For budget-friendly hotels, villas or resorts, browse accommodations
+            that you need. Book long-term or short-term accommodation from our
+            hotel collection.
           </p>
         </div>
 
@@ -73,13 +73,20 @@ export function BestHotels() {
                 </div>
 
                 <div className="relative z-0 flex flex-col gap-2.5 rounded-2xl bg-gray-50 px-6 py-5 shadow-[4px_0_8px_rgb(0_0_0/4%)] desktop:absolute desktop:top-1/2 desktop:right-0 desktop:h-[277px] desktop:w-[376px] desktop:-translate-y-1/2 desktop:py-5 desktop:pr-8 desktop:pl-10">
-                  <div className="flex gap-0.5 text-gold-500" aria-label={`${hotel.rating} star rating`}>
+                  <div
+                    className="flex gap-0.5 text-gold-500"
+                    aria-label={`${hotel.rating} star rating`}
+                  >
                     {Array.from({ length: hotel.rating }).map((_, index) => (
                       <StarIcon key={index} className="size-3.5" />
                     ))}
                   </div>
-                  <h3 className="text-lg font-semibold text-black">{hotel.title}</h3>
-                  <p className="line-clamp-2 text-sm leading-relaxed text-gray-600">{hotel.description}</p>
+                  <h3 className="text-lg font-semibold text-black">
+                    {hotel.title}
+                  </h3>
+                  <p className="line-clamp-2 text-sm leading-relaxed text-gray-600">
+                    {hotel.description}
+                  </p>
                   <div className="mt-auto pt-1">
                     <Button href={hotel.href}>Explore</Button>
                   </div>

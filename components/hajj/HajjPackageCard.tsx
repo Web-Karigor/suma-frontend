@@ -61,7 +61,7 @@ export function HajjPackageCard({
         ) : null}
         <Button
           href={packageData.href}
-          className="mt-4 h-[49px] w-full justify-center rounded-button py-3 text-base"
+          className="mt-auto h-[49px] w-full justify-center rounded-button py-3 text-base"
         >
           View {packageData.type === "Annual" ? "Hajj" : "Umrah"} Packages
         </Button>

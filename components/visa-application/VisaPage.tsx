@@ -5,12 +5,14 @@ import { VisaDetails } from "./VisaDetails";
 import { VisaHero } from "./VisaHero";
 import { VisaRequirements } from "./VisaRequirements";
 import { useServiceDetailQuery } from "@/hooks/queries/useServiceDetailQuery";
+import { useVisaApplicationsQuery } from "@/hooks/queries/useVisaApplicationsQuery";
 import { visaRequirementsHtml } from "@/lib/visa-data";
 
 const VISA_SLUG = "visa-assistance";
 
 export function VisaPage() {
   const { data, isLoading } = useServiceDetailQuery(VISA_SLUG);
+  const { data: countryInfo } = useVisaApplicationsQuery();
 
   if (isLoading) return null;
 
@@ -26,7 +28,7 @@ export function VisaPage() {
       />
       <VisaBanner />
       
-      <VisaDetails />
+      <VisaDetails countryInfo={countryInfo} />
       <VisaRequirements
         html={data?.descriptionHtml || visaRequirementsHtml}
       />
