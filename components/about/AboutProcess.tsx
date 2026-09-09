@@ -33,8 +33,8 @@ function StepCopy({ title, description }: { title: string; description: string }
 export function AboutProcess({ title, steps }: AboutProcessProps) {
   return (
     <section className="bg-teal-100 py-12 tablet:py-16 desktop:h-[1223px] desktop:py-16">
-      <Container className="h-full desktop-xl:!px-0">
-        <div className="mx-auto flex h-full w-full max-w-[1151px] flex-col desktop:justify-center">
+      <Container className="h-full">
+        <div className="mx-auto flex h-full w-full max-w-[1174.5px] flex-col">
           <h2 className="shrink-0 text-center text-[32px] leading-tight font-bold text-hero tablet:text-[40px] desktop:text-[48px]">
             {title}
           </h2>
@@ -53,13 +53,13 @@ export function AboutProcess({ title, steps }: AboutProcessProps) {
                       <div className="relative z-10 flex items-start pb-6 desktop:items-end desktop:pb-6 desktop:pr-10">
                         <StepCopy title={step.title} description={step.description} />
                       </div>
-                      <div className="relative z-0 hidden items-end justify-end pr-2 pb-1 desktop:flex [clip-path:inset(-6rem_-4rem_0.25rem_-4rem)]">
+                      <div className="relative z-0 hidden items-end justify-end -mr-2 pb-1 desktop:flex [clip-path:inset(-6rem_-4rem_0.25rem_-4rem)]">
                         <StepNumber value={step.number} />
                       </div>
                     </>
                   ) : (
                     <>
-                      <div className="relative z-0 hidden items-end justify-start pb-1 desktop:flex [clip-path:inset(-6rem_-4rem_0.25rem_-4rem)]">
+                      <div className="relative z-0 hidden items-end justify-start pb-1 -ml-2 desktop:flex [clip-path:inset(-6rem_-4rem_0.25rem_-4rem)]">
                         <StepNumber value={step.number} />
                       </div>
                       <div className="relative z-10 flex items-start pb-6 desktop:items-end desktop:justify-end desktop:pb-6 desktop:pl-10">
@@ -68,7 +68,7 @@ export function AboutProcess({ title, steps }: AboutProcessProps) {
                     </>
                   )}
 
-                  <div className="absolute bottom-0 left-0 h-1 w-full bg-[#BFDEDD]" />
+                  <div className="absolute bottom-0 left-0 h-2 w-[1165.5px] bg-[#BFDEDD]" />
                 </div>
               );
             })}

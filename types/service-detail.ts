@@ -118,6 +118,7 @@ export type ServiceDetailItem = {
   thumbnails: ServiceMediaItem[] | null;
   gallery: ServiceMediaItem[] | null;
   travel_info: ServiceTravelInfo | null;
+  tour_info?: ServiceTravelInfo | null;
   overview: ServiceOverview | null;
   specialities: ServiceSectionBlock<ServiceSpecialitySection> | null;
   networks: ServiceSectionBlock<ServiceNetworkSection> | null;

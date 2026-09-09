@@ -24,10 +24,10 @@ export function AboutValues({ values }: AboutValuesProps) {
                 index !== values.length - 1 ? "desktop:border-r desktop:border-[#D6DEE0]" : ""
               }`}
             >
-              <h3 className="text-[18px] leading-[1.3] font-semibold text-hero desktop:text-[20px]">
+              <h3 className="text-[22px] leading-[1.3] font-semibold text-hero 2xl:text-[28px]">
                 {value.title}
               </h3>
-              <p className="mt-4 max-w-[380px] text-[14px] leading-[1.5] text-neutral-600 desktop:text-[16px]">
+              <p className="mt-4 max-w-[380px] text-[16px] leading-[1.5] text-neutral-600 2xl:text-[18px]">
                 {value.description}
               </p>
             </div>

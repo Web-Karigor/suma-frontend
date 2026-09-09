@@ -24,7 +24,7 @@ export function ContactOffices() {
             <br />
             Visit our office..
           </h2>
-          <div className="grid gap-3 tablet:grid-cols-2 desktop:w-[570px]">
+          <div className="grid gap-5 tablet:grid-cols-2 desktop:w-[570px]">
             <ContactLink
               icon={<Phone className="size-4" />}
               label="Give a Call"
@@ -43,7 +43,10 @@ export function ContactOffices() {
         {!isLoading && offices && offices.length > 0 && (
           <div className="mt-6 grid gap-4 tablet:grid-cols-2">
             {offices.map((office) => (
-              <OfficeCard key={`${office.name}-${office.address}`} office={office} />
+              <OfficeCard
+                key={`${office.name}-${office.address}`}
+                office={office}
+              />
             ))}
           </div>
         )}
@@ -66,14 +69,57 @@ function ContactLink({
   return (
     <a
       href={href}
-      className="flex min-h-16 items-center gap-3 rounded-[10px] bg-white px-4 text-primary shadow-[0_2px_8px_rgb(10_12_12/4%)] transition-colors hover:bg-teal-50"
+      className="
+        flex
+        h-[87px]
+        items-center
+        justify-between
+        rounded-[16px]
+        bg-[#E6F2F2]
+        px-4
+        transition-colors
+        hover:bg-teal-50
+      "
     >
-      <span>{icon}</span>
-      <span className="flex flex-col text-[10px] text-gray-500">
-        <span>{label}</span>
-        <strong className="text-xs text-primary">{value}</strong>
+      <div className="flex items-center gap-4">
+        <span className="text-[#007F80]">{icon}</span>
+
+        <span className="flex flex-col">
+          <span
+            className="
+              text-[16px]
+              leading-tight
+              font-normal
+              text-[#8B8B8B]
+            "
+          >
+            {label}
+          </span>
+
+          <strong
+            className="
+              mt-1
+              text-[18px]
+              leading-tight
+              font-medium
+              text-[#007F80]
+            "
+          >
+            {value}
+          </strong>
+        </span>
+      </div>
+
+      <span
+        className="
+          text-[32px]
+          leading-none
+          font-light
+          text-[#8B8B8B]
+        "
+      >
+        ›
       </span>
-      <span className="ml-auto text-lg text-gray-400">›</span>
     </a>
   );
 }

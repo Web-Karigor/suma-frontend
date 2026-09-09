@@ -33,7 +33,7 @@ export function BestHotels() {
               <ArrowRightIcon className="size-4" />
             </Link>
           </div>
-          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-neutral-600 tablet:text-base">
+          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-neutral-600">
             For budget-friendly hotels, villas or resorts, browse accommodations
             that you need. Book long-term or short-term accommodation from our
             hotel collection.
@@ -84,7 +84,7 @@ export function BestHotels() {
                   <h3 className="text-lg font-semibold text-black">
                     {hotel.title}
                   </h3>
-                  <p className="line-clamp-2 text-sm leading-relaxed text-gray-600">
+                  <p className="line-clamp-2 text-xs leading-relaxed text-gray-600">
                     {hotel.description}
                   </p>
                   <div className="mt-auto pt-1">

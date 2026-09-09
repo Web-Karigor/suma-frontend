@@ -12,7 +12,7 @@ export function AboutStory({ title, stories }: AboutStoryProps) {
       <Container className="desktop-xl:!px-0">
         <div className="mx-auto w-full max-w-[1513px] desktop-xl:w-[1513px]">
           <div className="mb-12 text-center tablet:mb-14 desktop:mb-16">
-            <h2 className="text-[32px] leading-[1.15] font-bold tracking-[-0.02em] text-hero tablet:text-[42px] desktop:text-[48px]">
+            <h2 className="text-[32px] leading-[1.15] font-bold tracking-[-0.02em] text-hero xl:text-[42px] 2xl:text-[56px]">
               {title}
             </h2>
           </div>
@@ -29,11 +29,11 @@ export function AboutStory({ title, stories }: AboutStoryProps) {
                   }`}
                 />
 
-                <h3 className="text-[18px] leading-tight font-semibold text-hero">
+                <h3 className="text-[22px] leading-tight font-semibold text-hero">
                   {story.title}
                 </h3>
 
-                <p className="mt-3 text-[15px] leading-[1.55] text-neutral-600">
+                <p className="mt-3 text-[18px] leading-[1.55] text-neutral-600">
                   {story.description}
                 </p>
               </div>
@@ -58,11 +58,11 @@ export function AboutStory({ title, stories }: AboutStoryProps) {
                   >
                     {isLeft && (
                       <div className="w-full max-w-[686px]">
-                        <h3 className="text-[17px] leading-tight font-semibold text-hero lg:text-[18px]">
+                        <h3 className="text-[22px] leading-tight font-semibold text-hero lg:text-[18px]">
                           {story.title}
                         </h3>
 
-                        <p className="mt-3 text-[15px] leading-[1.48] text-neutral-600 lg:text-[16px]">
+                        <p className="mt-3 text-[18px] leading-[1.48] text-neutral-600 lg:text-[16px]">
                           {story.description}
                         </p>
                       </div>
@@ -82,11 +82,11 @@ export function AboutStory({ title, stories }: AboutStoryProps) {
                   <div className={!isLeft ? "pl-12 lg:pl-16" : ""}>
                     {!isLeft && (
                       <div className="w-full max-w-[686px]">
-                        <h3 className="text-[17px] leading-tight font-semibold text-hero lg:text-[18px]">
+                        <h3 className="text-[22px] leading-tight font-semibold text-hero lg:text-[18px]">
                           {story.title}
                         </h3>
 
-                        <p className="mt-3 text-[15px] leading-[1.48] text-neutral-600 lg:text-[16px]">
+                        <p className="mt-3 text-[18px] leading-[1.48] text-neutral-600 lg:text-[16px]">
                           {story.description}
                         </p>
                       </div>

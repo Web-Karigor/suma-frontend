@@ -50,7 +50,7 @@ function normalizeMediaList(
 function normalizeTravelInfo(
   item: ServiceDetailItem,
 ): ServiceDetailPageData["travelInfo"] {
-  const info = item.travel_info;
+  const info = item.travel_info ?? item.tour_info;
   if (!info) return null;
 
   const cards: ServiceHeroCard[] = [

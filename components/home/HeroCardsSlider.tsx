@@ -82,12 +82,14 @@ export function HeroCardsSlider({
           <SwiperSlide key={`${card.title}-${index}`}>
             <Link href={card.href} className="hero-card group block">
               <div className="hero-card-head">
-                <h3 className="truncate text-sm xl:text-lg font-semibold text-white">{card.title}</h3>
+                <h3 className="truncate text-sm xl:text-lg font-semibold text-white">
+                  {card.title}
+                </h3>
                 <div className="mt-1 flex items-center gap-0.5">
                   {Array.from({ length: 5 }).map((_, starIndex) => (
                     <StarIcon
                       key={starIndex}
-                      className={`size-4 xl:size-4 ${starIndex < card.rating ? "text-white" : "text-white/30"}`}
+                      className={`size-5 xl:size-6 ${starIndex < card.rating ? "text-white" : "text-white/30"}`}
                     />
                   ))}
                 </div>

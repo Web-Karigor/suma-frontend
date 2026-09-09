@@ -45,8 +45,9 @@ export function PopularDestinations() {
             Popular Destinations
           </h2>
           <p className="mx-auto mt-4 max-w-3xl text-center text-base leading-relaxed text-[#444] md:text-lg">
-            Expand your travel horizons with new facets. Explore the world by choosing your
-            ideal travel destinations in Asia, Europe, America, Australia and more with Suma.
+            Expand your travel horizons with new facets. Explore the world by
+            choosing your ideal travel destinations in Asia, Europe, America,
+            Australia and more with Suma.
           </p>
         </div>
 
@@ -104,7 +105,11 @@ export function PopularDestinations() {
         </Swiper>
 
         {dotCount > 1 ? (
-          <div className="popular-dots" role="tablist" aria-label="Popular destinations">
+          <div
+            className="popular-dots"
+            role="tablist"
+            aria-label="Popular destinations"
+          >
             {Array.from({ length: dotCount }).map((_, index) => (
               <button
                 key={index}
