@@ -93,7 +93,7 @@ export function TopAirlines() {
 
   return (
     <section className="bg-teal-50 py-16 tablet:py-[120px]">
-      <Container>
+      <Container className="max-w-[1560px]">
         <SectionHeading
           title="Top Airlines"
           subtitle="User-friendly platform connects you to top airlines instantly. Enjoy a comfortable and hassle-free journey on any destination and get tickets of top airlines easily."

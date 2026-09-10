@@ -44,10 +44,11 @@ export function ContactForm() {
       className="rounded-[16px] bg-[#F2F8F8] p-5 tablet:p-7 desktop:h-full desktop:rounded-[44px] desktop:p-8"
       onSubmit={async (event) => {
         event.preventDefault();
+        const form = event.currentTarget;
         setError("");
         setIsSubmitting(true);
 
-        const formData = new FormData(event.currentTarget);
+        const formData = new FormData(form);
         const value = (name: string) => String(formData.get(name) ?? "").trim();
 
         try {
@@ -64,7 +65,7 @@ export function ContactForm() {
             }),
           });
           setSent(true);
-          event.currentTarget.reset();
+          form.reset();
           setPackageName("");
           setDate(undefined);
         } catch (submissionError) {

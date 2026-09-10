@@ -17,7 +17,8 @@ const CORPORATE_SLUG = "corporate-travel";
 
 const fallbackHero = {
   title: "Corporate Business Tour Package",
-  subtitle: "A Tailored Travel Solution for Business Teams by Suma International",
+  subtitle:
+    "A Tailored Travel Solution for Business Teams by Suma International",
   price: 60221,
   images: [
     "/images/corporate-tour/collage-1.png",
@@ -33,7 +34,11 @@ const fallbackOverview = {
     "Suma International's Corporate Business Tour Package is designed for teams and executives who need travel handled with precision. From flight bookings and visa processing to premium accommodations and ground transport, every detail is managed to keep your team focused on business — not logistics. Whether it's a single-city conference trip or a multi-stop corporate itinerary, our team coordinates each leg in advance, so your travelers arrive prepared, on time, and without friction. With Suma International, corporate travel isn't just arranged — it's managed end-to-end, with the same reliability your business runs on.",
   cards: [
     { icon: "star" as const, label: "Package Type", value: "Business Tour" },
-    { icon: "calendar" as const, label: "Date", value: "22 June - 31 July, 2026" },
+    {
+      icon: "calendar" as const,
+      label: "Date",
+      value: "22 June - 31 July, 2026",
+    },
     { icon: "moon" as const, label: "Nights", value: "Total 5 Nights" },
   ],
 };
@@ -82,9 +87,30 @@ const fallbackItinerary = [
 ];
 
 const fallbackServices = {
-  included: ["Visa", "Flight", "Transfers", "Meeting Room", "24/7 Support", "Hotel"],
-  additional: ["Chauffeur", "AV", "Extended Stay", "Dinner", "Interpreter", "Custom Itinerary"],
-  excluded: ["Chauffeur", "AV", "Extended Stay", "Dinner", "Interpreter", "Custom Itinerary"],
+  included: [
+    "Visa",
+    "Flight",
+    "Transfers",
+    "Meeting Room",
+    "24/7 Support",
+    "Hotel",
+  ],
+  additional: [
+    "Chauffeur",
+    "AV",
+    "Extended Stay",
+    "Dinner",
+    "Interpreter",
+    "Custom Itinerary",
+  ],
+  excluded: [
+    "Chauffeur",
+    "AV",
+    "Extended Stay",
+    "Dinner",
+    "Interpreter",
+    "Custom Itinerary",
+  ],
 };
 
 const fallbackActivities = [
@@ -105,7 +131,8 @@ const fallbackCancellation = [
       "0% of the value of the package services will be refunded in case of cancellation after (24) hours, and before the last (5) Day/Days .An exception to this rule is the visa application processing fee, which is non-refundable after the 24-hour period.",
   },
   {
-    timeframe: "No refunds will be made in case of cancellation within the last (72) hours.",
+    timeframe:
+      "No refunds will be made in case of cancellation within the last (72) hours.",
   },
   {
     timeframe:
@@ -121,27 +148,55 @@ const fallbackCancellation = [
   },
 ];
 
-export function CorporatePageContent({ packageSlug }: { packageSlug?: string }) {
+export function CorporatePageContent({
+  packageSlug,
+}: {
+  packageSlug?: string;
+}) {
   const { data, isLoading } = useServiceDetailQuery(CORPORATE_SLUG);
   const packageQuery = usePackageDetailQuery(packageSlug);
 
   if (isLoading || packageQuery.isLoading) return null;
   const packageData = packageQuery.data;
 
-  const galleryImages = data?.gallery.map((item) => item.src) ?? [];
+  const galleryImages = packageData?.gallery.length
+    ? packageData.gallery
+    : (data?.gallery.map((item) => item.src) ?? []);
   const thumbImages = data?.thumbnails.map((item) => item.src) ?? [];
   const heroImages =
     [...galleryImages, ...thumbImages].length >= 5
       ? [...galleryImages, ...thumbImages].slice(0, 5)
       : fallbackHero.images;
 
-  const overviewDescription = packageData?.description ||
+  const overviewDescription =
+    packageData?.overview ||
+    packageData?.description ||
     data?.overview?.description ||
     data?.overview?.subtitle ||
     fallbackOverview.description;
 
-  const travelCards =
-    data?.travelInfo?.cards.length
+  const travelCards = packageData
+    ? [
+        {
+          icon: "star" as const,
+          label: "Package Type",
+          value: packageData.packageType?.name || "Corporate Tour",
+        },
+        {
+          icon: "calendar" as const,
+          label: "Date",
+          value:
+            [packageData.startDate, packageData.endDate]
+              .filter(Boolean)
+              .join(" - ") || "Flexible Dates",
+        },
+        {
+          icon: "moon" as const,
+          label: "Nights",
+          value: packageData.nights || "Flexible Stay",
+        },
+      ]
+    : data?.travelInfo?.cards.length
       ? data.travelInfo.cards.map((card, index) => ({
           icon: (["star", "calendar", "moon"] as const)[index % 3],
           label: card.label,
@@ -150,17 +205,36 @@ export function CorporatePageContent({ packageSlug }: { packageSlug?: string }) 
       : fallbackOverview.cards;
 
   const accommodations = data?.accommodations.items[0];
-  const accommodationData = accommodations
+  const accommodationData = packageData?.accommodation
     ? {
         ...fallbackAccommodation,
-        hotelName: accommodations.title,
-        hotelImage: accommodations.image,
-        description: accommodations.description || fallbackAccommodation.description,
+        hotelName: packageData.accommodation.title || "Accommodation",
+        hotelImage: packageData.accommodation.images?.[0] || packageData.image,
+        rating: packageData.accommodation.customer_rating || 0,
+        location: packageData.accommodation.location || "",
+        description: packageData.accommodation.short_description || "",
+        amenities: (packageData.accommodation.services ?? []).map((label) => ({
+          label,
+        })),
       }
-    : fallbackAccommodation;
+    : accommodations
+      ? {
+          ...fallbackAccommodation,
+          hotelName: accommodations.title,
+          hotelImage: accommodations.image,
+          description:
+            accommodations.description || fallbackAccommodation.description,
+        }
+      : fallbackAccommodation;
 
-  const itinerary =
-    data?.treatmentJourney.items.length
+  const itinerary = packageData?.itinerary.length
+    ? packageData.itinerary.map((step) => ({
+        title: step.title,
+        description: step.short_description || "",
+        image: step.images?.[0]?.url || packageData.image,
+        duration: step.activity_duration || "",
+      }))
+    : data?.treatmentJourney.items.length
       ? data.treatmentJourney.items.map((step, index) => ({
           title: step.title,
           description: step.description,
@@ -169,20 +243,63 @@ export function CorporatePageContent({ packageSlug }: { packageSlug?: string }) 
         }))
       : fallbackItinerary;
 
-  const servicesData = data?.services ?? fallbackServices;
-  const cancellationPolicies = data?.cancellationHtml
-    ? [{ timeframe: data.cancellationHtml.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim() }]
-    : fallbackCancellation;
+  const servicesData = packageData?.services
+    ? {
+        included: packageData.services.included ?? [],
+        additional: packageData.services.available_on_extra_fees ?? [],
+        excluded: packageData.services.not_included ?? [],
+      }
+    : (data?.services ?? fallbackServices);
+  const cancellationPolicies = packageData?.cancellationPolicy
+    ? [{ timeframe: packageData.cancellationPolicy }]
+    : data?.cancellationHtml
+      ? [
+          {
+            timeframe: data.cancellationHtml
+              .replace(/<[^>]+>/g, " ")
+              .replace(/\s+/g, " ")
+              .trim(),
+          },
+        ]
+      : fallbackCancellation;
+  const activities =
+    packageData?.facilities.included.length ||
+    packageData?.facilities.addOn.length
+      ? [
+          ...packageData.facilities.included.map((label) => ({
+            label,
+            value: "Included",
+            included: true,
+          })),
+          ...packageData.facilities.addOn.map((label) => ({
+            label,
+            value: "Add-on",
+            included: false,
+          })),
+        ]
+      : fallbackActivities;
 
   return (
     <>
       <CorporateHero
-      title={packageData?.title || data?.travelInfo?.title || data?.title || fallbackHero.title}
+        title={
+          packageData?.title ||
+          data?.travelInfo?.title ||
+          data?.title ||
+          fallbackHero.title
+        }
         subtitle={
-          packageData?.subtitle || data?.travelInfo?.subtitle || data?.subtitle || fallbackHero.subtitle
+          packageData?.subtitle ||
+          data?.travelInfo?.subtitle ||
+          data?.subtitle ||
+          fallbackHero.subtitle
         }
         price={packageData?.price || fallbackHero.price}
-        images={packageData ? [packageData.image, ...heroImages].slice(0, 5) : heroImages}
+        images={
+          packageData
+            ? [packageData.image, ...heroImages].slice(0, 5)
+            : heroImages
+        }
       />
       <CorporateOverview
         description={overviewDescription}
@@ -191,7 +308,7 @@ export function CorporatePageContent({ packageSlug }: { packageSlug?: string }) 
       <CorporateAccommodation {...accommodationData} />
       <CorporateItinerary itinerary={itinerary} />
       <CorporateServices services={servicesData} />
-      <CorporateActivities activities={fallbackActivities} />
+      <CorporateActivities activities={activities} />
       <CorporateCancellation policies={cancellationPolicies} />
       <CorporateBooking />
     </>

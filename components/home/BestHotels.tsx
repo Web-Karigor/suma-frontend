@@ -78,7 +78,7 @@ export function BestHotels() {
                     aria-label={`${hotel.rating} star rating`}
                   >
                     {Array.from({ length: hotel.rating }).map((_, index) => (
-                      <StarIcon key={index} className="size-3.5" />
+                      <StarIcon key={index} className="size-5.5" />
                     ))}
                   </div>
                   <h3 className="text-lg font-semibold text-black">

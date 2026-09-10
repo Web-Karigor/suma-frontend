@@ -44,30 +44,31 @@ export function HeroCardsSlider({
       <Swiper
         modules={[Autoplay]}
         loop={cards.length > 1}
+        direction="horizontal"
         grabCursor
         watchSlidesProgress
         watchOverflow={false}
+        loopPreventsSliding={false}
         speed={1000}
         slidesPerView={1.15}
         slidesPerGroup={1}
         spaceBetween={SLIDE_GAP}
         centeredSlides
-        loopAdditionalSlides={2}
+        autoplay={
+          cards.length > 1
+            ? {
+                delay: 4000,
+                disableOnInteraction: false,
+                reverseDirection: false,
+              }
+            : false
+        }
         breakpoints={{
           768: {
             slidesPerView: 3,
             centeredSlides: false,
           },
         }}
-        autoplay={
-          cards.length > 1
-            ? {
-                delay: 4200,
-                disableOnInteraction: false,
-                pauseOnMouseEnter: true,
-              }
-            : false
-        }
         onInit={(swiper) => {
           animateHeroCards(swiper);
           onActiveChange?.(swiper.realIndex);

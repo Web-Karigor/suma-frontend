@@ -2,7 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Container } from "@/components/ui/Container";
 
 type VisaHeroProps = {
@@ -25,7 +31,8 @@ export function VisaHero({ title, subtitle, image }: VisaHeroProps) {
       <div className="absolute inset-0 bg-[#0A0C0C]/64" />
       <Container className="relative z-10 text-center text-white">
         <p className="text-sm tablet:text-base">
-          Country pages grouped by region, Asia, Europe, Americas, Africa, Australia, and more.
+          Country pages grouped by region, Asia, Europe, Americas, Africa,
+          Australia, and more.
         </p>
         <h1 className="mt-1 text-4xl font-semibold tablet:text-6xl">{title}</h1>
         {subtitle ? (
@@ -44,7 +51,7 @@ export function VisaHero({ title, subtitle, image }: VisaHeroProps) {
             >
               <SelectValue />
             </SelectTrigger>
-            <SelectContent className="bg-white">
+            <SelectContent className="bg-white capitalize">
               <SelectItem value="thailand">Thailand</SelectItem>
               <SelectItem value="saudi-arabia">Saudi Arabia</SelectItem>
               <SelectItem value="malaysia">Malaysia</SelectItem>

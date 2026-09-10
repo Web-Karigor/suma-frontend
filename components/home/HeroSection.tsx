@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
@@ -10,7 +10,19 @@ import { useHeroQuery } from "@/hooks/queries/useHeroQuery";
 export function HeroSection() {
   const { data: heroCards = [], isLoading } = useHeroQuery();
   const [activeIndex, setActiveIndex] = useState(0);
+  const [contentIndex, setContentIndex] = useState(0);
   const active = heroCards[activeIndex] ?? heroCards[0];
+  const content = heroCards[contentIndex] ?? active;
+
+  useEffect(() => {
+    if (activeIndex === contentIndex) return;
+
+    const timeout = window.setTimeout(() => {
+      setContentIndex(activeIndex);
+    }, 420);
+
+    return () => window.clearTimeout(timeout);
+  }, [activeIndex, contentIndex]);
 
   if (isLoading || !active) return null;
 
@@ -37,23 +49,31 @@ export function HeroSection() {
         <div className="absolute inset-0 z-[1] bg-overlay-black-48" />
 
         <Container className="relative z-[2] flex min-h-[520px] flex-col justify-center pt-28 pb-16 tablet:min-h-[680px] desktop:h-full desktop:min-h-[900px] desktop:flex-row desktop:items-center desktop:gap-10 desktop:justify-between">
-          <div className="max-w-xl shrink-0 text-white">
-            <h1 className="text-[32px] font-semibold text-[#FEFEFC] desktop:text-[72px]">
-              {active.title}
-            </h1>
-            <p className="mt-4 max-w-md text-sm leading-relaxed text-white/85 tablet:text-base">
-              {active.description}
-            </p>
-            <Button
-              href={active.href}
-              className="mt-8 h-[49px] w-fit gap-8 rounded-button !bg-gray-50 pt-3 pr-3 pb-3 pl-4 !text-black hover:!bg-gray-50 [&>span]:size-[25px] [&>span]:!bg-black [&>span]:!text-white"
+          <div className="hero-mobile-content hero-copy-viewport max-w-xl shrink-0 text-white">
+            <div
+              key={`${content.title}-${contentIndex}`}
+              className={`hero-copy${activeIndex !== contentIndex ? " is-exiting" : ""}`}
             >
-              Book Now
-            </Button>
+              <h1 className="text-[32px] font-semibold text-[#FEFEFC] desktop:text-[72px]">
+                {content.title}
+              </h1>
+              <p className="mt-4 max-w-md text-sm leading-relaxed text-white/85 tablet:text-base">
+                {content.description}
+              </p>
+              <Button
+                href={content.href}
+                className="mt-8 h-[49px] w-fit gap-8 rounded-button !bg-gray-50 pt-3 pr-3 pb-3 pl-4 !text-black hover:!bg-gray-50 [&>span]:size-[25px] [&>span]:!bg-black [&>span]:!text-white"
+              >
+                Book Now
+              </Button>
+            </div>
           </div>
 
-          <div className="mt-12 w-full min-w-0 desktop:mt-0 desktop:ml-auto desktop:-translate-x-6 desktop:mr-[calc(-1*var(--page-gutter))] desktop:w-[970px] desktop:max-w-none desktop:shrink-0">
-            <HeroCardsSlider cards={heroCards} onActiveChange={setActiveIndex} />
+          <div className="hero-mobile-slider mt-12 w-full min-w-0 desktop:mt-0 desktop:ml-auto desktop:-translate-x-6 desktop:mr-[calc(-1*var(--page-gutter))] desktop:w-[970px] desktop:max-w-none desktop:shrink-0">
+            <HeroCardsSlider
+              cards={heroCards}
+              onActiveChange={setActiveIndex}
+            />
           </div>
         </Container>
       </div>

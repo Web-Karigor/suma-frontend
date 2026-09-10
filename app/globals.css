@@ -460,10 +460,6 @@
   }
 }
 
-.airlines-row:hover .airlines-track {
-  animation-play-state: paused;
-}
-
 .airlines-track-left {
   animation: airlines-marquee-left 50s linear infinite;
 }
@@ -656,6 +652,43 @@
   z-index: 1;
 }
 
+.hero-copy-viewport {
+  overflow: hidden;
+}
+
+.hero-copy {
+  animation: hero-copy-enter 900ms cubic-bezier(0.4, 0, 0.2, 1) both;
+  will-change: transform, opacity;
+}
+
+.hero-copy.is-exiting {
+  animation: hero-copy-exit 420ms cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+@keyframes hero-copy-enter {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hero-copy-exit {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(-40px);
+  }
+}
+
 .offer-html {
   overflow: hidden;
   border: 1px solid #d9d9d9;
@@ -825,7 +858,8 @@
 
 .hero-cards-swiper .swiper-wrapper {
   align-items: center;
-  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
 }
 
 .hero-cards-swiper .swiper-slide {
@@ -843,6 +877,8 @@
   flex-direction: column;
   transform: scale(0.849, 0.805);
   transform-origin: 50% 50%;
+  transition: transform 1000ms cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
 }
 
 .hero-cards-swiper .hero-card-head {
@@ -920,6 +956,30 @@
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
+}
+
+@media (width < 1280px) {
+  .hero-mobile-slider {
+    order: 1;
+  }
+
+  .hero-mobile-content {
+    order: 2;
+  }
+
+  .hero-cards-swiper .hero-card-media {
+    order: 1;
+  }
+
+  .hero-cards-swiper .hero-card-head {
+    order: 2;
+    margin-top: 16px;
+    margin-bottom: 0;
+  }
+
+  .hero-cards-swiper .hero-card-head h3 {
+    display: none;
+  }
 }
 
 @media (width < 768px) {
