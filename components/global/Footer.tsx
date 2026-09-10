@@ -56,9 +56,10 @@ export function Footer() {
           className="
             flex flex-col gap-10
             tablet:text-left
+            xl:flex-row xl:justify-between xl:gap-4
             desktop:flex-row
             desktop:justify-between
-            desktop:gap-0
+            2xl:gap-0
           "
         >
           {/* About */}
@@ -66,19 +67,21 @@ export function Footer() {
             className="
               max-w-[441px]
               tablet:w-full
+              xl:max-w-[320px]
               desktop:w-[441px]
               desktop:shrink-0
+              2xl:max-w-[441px]
             "
           >
-            <p className="font-poppins text-[16px] leading-[160%] font-medium text-[#BFDEDD]">
+            <p className="font-poppins text-[14px] leading-[160%] font-medium text-[#BFDEDD] xl:text-[15px] 2xl:text-[16px]">
               {footerAbout}
             </p>
 
-            <p className="mt-8 font-poppins text-[18px] font-semibold text-[#FEFEFC]">
+            <p className="mt-5 font-poppins text-[16px] font-semibold text-[#FEFEFC] xl:mt-6 xl:text-[17px] 2xl:mt-8 2xl:text-[18px]">
               Follow Us:
             </p>
 
-            <div className="mt-3 flex items-center justify-start gap-2.5">
+            <div className="mt-2.5 flex items-center justify-start gap-2 xl:mt-2.5 xl:gap-2 2xl:mt-3 2xl:gap-2.5">
               {socials.map(({ name, href, key }) => {
                 const Icon = SOCIAL_ICONS[key] ?? FacebookIcon;
                 return (
@@ -87,22 +90,22 @@ export function Footer() {
                     href={href}
                     target={href.startsWith("http") ? "_blank" : undefined}
                     rel={href.startsWith("http") ? "noreferrer" : undefined}
-                    className="inline-flex size-8 items-center justify-center rounded-full bg-[#FEFEFC] text-[#005655] transition hover:bg-[#FEFEFC]/90"
+                    className="inline-flex size-7 items-center justify-center rounded-full bg-[#FEFEFC] text-[#005655] transition hover:bg-[#FEFEFC]/90 xl:size-7 2xl:size-8"
                     aria-label={name}
                   >
-                    <Icon className="size-7" />
+                    <Icon className="size-6 xl:size-6 2xl:size-7" />
                   </a>
                 );
               })}
             </div>
 
-            <div className="mt-10">
-              <div className="bg-teal-700 p-2 rounded-lg max-w-[200px] tablet:max-w-[240px] desktop:max-w-[280px]">
+            <div className="mt-6 xl:mt-6 2xl:mt-10">
+              <div className="bg-teal-700 p-2 rounded-lg max-w-[250px] tablet:max-w-[300px] xl:max-w-[250px] desktop:max-w-[380px]">
                 <Image
                   src="/exralogofooter.jpeg"
                   alt="ISO 9001:2015 Certified Company"
                   width={280}
-                  height={120}
+                  height={150}
                   className="h-auto w-full rounded-sm"
                 />
               </div>
@@ -112,16 +115,18 @@ export function Footer() {
           {/* Services + Pages */}
           <div
             className="
-              flex w-full flex-col gap-10
+              flex w-full flex-col gap-8
 
               tablet:grid
               tablet:grid-cols-2
-              tablet:gap-12
+              tablet:gap-8
+
+              xl:flex xl:w-auto xl:flex-row xl:gap-16
 
               desktop:flex
               desktop:w-auto
               desktop:flex-row
-              desktop:gap-16
+              2xl:gap-16
             "
           >
             <FooterList title="Services" links={footerColumns.services} />
@@ -136,57 +141,66 @@ export function Footer() {
 
               tablet:mt-4
 
+              xl:ml-0 xl:mt-0 xl:w-auto xl:shrink-0
+
               desktop:mt-0
               desktop:w-auto
               desktop:shrink-0
+              2xl:ml-0
             "
           >
-            <h3 className="font-poppins text-[20px] font-semibold text-[#FEFEFC]">
+            <h3 className="font-poppins text-[18px] font-semibold text-[#FEFEFC] xl:text-[17px] 2xl:text-[20px]">
               Get In Touch
             </h3>
 
             <div
               className="
-                mt-5
-                flex w-full flex-col gap-6
+                mt-4
+                flex w-full flex-col gap-5
 
                 tablet:grid
                 tablet:grid-cols-2
-                tablet:gap-8
+                tablet:gap-6
+
+                xl:mt-3
+                xl:gap-3
 
                 desktop:flex
                 desktop:flex-row
                 desktop:items-start
-                desktop:gap-8
+                2xl:mt-5
+                2xl:gap-8
               "
             >
-              <div className="w-full max-w-[240px]">
+              <div className="w-full max-w-[240px] xl:max-w-[180px] 2xl:max-w-[240px]">
                 <OfficeList offices={footerOffices.left} />
               </div>
 
-              <div className="w-full max-w-[240px]">
+              <div className="w-full max-w-[240px] xl:max-w-[180px] 2xl:max-w-[240px]">
                 <OfficeList offices={footerOffices.right} />
 
                 <div
                   className="
-                    mt-4 flex flex-col space-y-3
+                    mt-3 flex flex-col space-y-2.5
                     border-t border-[#268F8E]
-                    pt-4
+                    pt-3
+                    xl:mt-2.5 xl:space-y-2 xl:pt-2.5
+                    2xl:mt-4 2xl:space-y-3 2xl:pt-4
                   "
                 >
                   <a
                     href={`tel:${settings.hotline}`}
-                    className="inline-flex items-center gap-2 text-[14px] text-white"
+                    className="inline-flex items-center gap-2 text-[13px] text-white xl:text-[12.5px] 2xl:text-[14px]"
                   >
-                    <PhoneIcon className="size-4 shrink-0" />
+                    <PhoneIcon className="size-4 shrink-0 xl:size-3.5 2xl:size-4" />
                     {settings.hotline}
                   </a>
 
                   <a
                     href={`mailto:${settings.email}`}
-                    className="inline-flex items-center gap-2 text-[14px] text-white"
+                    className="inline-flex items-center gap-2 text-[13px] text-white xl:text-[12.5px] 2xl:text-[14px]"
                   >
-                    <MailIcon className="size-4 shrink-0" />
+                    <MailIcon className="size-4 shrink-0 xl:size-3.5 2xl:size-4" />
                     {settings.email}
                   </a>
                 </div>
@@ -195,7 +209,7 @@ export function Footer() {
           </div>
         </div>
 
-        <p className="mt-14 text-center text-[16px] text-[#59A9A8]">
+        <p className="mt-10 text-center text-[14px] text-[#59A9A8] xl:mt-12 xl:text-[15px] 2xl:mt-14 2xl:text-[16px]">
           © Copyright {new Date().getFullYear()} | Suma Group All Rights
           Reserved.
         </p>
@@ -212,17 +226,17 @@ function FooterList({
   links: readonly { label: string; href: string }[];
 }) {
   return (
-    <div className="desktop:shrink-0">
-      <h3 className="font-poppins text-[20px] font-semibold text-[#FEFEFC]">
+    <div className="xl:min-w-[135px] xl:shrink-0 desktop:shrink-0">
+      <h3 className="font-poppins text-[18px] font-semibold text-[#FEFEFC] xl:text-[17px] 2xl:text-[20px]">
         {title}
       </h3>
 
-      <ul className="mt-5 space-y-3.5">
+      <ul className="mt-4 space-y-2.5 xl:mt-3 xl:space-y-2 2xl:mt-5 2xl:space-y-3.5">
         {links.map((link) => (
           <li key={link.label}>
             <Link
               href={link.href}
-              className="group relative inline-flex items-center font-poppins text-[16px] font-medium text-[#BFDEDD] transition-colors"
+              className="group relative inline-flex items-center font-poppins text-[14px] font-medium text-[#BFDEDD] transition-colors xl:text-[13.5px] 2xl:text-[16px]"
             >
               <span className="pointer-events-none absolute top-1/2 left-0 h-3.5 w-4 -translate-y-1/2 overflow-hidden">
                 <ArrowRightIcon className="size-3.5 -translate-x-full transition-transform duration-300 ease-out group-hover:translate-x-0" />
@@ -251,18 +265,18 @@ function OfficeList({
           key={office.name}
           className={
             index < offices.length - 1
-              ? "mb-4 border-b border-white/25 pb-4"
+              ? "mb-3 border-b border-white/25 pb-3 xl:mb-2 xl:pb-2 2xl:mb-4 2xl:pb-4"
               : ""
           }
         >
           <p className="flex justify-start">
-            <span className="inline-flex items-center gap-2 font-poppins text-[16px] font-semibold text-[#BFDEDD]">
-              <PinIcon className="size-4 shrink-0" />
+            <span className="inline-flex items-center gap-2 font-poppins text-[14px] font-semibold text-[#BFDEDD] xl:text-[13.5px] 2xl:text-[16px]">
+              <PinIcon className="size-4 shrink-0 xl:size-3.5 2xl:size-4" />
               {office.name}
             </span>
           </p>
 
-          <p className="mt-1.5 text-left font-poppins text-[14px] font-normal text-[#99CACA]">
+          <p className="mt-1.5 text-left font-poppins text-[13px] font-normal text-[#99CACA] xl:mt-1 xl:text-[12px] xl:leading-tight 2xl:mt-1.5 2xl:text-[14px]">
             {office.address}
           </p>
         </li>

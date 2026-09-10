@@ -50,12 +50,16 @@ export function AppFeature() {
             <div className="absolute top-1/2 left-0 hidden h-[100px] w-fit -translate-y-1/2 tablet:block">
               <div
                 className="absolute inset-0 bg-size-[100%_100%] bg-center bg-no-repeat"
-                style={{ backgroundImage: "url('/images/flight24/banner-bg.png')" }}
+                style={{
+                  backgroundImage: "url('/images/flight24/banner-bg.png')",
+                }}
               />
               <div className="relative z-10 flex h-full items-center gap-6 pr-4 pl-32">
                 <p className="leading-none whitespace-nowrap text-white">
                   <span className="block text-[24px] font-bold">Download</span>
-                  <span className="mt-1 block text-[24px] font-bold">Flight24 Mobile App</span>
+                  <span className="mt-1 block text-[24px] font-bold">
+                    Flight24 Mobile App
+                  </span>
                 </p>
                 <div className="flex shrink-0 items-center gap-2">
                   <StoreBadge store="google" />
@@ -74,12 +78,18 @@ export function AppFeature() {
             <div className="relative h-[100px] w-full overflow-visible rounded-2xl tablet:hidden">
               <div
                 className="absolute inset-0 bg-size-[100%_100%] bg-center bg-no-repeat"
-                style={{ backgroundImage: "url('/images/flight24/banner-bg.png')" }}
+                style={{
+                  backgroundImage: "url('/images/flight24/banner-bg.png')",
+                }}
               />
               <div className="relative z-10 flex h-full items-center pl-24">
                 <p className="leading-none text-white">
-                  <span className="block text-[14px] font-medium">Download</span>
-                  <span className="mt-0.5 block text-[18px] font-bold">Flight24 Mobile App</span>
+                  <span className="block text-[14px] font-medium">
+                    Download
+                  </span>
+                  <span className="mt-0.5 block text-[18px] font-bold">
+                    Flight24 Mobile App
+                  </span>
                 </p>
               </div>
               <Image
@@ -92,13 +102,19 @@ export function AppFeature() {
               />
             </div>
             <div className="mt-3 flex w-full gap-2 tablet:hidden">
-              <StoreBadge store="google" className="min-w-0 flex-1 justify-center" />
-              <StoreBadge store="apple" className="min-w-0 flex-1 justify-center" />
+              <StoreBadge
+                store="google"
+                className="min-w-0 flex-1 justify-center"
+              />
+              <StoreBadge
+                store="apple"
+                className="min-w-0 flex-1 justify-center"
+              />
             </div>
           </div>
         </div>
 
-        <div className="flight-visual relative mx-auto aspect-[858/816] w-full max-w-[858px] desktop:h-[816px] desktop:aspect-auto">
+        <div className="flight-visual relative mx-auto aspect-[858/816] w-full max-w-[858px]  desktop:h-[816px] desktop:aspect-auto">
           <div className="flight-art-mask absolute inset-0">
             <Image
               src={data.image}
@@ -121,7 +137,13 @@ function FeatureColumn({ features }: { features: FlightInfoFeature[] }) {
       {features.map((feature) => (
         <li key={feature.title} className="flex gap-3">
           <span className="relative mt-0.5 inline-flex size-8 shrink-0 overflow-hidden rounded-md">
-            <Image src={feature.icon} alt="" fill className="object-cover" sizes="32px" />
+            <Image
+              src={feature.icon}
+              alt=""
+              fill
+              className="object-cover"
+              sizes="32px"
+            />
           </span>
           <span>
             <span className="block text-[22px] leading-tight font-semibold text-[#0A0C0C]">
@@ -157,11 +179,18 @@ function StoreBadge({
         <svg viewBox="0 0 24 24" className="size-5 shrink-0" aria-hidden="true">
           <path fill="#EA4335" d="M4 3.5 14.5 12 4 20.5V3.5z" />
           <path fill="#FBBC05" d="M4 20.5 14.5 12 18 14.6 4 20.5z" />
-          <path fill="#34A853" d="M18 9.4 14.5 12 18 14.6 20.5 13c.7-.4.7-1.6 0-2l-2.5-1.6z" />
+          <path
+            fill="#34A853"
+            d="M18 9.4 14.5 12 18 14.6 20.5 13c.7-.4.7-1.6 0-2l-2.5-1.6z"
+          />
           <path fill="#4285F4" d="M4 3.5 18 9.4 14.5 12 4 3.5z" />
         </svg>
       ) : (
-        <svg viewBox="0 0 24 24" className="size-5 shrink-0 fill-white" aria-hidden="true">
+        <svg
+          viewBox="0 0 24 24"
+          className="size-5 shrink-0 fill-white"
+          aria-hidden="true"
+        >
           <path d="M16.7 12.6c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.2-2.8.9-3.5.9s-1.8-1-3-1c-1.5 0-3 .9-3.8 2.3-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.3 2.9 2.3 1.2 0 1.6-.7 3-.7s1.8.7 3 .7 2-1.1 2.8-2.2c.9-1.3 1.3-2.5 1.3-2.6-.1 0-2.5-1-2.5-3.7zM14.6 6.2c.6-.8 1.1-1.9.9-3-1 .1-2.1.7-2.8 1.5-.6.7-1.2 1.8-1 2.9 1.1.1 2.2-.5 2.9-1.4z" />
         </svg>
       )}
