@@ -6,14 +6,14 @@ export const serviceLinks = [
   { label: "Hotel Booking", href: "/hotels" },
   { label: "Holiday Packages", href: "/packages" },
   { label: "Corporate Tour", href: "/packages/corporate-travel" },
-  { label: "Air Tickets", href: "/contact" },
   { label: "Medical Tourism", href: "/medical" },
 ] as const;
 
 export const navLinks = [
   { label: "Home", href: "/" },
   { label: "Service", href: "/hajj", children: serviceLinks },
-  { label: "Build My Trip", href: partnerPortalUrl },
+  // { label: "Build My Trip", href: partnerPortalUrl },
+  { label: "Hotel Booking", href: "/hotels" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ] as const;

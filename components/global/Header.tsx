@@ -120,11 +120,15 @@ export function Header() {
                   );
                   const active =
                     childActive || isLinkActive(pathname, link.href);
+                  const [dropdownOpen, setDropdownOpen] = useState(false);
 
                   return (
                     <div key={link.label} className="group relative">
                       <button
                         type="button"
+                        onClick={() => setDropdownOpen(!dropdownOpen)}
+                        onMouseEnter={() => setDropdownOpen(true)}
+                        onMouseLeave={() => setDropdownOpen(false)}
                         className={cn(
                           "relative inline-flex items-center gap-0.5 py-1 text-[16px] font-medium text-black transition-colors hover:text-primary",
                           active && "text-primary",
@@ -134,7 +138,10 @@ export function Header() {
                         <svg
                           aria-hidden
                           viewBox="0 0 16 16"
-                          className="size-4 transition-transform duration-300 ease-out group-hover:rotate-180"
+                          className={cn(
+                            "size-4 transition-transform duration-300 ease-out",
+                            dropdownOpen && "rotate-180",
+                          )}
                           fill="none"
                         >
                           <path
@@ -149,12 +156,14 @@ export function Header() {
                       </button>
 
                       <div
+                        onMouseEnter={() => setDropdownOpen(true)}
+                        onMouseLeave={() => setDropdownOpen(false)}
                         className={cn(
-                          "pointer-events-none absolute top-full left-1/2 z-50 pt-2",
-                          "invisible translate-y-1 opacity-0",
+                          "absolute top-full left-1/2 z-50 pt-2",
                           "transition-[opacity,transform,visibility] duration-300 ease-out",
-                          "group-hover:pointer-events-auto group-hover:visible group-hover:translate-y-0 group-hover:opacity-100",
-                          "group-focus-within:pointer-events-auto group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100",
+                          dropdownOpen
+                            ? "pointer-events-auto visible translate-y-0 opacity-100"
+                            : "pointer-events-none invisible translate-y-1 opacity-0",
                         )}
                       >
                         <div className="-translate-x-1/2 min-w-[220px] rounded-2xl border border-gray-200 bg-white p-1 shadow-[0_16px_40px_rgb(10_12_12/16%)] transition-shadow duration-300">
@@ -167,6 +176,7 @@ export function Header() {
                               <Link
                                 key={child.label}
                                 href={child.href}
+                                onClick={() => setDropdownOpen(false)}
                                 className={cn(
                                   "block rounded-lg py-2 pr-8 pl-3 text-sm text-neutral-800 transition-colors duration-200 hover:bg-teal-50 hover:text-primary",
                                   childIsActive && "bg-teal-50 text-primary",
