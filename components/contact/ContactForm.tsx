@@ -104,8 +104,7 @@ export function ContactForm() {
         />
 
         <div className="flex flex-col gap-2 text-base font-medium text-[#0A0C0C]">
-          Select Tour Package{" "}
-          <span className="font-normal text-gray-500">(Optional)</span>
+          Select Tour Package (Optional)
           <Select
             value={packageName}
             onValueChange={(value) => setPackageName(value ?? "")}
@@ -214,10 +213,7 @@ function Field({
 }) {
   return (
     <label className="flex flex-col gap-2 text-base font-medium text-[#0A0C0C]">
-      {label}{" "}
-      {optional && (
-        <span className="font-normal text-gray-500">(Optional)</span>
-      )}
+      {label} (optional)
       <input
         name={name}
         type={type}
@@ -245,8 +241,7 @@ function DateField({
 }) {
   return (
     <label className="flex flex-col gap-2 text-base font-medium text-[#0A0C0C]">
-      Preferred Date
-      <span className="font-normal text-gray-500">(Optional)</span>
+      Preferred Date{""} (Optional)
       <Popover>
         <PopoverTrigger
           render={

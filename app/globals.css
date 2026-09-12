@@ -596,9 +596,9 @@
 @media (width >= 768px) {
   .flight-visual {
     --r: 32px;
-    --cut-w: 200px;
-    --cut-h: 200px;
-    --badge: 188px;
+    --cut-w: 180px;
+    --cut-h: 180px;
+    --badge: 160px;
   }
 }
 

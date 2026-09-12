@@ -18,14 +18,14 @@ export function AppFeature() {
 
   return (
     <section className="bg-paper pt-28 pb-20 tablet:pt-40 tablet:pb-28">
-      <Container className="grid gap-10 desktop:grid-cols-[minmax(0,1fr)_minmax(320px,858px)] desktop:items-stretch desktop:gap-8">
-        <div className="flex min-w-0 flex-col desktop:h-[855px]">
-          <div className="flex w-full max-w-[858px] flex-col items-start gap-5 tablet:h-[79px] tablet:flex-row tablet:items-center tablet:gap-9">
+      <Container className="grid gap-10 desktop:grid-cols-[minmax(0,1fr)_minmax(280px,650px)] desktop:items-stretch desktop:gap-16 2xl:grid-cols-[minmax(0,1fr)_minmax(320px,858px)] 2xl:gap-8">
+        <div className="flex min-w-0 flex-col">
+          <div className="flex w-full max-w-[858px] flex-col items-start gap-4 tablet:h-[65px] tablet:flex-row tablet:items-center tablet:gap-6 2xl:h-[79px] 2xl:gap-9">
             <a
               href={partnerPortalUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="relative block h-[79px] w-[256px] shrink-0"
+              className="relative block h-[65px] w-[215px] shrink-0 2xl:h-[79px] 2xl:w-[256px]"
               aria-label={data.logoAlt}
             >
               <Image
@@ -33,31 +33,33 @@ export function AppFeature() {
                 alt={data.logoAlt}
                 fill
                 className="object-contain object-left"
-                sizes="256px"
+                sizes="(min-width: 1536px) 256px, 215px"
               />
             </a>
-            <p className="w-full text-[15px] leading-[139%] font-medium tracking-[0.01em] text-[#0A0C0C] tablet:h-[63px] tablet:w-[566px]">
+            <p className="w-full text-[13.5px] leading-[139%] font-medium tracking-[0.01em] text-[#0A0C0C] tablet:h-[56px] tablet:w-[500px] 2xl:text-[15px] 2xl:h-[63px] 2xl:w-[566px]">
               {data.description}
             </p>
           </div>
 
-          <div className="mt-10 flex w-full max-w-[858px] flex-1 flex-col gap-8 tablet:mt-12 tablet:flex-row tablet:gap-[138px]">
+          <div className="mt-12 flex w-full max-w-[858px] flex-1 flex-col gap-6 tablet:mt-16 tablet:flex-row tablet:gap-20 2xl:mt-20 2xl:gap-[138px]">
             <FeatureColumn features={leftFeatures} />
             <FeatureColumn features={rightFeatures} />
           </div>
 
-          <div className="relative mt-16 w-full max-w-[858px] overflow-visible desktop:mt-auto tablet:h-[177px]">
-            <div className="absolute top-1/2 left-0 hidden h-[100px] w-fit -translate-y-1/2 tablet:block">
+          <div className="relative mt-2 w-full max-w-[650px] overflow-visible desktop:mt-auto desktop:max-w-[826px] tablet:h-[140px] 2xl:mt-32 2xl:max-w-[858px] 2xl:h-[177px]">
+            <div className="absolute top-1/2 left-0 hidden h-[80px] w-fit max-w-[650px] -translate-y-1/2 tablet:block  2xl:h-[100px] 2xl:w-auto 2xl:max-w-full">
               <div
                 className="absolute inset-0 bg-size-[100%_100%] bg-center bg-no-repeat"
                 style={{
                   backgroundImage: "url('/images/flight24/banner-bg.png')",
                 }}
               />
-              <div className="relative z-10 flex h-full items-center gap-6 pr-4 pl-32">
+              <div className="relative z-10 flex h-full items-center gap-4 pr-3 pl-28 2xl:gap-6 2xl:pr-4 2xl:pl-32">
                 <p className="leading-none whitespace-nowrap text-white">
-                  <span className="block text-[24px] font-bold">Download</span>
-                  <span className="mt-1 block text-[24px] font-bold">
+                  <span className="block text-[18px] font-bold 2xl:text-[24px]">
+                    Download
+                  </span>
+                  <span className="mt-1 block text-[18px] font-bold 2xl:text-[24px]">
                     Flight24 Mobile App
                   </span>
                 </p>
@@ -73,7 +75,7 @@ export function AppFeature() {
               width={2851}
               height={4096}
               unoptimized
-              className="pointer-events-none absolute top-1/2 -left-5 z-20 hidden h-[210px] w-auto max-w-none -translate-y-[74%] drop-shadow-[0_10px_24px_rgb(10_12_12/25%)] tablet:block"
+              className="pointer-events-none absolute top-1/2 -left-4 z-20 hidden h-[170px] w-auto max-w-none -translate-y-[70%] drop-shadow-[0_10px_24px_rgb(10_12_12/25%)] tablet:block 2xl:-left-5 2xl:h-[210px] 2xl:-translate-y-[74%]"
             />
             <div className="relative h-[100px] w-full overflow-visible rounded-2xl tablet:hidden">
               <div
@@ -114,14 +116,14 @@ export function AppFeature() {
           </div>
         </div>
 
-        <div className="flight-visual relative mx-auto aspect-[858/816] w-full max-w-[858px]  desktop:h-[816px] desktop:aspect-auto">
+        <div className="flight-visual relative mx-auto aspect-[858/816] w-full max-w-[650px] desktop:h-[650px] desktop:aspect-auto desktop:self-start desktop:-mt-8 2xl:max-w-[858px] 2xl:h-[816px] 2xl:mt-0">
           <div className="flight-art-mask absolute inset-0">
             <Image
               src={data.image}
               alt={data.imageAlt}
               fill
               className="object-cover"
-              sizes="(min-width: 1280px) 858px, 100vw"
+              sizes="(min-width: 1536px) 858px, (min-width: 1280px) 650px, 100vw"
             />
           </div>
           <GoBadge href={partnerPortalUrl} className="flight-go-badge" />
@@ -133,10 +135,10 @@ export function AppFeature() {
 
 function FeatureColumn({ features }: { features: FlightInfoFeature[] }) {
   return (
-    <ul className="flex w-full flex-col gap-6 tablet:w-[360px] desktop:flex-1 desktop:gap-10">
+    <ul className="flex w-full flex-col gap-5 tablet:w-[340px] desktop:flex-1 desktop:gap-8 2xl:w-[360px] 2xl:gap-10">
       {features.map((feature) => (
-        <li key={feature.title} className="flex gap-3">
-          <span className="relative mt-0.5 inline-flex size-8 shrink-0 overflow-hidden rounded-md">
+        <li key={feature.title} className="flex gap-2.5 2xl:gap-3">
+          <span className="relative mt-0.5 inline-flex size-7 shrink-0 overflow-hidden rounded-md 2xl:size-8">
             <Image
               src={feature.icon}
               alt=""
@@ -146,10 +148,10 @@ function FeatureColumn({ features }: { features: FlightInfoFeature[] }) {
             />
           </span>
           <span>
-            <span className="block text-[22px] leading-tight font-semibold text-[#0A0C0C]">
+            <span className="block text-[17px] leading-tight font-semibold text-[#0A0C0C] 2xl:text-[22px]">
               {feature.title}
             </span>
-            <span className="mt-3 block text-[14px] leading-[139%] font-medium tracking-[0.01em] text-neutral-600">
+            <span className="mt-2 block text-[13px] leading-[139%] font-medium tracking-[0.01em] text-neutral-600 2xl:mt-3 2xl:text-[14px]">
               {feature.description}
             </span>
           </span>

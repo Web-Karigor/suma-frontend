@@ -60,13 +60,13 @@ export function HeroSection() {
               <p className="mt-4 max-w-md text-sm leading-relaxed text-white/85 tablet:text-base">
                 {content.description}
               </p>
-              <Button
-                href={content.href}
-                className="mt-8 h-[49px] w-fit gap-8 rounded-button !bg-gray-50 pt-3 pr-3 pb-3 pl-4 !text-black hover:!bg-gray-50 [&>span]:size-[25px] [&>span]:!bg-black [&>span]:!text-white"
-              >
-                Book Now
-              </Button>
             </div>
+            <Button
+              href={content.href}
+              className="mt-8 h-[49px] w-fit gap-8 rounded-button !bg-gray-50 pt-3 pr-3 pb-3 pl-4 !text-black hover:!bg-gray-50 [&>span]:size-[25px] [&>span]:!bg-black [&>span]:!text-white"
+            >
+              Book Now
+            </Button>
           </div>
 
           <div className="hero-mobile-slider mt-12 w-full min-w-0 desktop:mt-0 desktop:ml-auto desktop:-translate-x-6 desktop:mr-[calc(-1*var(--page-gutter))] desktop:w-[970px] desktop:max-w-none desktop:shrink-0">

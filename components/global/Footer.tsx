@@ -100,7 +100,7 @@ export function Footer() {
             </div>
 
             <div className="mt-6 xl:mt-6 2xl:mt-10">
-              <div className="bg-teal-700 p-2 rounded-lg max-w-[250px] tablet:max-w-[300px] xl:max-w-[250px] desktop:max-w-[380px]">
+              <div className="bg-teal-700 p-2 rounded-lg max-w-[250px] tablet:max-w-[300px] xl:max-w-[300px] desktop:max-w-[380px]">
                 <Image
                   src="/exralogofooter.jpeg"
                   alt="ISO 9001:2015 Certified Company"
