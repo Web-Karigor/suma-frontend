@@ -13,7 +13,10 @@ export function VisaDetails({
   const details = [
     ["Capital City", countryInfo?.city || visaCountry.capital],
     ["Local Time", countryInfo?.local_time || visaCountry.localTime],
-    ["Telephone Code", countryInfo?.telephone_code || visaCountry.telephoneCode],
+    [
+      "Telephone Code",
+      countryInfo?.telephone_code || visaCountry.telephoneCode,
+    ],
     ["Bank Time", countryInfo?.bank_time || visaCountry.bankTime],
     ["Exchange Rate", countryInfo?.exchange_rate || visaCountry.exchangeRate],
     ["Embassy Address", countryInfo?.embassy_address || visaCountry.embassy],
@@ -24,12 +27,14 @@ export function VisaDetails({
   return (
     <section className="py-8 tablet:py-12">
       <Container className="max-w-[1446px]">
-        <div className="h-auto overflow-hidden rounded-[32px] bg-[#F2F8F8] px-4 py-6 tablet:px-6 desktop:h-[548px] desktop:py-6">
+        <div className="h-auto overflow-hidden rounded-[32px] bg-[#F2F8F8] px-4 py-6 tablet:px-6 lg:h-[548px] lg:py-6 desktop:h-[548px] desktop:py-6">
           <div
             className="
               grid
               h-full
               gap-[22px]
+              lg:grid-cols-[1.15fr_0.85fr]
+              lg:items-start
               desktop:grid-cols-[1.15fr_0.85fr]
               desktop:items-start
             "
@@ -43,6 +48,7 @@ export function VisaDetails({
                 text-[16px]
                 leading-[1.5]
                 text-neutral-900
+                lg:pt-2
                 desktop:pt-2
               "
             >
@@ -63,6 +69,8 @@ export function VisaDetails({
                 min-h-[240px]
                 overflow-hidden
                 rounded-[24px]
+                lg:h-full
+                lg:min-h-[400px]
                 desktop:h-full
               "
             >

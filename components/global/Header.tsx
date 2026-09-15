@@ -83,7 +83,6 @@ export function Header() {
     <header
       className={cn(
         "z-50",
-        isPackages || isHajj ? "bg-gold-100" : "bg-transparent",
         overlayHeader ? "fixed top-0 right-0 left-0" : "sticky top-0",
       )}
     >

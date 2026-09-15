@@ -19,7 +19,7 @@ type VisaHeroProps = {
 
 export function VisaHero({ title, subtitle, image }: VisaHeroProps) {
   return (
-    <section className="relative flex min-h-[380px] items-end overflow-hidden bg-neutral-900 pb-16 tablet:min-h-[470px] tablet:pb-20 desktop:min-h-[580px] desktop:pb-24">
+    <section className="relative flex min-h-[380px] items-end overflow-hidden bg-neutral-900 pb-16 pt-28 tablet:min-h-[470px] tablet:pb-20 tablet:pt-0 desktop:min-h-[580px] desktop:pb-24">
       <Image
         src={image}
         alt={title}

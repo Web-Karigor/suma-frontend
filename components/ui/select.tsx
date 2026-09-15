@@ -33,10 +33,12 @@ function SelectTrigger({
   size = "default",
   children,
   showCloseIcon = false,
+  hideDefaultIcon = false,
   ...props
 }: SelectPrimitive.Trigger.Props & {
   size?: "sm" | "default";
   showCloseIcon?: boolean;
+  hideDefaultIcon?: boolean;
 }) {
   return (
     <SelectPrimitive.Trigger
@@ -51,22 +53,24 @@ function SelectTrigger({
       {...props}
     >
       {children}
-      <SelectPrimitive.Icon
-        render={
-          <span className="relative inline-flex size-4 shrink-0">
-            <ChevronDownIcon
-              data-select-chevron
-              className="pointer-events-none size-4 text-muted-foreground"
-            />
-            {showCloseIcon ? (
-              <XIcon
-                data-select-close
-                className="pointer-events-none absolute inset-0 hidden size-4 text-muted-foreground"
+      {!hideDefaultIcon && (
+        <SelectPrimitive.Icon
+          render={
+            <span className="relative inline-flex size-4 shrink-0">
+              <ChevronDownIcon
+                data-select-chevron
+                className="pointer-events-none size-4 text-muted-foreground"
               />
-            ) : null}
-          </span>
-        }
-      />
+              {showCloseIcon ? (
+                <XIcon
+                  data-select-close
+                  className="pointer-events-none absolute inset-0 hidden size-4 text-muted-foreground"
+                />
+              ) : null}
+            </span>
+          }
+        />
+      )}
     </SelectPrimitive.Trigger>
   );
 }

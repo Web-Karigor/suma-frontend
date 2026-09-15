@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { Container } from "@/components/ui/Container";
 import {
   Select,
@@ -12,6 +12,7 @@ import {
 import { usePackagesQuery } from "@/hooks/queries/usePackagesQuery";
 import { useServiceDetailQuery } from "@/hooks/queries/useServiceDetailQuery";
 import { PackageCard } from "./PackageCard";
+import Image from "next/image";
 
 const FALLBACK = {
   title: "Holiday Packages",
@@ -20,18 +21,207 @@ const FALLBACK = {
 
 const EMPTY_ITEMS: never[] = [];
 
+// Reusable Desktop Filter Select Component
+function DesktopFilterSelect({
+  value,
+  onValueChange,
+  onClear,
+  placeholder,
+  children,
+  label,
+}: {
+  value: string;
+  onValueChange: (value: string) => void;
+  onClear: () => void;
+  placeholder: string;
+  children: React.ReactNode;
+  label: string;
+}) {
+  const hasValue = value !== "all";
+
+  return (
+    <div className="relative flex h-[46px] w-[160px] items-center rounded-[8px] border-[0.5px] border-gray-900/40 bg-transparent px-3 py-2 text-base text-gray-900">
+      <Select value={value} onValueChange={(val) => val && onValueChange(val)}>
+        <SelectTrigger
+          hideDefaultIcon
+          aria-label={label}
+          className="h-full w-full gap-2 border-0 bg-transparent p-0 text-base text-gray-900 shadow-none"
+        >
+          <SelectValue placeholder={placeholder} />
+          {!hasValue && (
+            <Image
+              src="/arrow-square-down.png"
+              alt="dropdown"
+              width={24}
+              height={24}
+              className="pointer-events-none flex-shrink-0"
+            />
+          )}
+          {hasValue && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                onClear();
+              }}
+              className="flex-shrink-0 text-gray-500 hover:text-gray-900"
+              aria-label={`Clear ${label}`}
+            >
+              <svg
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          )}
+        </SelectTrigger>
+        <SelectContent
+          align="start"
+          alignItemWithTrigger={false}
+          className="min-w-[160px] rounded border border-[#d8d3c8] bg-white p-1 shadow-md ring-0"
+        >
+          {children}
+        </SelectContent>
+      </Select>
+    </div>
+  );
+}
+
 function PriceFilter({
   min,
   max,
   hasPrices,
   value,
   onChange,
+  onClear,
 }: {
   min: number;
   max: number;
   hasPrices: boolean;
   value: [number, number];
   onChange: (value: [number, number]) => void;
+  onClear: () => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const [low, high] = value;
+  const span = Math.max(max - min, 1);
+  const lowPercent = ((low - min) / span) * 100;
+  const highPercent = ((high - min) / span) * 100;
+  const hasCustomRange = low !== min || high !== max;
+
+  return (
+    <div className="relative h-[46px] w-[160px]">
+      <button
+        type="button"
+        className="flex h-full w-full items-center justify-between gap-2 rounded-[8px] border-[0.5px] border-gray-900/40 bg-transparent px-3 py-2 text-base text-gray-900"
+        aria-expanded={open}
+        disabled={!hasPrices}
+        onClick={() => setOpen((current) => !current)}
+      >
+        <span className="flex-1 text-left">
+          {hasCustomRange
+            ? `৳${low.toLocaleString()}-${high.toLocaleString()}`
+            : "Price"}
+        </span>
+        {hasCustomRange ? (
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onClear();
+              setOpen(false);
+            }}
+            className="flex-shrink-0 text-gray-500 hover:text-gray-900"
+            aria-label="Clear price filter"
+          >
+            <svg
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        ) : (
+          <Image
+            src="/arrow-square-down.png"
+            alt=""
+            width={24}
+            height={24}
+            className="flex-shrink-0"
+          />
+        )}
+      </button>
+      {open && hasPrices ? (
+        <div className="absolute top-[calc(100%_+_4px)] left-0 z-30 w-[260px] rounded border border-[#d8d3c8] bg-white p-4 shadow-md">
+          <div className="mb-3 flex justify-between text-xs text-neutral-700">
+            <span>৳ {low.toLocaleString()}</span>
+            <span>৳ {high.toLocaleString()}</span>
+          </div>
+          <div className="relative h-5">
+            <div className="absolute top-1/2 right-0 left-0 h-1 -translate-y-1/2 rounded-full bg-[#e9e5dc]" />
+            <div
+              className="absolute top-1/2 h-1 -translate-y-1/2 rounded-full bg-primary"
+              style={{ left: `${lowPercent}%`, right: `${100 - highPercent}%` }}
+            />
+            <input
+              type="range"
+              min={min}
+              max={max}
+              value={low}
+              onChange={(event) =>
+                onChange([Math.min(Number(event.target.value), high), high])
+              }
+              className="absolute inset-0 h-5 w-full cursor-pointer appearance-none bg-transparent accent-primary"
+              aria-label="Minimum price"
+            />
+            <input
+              type="range"
+              min={min}
+              max={max}
+              value={high}
+              onChange={(event) =>
+                onChange([low, Math.max(Number(event.target.value), low)])
+              }
+              className="absolute inset-0 h-5 w-full cursor-pointer appearance-none bg-transparent accent-primary"
+              aria-label="Maximum price"
+            />
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+// Mobile Drawer Price Filter with full width
+function MobilePriceFilter({
+  min,
+  max,
+  hasPrices,
+  value,
+  onChange,
+  onClear,
+}: {
+  min: number;
+  max: number;
+  hasPrices: boolean;
+  value: [number, number];
+  onChange: (value: [number, number]) => void;
+  onClear: () => void;
 }) {
   const [open, setOpen] = useState(false);
   const [low, high] = value;
@@ -40,21 +230,21 @@ function PriceFilter({
   const highPercent = ((high - min) / span) * 100;
 
   return (
-    <div className="relative h-[46px] w-[160px]">
+    <div className="relative w-full">
       <button
         type="button"
-        className="flex h-full w-full items-center justify-between rounded-[8px] border-[0.5px] border-gray-900/40 bg-transparent px-3 py-2 text-xs text-gray-900"
+        className="flex h-[46px] w-full items-center justify-between gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm text-gray-900"
         aria-expanded={open}
         disabled={!hasPrices}
         onClick={() => setOpen((current) => !current)}
       >
-        <span>Price</span>
-        <span className="text-[10px] text-neutral-600">
-          ৳ {low.toLocaleString()} - {high.toLocaleString()}
+        <span className="flex-1 text-left text-sm">Price</span>
+        <span className="text-xs text-gray-600">
+          ৳{low.toLocaleString()}-{high.toLocaleString()}
         </span>
       </button>
       {open && hasPrices ? (
-        <div className="absolute top-[calc(100%_+_4px)] left-0 z-30 w-[260px] rounded border border-[#d8d3c8] bg-white p-4 shadow-md">
+        <div className="mt-2 w-full rounded border border-[#d8d3c8] bg-white p-4 shadow-md">
           <div className="mb-3 flex justify-between text-xs text-neutral-700">
             <span>৳ {low.toLocaleString()}</span>
             <span>৳ {high.toLocaleString()}</span>
@@ -107,6 +297,18 @@ export function PackageList({
   const [startDate, setStartDate] = useState("all");
   const [endDate, setEndDate] = useState("all");
   const [sort, setSort] = useState("newest");
+  const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
+
+  // Close drawer on resize to desktop
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setIsFilterDrawerOpen(false);
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   const serviceQuery = useServiceDetailQuery(serviceSlug);
   const packagesQuery = usePackagesQuery(serviceQuery.data?.id, page);
   const data = packagesQuery.data;
@@ -216,7 +418,7 @@ export function PackageList({
 
   return (
     <>
-      <section className="relative -mt-[5.5rem] bg-gold-100 px-4 pt-[calc(5.5rem+2.25rem)] pb-9 tablet:px-8 tablet:pt-[calc(5.5rem+3.5rem)] tablet:pb-14 desktop:pt-[calc(5.5rem+3rem)] desktop:pb-12">
+      <section className="relative -mt-[7.8rem]  bg-gold-100 px-4 pt-[calc(9.5rem+2.25rem)] pb-9 tablet:px-8 tablet:pt-[calc(5.5rem+3.5rem)] tablet:pb-14 desktop:pt-[calc(9.5rem+3rem)] desktop:pb-12">
         <Container>
           <h1 className="max-w-[858px] text-[32px] leading-[123%] font-semibold text-[#0A0C0C]">
             {title}
@@ -230,14 +432,61 @@ export function PackageList({
       </section>
       <section className="bg-[#FEFBF5] pb-14 tablet:pb-20">
         <Container>
-          <div className="flex items-center justify-between border-b border-[#e9e5dc] py-6 tablet:py-7">
-            <h2 className="text-[28px] leading-[129%] font-medium text-[#0A0C0C]">
+          <div className="flex items-center justify-between border-b-[1px] border-[#0A0C0C] py-6 tablet:py-7">
+            <h2 className="lg:text-[28px] text-lg leading-[129%] font-medium text-[#0A0C0C]">
               Exclusive Suma Packages{" "}
-              <span className="ml-1 text-xs font-normal text-neutral-500">
+              <span className="ml-1 text-xs lg:text-xl font-normal text-neutral-500">
                 ({pagination?.total ?? 0} Items)
               </span>
             </h2>
             <div className="hidden items-center gap-2 text-xs text-neutral-700 tablet:flex">
+              <span className="lg:text-lg text-xs font-medium text-[#0A0C0C]">
+                Sort by:
+              </span>
+              <Select
+                value={sort}
+                onValueChange={(value) => setSort(value ?? "newest")}
+              >
+                <SelectTrigger
+                  showCloseIcon
+                  className="h-8 min-w-[96px] text-[#0A0C0C] text-base rounded border-[#d8d3c8] bg-transparent px-3 shadow-none"
+                >
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent
+                  align="start"
+                  alignItemWithTrigger={false}
+                  className="min-w-[160px] rounded border text-[#0A0C0C] text-base border-[#d8d3c8] bg-white p-1 shadow-md ring-0"
+                >
+                  <SelectItem value="newest">Newest</SelectItem>
+                  <SelectItem value="price-low-high">Low to High</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          {/* Mobile/Tablet Filter Button */}
+          <div className="flex items-center justify-between  py-4 lg:hidden">
+            <button
+              type="button"
+              onClick={() => setIsFilterDrawerOpen(true)}
+              className="flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-primary/90"
+            >
+              <svg
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
+                />
+              </svg>
+              <span>Filter</span>
+            </button>
+            <div className="md:hidden flex items-center gap-2 text-xs text-neutral-700">
               <span>Sort by:</span>
               <Select
                 value={sort}
@@ -255,143 +504,302 @@ export function PackageList({
                   className="min-w-[160px] rounded border border-[#d8d3c8] bg-white p-1 shadow-md ring-0"
                 >
                   <SelectItem value="newest">Newest</SelectItem>
-                  <SelectItem value="price-low-high">
-                    Price: Low to High
-                  </SelectItem>
+                  <SelectItem value="price-low-high">Low to High</SelectItem>
                 </SelectContent>
               </Select>
             </div>
           </div>
-          <div className="flex flex-wrap items-center gap-2 border-b border-[#e9e5dc] py-4">
-            <span className="mr-1 text-xs text-gray-900">Filter:</span>
-            <div className="flex h-[46px] w-[160px] items-center justify-between rounded-[8px] border-[0.5px] border-gray-900/40 bg-transparent px-3 py-2 text-xs text-gray-900">
-              <span>Category</span>
-              <Select
-                value={packageType}
-                onValueChange={(value) => {
-                  setPackageType(value ?? "all");
-                  setPage(1);
-                }}
-              >
-                <SelectTrigger
-                  showCloseIcon
-                  aria-label="Package type"
-                  className="h-full min-w-0 flex-1 gap-0 border-0 bg-transparent p-0 text-xs text-gray-900 shadow-none"
-                >
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent
-                  align="start"
-                  alignItemWithTrigger={false}
-                  className="min-w-[160px] rounded border border-[#d8d3c8] bg-white p-1 shadow-md ring-0"
-                >
-                  <SelectItem value="all">All</SelectItem>
-                  {packageTypes.map((type) => (
-                    <SelectItem key={type.slug} value={type.slug}>
-                      {type.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+
+          {/* Desktop Inline Filters */}
+          <div className="hidden lg:flex flex-wrap items-center gap-2 py-4">
+            <span className="mr-1 text-lg text-gray-900">Filter:</span>
+
+            {/* Category Filter */}
+            <DesktopFilterSelect
+              value={packageType}
+              onValueChange={(value) => {
+                setPackageType(value);
+                setPage(1);
+              }}
+              onClear={() => {
+                setPackageType("all");
+                setPage(1);
+              }}
+              placeholder="Category"
+              label="Package type"
+            >
+              <SelectItem value="all">All</SelectItem>
+              {packageTypes.map((type) => (
+                <SelectItem key={type.slug} value={type.slug}>
+                  {type.name}
+                </SelectItem>
+              ))}
+            </DesktopFilterSelect>
+
+            {/* Price Filter */}
             <PriceFilter
               min={minimumPrice}
               max={maximumPrice}
               hasPrices={prices.length > 0}
               value={priceRange}
               onChange={setSelectedPriceRange}
+              onClear={() => setSelectedPriceRange(null)}
             />
-            <div className="flex h-[46px] w-[160px] items-center justify-between rounded-[8px] border-[0.5px] border-gray-900/40 bg-transparent px-3 py-2 text-xs text-gray-900">
-              <span>Nights</span>
-              <Select
-                value={nights}
-                onValueChange={(value) => {
-                  setNights(value ?? "all");
-                  setPage(1);
-                }}
-              >
-                <SelectTrigger
-                  showCloseIcon
-                  aria-label="Nights"
-                  className="h-full min-w-0 flex-1 gap-0 border-0 bg-transparent p-0 text-xs text-gray-900 shadow-none"
-                >
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent
-                  align="start"
-                  alignItemWithTrigger={false}
-                  className="min-w-[160px] rounded border border-[#d8d3c8] bg-white p-1 shadow-md ring-0"
-                >
-                  <SelectItem value="all">All</SelectItem>
-                  {nightOptions.map((option) => (
-                    <SelectItem key={option} value={option}>
-                      {option}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="flex h-[46px] w-[160px] items-center justify-between rounded-[8px] border-[0.5px] border-gray-900/40 bg-transparent px-3 py-2 text-xs text-gray-900">
-              <span>Start Date</span>
-              <Select
-                value={startDate}
-                onValueChange={(value) => {
-                  setStartDate(value ?? "all");
-                  setPage(1);
-                }}
-              >
-                <SelectTrigger
-                  showCloseIcon
-                  aria-label="Start date"
-                  className="h-full min-w-0 flex-1 gap-0 border-0 bg-transparent p-0 text-xs text-gray-900 shadow-none"
-                >
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent
-                  align="start"
-                  alignItemWithTrigger={false}
-                  className="min-w-[160px] rounded border border-[#d8d3c8] bg-white p-1 shadow-md ring-0"
-                >
-                  <SelectItem value="all">All</SelectItem>
-                  {startDateOptions.map((option) => (
-                    <SelectItem key={option} value={option}>
-                      {option}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="flex h-[46px] w-[160px] items-center justify-between rounded-[8px] border-[0.5px] border-gray-900/40 bg-transparent px-3 py-2 text-xs text-gray-900">
-              <span>End Date</span>
-              <Select
-                value={endDate}
-                onValueChange={(value) => {
-                  setEndDate(value ?? "all");
-                  setPage(1);
-                }}
-              >
-                <SelectTrigger
-                  showCloseIcon
-                  aria-label="End date"
-                  className="h-full min-w-0 flex-1 gap-0 border-0 bg-transparent p-0 text-xs text-gray-900 shadow-none"
-                >
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent
-                  align="start"
-                  alignItemWithTrigger={false}
-                  className="min-w-[160px] rounded border border-[#d8d3c8] bg-white p-1 shadow-md ring-0"
-                >
-                  <SelectItem value="all">All</SelectItem>
-                  {endDateOptions.map((option) => (
-                    <SelectItem key={option} value={option}>
-                      {option}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+
+            {/* Nights Filter */}
+            <DesktopFilterSelect
+              value={nights}
+              onValueChange={(value) => {
+                setNights(value);
+                setPage(1);
+              }}
+              onClear={() => {
+                setNights("all");
+                setPage(1);
+              }}
+              placeholder="Nights"
+              label="Nights"
+            >
+              <SelectItem value="all">All</SelectItem>
+              {nightOptions.map((option) => (
+                <SelectItem key={option} value={option}>
+                  {option}
+                </SelectItem>
+              ))}
+            </DesktopFilterSelect>
+
+            {/* Start Date Filter */}
+            <DesktopFilterSelect
+              value={startDate}
+              onValueChange={(value) => {
+                setStartDate(value);
+                setPage(1);
+              }}
+              onClear={() => {
+                setStartDate("all");
+                setPage(1);
+              }}
+              placeholder="Start Date"
+              label="Start date"
+            >
+              <SelectItem value="all">All</SelectItem>
+              {startDateOptions.map((option) => (
+                <SelectItem key={option} value={option}>
+                  {option}
+                </SelectItem>
+              ))}
+            </DesktopFilterSelect>
+
+            {/* End Date Filter */}
+            <DesktopFilterSelect
+              value={endDate}
+              onValueChange={(value) => {
+                setEndDate(value);
+                setPage(1);
+              }}
+              onClear={() => {
+                setEndDate("all");
+                setPage(1);
+              }}
+              placeholder="End Date"
+              label="End date"
+            >
+              <SelectItem value="all">All</SelectItem>
+              {endDateOptions.map((option) => (
+                <SelectItem key={option} value={option}>
+                  {option}
+                </SelectItem>
+              ))}
+            </DesktopFilterSelect>
           </div>
+
+          {/* Mobile Filter Drawer */}
+          {isFilterDrawerOpen && (
+            <>
+              {/* Overlay */}
+              <div
+                className="fixed inset-0 z-40 bg-black/50 transition-opacity duration-500 ease-in-out lg:hidden"
+                onClick={() => setIsFilterDrawerOpen(false)}
+                style={{
+                  animation: "fadeIn 0.5s ease-in-out",
+                }}
+              />
+
+              {/* Drawer */}
+              <div
+                className="fixed top-0 left-0 bottom-0 z-50 w-[280px] bg-white shadow-2xl transition-transform duration-500 ease-in-out lg:hidden"
+                style={{
+                  transform: isFilterDrawerOpen
+                    ? "translateX(0)"
+                    : "translateX(-100%)",
+                  animation: "slideInFromLeft 0.5s ease-in-out",
+                }}
+              >
+                <div className="flex h-full flex-col">
+                  {/* Drawer Header */}
+                  <div className="flex items-center justify-between border-b border-[#e9e5dc] px-5 py-4">
+                    <h3 className="text-lg font-semibold text-gray-900">
+                      Filters
+                    </h3>
+                    <button
+                      type="button"
+                      onClick={() => setIsFilterDrawerOpen(false)}
+                      className="text-gray-500 hover:text-gray-900"
+                    >
+                      <svg
+                        className="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+
+                  {/* Drawer Content */}
+                  <div className="flex-1 overflow-y-auto px-5 py-4">
+                    <div className="space-y-5">
+                      {/* Category Filter */}
+                      <div>
+                        <label className="mb-2 block text-sm font-medium text-gray-900">
+                          Category
+                        </label>
+                        <Select
+                          value={packageType}
+                          onValueChange={(value) => {
+                            setPackageType(value ?? "all");
+                            setPage(1);
+                          }}
+                        >
+                          <SelectTrigger className="w-full rounded-lg border-gray-300 bg-white">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="all">All</SelectItem>
+                            {packageTypes.map((type) => (
+                              <SelectItem key={type.slug} value={type.slug}>
+                                {type.name}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      {/* Price Filter */}
+                      <div>
+                        <label className="mb-2 block text-sm font-medium text-gray-900">
+                          Price Range
+                        </label>
+                        <MobilePriceFilter
+                          min={minimumPrice}
+                          max={maximumPrice}
+                          hasPrices={prices.length > 0}
+                          value={priceRange}
+                          onChange={setSelectedPriceRange}
+                          onClear={() => setSelectedPriceRange(null)}
+                        />
+                      </div>
+
+                      {/* Nights Filter */}
+                      <div>
+                        <label className="mb-2 block text-sm font-medium text-gray-900">
+                          Nights
+                        </label>
+                        <Select
+                          value={nights}
+                          onValueChange={(value) => {
+                            setNights(value ?? "all");
+                            setPage(1);
+                          }}
+                        >
+                          <SelectTrigger className="w-full rounded-lg border-gray-300 bg-white">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="all">All</SelectItem>
+                            {nightOptions.map((option) => (
+                              <SelectItem key={option} value={option}>
+                                {option}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      {/* Start Date Filter */}
+                      <div>
+                        <label className="mb-2 block text-sm font-medium text-gray-900">
+                          Start Date
+                        </label>
+                        <Select
+                          value={startDate}
+                          onValueChange={(value) => {
+                            setStartDate(value ?? "all");
+                            setPage(1);
+                          }}
+                        >
+                          <SelectTrigger className="w-full rounded-lg border-gray-300 bg-white">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="all">All</SelectItem>
+                            {startDateOptions.map((option) => (
+                              <SelectItem key={option} value={option}>
+                                {option}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      {/* End Date Filter */}
+                      <div>
+                        <label className="mb-2 block text-sm font-medium text-gray-900">
+                          End Date
+                        </label>
+                        <Select
+                          value={endDate}
+                          onValueChange={(value) => {
+                            setEndDate(value ?? "all");
+                            setPage(1);
+                          }}
+                        >
+                          <SelectTrigger className="w-full rounded-lg border-gray-300 bg-white">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="all">All</SelectItem>
+                            {endDateOptions.map((option) => (
+                              <SelectItem key={option} value={option}>
+                                {option}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Drawer Footer */}
+                  <div className="border-t border-[#e9e5dc] px-5 py-4">
+                    <button
+                      type="button"
+                      onClick={() => setIsFilterDrawerOpen(false)}
+                      className="w-full rounded-lg bg-primary py-3 text-sm font-medium text-white transition-colors hover:bg-primary/90"
+                    >
+                      Apply Filters
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
           <div className="grid w-full gap-4 py-5 tablet:grid-cols-2 tablet:gap-5 desktop:grid-cols-3 desktop:gap-6">
             {visibleItems.map((packageData) => (
               <PackageCard key={packageData.slug} package={packageData} />
