@@ -33,7 +33,13 @@ function ArrowBadge() {
 const buttonClass =
   "group inline-flex h-[49px] items-center gap-8 rounded-button bg-primary pt-3 pr-3 pb-3 pl-4 text-base font-medium whitespace-nowrap text-white transition-colors hover:bg-primary-700";
 
-export function Button({ href, children, className, type = "button", ...props }: ButtonProps) {
+export function Button({
+  href,
+  children,
+  className,
+  type = "button",
+  ...props
+}: ButtonProps) {
   const classes = cn(buttonClass, className);
 
   if (href) {
@@ -73,7 +79,13 @@ type GoBadgeProps = {
   label?: string;
 };
 
-function scallopPath(cx: number, cy: number, radius: number, teeth: number, depth: number) {
+function scallopPath(
+  cx: number,
+  cy: number,
+  radius: number,
+  teeth: number,
+  depth: number,
+) {
   const parts: string[] = [];
   const arcR = (Math.PI * radius) / teeth + depth * 0.28;
   for (let i = 0; i < teeth; i += 1) {
@@ -84,39 +96,58 @@ function scallopPath(cx: number, cy: number, radius: number, teeth: number, dept
     const x1 = cx + Math.cos(a1) * radius;
     const y1 = cy + Math.sin(a1) * radius;
     parts.push(`${i === 0 ? "M" : "L"}${x0.toFixed(2)} ${y0.toFixed(2)}`);
-    parts.push(`A ${arcR.toFixed(2)} ${arcR.toFixed(2)} 0 0 1 ${x1.toFixed(2)} ${y1.toFixed(2)}`);
+    parts.push(
+      `A ${arcR.toFixed(2)} ${arcR.toFixed(2)} 0 0 1 ${x1.toFixed(2)} ${y1.toFixed(2)}`,
+    );
   }
   return `${parts.join(" ")} Z`;
 }
 
-export function GoBadge({ href = "/flights", className, label = "Go" }: GoBadgeProps) {
+export function GoBadge({
+  href = "/flights",
+  className,
+  label = "Go",
+}: GoBadgeProps) {
   const classes = cn("group relative block aspect-square", className);
   const content = (
     <>
       <span className="sr-only">{label}</span>
       <svg viewBox="0 0 188 188" className="size-full" aria-hidden="true">
-        <path d={scallopPath(94, 94, 91, 32, 8)} fill="#005655" />
+        <path d={scallopPath(94, 94, 91, 36, 16)} fill="#005655" />
         <defs>
           <path
             id="go-badge-text"
             d="M94,94 m0,-66 a66,66 0 1,1 0,132 a66,66 0 1,1 0,-132"
           />
         </defs>
-        {["16.667%", "50%", "83.333%"].map((offset) => (
-          <text
-            key={offset}
-            fill="#FEFEFC"
-            fontSize="18"
-            fontWeight="400"
-            letterSpacing="1.4"
-            fontFamily="var(--font-poppins), Poppins, sans-serif"
-          >
-            <textPath href="#go-badge-text" startOffset={offset} textAnchor="middle">
-              FLIGHT 24
-            </textPath>
-          </text>
-        ))}
-        <circle cx="94" cy="94" r="52" fill="none" stroke="#EBB732" strokeWidth="2.2" />
+        <g className="flight-text-rotate">
+          {["16.667%", "50%", "83.333%"].map((offset) => (
+            <text
+              key={offset}
+              fill="#FEFEFC"
+              fontSize="18"
+              fontWeight="400"
+              letterSpacing="1.4"
+              fontFamily="var(--font-poppins), Poppins, sans-serif"
+            >
+              <textPath
+                href="#go-badge-text"
+                startOffset={offset}
+                textAnchor="middle"
+              >
+                FLIGHT 24
+              </textPath>
+            </text>
+          ))}
+        </g>
+        <circle
+          cx="94"
+          cy="94"
+          r="52"
+          fill="none"
+          stroke="#EBB732"
+          strokeWidth="2.2"
+        />
         <circle
           cx="94"
           cy="94"
@@ -129,7 +160,7 @@ export function GoBadge({ href = "/flights", className, label = "Go" }: GoBadgeP
         />
       </svg>
       <span className="absolute inset-[26.5%] flex items-center justify-center rounded-full">
-        <span className="text-[32px] leading-none font-bold tracking-[0.02em] text-white transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-125 motion-reduce:transition-none motion-reduce:group-hover:scale-100">
+        <span className="text-[30px] leading-none font-bold tracking-[0.02em] text-white transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-125 motion-reduce:transition-none motion-reduce:group-hover:scale-100">
           GO
         </span>
       </span>
@@ -143,7 +174,9 @@ export function GoBadge({ href = "/flights", className, label = "Go" }: GoBadgeP
         href={href}
         className={classes}
         aria-label={label}
-        {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+        {...(isExternal
+          ? { target: "_blank", rel: "noopener noreferrer" }
+          : {})}
       >
         {content}
       </Link>

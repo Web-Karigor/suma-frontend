@@ -45,3 +45,13 @@ export function normalizeServicesResponse(response: ServicesApiResponse): Servic
       href: SLUG_HREF[item.slug],
     }));
 }
+
+// For footer - simpler format
+export function normalizeFooterServicesResponse(
+  response: ServicesApiResponse,
+): { label: string; href: string }[] {
+  return response.data.map((item) => ({
+    label: item.title,
+    href: SLUG_HREF[item.slug] || `/${item.slug}`,
+  }));
+}

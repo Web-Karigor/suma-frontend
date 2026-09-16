@@ -75,19 +75,19 @@ export function BestHotels() {
 
                 <div className="relative z-10 -mt-6 mx-4 flex flex-col gap-2.5 rounded-2xl bg-gray-50 px-5 pt-8 pb-5 shadow-[4px_0_8px_rgb(0_0_0/4%)] desktop:absolute desktop:top-1/2 desktop:right-0 desktop:z-0 desktop:mt-0 desktop:mx-0 desktop:h-[277px] desktop:w-[376px] desktop:-translate-y-1/2 desktop:px-8 desktop:pt-5 desktop:pb-5 desktop:pr-8 desktop:pl-10">
                   <div
-                    className="flex gap-0.5 text-gold-500"
+                    className="flex justify-center gap-0.5 text-gold-500 desktop:justify-start"
                     aria-label={`${hotel.rating} star rating`}
                   >
                     {Array.from({ length: hotel.rating }).map((_, index) => (
-                      <StarIcon key={index} className="size-5.5" />
+                      <StarIcon key={index} className="size-7 lg:size-6" />
                     ))}
                   </div>
-                  <h3 className="text-lg font-semibold text-[#0A0C0C]">
+                  <h3 className="text-center text-lg font-semibold text-[#0A0C0C] desktop:text-left">
                     {hotel.title}
                   </h3>
-                  <div className="flex items-start gap-1.5">
+                  <div className="flex items-start justify-center gap-1.5 desktop:justify-start">
                     <svg
-                      className="mt-0.5 size-4 shrink-0 text-[#7B7B7B]"
+                      className="mt-0.5 ml-2 lg:ml-0 size-4 shrink-0 text-[#7B7B7B]"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -105,15 +105,15 @@ export function BestHotels() {
                         d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                       />
                     </svg>
-                    <p className="text-xs leading-snug text-[#7B7B7B]">
+                    <p className="text-center text-xs leading-snug text-[#7B7B7B] desktop:text-left">
                       Marine Drive Road, Kutupalong, Inani Ukhia, Cox's Bazar
                       4750
                     </p>
                   </div>
-                  <p className="line-clamp-3 font-poppins text-xs font-medium leading-relaxed text-[#0A0C0C]">
+                  <p className="line-clamp-3 text-center font-poppins text-xs font-medium leading-relaxed text-[#0A0C0C] desktop:text-left">
                     {hotel.description}
                   </p>
-                  <div className="mt-auto pt-1">
+                  <div className="mt-auto flex justify-center pt-1 desktop:justify-start">
                     <Button href={hotel.href}>Explore</Button>
                   </div>
                 </div>

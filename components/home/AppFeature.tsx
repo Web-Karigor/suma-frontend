@@ -100,7 +100,7 @@ export function AppFeature() {
                 width={2851}
                 height={4096}
                 unoptimized
-                className="pointer-events-none absolute top-1/2 -left-3 z-20 h-[140px] w-auto max-w-none -translate-y-[75%]"
+                className="pointer-events-none absolute top-1/2 -left-3 z-20 h-[140px] w-auto max-w-none -translate-y-[56%]"
               />
             </div>
             <div className="mt-3 flex w-full gap-2 tablet:hidden">

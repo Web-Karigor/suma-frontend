@@ -17,7 +17,13 @@ function StepNumber({ value }: { value: string }) {
   );
 }
 
-function StepCopy({ title, description }: { title: string; description: string }) {
+function StepCopy({
+  title,
+  description,
+}: {
+  title: string;
+  description: string;
+}) {
   return (
     <div className="max-w-[480px]">
       <h3 className="text-[18px] leading-tight font-semibold text-hero tablet:text-[20px] desktop:text-[22px]">
@@ -46,29 +52,35 @@ export function AboutProcess({ title, steps }: AboutProcessProps) {
               return (
                 <div
                   key={step.number}
-                  className="relative grid min-h-0 flex-1 grid-cols-1 desktop:grid-cols-2 desktop:items-end"
+                  className="relative grid min-h-0 flex-1 grid-cols-2 items-end gap-4 tablet:gap-6 desktop:gap-0"
                 >
                   {isLeft ? (
                     <>
                       <div className="relative z-10 flex items-start pb-6 desktop:items-end desktop:pb-6 desktop:pr-10">
-                        <StepCopy title={step.title} description={step.description} />
+                        <StepCopy
+                          title={step.title}
+                          description={step.description}
+                        />
                       </div>
-                      <div className="relative z-0 hidden items-end justify-end -mr-2 pb-1 desktop:flex [clip-path:inset(-6rem_-4rem_0.25rem_-4rem)]">
+                      <div className="relative z-0 items-end justify-end -mr-2 pb-1 flex [clip-path:inset(-6rem_-4rem_0.25rem_-4rem)]">
                         <StepNumber value={step.number} />
                       </div>
                     </>
                   ) : (
                     <>
-                      <div className="relative z-0 hidden items-end justify-start pb-1 -ml-2 desktop:flex [clip-path:inset(-6rem_-4rem_0.25rem_-4rem)]">
+                      <div className="relative z-0 items-end justify-start pb-1 -ml-2 flex [clip-path:inset(-6rem_-4rem_0.25rem_-4rem)]">
                         <StepNumber value={step.number} />
                       </div>
                       <div className="relative z-10 flex items-start pb-6 desktop:items-end desktop:justify-end desktop:pb-6 desktop:pl-10">
-                        <StepCopy title={step.title} description={step.description} />
+                        <StepCopy
+                          title={step.title}
+                          description={step.description}
+                        />
                       </div>
                     </>
                   )}
 
-                  <div className="absolute bottom-0 left-0 h-2 w-[1165.5px] bg-[#BFDEDD]" />
+                  <div className="absolute bottom-0 left-0 h-2 w-full bg-[#BFDEDD]" />
                 </div>
               );
             })}

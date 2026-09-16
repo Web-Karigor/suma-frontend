@@ -171,7 +171,7 @@ export function ContactForm() {
 
         {error && <p className="text-xs text-red-600">{error}</p>}
 
-        <p className="max-w-[220px] text-[10px] leading-[1.4] text-gray-500">
+        <p className="max-w-[326px] text-[15px] leading-[1.4] font-medium text-gray-500">
           Our representative will contact you within 24 hours. Or you can call{" "}
           <a
             href={`tel:${settings.hotline}`}

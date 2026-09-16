@@ -48,18 +48,20 @@ export function HeroSection() {
         </div>
         <div className="absolute inset-0 z-[1] bg-overlay-black-48" />
 
-        <Container className="relative z-[2] flex min-h-[520px] flex-col justify-center pt-28 pb-16 tablet:min-h-[680px] desktop:h-full desktop:min-h-[900px] desktop:flex-row desktop:items-center desktop:gap-10 desktop:justify-between">
-          <div className="hero-mobile-content hero-copy-viewport max-w-xl shrink-0 text-white">
-            <div
-              key={`${content.title}-${contentIndex}`}
-              className={`hero-copy${activeIndex !== contentIndex ? " is-exiting" : ""}`}
-            >
-              <h1 className="text-[32px] font-semibold text-[#FEFEFC] desktop:text-[72px]">
-                {content.title}
-              </h1>
-              <p className="mt-4 max-w-md text-sm leading-relaxed text-white/85 tablet:text-base">
-                {content.description}
-              </p>
+        <Container className="relative z-[2] flex min-h-[520px] flex-col justify-center pt-28 pb-16 tablet:min-h-[680px] desktop:h-full desktop:min-h-[900px] desktop:flex-row desktop:items-center xl:gap-24  2xl:gap-10 desktop:justify-between">
+          <div className="hero-mobile-content relative max-w-xl shrink-0 text-white">
+            <div className="hero-copy-viewport min-h-[180px] tablet:min-h-[200px] desktop:min-h-[280px]">
+              <div
+                key={`${content.title}-${contentIndex}`}
+                className={`hero-copy${activeIndex !== contentIndex ? " is-exiting" : ""}`}
+              >
+                <h1 className="text-[32px] font-semibold text-[#FEFEFC] xl:text-[60px] 2xl:text-[70px]">
+                  {content.title}
+                </h1>
+                <p className="mt-4 max-w-md text-sm leading-relaxed text-white/85 md:text-base xl:text-xl">
+                  {content.description}
+                </p>
+              </div>
             </div>
             <Button
               href={content.href}

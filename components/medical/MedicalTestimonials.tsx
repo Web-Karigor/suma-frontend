@@ -12,10 +12,29 @@ const VISIBLE_COUNT = 5;
 function CountryCard({ country }: { country: ServiceCountry }) {
   return (
     <article className="flex w-[240px] shrink-0 flex-col items-center rounded-2xl bg-white/55 px-4 py-6 tablet:w-full desktop-xl:h-[357px] desktop-xl:w-[328.8px]">
-      <div className="relative size-[140px] overflow-hidden rounded-full tablet:size-[160px] desktop-xl:size-[200px]">
-        <Image src={country.image} alt={country.name} fill sizes="200px" className="object-cover" />
+      <div
+        className="
+          relative
+          aspect-square
+          size-[140px]
+          tablet:size-[160px]
+          desktop-xl:size-[200px]
+          overflow-hidden
+          rounded-full
+          shrink-0
+        "
+      >
+        <Image
+          src={country.image}
+          alt={country.name}
+          fill
+          sizes="200px"
+          className="object-cover rounded-full"
+        />
       </div>
-      <h3 className="mt-4 text-center text-[20px] leading-[1.5] font-semibold text-black">{country.name}</h3>
+      <h3 className="mt-4 text-center text-[20px] leading-[1.5] font-semibold text-black">
+        {country.name}
+      </h3>
       <div className="my-3 h-px w-full bg-gray-200" />
       {country.knownFor ? (
         <p className="text-center text-[14px] leading-[1.5] text-neutral-700">
@@ -38,23 +57,22 @@ function CountriesSlider({
     <Swiper
       speed={600}
       grabCursor
-      spaceBetween={24}
-      slidesPerView="auto"
+      spaceBetween={16}
+      slidesPerView={1.25}
       className="medical-countries-swiper"
       breakpoints={
         mobileOnly
           ? undefined
           : {
               768: { slidesPerView: 3, spaceBetween: 24 },
-              1280: { slidesPerView: VISIBLE_COUNT, spaceBetween: 24 },
+              1024: { slidesPerView: 3, spaceBetween: 24 },
+              1280: { slidesPerView: 4, spaceBetween: 24 },
+              1536: { slidesPerView: 5, spaceBetween: 24 },
             }
       }
     >
       {countries.map((country) => (
-        <SwiperSlide
-          key={country.name}
-          className={`!h-auto !w-[240px] ${mobileOnly ? "" : "tablet:!w-auto"}`}
-        >
+        <SwiperSlide key={country.name} className="!h-auto">
           <CountryCard country={country} />
         </SwiperSlide>
       ))}
@@ -100,7 +118,7 @@ export function MedicalTestimonials({
               <div className="tablet:hidden">
                 <CountriesSlider countries={countries} mobileOnly />
               </div>
-              <div className="hidden gap-6 tablet:grid tablet:grid-cols-3 tablet:gap-6 desktop:grid-cols-5">
+              <div className="hidden gap-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-3 md:gap-6 xl:grid-cols-4 2xl:grid-cols-5">
                 {countries.map((country) => (
                   <CountryCard key={country.name} country={country} />
                 ))}

@@ -13,7 +13,13 @@ function AccommodationCard({ accommodation }: { accommodation: ServiceStay }) {
   return (
     <article className="flex h-full overflow-hidden rounded-2xl border border-gray-200 bg-white p-3 desktop-xl:h-[282px] desktop-xl:w-[564px]">
       <div className="relative h-[180px] w-[120px] shrink-0 overflow-hidden rounded-xl tablet:h-[220px] tablet:w-[150px] desktop-xl:h-[258px] desktop-xl:w-[180px]">
-        <Image src={accommodation.image} alt="" fill sizes="180px" className="object-cover" />
+        <Image
+          src={accommodation.image}
+          alt=""
+          fill
+          sizes="180px"
+          className="object-cover"
+        />
       </div>
       <div className="flex min-w-0 flex-1 flex-col px-3 py-2 tablet:px-4">
         <span className="mb-3 block h-[3px] w-[100px] rounded-full bg-teal-600" />
@@ -82,9 +88,12 @@ export function MedicalAccommodation({
           {needsSlider ? (
             <AccommodationSlider items={items} />
           ) : (
-            <div className="grid grid-cols-1 gap-6 tablet:grid-cols-2 desktop:grid-cols-3">
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3">
               {items.map((accommodation) => (
-                <AccommodationCard key={accommodation.title} accommodation={accommodation} />
+                <AccommodationCard
+                  key={accommodation.title}
+                  accommodation={accommodation}
+                />
               ))}
             </div>
           )}

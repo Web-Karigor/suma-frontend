@@ -530,7 +530,7 @@
 @media (max-width: 639px) {
   .popular-wrap .swiper-slide {
     width: 240px;
-    height: 360px;
+    height: 260px;
   }
 }
 
@@ -1058,5 +1058,26 @@
   }
   to {
     transform: translateX(0);
+  }
+}
+
+/* GoBadge FLIGHT 24 text rotation animation */
+@keyframes flightRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.flight-text-rotate {
+  transform-origin: 94px 94px;
+  animation: flightRotate 25s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flight-text-rotate {
+    animation: none;
   }
 }

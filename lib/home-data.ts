@@ -3,7 +3,7 @@ export const partnerPortalUrl = "https://partner.flight24.co/";
 export const serviceLinks = [
   { label: "Hajj & Umrah", href: "/hajj" },
   { label: "Visa Services", href: "/visa-application" },
-  { label: "Hotel Booking", href: "/hotels" },
+  { label: "Hotel", href: "/hotels" },
   { label: "Holiday Packages", href: "/packages" },
   { label: "Corporate Tour", href: "/packages/corporate-travel" },
   { label: "Medical Tourism", href: "/medical" },
@@ -13,7 +13,7 @@ export const navLinks = [
   { label: "Home", href: "/" },
   { label: "Service", href: "/hajj", children: serviceLinks },
   // { label: "Build My Trip", href: partnerPortalUrl },
-  { label: "Hotel Booking", href: "/hotels" },
+  { label: "Hotel", href: "/hotels" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ] as const;

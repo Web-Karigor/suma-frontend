@@ -216,7 +216,7 @@ export function Header() {
           <div className="ml-auto hidden shrink-0 items-center gap-2.5 desktop:flex wide:gap-3">
             <a
               href={`tel:${supportPhone}`}
-              className="inline-flex items-center gap-2 rounded-[10px] border border-teal-600 px-2.5 py-1.5 text-teal-700"
+              className="inline-flex items-center gap-2 rounded-[10px] border border-teal-600 px-2.5 py-1.5 text-teal-700 hover:text-teal-400 hover:border-teal-400 transition duration-300"
             >
               <HeadsetIcon className="size-6 shrink-0" />
               <span className="leading-none">
@@ -243,7 +243,7 @@ export function Header() {
               href="/contact"
               className="h-11 gap-3 rounded-full !bg-black text-sm !text-white hover:!bg-[#0A0C0C] [&>span]:size-8 [&>span]:!bg-white [&>span]:!text-black"
             >
-              Get a Free Quote
+              Get a Quote
             </Button>
           </div>
 
@@ -332,7 +332,7 @@ export function Header() {
 
           <a
             href={`tel:${supportPhone}`}
-            className="mt-4 flex items-center gap-2 rounded-[10px] border border-teal-600 px-3 py-2 text-teal-700"
+            className="mt-4 flex items-center gap-2 rounded-[10px] border border-teal-600 px-3 py-2 text-teal-700 hover:text-teal-400 hover:border-teal-400 transition duration-300"
           >
             <HeadsetIcon className="size-6" />
             <span className="leading-none">
@@ -359,7 +359,7 @@ export function Header() {
             href="/contact"
             className="mt-3 h-12 w-full justify-center rounded-full !bg-black text-sm !text-white hover:!bg-[#0A0C0C] [&>span]:size-8 [&>span]:!bg-white [&>span]:!text-black"
           >
-            Get a Free Quote
+            Get a Quote
           </Button>
         </div>
       </div>

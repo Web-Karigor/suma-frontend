@@ -18,10 +18,14 @@ import {
   YouTubeIcon,
 } from "@/components/icons";
 
-import { footerAbout, footerColumns, footerOffices } from "@/lib/home-data";
+import { footerAbout, footerColumns } from "@/lib/home-data";
 import { useSettingsQuery } from "@/hooks/queries/useSettingsQuery";
+import { useContactInfoQuery } from "@/hooks/queries/useContactInfoQuery";
+import { usePagesQuery } from "@/hooks/queries/usePagesQuery";
+import { useFooterServicesQuery } from "@/hooks/queries/useFooterServicesQuery";
 import { FALLBACK_SETTINGS } from "@/helpers/settings";
 import type { SettingsSocialLink } from "@/types/settings";
+import type { ContactOfficeCard } from "@/types/contact-info";
 
 const SOCIAL_ICONS: Record<
   SettingsSocialLink["key"],
@@ -46,8 +50,17 @@ const DEFAULT_SOCIALS = [
 
 export function Footer() {
   const { data: settings = FALLBACK_SETTINGS } = useSettingsQuery();
+  const { data: offices = [], isLoading: isLoadingOffices } =
+    useContactInfoQuery();
+  const { data: footerPages = [] } = usePagesQuery();
+  const { data: footerServices = [] } = useFooterServicesQuery();
   const socials =
     settings.socials.length > 0 ? settings.socials : DEFAULT_SOCIALS;
+
+  // Split offices into two columns - first half left, second half right
+  const midpoint = Math.ceil(offices.length / 2);
+  const leftOffices = offices.slice(0, midpoint);
+  const rightOffices = offices.slice(midpoint);
 
   return (
     <footer className="bg-[#005655] text-white">
@@ -129,9 +142,19 @@ export function Footer() {
               2xl:gap-16
             "
           >
-            <FooterList title="Services" links={footerColumns.services} />
+            <FooterList
+              title="Services"
+              links={
+                footerServices.length > 0
+                  ? footerServices
+                  : footerColumns.services
+              }
+            />
 
-            <FooterList title="Important Pages" links={footerColumns.pages} />
+            <FooterList
+              title="Important Pages"
+              links={footerPages.length > 0 ? footerPages : footerColumns.pages}
+            />
           </div>
 
           {/* Contact */}
@@ -172,21 +195,26 @@ export function Footer() {
                 2xl:gap-8
               "
             >
-              <div className="w-full max-w-[240px] xl:max-w-[180px] 2xl:max-w-[240px]">
-                <OfficeList offices={footerOffices.left} />
-              </div>
+              {!isLoadingOffices && leftOffices.length > 0 && (
+                <div className="w-full max-w-[240px] xl:max-w-[180px] 2xl:max-w-[240px]">
+                  <OfficeList offices={leftOffices} />
+                </div>
+              )}
 
               <div className="w-full max-w-[240px] xl:max-w-[180px] 2xl:max-w-[240px]">
-                <OfficeList offices={footerOffices.right} />
+                {!isLoadingOffices && rightOffices.length > 0 && (
+                  <OfficeList offices={rightOffices} />
+                )}
 
                 <div
-                  className="
-                    mt-3 flex flex-col space-y-2.5
+                  className={`
+                    flex flex-col space-y-2.5
                     border-t border-[#268F8E]
                     pt-3
-                    xl:mt-2.5 xl:space-y-2 xl:pt-2.5
-                    2xl:mt-4 2xl:space-y-3 2xl:pt-4
-                  "
+                    xl:space-y-2 xl:pt-2.5
+                    2xl:space-y-3 2xl:pt-4
+                    ${!isLoadingOffices && rightOffices.length > 0 ? "mt-3 xl:mt-2.5 2xl:mt-4" : ""}
+                  `}
                 >
                   <a
                     href={`tel:${settings.hotline}`}
@@ -253,11 +281,7 @@ function FooterList({
   );
 }
 
-function OfficeList({
-  offices,
-}: {
-  offices: readonly { name: string; address: string }[];
-}) {
+function OfficeList({ offices }: { offices: readonly ContactOfficeCard[] }) {
   return (
     <ul className="w-full">
       {offices.map((office, index) => (
