@@ -26,7 +26,13 @@ function StripImage({ src, index }: { src: string; index: number }) {
   );
 }
 
-function ImageStripSlider({ images, needsSlider }: { images: string[]; needsSlider: boolean }) {
+function ImageStripSlider({
+  images,
+  needsSlider,
+}: {
+  images: string[];
+  needsSlider: boolean;
+}) {
   return (
     <Swiper
       speed={600}
@@ -65,21 +71,19 @@ export function MedicalDestinations({ images }: MedicalDestinationsProps) {
   return (
     <section className="overflow-x-hidden bg-teal-50 py-12 tablet:py-16 desktop-xl:pt-[100px] desktop-xl:pb-[100px]">
       <Container>
+        <div className="desktop-xl:hidden">
+          <ImageStripSlider images={images} needsSlider={false} />
+        </div>
         {needsSlider ? (
-          <div className="desktop-xl:h-[469px]">
+          <div className="hidden desktop-xl:block desktop-xl:h-[469px]">
             <ImageStripSlider images={images} needsSlider={needsSlider} />
           </div>
         ) : (
-          <>
-            <div className="desktop-xl:hidden">
-              <ImageStripSlider images={images} needsSlider={needsSlider} />
-            </div>
-            <div className="hidden gap-[22px] desktop-xl:grid desktop-xl:h-[469px] desktop-xl:grid-cols-5 desktop-xl:gap-[22px]">
-              {images.map((src, index) => (
-                <StripImage key={`${src}-${index}`} src={src} index={index} />
-              ))}
-            </div>
-          </>
+          <div className="hidden gap-[22px] desktop-xl:grid desktop-xl:h-[469px] desktop-xl:grid-cols-5">
+            {images.slice(0, VISIBLE_COUNT).map((src, index) => (
+              <StripImage key={`${src}-${index}`} src={src} index={index} />
+            ))}
+          </div>
         )}
       </Container>
     </section>

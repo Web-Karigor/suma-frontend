@@ -19,7 +19,13 @@ type MedicalHeroProps = {
   stats: Array<{ value: string; label: string }>;
 };
 
-export function MedicalHero({ title, subtitle, images, cards, stats }: MedicalHeroProps) {
+export function MedicalHero({
+  title,
+  subtitle,
+  images,
+  cards,
+  stats,
+}: MedicalHeroProps) {
   return (
     <section className="overflow-hidden bg-teal-100">
       <Container>
@@ -36,7 +42,7 @@ export function MedicalHero({ title, subtitle, images, cards, stats }: MedicalHe
               ) : null}
             </div>
 
-            {cards.length > 0 ? (
+            {cards && cards.length > 0 && (
               <div className="mt-10 grid w-full grid-cols-1 gap-5 sm:grid-cols-3 desktop-xl:mt-[60px] desktop-xl:h-[162px] desktop-xl:w-[715px] desktop-xl:gap-5">
                 {cards.map((card) => (
                   <div
@@ -44,7 +50,13 @@ export function MedicalHero({ title, subtitle, images, cards, stats }: MedicalHe
                     className="flex flex-col items-center rounded-xl border border-teal-200 bg-white/20 px-3 pt-8 pb-4 desktop-xl:h-[162px] desktop-xl:w-[225px]"
                   >
                     <span className="flex size-9 shrink-0 items-center justify-center rounded-button bg-teal-600 p-1.5">
-                      <img src={card.icon} alt="" width={24} height={24} className="size-6" />
+                      <img
+                        src={card.icon}
+                        alt=""
+                        width={24}
+                        height={24}
+                        className="size-6"
+                      />
                     </span>
                     <div className="mt-2 flex w-full flex-col items-center gap-1.5 desktop-xl:mt-[8px]">
                       <p className="text-center text-[15px] leading-[1.39] font-medium tracking-[1px] text-gray-600">
@@ -57,7 +69,7 @@ export function MedicalHero({ title, subtitle, images, cards, stats }: MedicalHe
                   </div>
                 ))}
               </div>
-            ) : null}
+            )}
 
             <div className="mt-10 flex flex-col gap-[18px] desktop-xl:mt-[60px] desktop-xl:h-[116px] desktop-xl:w-[473px] desktop-xl:gap-[18px]">
               <a
@@ -68,7 +80,10 @@ export function MedicalHero({ title, subtitle, images, cards, stats }: MedicalHe
                 <ChevronDownIcon className="size-5" />
               </a>
               <div className="flex flex-wrap items-center gap-6">
-                <Button href="/contact" className="w-full justify-between tablet:w-[319px]">
+                <Button
+                  href="/contact"
+                  className="w-full justify-between tablet:w-[319px]"
+                >
                   Get a Free Quote
                 </Button>
                 <MedicalShareButton />
@@ -111,7 +126,7 @@ export function MedicalHero({ title, subtitle, images, cards, stats }: MedicalHe
         </div>
       </Container>
 
-      {stats.length > 0 ? (
+      {stats && stats.length > 0 && (
         <div className="bg-teal-600">
           <div className="mx-auto flex min-h-[160px] w-full max-w-[1520px] items-center px-4 py-10 tablet:min-h-[180px] desktop-xl:h-[204px] desktop-xl:px-0 desktop-xl:py-12">
             <div className="grid w-full grid-cols-2 gap-8 tablet:grid-cols-4 tablet:gap-0 desktop-xl:h-[108px]">
@@ -133,7 +148,7 @@ export function MedicalHero({ title, subtitle, images, cards, stats }: MedicalHe
             </div>
           </div>
         </div>
-      ) : null}
+      )}
     </section>
   );
 }

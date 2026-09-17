@@ -32,7 +32,10 @@ export function MedicalProcess({
                 {subtitle}
               </p>
             ) : null}
-            <Button href="#booking" className="mt-6 h-[49px] w-[188px] gap-3 px-3 text-sm">
+            <Button
+              href="#booking"
+              className="mt-6 h-[49px] w-[188px] gap-3 px-3 text-sm bg-gold-500 text-[#0A0C0C]"
+            >
               Book a Meeting
             </Button>
           </div>

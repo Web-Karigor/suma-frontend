@@ -29,6 +29,8 @@ export function MedicalPageContent() {
   };
 
   const travel = data.travelInfo;
+  const heroCards = travel?.cards ?? [];
+  const heroStats = travel?.stats ?? [];
 
   return (
     <>
@@ -36,12 +38,12 @@ export function MedicalPageContent() {
         title={travel?.title || data.title}
         subtitle={travel?.subtitle || data.subtitle}
         images={heroImages}
-        cards={travel?.cards ?? []}
-        stats={travel?.stats ?? []}
+        cards={heroCards}
+        stats={heroStats}
       />
-      {data.gallery.length > 0 ? (
+      {data.gallery && data.gallery.length > 0 && (
         <MedicalDestinations images={data.gallery.map((item) => item.src)} />
-      ) : null}
+      )}
       {data.overview ? <MedicalWhyChoose overview={data.overview} /> : null}
       {data.specialities.items.length > 0 ? (
         <MedicalTreatments
@@ -70,12 +72,14 @@ export function MedicalPageContent() {
           steps={data.treatmentJourney.items}
         />
       ) : null}
-      {data.destinations.items.length > 0 ? (
-        <MedicalTestimonials
-          title={data.destinations.title}
-          countries={data.destinations.items}
-        />
-      ) : null}
+      {data.destinations &&
+        data.destinations.items &&
+        data.destinations.items.length > 0 && (
+          <MedicalTestimonials
+            title={data.destinations.title}
+            countries={data.destinations.items}
+          />
+        )}
       {data.services || data.cancellationHtml ? (
         <MedicalServices
           services={
