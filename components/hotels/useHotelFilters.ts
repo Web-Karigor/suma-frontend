@@ -19,10 +19,11 @@ export type HotelFilters = {
   refundable: boolean | null;
   minPrice: number;
   maxPrice: number;
+  amenities: Set<string>;
   open: Set<string>;
 };
 
-const defaultOpen = new Set(["price", "range", "stars", "refund"]);
+const defaultOpen = new Set(["popular", "price", "range", "stars", "refund", "amenities"]);
 
 export const defaultHotelFilters = (): HotelFilters => ({
   bands: new Set(),
@@ -30,8 +31,35 @@ export const defaultHotelFilters = (): HotelFilters => ({
   refundable: null,
   minPrice: PRICE_MIN,
   maxPrice: PRICE_MAX,
+  amenities: new Set(),
   open: new Set(defaultOpen),
 });
+
+// Popular filter presets
+export const popularFilters = [
+  { id: "balcony", label: "Balcony", type: "amenity" as const },
+  { id: "breakfast", label: "Breakfast", type: "amenity" as const },
+  { id: "swimming-pool", label: "Swimming Pool", type: "amenity" as const },
+  { id: "air-conditioning", label: "Air Conditioning", type: "amenity" as const },
+] as const;
+
+// Common amenities list
+export const amenitiesList = [
+  "Air Conditioning",
+  "Balcony",
+  "Bathtub",
+  "Ceiling Fan",
+  "Clothes Dryer",
+  "Free WiFi",
+  "Breakfast",
+  "Swimming Pool",
+  "Parking",
+  "Gym",
+  "Restaurant",
+  "Room Service",
+  "Spa",
+  "Pet Friendly",
+] as const;
 
 export function useHotelFilters(allHotels: HotelCard[]) {
   const [filters, setFilters] = useState<HotelFilters>(defaultHotelFilters);
@@ -50,6 +78,12 @@ export function useHotelFilters(allHotels: HotelCard[]) {
         if (next.has(value)) next.delete(value);
         else next.add(value);
         return { ...prev, bands: next };
+      }
+      if (key === "amenities") {
+        const next = new Set(prev.amenities);
+        if (next.has(value)) next.delete(value);
+        else next.add(value);
+        return { ...prev, amenities: next };
       }
       if (key === "refundable") {
         const next = value === "true";
@@ -84,15 +118,28 @@ export function useHotelFilters(allHotels: HotelCard[]) {
     let list = allHotels.filter((hotel) => {
       if (filters.stars.size && !filters.stars.has(hotel.rating)) return false;
       if (filters.refundable != null && hotel.isRefundable !== filters.refundable) return false;
-      if (hotel.price < filters.minPrice || hotel.price > filters.maxPrice) return false;
-      if (bandRanges.length && !bandRanges.some((b) => hotel.price >= b.min && hotel.price <= b.max)) {
+
+      // Use finalPrice for filtering (discounted price if available)
+      const priceToCheck = hotel.finalPrice;
+      if (priceToCheck < filters.minPrice || priceToCheck > filters.maxPrice) return false;
+      if (bandRanges.length && !bandRanges.some((b) => priceToCheck >= b.min && priceToCheck <= b.max)) {
         return false;
       }
+
+      // Amenities filter
+      if (filters.amenities.size) {
+        const hotelAmenities = hotel.amenities ?? [];
+        const hasAllAmenities = [...filters.amenities].every((amenity) =>
+          hotelAmenities.some((ha) => ha.toLowerCase().includes(amenity.toLowerCase()))
+        );
+        if (!hasAllAmenities) return false;
+      }
+
       return true;
     });
 
-    if (sort === "price-asc") list = [...list].sort((a, b) => a.price - b.price);
-    if (sort === "price-desc") list = [...list].sort((a, b) => b.price - a.price);
+    if (sort === "price-asc") list = [...list].sort((a, b) => a.finalPrice - b.finalPrice);
+    if (sort === "price-desc") list = [...list].sort((a, b) => b.finalPrice - a.finalPrice);
 
     return list;
   }, [allHotels, filters, sort]);

@@ -3,12 +3,13 @@ import { Container } from "@/components/ui/Container";
 export function ContactHero() {
   return (
     <section className="bg-[#DCEFF0] pt-28 pb-12 tablet:pt-32 tablet:pb-16 desktop:pt-36 desktop:pb-20">
-      <Container className="flex flex-col gap-6 desktop:flex-row desktop:items-center desktop:justify-between">
+      <Container className="flex flex-col gap-6 desktop:flex-row desktop:items-center desktop:justify-between py-24">
         <h1 className="text-5xl leading-[1.05] font-medium tracking-[-0.03em] text-neutral-950 tablet:text-6xl desktop:text-[72px]">
           Contact Us
         </h1>
-        <p className="max-w-[360px] text-base leading-[1.45] text-neutral-900 tablet:text-lg">
-          Tell us when and where you&apos;d like to go and we&apos;ll confirm availability within 24 hours.
+        <p className="max-w-[609px] text-base leading-[1.45] text-neutral-900 tablet:text-lg">
+          Tell us when and where you&apos;d like to go and we&apos;ll confirm
+          availability within 24 hours.
         </p>
       </Container>
     </section>

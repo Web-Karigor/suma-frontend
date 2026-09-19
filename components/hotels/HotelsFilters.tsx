@@ -1,9 +1,15 @@
 "use client";
 
+import { useState } from "react";
 import { FilterCheckbox } from "@/components/hotels/FilterCheckbox";
 import { FilterSection } from "@/components/hotels/FilterSection";
-import { PRICE_MAX, PRICE_MIN, priceBands } from "@/components/hotels/useHotelFilters";
+import {
+  PRICE_MAX,
+  PRICE_MIN,
+  priceBands,
+} from "@/components/hotels/useHotelFilters";
 import type { HotelFilters } from "@/components/hotels/useHotelFilters";
+import type { Amenity } from "@/types/amenity";
 
 export function HotelsFilters({
   filters,
@@ -11,14 +17,25 @@ export function HotelsFilters({
   onReset,
   onPrice,
   onStar,
+  amenities,
 }: {
   filters: HotelFilters;
   onToggle: (key: keyof HotelFilters, value: string) => void;
   onReset: () => void;
   onPrice: (min: number, max: number) => void;
   onStar: (star: number) => void;
+  amenities: Amenity[];
 }) {
   const toggleSection = (id: string) => onToggle("open", id);
+  const [showAllAmenities, setShowAllAmenities] = useState(false);
+
+  // Separate highlighted and regular amenities
+  const highlightedAmenities = amenities.filter((a) => a.isHighlighted);
+  const regularAmenities = amenities.filter((a) => !a.isHighlighted);
+
+  const displayedAmenities = showAllAmenities
+    ? regularAmenities
+    : regularAmenities.slice(0, 5);
 
   return (
     <aside className="rounded-xl bg-white p-4 tablet:p-5 desktop:max-h-[calc(100vh-7rem)] desktop:overflow-y-auto desktop:[scrollbar-width:none] desktop:[&::-webkit-scrollbar]:hidden">
@@ -33,7 +50,31 @@ export function HotelsFilters({
         </button>
       </div>
 
-      <FilterSection title="Price Per Night" open={filters.open.has("price")} onToggle={() => toggleSection("price")}>
+      {/* Popular Filters - Highlighted Amenities */}
+      {highlightedAmenities.length > 0 && (
+        <FilterSection
+          title="Popular Filters"
+          open={filters.open.has("popular")}
+          onToggle={() => toggleSection("popular")}
+        >
+          <div className="space-y-2.5">
+            {highlightedAmenities.map((amenity) => (
+              <FilterCheckbox
+                key={amenity.id}
+                label={amenity.name}
+                checked={filters.amenities.has(amenity.name)}
+                onChange={() => onToggle("amenities", amenity.name)}
+              />
+            ))}
+          </div>
+        </FilterSection>
+      )}
+
+      <FilterSection
+        title="Price Per Night"
+        open={filters.open.has("price")}
+        onToggle={() => toggleSection("price")}
+      >
         <div className="space-y-2.5">
           {priceBands.map((band) => (
             <FilterCheckbox
@@ -65,7 +106,9 @@ export function HotelsFilters({
             <input
               type="number"
               value={filters.minPrice}
-              onChange={(e) => onPrice(Number(e.target.value) || 0, filters.maxPrice)}
+              onChange={(e) =>
+                onPrice(Number(e.target.value) || 0, filters.maxPrice)
+              }
               className="mt-0.5 block w-full text-sm font-medium text-black outline-none"
             />
           </label>
@@ -74,14 +117,20 @@ export function HotelsFilters({
             <input
               type="number"
               value={filters.maxPrice}
-              onChange={(e) => onPrice(filters.minPrice, Number(e.target.value) || PRICE_MAX)}
+              onChange={(e) =>
+                onPrice(filters.minPrice, Number(e.target.value) || PRICE_MAX)
+              }
               className="mt-0.5 block w-full text-sm font-medium text-black outline-none"
             />
           </label>
         </div>
       </FilterSection>
 
-      <FilterSection title="Star Ratings" open={filters.open.has("stars")} onToggle={() => toggleSection("stars")}>
+      <FilterSection
+        title="Star Ratings"
+        open={filters.open.has("stars")}
+        onToggle={() => toggleSection("stars")}
+      >
         <div className="flex flex-wrap gap-2">
           {[1, 2, 3, 4, 5].map((star) => (
             <button
@@ -118,6 +167,35 @@ export function HotelsFilters({
           />
         </div>
       </FilterSection>
+
+      {/* Amenities - Regular (non-highlighted) */}
+      {regularAmenities.length > 0 && (
+        <FilterSection
+          title="Amenities"
+          open={filters.open.has("amenities")}
+          onToggle={() => toggleSection("amenities")}
+        >
+          <div className="space-y-2.5">
+            {displayedAmenities.map((amenity) => (
+              <FilterCheckbox
+                key={amenity.id}
+                label={amenity.name}
+                checked={filters.amenities.has(amenity.name)}
+                onChange={() => onToggle("amenities", amenity.name)}
+              />
+            ))}
+          </div>
+          {regularAmenities.length > 5 && (
+            <button
+              type="button"
+              onClick={() => setShowAllAmenities(!showAllAmenities)}
+              className="mt-3 w-full text-center text-sm font-medium text-primary hover:underline"
+            >
+              {showAllAmenities ? "View Less" : "View More"}
+            </button>
+          )}
+        </FilterSection>
+      )}
     </aside>
   );
 }

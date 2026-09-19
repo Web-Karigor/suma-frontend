@@ -676,11 +676,40 @@ export function PassportIcon(props: IconProps) {
         fill="currentColor"
         transform="rotate(12 13.8 3.2)"
       />
-      <rect x="6.45" y="2.2" width="11.1" height="19.2" rx="2.2" fill="currentColor" />
-      <circle cx="12" cy="9.15" r="3.05" fill="none" stroke="#FEFEFC" strokeWidth="1.25" />
-      <ellipse cx="12" cy="9.15" rx="3.05" ry="1.15" fill="none" stroke="#FEFEFC" strokeWidth="1.2" />
+      <rect
+        x="6.45"
+        y="2.2"
+        width="11.1"
+        height="19.2"
+        rx="2.2"
+        fill="currentColor"
+      />
+      <circle
+        cx="12"
+        cy="9.15"
+        r="3.05"
+        fill="none"
+        stroke="#FEFEFC"
+        strokeWidth="1.25"
+      />
+      <ellipse
+        cx="12"
+        cy="9.15"
+        rx="3.05"
+        ry="1.15"
+        fill="none"
+        stroke="#FEFEFC"
+        strokeWidth="1.2"
+      />
       <path d="M12 6.1v6.1" stroke="#FEFEFC" strokeWidth="1.2" />
-      <rect x="8.45" y="14.85" width="7.1" height="1.2" rx="0.6" fill="#FEFEFC" />
+      <rect
+        x="8.45"
+        y="14.85"
+        width="7.1"
+        height="1.2"
+        rx="0.6"
+        fill="#FEFEFC"
+      />
       <rect x="8.45" y="17.45" width="5" height="1.2" rx="0.6" fill="#FEFEFC" />
     </svg>
   );

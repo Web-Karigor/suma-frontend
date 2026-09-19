@@ -9,6 +9,7 @@ import { useHotelFilters } from "@/components/hotels/useHotelFilters";
 import { Container } from "@/components/ui/Container";
 import { useHotelsQuery } from "@/hooks/queries/useHotelsQuery";
 import { useServiceDetailQuery } from "@/hooks/queries/useServiceDetailQuery";
+import { useAmenitiesQuery } from "@/hooks/queries/useAmenitiesQuery";
 import type { HotelsPageMeta } from "@/types/hotel";
 import { useEffect } from "react";
 
@@ -18,11 +19,13 @@ export function HotelsView() {
   const { data, isLoading } = useHotelsQuery();
   const { data: service, isLoading: serviceLoading } =
     useServiceDetailQuery(HOTEL_SERVICE_SLUG);
+  const { data: amenities, isLoading: amenitiesLoading } = useAmenitiesQuery();
   const allHotels = data?.hotels ?? [];
   const { filters, sort, setSort, hotels, toggle, onStar, onPrice, reset } =
     useHotelFilters(allHotels);
   const [showFilters, setShowFilters] = useState(false);
   const [isDrawerMounted, setIsDrawerMounted] = useState(false);
+  const [isAnimatingIn, setIsAnimatingIn] = useState(false);
 
   // Close drawer on resize to desktop
   useEffect(() => {
@@ -30,6 +33,7 @@ export function HotelsView() {
       if (window.innerWidth >= 1280) {
         setShowFilters(false);
         setIsDrawerMounted(false);
+        setIsAnimatingIn(false);
       }
     };
     window.addEventListener("resize", handleResize);
@@ -39,14 +43,23 @@ export function HotelsView() {
   // Handle smooth drawer opening and closing
   useEffect(() => {
     if (showFilters) {
+      // Mount drawer first (hidden state)
       setIsDrawerMounted(true);
+      // Trigger animation on next frame
+      const timer = setTimeout(() => {
+        setIsAnimatingIn(true);
+      }, 10);
+      return () => clearTimeout(timer);
     } else {
-      const timer = setTimeout(() => setIsDrawerMounted(false), 1000);
+      // Start closing animation
+      setIsAnimatingIn(false);
+      // Unmount after animation completes
+      const timer = setTimeout(() => setIsDrawerMounted(false), 600);
       return () => clearTimeout(timer);
     }
   }, [showFilters]);
 
-  if (isLoading || serviceLoading || !data) return null;
+  if (isLoading || serviceLoading || amenitiesLoading || !data) return null;
 
   const page: HotelsPageMeta = {
     ...data.page,
@@ -98,6 +111,7 @@ export function HotelsView() {
                 onReset={reset}
                 onPrice={onPrice}
                 onStar={onStar}
+                amenities={amenities ?? []}
               />
             </div>
 
@@ -106,18 +120,18 @@ export function HotelsView() {
               <>
                 {/* Overlay */}
                 <div
-                  className={`fixed inset-0 z-40 bg-black/50 transition-opacity duration-1000 ease-in-out desktop:hidden ${
-                    showFilters ? "opacity-100" : "opacity-0"
+                  className={`fixed inset-0 z-40 bg-black/50 transition-opacity duration-500 ease-in-out desktop:hidden ${
+                    isAnimatingIn ? "opacity-100" : "opacity-0"
                   }`}
                   onClick={() => setShowFilters(false)}
                 />
 
                 {/* Drawer */}
                 <div
-                  className={`fixed top-0 left-0 bottom-0 z-50 w-[320px] bg-white shadow-2xl transition-all duration-1000 ease-in-out desktop:hidden ${
-                    showFilters
+                  className={`fixed top-0 left-0 bottom-0 z-50 w-[320px] bg-white shadow-2xl transition-all duration-500 ease-in-out desktop:hidden ${
+                    isAnimatingIn
                       ? "translate-x-0 opacity-100"
-                      : "-translate-x-full opacity-80"
+                      : "-translate-x-full opacity-0"
                   }`}
                 >
                   <div className="flex h-full flex-col">
@@ -155,6 +169,7 @@ export function HotelsView() {
                         onReset={reset}
                         onPrice={onPrice}
                         onStar={onStar}
+                        amenities={amenities ?? []}
                       />
                     </div>
 

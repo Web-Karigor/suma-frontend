@@ -30,13 +30,15 @@ export function VisaHero({ title, subtitle, image }: VisaHeroProps) {
       />
       <div className="absolute inset-0 bg-[#0A0C0C]/64" />
       <Container className="relative z-10 text-center text-white">
-        <p className="text-sm tablet:text-base">
+        {/* <p className="text-sm tablet:text-base">
           Country pages grouped by region, Asia, Europe, Americas, Africa,
           Australia, and more.
-        </p>
-        <h1 className="mt-1 text-4xl font-semibold tablet:text-6xl">{title}</h1>
+        </p> */}
+        <h1 className="mt-1 text-2xl font-semibold lg:text-[32px] text-[#FEFEFC]">
+          {title}
+        </h1>
         {subtitle ? (
-          <p className="mx-auto mt-3 max-w-[620px] text-xs leading-[1.5] tablet:text-sm">
+          <p className="mx-auto mt-3 max-w-[620px] text-sm leading-[1.5] lg:text-base text-[#FEFEFC]">
             {subtitle}
           </p>
         ) : null}

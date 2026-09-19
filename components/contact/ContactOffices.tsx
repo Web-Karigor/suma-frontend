@@ -156,14 +156,14 @@ function OfficeCard({ office }: { office: ContactOfficeCard }) {
           </a>
         </h3>
 
-        <p className="flex items-center gap-2 text-xl font-medium text-neutral-950 lg:text-[22px]">
-          <MapPin className="size-4 shrink-0 -mt-4" />
+        <p className="flex items-start gap-2 text-xl font-medium text-neutral-950 lg:text-[22px]">
+          <MapPin className="mt-1 size-4 shrink-0" />
 
           <a
             href={office.directionUrl}
             target="_blank"
             rel="noreferrer"
-            className="mt-3 block text-sm leading-[1.5] text-gray-600 hover:text-primary lg:text-base"
+            className="block text-sm leading-[1.5] text-gray-600 hover:text-primary lg:text-base"
           >
             {office.address}
           </a>
@@ -177,10 +177,12 @@ function OfficeCard({ office }: { office: ContactOfficeCard }) {
           {office.phone}
         </a>
 
-        <p className="mt-2 flex items-center gap-2 text-base font-medium text-gray-600">
-          <Clock className="size-3.5 shrink-0" />
-          {office.workingHours}
-        </p>
+        {office.workingHours ? (
+          <p className="mt-2 flex items-center gap-2 text-base font-medium text-gray-600">
+            <Clock className="size-3.5 shrink-0" />
+            {office.workingHours}
+          </p>
+        ) : null}
       </div>
 
       {/* Map Section */}
@@ -188,22 +190,22 @@ function OfficeCard({ office }: { office: ContactOfficeCard }) {
         className="
       relative
       w-full
-      h-[220px]
+      h-[160px]
       shrink-0
       overflow-hidden
       rounded-md
 
       md:w-full
-      md:h-[220px]
+      md:h-[160px]
 
       lg:w-[240px]
-      lg:h-[180px]
+      lg:h-[160px]
 
       xl:w-[270px]
-      xl:h-[220px]
+      xl:h-[160px]
 
       2xl:w-[270px]
-      2xl:h-[220px]
+      2xl:h-[160px]
     "
       >
         <Image

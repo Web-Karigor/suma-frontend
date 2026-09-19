@@ -12,7 +12,8 @@ export const serviceLinks = [
 export const navLinks = [
   { label: "Home", href: "/" },
   { label: "Service", href: "/hajj", children: serviceLinks },
-  // { label: "Build My Trip", href: partnerPortalUrl },
+  { label: "Build My Trip", href: partnerPortalUrl },
+  { label: "Visa", href: "/visa-application" },
   { label: "Hotel", href: "/hotels" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },

@@ -14,17 +14,19 @@ export function HotelDetailView({ hotel }: { hotel: HotelDetail }) {
       <Container className="pt-6 pb-10 tablet:pt-8">
         <div className="flex flex-col gap-4 tablet:flex-row tablet:items-start tablet:justify-between">
           <div>
-            <h1 className="text-[28px] leading-[120%] font-semibold text-black tablet:text-[32px]">{hotel.title}</h1>
-            <div className="mt-2 flex flex-wrap items-center gap-2 text-[14px] text-gray-600">
+            <h1 className="text-[28px] leading-[120%] font-semibold text-[#000000] tablet:text-[32px] xl:text-[40px]">
+              {hotel.title}
+            </h1>
+            <div className="mt-2 flex flex-wrap items-center gap-2 text-xl  text-gray-600">
               <span className="flex text-gold-500">
                 {Array.from({ length: hotel.rating }).map((_, i) => (
-                  <StarIcon key={i} className="size-3.5" />
+                  <StarIcon key={i} className="size-5.5" />
                 ))}
               </span>
-              <span>({hotel.rating.toFixed(1)})</span>
+              <span className="text-sm">({hotel.rating.toFixed(1)})</span>
               {hotel.address ? (
                 <span className="inline-flex items-center gap-1.5">
-                  <PinIcon className="size-3.5" />
+                  <PinIcon className="size-5" />
                   {hotel.address}
                 </span>
               ) : null}

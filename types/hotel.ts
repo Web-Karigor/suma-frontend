@@ -5,9 +5,16 @@ export type HotelItem = {
   image: string;
   image_alt_text: string | null;
   short_description: string;
+  address: string;
   rating: number;
-  price: number;
+  main_price: number;
+  discount_price: number | null;
   is_refundable: boolean;
+  aminities?: Array<{
+    id: number;
+    name: string;
+    is_highlighted: boolean;
+  }>;
 };
 
 export type HotelsPageHeader = {
@@ -53,9 +60,14 @@ export type HotelCard = {
   image: string;
   imageAlt: string;
   description: string;
+  address: string;
   rating: number;
-  price: number;
+  mainPrice: number;
+  discountPrice: number | null;
+  finalPrice: number;
   isRefundable: boolean;
+  amenities: string[];
+  highlightedAmenities: string[];
   href: string;
 };
 

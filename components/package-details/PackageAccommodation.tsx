@@ -31,7 +31,7 @@ export function PackageAccommodation({ hotels }: PackageAccommodationProps) {
     <section className="bg-gold-50 py-10 tablet:py-12 desktop-xl:py-14">
       <Container className="desktop-xl:!px-0">
         <div className="w-full rounded-[24px] bg-gold-100 p-4 tablet:p-5 desktop-xl:rounded-[32px]">
-          <h2 className="mb-4 text-[22px] leading-[1.2] font-semibold text-hero tablet:text-[24px]">
+          <h2 className="mb-4 text-[22px] leading-[1.2] font-semibold text-hero tablet:text-[24px] xl:text-[28px]">
             Accommodation
           </h2>
 
@@ -49,7 +49,9 @@ export function PackageAccommodation({ hotels }: PackageAccommodationProps) {
                   <button
                     type="button"
                     onClick={() =>
-                      setActiveIndex((prev) => (prev - 1 + hotels.length) % hotels.length)
+                      setActiveIndex(
+                        (prev) => (prev - 1 + hotels.length) % hotels.length,
+                      )
                     }
                     aria-label="Previous hotel"
                     className="flex size-8 items-center justify-center rounded-full bg-white/90 text-neutral-700 transition hover:bg-white"
@@ -58,7 +60,9 @@ export function PackageAccommodation({ hotels }: PackageAccommodationProps) {
                   </button>
                   <button
                     type="button"
-                    onClick={() => setActiveIndex((prev) => (prev + 1) % hotels.length)}
+                    onClick={() =>
+                      setActiveIndex((prev) => (prev + 1) % hotels.length)
+                    }
                     aria-label="Next hotel"
                     className="flex size-8 items-center justify-center rounded-full bg-white/90 text-neutral-700 transition hover:bg-white"
                   >
@@ -70,32 +74,36 @@ export function PackageAccommodation({ hotels }: PackageAccommodationProps) {
 
             <div className="flex min-w-0 flex-1 flex-col">
               <div className="mb-2 flex items-center gap-1">
-                <StarIcon className="size-4 text-gold-500" />
-                <span className="text-sm font-medium text-gold-700">{hotel.rating} Star</span>
+                <StarIcon className="size-5 text-gold-500" />
+                <span className="text-sm lg:text-lg font-medium text-gold-700">
+                  {hotel.rating} Star
+                </span>
               </div>
 
-              <h3 className="text-[18px] leading-[1.35] font-semibold text-hero tablet:text-[22px]">
+              <h3 className="text-[18px] leading-[1.35] font-semibold text-hero">
                 {hotel.name}
               </h3>
 
               <div className="mt-2 flex items-center gap-1.5 text-neutral-600">
-                <MapPinIcon className="size-3.5 shrink-0" />
-                <span className="text-[13px]">{hotel.location}</span>
+                <MapPinIcon className="size-5 shrink-0" />
+                <span className="text-[14px]">{hotel.location}</span>
               </div>
 
-              <p className="mt-3 max-w-[720px] text-[13px] leading-[1.55] text-neutral-600 tablet:text-sm">
+              <p className="mt-3 max-w-[720px] text-[14px] leading-[1.55] text-neutral-600 tablet:text-sm line-clamp-2">
                 {hotel.description}
               </p>
 
-              <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-medium text-gold-800">
+              <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm lg:text-lg font-medium text-gold-700">
                 {hotel.nightsStay ? (
                   <span className="inline-flex items-center gap-2">
-                    <ClockIcon className="size-4" />
+                    <ClockIcon className="size-5" />
                     {hotel.nightsStay}
                   </span>
                 ) : null}
                 {hotel.privateCar ? (
-                  <span className="inline-flex items-center gap-2">{hotel.privateCar}</span>
+                  <span className="inline-flex items-center gap-2">
+                    {hotel.privateCar}
+                  </span>
                 ) : null}
               </div>
 

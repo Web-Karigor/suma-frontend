@@ -13,10 +13,10 @@ export function ArrowShift({ className }: { className?: string }) {
   return (
     <span className={cn("relative overflow-hidden", className)}>
       <span className="absolute inset-0 flex items-center justify-center transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-[120%] group-hover:-translate-y-[120%] motion-reduce:transition-none">
-        <ArrowUpRightIcon className="size-[55%]" />
+        <ArrowUpRightIcon className="size-[85%]" />
       </span>
       <span className="absolute inset-0 flex items-center justify-center translate-x-[-120%] translate-y-[120%] transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0 group-hover:translate-y-0 motion-reduce:translate-x-0 motion-reduce:translate-y-0 motion-reduce:transition-none">
-        <ArrowUpRightIcon className="size-[55%]" />
+        <ArrowUpRightIcon className="size-[85%]" />
       </span>
     </span>
   );

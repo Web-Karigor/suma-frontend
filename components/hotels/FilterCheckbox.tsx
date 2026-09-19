@@ -14,8 +14,12 @@ export function FilterCheckbox({
   onChange: () => void;
 }) {
   return (
-    <label className="flex cursor-pointer items-center gap-2.5 text-[13px] text-neutral-800">
-      <Checkbox checked={checked} onCheckedChange={() => onChange()} className="size-4" />
+    <label className="flex cursor-pointer items-center gap-2.5 text-base text-neutral-800">
+      <Checkbox
+        checked={checked}
+        onCheckedChange={() => onChange()}
+        className="size-4"
+      />
       <span className="flex-1">{label}</span>
       {count != null ? <span className="text-gray-500">{count}</span> : null}
     </label>

@@ -112,18 +112,32 @@ export function normalizeHotelDetail(item: HotelDetailItem): HotelDetail {
 export function normalizeHotelsResponse(
   response: Pick<HotelsApiResponse, "data">,
 ): HotelCard[] {
-  return response.data.map((item) => ({
-    id: item.id,
-    title: item.title,
-    slug: item.slug,
-    image: resolveHotelImage(item.image),
-    imageAlt: item.image_alt_text ?? item.title,
-    description: item.short_description,
-    rating: normalizeRating(item.rating),
-    price: normalizePrice(item.price),
-    isRefundable: item.is_refundable,
-    href: `/hotels/${item.slug}`,
-  }));
+  return response.data.map((item) => {
+    const mainPrice = normalizePrice(item.main_price);
+    const discountPrice = item.discount_price ? normalizePrice(item.discount_price) : null;
+    const finalPrice = discountPrice || mainPrice;
+
+    const allAmenities = item.aminities?.map((a) => a.name) ?? [];
+    const highlightedAmenities = item.aminities?.filter((a) => a.is_highlighted).map((a) => a.name) ?? [];
+
+    return {
+      id: item.id,
+      title: item.title,
+      slug: item.slug,
+      image: resolveHotelImage(item.image),
+      imageAlt: item.image_alt_text ?? item.title,
+      description: item.short_description,
+      address: item.address,
+      rating: normalizeRating(item.rating),
+      mainPrice,
+      discountPrice,
+      finalPrice,
+      isRefundable: item.is_refundable,
+      amenities: allAmenities,
+      highlightedAmenities,
+      href: `/hotels/${item.slug}`,
+    };
+  });
 }
 
 export function normalizeHotelsPageResponse(

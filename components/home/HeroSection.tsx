@@ -65,7 +65,7 @@ export function HeroSection() {
             </div>
             <Button
               href={content.href}
-              className="mt-8 h-[49px] w-fit gap-8 rounded-button !bg-gray-50 pt-3 pr-3 pb-3 pl-4 !text-black hover:!bg-gray-50 [&>span]:size-[25px] [&>span]:!bg-black [&>span]:!text-white"
+              className="mt-8 h-[49px] w-fit gap-8 rounded-button !bg-gray-50 pt-3 pr-3 pb-3 pl-4 !text-black hover:!bg-gray-50 [&>span]:size-[30px] [&>span]:!bg-black [&>span]:!text-white"
             >
               Book Now
             </Button>

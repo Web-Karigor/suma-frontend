@@ -213,7 +213,7 @@ function Field({
 }) {
   return (
     <label className="flex flex-col gap-2 text-base font-medium text-[#0A0C0C]">
-      {label} (optional)
+      {label}
       <input
         name={name}
         type={type}

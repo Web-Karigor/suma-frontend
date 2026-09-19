@@ -109,7 +109,7 @@ export function Header() {
             <Logo compact className="shrink-0 min-[480px]:hidden" />
 
             <nav
-              className="hidden min-w-0 items-center gap-3 desktop:flex wide:gap-6"
+              className="hidden min-w-0 items-center gap-3 desktop:flex 2xl:gap-6"
               aria-label="Primary"
             >
               {navLinks.map((link) => {
@@ -129,7 +129,7 @@ export function Header() {
                         onMouseEnter={() => setDropdownOpen(true)}
                         onMouseLeave={() => setDropdownOpen(false)}
                         className={cn(
-                          "relative inline-flex items-center gap-0.5 py-1 text-[16px] font-medium text-black transition-colors hover:text-primary",
+                          "relative inline-flex items-center gap-0.5 py-1 text-[16px] xl:text-[13px] 2xl:text-[16px] font-medium text-black transition-colors hover:text-primary",
                           active && "text-primary",
                         )}
                       >
@@ -229,13 +229,15 @@ export function Header() {
               </span>
             </a>
 
-            <label className="relative w-[240px] shrink-0">
+            <label className="relative w-[240px] shrink-0 self-center xl:w-[200px] 2xl:w-[240px]">
               <span className="sr-only">Search</span>
+
               <SearchIcon className="pointer-events-none absolute top-1/2 left-4 size-4 -translate-y-1/2 text-gray-500" />
+
               <input
                 type="search"
                 placeholder="Search"
-                className="h-[49px] w-[240px] rounded-full border-0 bg-[#EEEEEE]/80 py-3 pr-4 pl-[42px] text-sm text-neutral-800 outline-none placeholder:text-gray-500 focus:bg-white"
+                className="h-[49px] w-[240px] rounded-full border-0 bg-[#EEEEEE]/80 py-3 pr-4 pl-[42px] text-sm text-neutral-800 outline-none placeholder:text-gray-500 focus:bg-white xl:w-[200px] 2xl:w-[240px]"
               />
             </label>
 
