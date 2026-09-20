@@ -31,7 +31,37 @@ function scaleOfferCards(swiper: SwiperClass) {
 export function ExclusiveOffers() {
   const { data: offers = [], isLoading } = useOffersQuery();
 
-  if (isLoading || offers.length === 0) return null;
+  if (isLoading || offers.length === 0) {
+    return (
+      <section className="bg-paper py-16 tablet:py-20">
+        <Container>
+          <div className="mb-10">
+            <div className="mx-auto h-10 w-64 animate-pulse rounded bg-gray-200/60 tablet:h-12" />
+          </div>
+
+          <div className="grid gap-6 tablet:grid-cols-2 desktop:grid-cols-3">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <div
+                key={i}
+                className="overflow-hidden rounded-lg bg-white shadow-sm"
+              >
+                <div className="h-[300px] w-full animate-pulse bg-gray-200/60" />
+                <div className="p-5">
+                  <div className="mb-3 h-7 w-4/5 animate-pulse rounded bg-gray-200/60" />
+                  <div className="mb-2 h-4 w-full animate-pulse rounded bg-gray-200/60" />
+                  <div className="mb-4 h-4 w-3/4 animate-pulse rounded bg-gray-200/60" />
+                  <div className="flex items-center gap-3">
+                    <div className="h-10 flex-1 animate-pulse rounded bg-gray-200/60" />
+                    <div className="h-10 w-24 animate-pulse rounded bg-gray-200/60" />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Container>
+      </section>
+    );
+  }
 
   return (
     <section className="bg-paper py-16 tablet:py-20">
@@ -66,7 +96,10 @@ export function ExclusiveOffers() {
         >
           {offers.map((offer) => (
             <SwiperSlide key={offer.id}>
-              <Link href={offer.href} className="offer-card relative block w-full overflow-hidden rounded-2xl">
+              <Link
+                href={offer.href}
+                className="offer-card relative block w-full overflow-hidden rounded-2xl"
+              >
                 <Image
                   src={offer.image}
                   alt={offer.imageAlt}

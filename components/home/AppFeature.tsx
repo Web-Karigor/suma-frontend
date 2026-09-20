@@ -55,11 +55,11 @@ export function AppFeature() {
                 }}
               />
               <div className="relative z-10 flex h-full items-center gap-4 pr-3 pl-28 2xl:gap-6 2xl:pr-4 2xl:pl-32">
-                <p className="leading-none whitespace-nowrap text-white">
-                  <span className="block text-[18px] font-bold 2xl:text-[24px]">
+                <p className="leading-none whitespace-nowrap text-[#FEFEFC] space-y-2">
+                  <span className="block text-[18px] font-medium 2xl:text-[24px]">
                     Download
                   </span>
-                  <span className="mt-1 block text-[18px] font-bold 2xl:text-[24px]">
+                  <span className="mt-1 block text-[18px] font-medium 2xl:text-[24px]">
                     Flight24 Mobile App
                   </span>
                 </p>
@@ -85,7 +85,7 @@ export function AppFeature() {
                 }}
               />
               <div className="relative z-10 flex h-full items-center pl-24">
-                <p className="leading-none text-white">
+                <p className="leading-none text-[#FEFEFC]">
                   <span className="block text-[14px] font-medium">
                     Download
                   </span>

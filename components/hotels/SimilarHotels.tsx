@@ -25,7 +25,7 @@ export function SimilarHotels({ currentSlug }: { currentSlug: string }) {
       <Container>
         <div className="mb-[37px]">
           <div className="flex items-center justify-between gap-6">
-            <h2 className="text-[1.75rem] font-semibold tracking-tight text-black tablet:text-[2.5rem]">
+            <h2 className="text-[1.75rem] font-semibold tracking-tight text-black tablet:text-[2.5rem] text-center md:text-left">
               Similar Hotels
             </h2>
             <Link
@@ -78,19 +78,19 @@ export function SimilarHotels({ currentSlug }: { currentSlug: string }) {
 
                 <div className="relative z-10 -mt-6 mx-4 flex flex-col gap-2.5 rounded-2xl bg-gray-50 px-5 pt-8 pb-5 shadow-[4px_0_8px_rgb(0_0_0/4%)] desktop:absolute desktop:top-1/2 desktop:right-0 desktop:z-0 desktop:mt-0 desktop:mx-0 desktop:h-[277px] desktop:w-[376px] desktop:-translate-y-1/2 desktop:px-8 desktop:pt-5 desktop:pb-5 desktop:pr-8 desktop:pl-10">
                   <div
-                    className="flex justify-center gap-0.5 text-gold-500 desktop:justify-start"
+                    className="flex gap-0.5 text-gold-500 justify-start"
                     aria-label={`${hotel.rating} star rating`}
                   >
                     {Array.from({ length: hotel.rating }).map((_, index) => (
                       <StarIcon key={index} className="size-7 lg:size-6" />
                     ))}
                   </div>
-                  <h3 className="text-center text-lg font-semibold text-[#0A0C0C] desktop:text-left">
+                  <h3 className="text-lg font-semibold text-[#0A0C0C] text-left">
                     {hotel.title}
                   </h3>
-                  <div className="flex items-start justify-center gap-1.5 desktop:justify-start">
+                  <div className="flex items-start gap-1.5 justify-start">
                     <svg
-                      className="mt-0.5 ml-2 lg:ml-0 size-4 shrink-0 text-[#7B7B7B]"
+                      className="mt-0.5 lg:ml-0 size-4 shrink-0 text-[#7B7B7B]"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -108,15 +108,15 @@ export function SimilarHotels({ currentSlug }: { currentSlug: string }) {
                         d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                       />
                     </svg>
-                    <p className="text-center text-xs leading-snug text-[#7B7B7B] desktop:text-left">
+                    <p className="text-xs leading-snug text-[#7B7B7B] text-left">
                       Marine Drive Road, Kutupalong, Inani Ukhia, Cox's Bazar
                       4750
                     </p>
                   </div>
-                  <p className="line-clamp-3 text-center font-poppins text-xs font-medium leading-relaxed text-[#0A0C0C] desktop:text-left">
+                  <p className="line-clamp-3 font-poppins text-xs font-medium leading-relaxed text-[#0A0C0C] text-left">
                     {hotel.description}
                   </p>
-                  <div className="mt-auto flex justify-center pt-1 desktop:justify-start">
+                  <div className="mt-auto flex pt-1 justify-start">
                     <Button href={hotel.href}>Explore</Button>
                   </div>
                 </div>

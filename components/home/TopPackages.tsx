@@ -58,7 +58,39 @@ export function TopPackages() {
     services.map((item) => [item.area, item]),
   ) as Partial<Record<ServiceArea, ServiceCard>>;
 
-  if (isLoading || services.length === 0) return null;
+  if (isLoading || services.length === 0) {
+    return (
+      <section className="bg-paper py-16 tablet:py-20">
+        <Container>
+          <div className="mb-10">
+            <div className="mx-auto h-10 w-64 animate-pulse rounded bg-gray-200/60 tablet:h-12" />
+          </div>
+
+          <div className="w-full">
+            <div className="flex flex-col gap-3 desktop:grid desktop:grid-cols-[minmax(0,711fr)_minmax(0,508fr)_minmax(0,441fr)] desktop:items-start desktop:gap-10">
+              {/* Column 1 */}
+              <div className="flex min-w-0 flex-col gap-3 desktop:gap-10">
+                <div className="h-[210px] w-full animate-pulse rounded bg-gray-200/60 desktop:h-[322px]" />
+                <div className="flex flex-col gap-3 tablet:flex-row desktop:gap-10">
+                  <div className="h-[210px] flex-1 animate-pulse rounded bg-gray-200/60 desktop:h-[398px]" />
+                  <div className="h-[210px] flex-1 animate-pulse rounded bg-gray-200/60 desktop:h-[398px]" />
+                </div>
+              </div>
+
+              {/* Column 2 */}
+              <div className="h-[280px] w-full animate-pulse rounded bg-gray-200/60 desktop:h-[760px]" />
+
+              {/* Column 3 */}
+              <div className="flex min-w-0 flex-col gap-3 desktop:gap-10">
+                <div className="h-[210px] w-full animate-pulse rounded bg-gray-200/60 desktop:h-[360px]" />
+                <div className="h-[210px] w-full animate-pulse rounded bg-gray-200/60 desktop:h-[360px]" />
+              </div>
+            </div>
+          </div>
+        </Container>
+      </section>
+    );
+  }
 
   return (
     <section className="bg-paper py-16 tablet:py-20">

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
   CloseIcon,
@@ -41,10 +41,22 @@ function NavUnderline({ active }: { active: boolean }) {
 
 export function Header() {
   const pathname = usePathname();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const { data: settings = FALLBACK_SETTINGS } = useSettingsQuery();
   const supportPhone = settings.hotline || settings.phone;
+
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const query = searchQuery.trim();
+    if (query) {
+      router.push(`/search?query=${encodeURIComponent(query)}`);
+      setSearchQuery("");
+      setOpen(false);
+    }
+  };
 
   const isHome = pathname === "/";
   const isCorporateTour = pathname.startsWith("/corporate-tour");
@@ -231,17 +243,24 @@ export function Header() {
               </span>
             </a>
 
-            <label className="relative w-[240px] shrink-0 self-center xl:w-[200px] 2xl:w-[240px]">
-              <span className="sr-only">Search</span>
+            <form
+              onSubmit={handleSearch}
+              className="relative w-[240px] shrink-0 self-center xl:w-[200px] 2xl:w-[240px]"
+            >
+              <label className="relative block w-full">
+                <span className="sr-only">Search</span>
 
-              <SearchIcon className="pointer-events-none absolute top-1/2 left-4 size-4 -translate-y-1/2 text-gray-500" />
+                <SearchIcon className="pointer-events-none absolute top-1/2 left-4 size-4 -translate-y-1/2 text-gray-500" />
 
-              <input
-                type="search"
-                placeholder="Search"
-                className="h-[49px] w-[240px] rounded-full border-0 bg-[#EEEEEE]/80 py-3 pr-4 pl-[42px] text-sm text-neutral-800 outline-none placeholder:text-gray-500 focus:bg-white xl:w-[200px] 2xl:w-[240px]"
-              />
-            </label>
+                <input
+                  type="search"
+                  placeholder="Search"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="h-[49px] w-full rounded-full border-0 bg-[#EEEEEE]/80 py-3 pr-4 pl-[42px] text-sm text-neutral-800 outline-none placeholder:text-gray-500 focus:bg-white"
+                />
+              </label>
+            </form>
 
             <Button
               onClick={() => setModalOpen(true)}
@@ -349,15 +368,19 @@ export function Header() {
             </span>
           </a>
 
-          <label className="relative mt-3 block">
-            <span className="sr-only">Search</span>
-            <SearchIcon className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-gray-500" />
-            <input
-              type="search"
-              placeholder="Search"
-              className="h-11 w-full rounded-full border border-gray-200 bg-gray-50 pr-4 pl-10 text-sm outline-none placeholder:text-gray-500 focus:border-primary focus:bg-white"
-            />
-          </label>
+          <form onSubmit={handleSearch} className="relative mt-3 block">
+            <label className="relative block">
+              <span className="sr-only">Search</span>
+              <SearchIcon className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-gray-500" />
+              <input
+                type="search"
+                placeholder="Search"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="h-11 w-full rounded-full border border-gray-200 bg-gray-50 pr-4 pl-10 text-sm outline-none placeholder:text-gray-500 focus:border-primary focus:bg-white"
+              />
+            </label>
+          </form>
 
           <Button
             onClick={() => {

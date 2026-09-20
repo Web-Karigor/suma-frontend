@@ -17,21 +17,21 @@ export function MedicalServices({
   const cards = [
     {
       title: "Included",
-      titleClass: "text-teal-300",
+      titleClass: "text-teal-800",
       items: services.included,
       icon: "/images/corporate-tour/icons/service-included.svg",
       textClass: "text-teal-50",
     },
     {
       title: "Available at Additional Fees",
-      titleClass: "text-gold-500",
+      titleClass: "text-gold-800",
       items: services.additional,
       icon: "/images/corporate-tour/icons/service-additional.svg",
       textClass: "text-[#fefbf5]",
     },
     {
       title: "Not Included",
-      titleClass: "text-gray-500",
+      titleClass: "text-gray-300",
       items: services.excluded,
       icon: "/images/corporate-tour/icons/service-excluded.svg",
       textClass: "text-neutral-300",
@@ -43,20 +43,20 @@ export function MedicalServices({
   return (
     <section
       id="services"
-      className="scroll-mt-28  py-12 tablet:py-16 desktop-xl:py-[60px]"
+      className="bg-teal-50 scroll-mt-28  py-12 tablet:py-16 desktop-xl:py-[60px]"
     >
       <Container>
         <div className="flex flex-col gap-8 desktop-xl:gap-[60px]">
           {cards.length > 0 ? (
             <div className="flex flex-col gap-8">
-              <h2 className="text-[24px] font-semibold leading-[1.28] text-white tablet:text-[28px]">
+              <h2 className="text-[24px] font-semibold leading-[1.28] text-teal-600 tablet:text-[28px]">
                 Services
               </h2>
               <div className="grid grid-cols-1 gap-6 tablet:grid-cols-2 desktop:grid-cols-3 desktop:gap-[49px]">
                 {cards.map((card) => (
                   <article
                     key={card.title}
-                    className="flex flex-col gap-8 rounded-2xl border-[0.5px] border-gray-800 bg-overlay-black-64 p-6 tablet:p-8"
+                    className="flex flex-col gap-8 rounded-2xl text-teal-950 bg-teal-100 p-6 tablet:p-8"
                   >
                     <h3
                       className={`text-[20px] leading-[1.5] font-medium ${card.titleClass}`}
@@ -67,7 +67,7 @@ export function MedicalServices({
                       {card.items.map((item, index) => (
                         <li
                           key={`${item}-${index}`}
-                          className="flex min-h-[26px] items-center gap-3"
+                          className="flex min-h-[26px] items-center gap-3 text-teal-950"
                         >
                           <span className="relative size-5 shrink-0 overflow-clip">
                             <img
@@ -79,7 +79,7 @@ export function MedicalServices({
                             />
                           </span>
                           <span
-                            className={`text-base leading-[1.6] font-normal ${card.textClass}`}
+                            className={`text-base leading-[1.6] text-teal-950 font-normal ${card.textClass}`}
                           >
                             {item}
                           </span>

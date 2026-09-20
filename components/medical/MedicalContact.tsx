@@ -48,14 +48,14 @@ export function MedicalContact() {
   return (
     <section
       id="booking"
-      className="scroll-mt-28 bg-gold-50 py-12 tablet:py-16 desktop-xl:py-[100px]"
+      className="scroll-mt-28 py-12 tablet:py-16 desktop-xl:py-[100px]"
     >
       <Container>
         <div className="mx-auto grid w-full grid-cols-1 gap-6 tablet:grid-cols-2 lg:grid-cols-3 tablet:gap-8 desktop-xl:h-[405px] desktop-xl:max-w-[1536px] desktop-xl:gap-12">
           {contactItems.map((item) => (
             <article
               key={item.title}
-              className="flex min-w-0 flex-col rounded-[18px] border border-[#f0eee8] bg-white p-6 shadow-[0_0_12px_rgb(0_0_0/8%)] tablet:min-h-[280px] desktop-xl:h-[405px] desktop-xl:w-[480px] desktop-xl:rounded-[40px] desktop-xl:p-8"
+              className="flex min-w-0 flex-col rounded-[18px] bg-[#F2F8F8] p-6 shadow-[0_0_12px_rgb(0_0_0/8%)] tablet:min-h-[280px] desktop-xl:h-[405px] desktop-xl:w-[480px] desktop-xl:rounded-[40px] desktop-xl:p-8"
             >
               <span className="mb-2.5 flex size-[52px] shrink-0 items-center justify-center rounded-full bg-teal-200 p-[10px]">
                 <img

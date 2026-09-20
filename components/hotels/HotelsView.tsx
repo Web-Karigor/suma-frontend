@@ -59,7 +59,69 @@ export function HotelsView() {
     }
   }, [showFilters]);
 
-  if (isLoading || serviceLoading || amenitiesLoading || !data) return null;
+  if (isLoading || serviceLoading || amenitiesLoading || !data) {
+    return (
+      <>
+        {/* Hero Skeleton */}
+        <div className="relative h-[300px] w-full bg-gray-200/60 tablet:h-[400px] desktop:h-[500px]">
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="w-full max-w-4xl px-4">
+              <div className="mx-auto mb-4 h-12 w-3/4 animate-pulse rounded bg-gray-300/80 tablet:h-16" />
+              <div className="mx-auto h-6 w-1/2 animate-pulse rounded bg-gray-300/80 tablet:h-8" />
+            </div>
+          </div>
+        </div>
+
+        {/* Content Skeleton */}
+        <section className="py-6 tablet:py-10">
+          <Container>
+            <div className="mb-4 h-10 w-48 animate-pulse rounded-lg bg-gray-200/60 desktop:hidden" />
+
+            <div className="flex gap-6">
+              {/* Desktop Filter Skeleton */}
+              <div className="hidden w-[280px] shrink-0 space-y-4 desktop:block">
+                <div className="h-10 w-full animate-pulse rounded bg-gray-200/60" />
+                <div className="h-32 w-full animate-pulse rounded bg-gray-200/60" />
+                <div className="h-32 w-full animate-pulse rounded bg-gray-200/60" />
+                <div className="h-32 w-full animate-pulse rounded bg-gray-200/60" />
+              </div>
+
+              {/* Hotels Grid Skeleton */}
+              <div className="flex-1">
+                <div className="mb-4 flex items-center justify-between">
+                  <div className="h-8 w-48 animate-pulse rounded bg-gray-200/60" />
+                  <div className="h-8 w-32 animate-pulse rounded bg-gray-200/60" />
+                </div>
+                <div className="grid gap-4 tablet:grid-cols-2 tablet:gap-5 desktop:gap-6">
+                  {Array.from({ length: 6 }).map((_, i) => (
+                    <div
+                      key={i}
+                      className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm"
+                    >
+                      <div className="h-48 w-full animate-pulse bg-gray-200/60 tablet:h-56" />
+                      <div className="p-4 tablet:p-5">
+                        <div className="mb-2 flex items-center justify-between">
+                          <div className="h-5 w-32 animate-pulse rounded bg-gray-200/60" />
+                          <div className="h-5 w-20 animate-pulse rounded bg-gray-200/60" />
+                        </div>
+                        <div className="mb-3 h-6 w-3/4 animate-pulse rounded bg-gray-200/60" />
+                        <div className="mb-2 h-4 w-full animate-pulse rounded bg-gray-200/60" />
+                        <div className="mb-4 h-4 w-4/5 animate-pulse rounded bg-gray-200/60" />
+                        <div className="flex items-center justify-between">
+                          <div className="h-6 w-28 animate-pulse rounded bg-gray-200/60" />
+                          <div className="h-10 w-24 animate-pulse rounded bg-gray-200/60" />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </Container>
+        </section>
+      </>
+    );
+  }
 
   const page: HotelsPageMeta = {
     ...data.page,

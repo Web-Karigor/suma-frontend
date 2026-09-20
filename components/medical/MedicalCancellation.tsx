@@ -10,7 +10,7 @@ export function MedicalCancellation({ html }: { html: string | null }) {
   return (
     <div className="flex w-full flex-col gap-8">
       <div className="flex flex-col gap-5">
-        <h3 className="text-[24px] font-semibold leading-[1.28] text-white tablet:text-[28px]">
+        <h3 className="text-[24px] font-semibold leading-[1.28] text-[#0A0C0C] tablet:text-[28px]">
           Cancellation Policy
         </h3>
         {disclaimerOpen ? (
@@ -26,8 +26,9 @@ export function MedicalCancellation({ html }: { html: string | null }) {
                 />
               </span>
               <p className="text-[14px] leading-[1.6] font-normal text-teal-300 tablet:text-[18px]">
-                Disclaimer: For visa applicants - If your visa has been issued, you will not be able to cancel the
-                package, and no amounts will be refunded
+                Disclaimer: For visa applicants - If your visa has been issued,
+                you will not be able to cancel the package, and no amounts will
+                be refunded
               </p>
             </div>
             <button
@@ -49,7 +50,7 @@ export function MedicalCancellation({ html }: { html: string | null }) {
       </div>
 
       <div
-        className="text-[16px] leading-[1.64] font-light text-teal-50 tablet:text-[18px] [&_p]:mb-3"
+        className="text-[16px] leading-[1.64] font-light text-[#0A0C0C] tablet:text-[18px] [&_p]:mb-3"
         dangerouslySetInnerHTML={{ __html: html }}
       />
     </div>

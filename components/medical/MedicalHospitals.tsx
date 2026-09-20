@@ -46,7 +46,7 @@ function HospitalCard({ hospital }: { hospital: ServiceHospital }) {
           </p>
         ) : null}
         <Button
-          href="/contact"
+          href="#"
           className="mt-auto w-full justify-center desktop-xl:w-[524px]"
         >
           View on Map

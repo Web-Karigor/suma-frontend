@@ -15,25 +15,63 @@ import "swiper/css/pagination";
 export function BestHotels() {
   const { data: hotels = [], isLoading } = useHomepageHotelsQuery();
 
-  if (isLoading || hotels.length === 0) return null;
+  if (isLoading || hotels.length === 0) {
+    return (
+      <section className="bg-paper py-16 tablet:py-20">
+        <Container>
+          <div className="mb-[37px]">
+            <div className="flex items-center justify-between gap-6">
+              <div className="h-10 w-96 animate-pulse rounded bg-gray-200/60 tablet:h-12" />
+              <div className="hidden h-6 w-24 animate-pulse rounded bg-gray-200/60 lg:block" />
+            </div>
+            <div className="mt-2 h-6 w-full max-w-2xl animate-pulse rounded bg-gray-200/60 xl:mt-5" />
+          </div>
+
+          <div className="grid gap-6 tablet:grid-cols-2 desktop:grid-cols-3">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <div
+                key={i}
+                className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm"
+              >
+                <div className="h-64 w-full animate-pulse bg-gray-200/60" />
+                <div className="p-5">
+                  <div className="mb-2 flex items-center justify-between">
+                    <div className="h-5 w-32 animate-pulse rounded bg-gray-200/60" />
+                    <div className="h-5 w-16 animate-pulse rounded bg-gray-200/60" />
+                  </div>
+                  <div className="mb-3 h-6 w-3/4 animate-pulse rounded bg-gray-200/60" />
+                  <div className="mb-2 h-4 w-full animate-pulse rounded bg-gray-200/60" />
+                  <div className="mb-4 h-4 w-5/6 animate-pulse rounded bg-gray-200/60" />
+                  <div className="flex items-center justify-between">
+                    <div className="h-6 w-24 animate-pulse rounded bg-gray-200/60" />
+                    <div className="h-10 w-28 animate-pulse rounded bg-gray-200/60" />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Container>
+      </section>
+    );
+  }
 
   return (
     <section className="bg-paper py-16 tablet:py-20">
       <Container>
-        <div className="mb-[37px]">
+        <div className="mb-[37px] ">
           <div className="flex items-center justify-between gap-6">
-            <h2 className="text-[1.75rem] font-semibold tracking-tight text-black tablet:text-[2.5rem]">
+            <h2 className="text-[1.75rem] font-semibold text-center lg:text-left tracking-tight text-black md:text-[2.5rem]">
               Best Hotels for Your Next Trip
             </h2>
             <Link
               href="/hotels"
-              className="hidden shrink-0 items-center gap-2 text-base font-medium text-primary hover:text-primary-700 tablet:inline-flex"
+              className="hidden shrink-0 items-center gap-2 text-base font-medium text-primary hover:text-primary-700 lg:inline-flex"
             >
               View All
               <ArrowRightIcon className="size-4" />
             </Link>
           </div>
-          <p className="mt-2 xl:mt-5 max-w-2xl text-sm font-medium leading-relaxed text-[#0A0C0C]">
+          <p className="mt-2 xl:mt-5 max-w-2xl text-sm font-medium leading-relaxed text-[#0A0C0C] text-center lg:text-left">
             For budget-friendly hotels, villas or resorts, browse accommodations
             that you need. Book long-term or short-term accommodation from our
             hotel collection.
@@ -75,19 +113,19 @@ export function BestHotels() {
 
                 <div className="relative z-10 -mt-6 mx-4 flex flex-col gap-2.5 rounded-2xl bg-gray-50 px-5 pt-8 pb-5 shadow-[4px_0_8px_rgb(0_0_0/4%)] desktop:absolute desktop:top-1/2 desktop:right-0 desktop:z-0 desktop:mt-0 desktop:mx-0 desktop:h-[277px] desktop:w-[376px] desktop:-translate-y-1/2 desktop:px-8 desktop:pt-5 desktop:pb-5 desktop:pr-8 desktop:pl-10">
                   <div
-                    className="flex justify-center gap-0.5 text-gold-500 desktop:justify-start"
+                    className="flex gap-0.5 text-gold-500 justify-start"
                     aria-label={`${hotel.rating} star rating`}
                   >
                     {Array.from({ length: hotel.rating }).map((_, index) => (
                       <StarIcon key={index} className="size-7 lg:size-6" />
                     ))}
                   </div>
-                  <h3 className="text-center text-lg font-semibold text-[#0A0C0C] desktop:text-left">
+                  <h3 className="text-lg font-semibold text-[#0A0C0C] text-left">
                     {hotel.title}
                   </h3>
-                  <div className="flex items-start justify-center gap-1.5 desktop:justify-start">
+                  <div className="flex items-start gap-1.5 justify-start">
                     <svg
-                      className="mt-0.5 ml-2 lg:ml-0 size-4 shrink-0 text-[#7B7B7B]"
+                      className="mt-0.5 lg:ml-0 size-4 shrink-0 text-[#7B7B7B]"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -105,15 +143,15 @@ export function BestHotels() {
                         d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                       />
                     </svg>
-                    <p className="text-center text-xs leading-snug text-[#7B7B7B] desktop:text-left">
+                    <p className="text-xs leading-snug text-[#7B7B7B] text-left">
                       Marine Drive Road, Kutupalong, Inani Ukhia, Cox's Bazar
                       4750
                     </p>
                   </div>
-                  <p className="line-clamp-3 text-center font-poppins text-xs font-medium leading-relaxed text-[#0A0C0C] desktop:text-left">
+                  <p className="line-clamp-3 font-poppins text-xs font-medium leading-relaxed text-[#0A0C0C] text-left">
                     {hotel.description}
                   </p>
-                  <div className="mt-auto flex justify-center pt-1 desktop:justify-start">
+                  <div className="mt-auto flex pt-1 justify-start">
                     <Button href={hotel.href}>Explore</Button>
                   </div>
                 </div>

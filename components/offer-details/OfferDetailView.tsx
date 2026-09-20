@@ -6,7 +6,10 @@ export function OfferDetailView({ offer }: { offer: OfferDetail }) {
   return (
     <main>
       <OfferHero offer={offer} />
-      <OfferContent shortDescription={offer.shortDescription} html={offer.descriptionHtml} />
+      <OfferContent
+        shortDescription={offer.shortDescription}
+        html={offer.descriptionHtml}
+      />
     </main>
   );
 }

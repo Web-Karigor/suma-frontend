@@ -7,7 +7,11 @@ type OfferDetailsProps = {
   terms: string[];
 };
 
-export function OfferDetails({ description, included, terms }: OfferDetailsProps) {
+export function OfferDetails({
+  description,
+  included,
+  terms,
+}: OfferDetailsProps) {
   return (
     <section className="py-12 md:py-16 bg-paper">
       <Container>

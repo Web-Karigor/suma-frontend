@@ -11,7 +11,7 @@ const VISIBLE_COUNT = 5;
 
 function CountryCard({ country }: { country: ServiceCountry }) {
   return (
-    <article className="flex w-[240px] shrink-0 flex-col items-center rounded-2xl bg-white/55 px-4 py-6 tablet:w-full desktop-xl:h-[357px] desktop-xl:w-[328.8px]">
+    <article className="flex w-[240px] shrink-0 flex-col items-center rounded-2xl bg-[#FEFEFCA3] px-4 py-6 tablet:w-full desktop-xl:h-[357px] desktop-xl:w-[328.8px]">
       <div
         className="
           relative
@@ -32,13 +32,13 @@ function CountryCard({ country }: { country: ServiceCountry }) {
           className="object-cover rounded-full"
         />
       </div>
-      <h3 className="mt-4 text-center text-[20px] leading-[1.5] font-semibold text-black">
+      <h3 className="mt-4 text-center text-[20px] leading-[1.5] font-semibold text-[#000000]">
         {country.name}
       </h3>
       <div className="my-3 h-px w-full bg-gray-200" />
       {country.knownFor ? (
         <p className="text-center text-[14px] leading-[1.5] text-neutral-700 line-clamp-2">
-          <span className="font-semibold text-black">Known for: </span>
+          <span className="font-semibold text-[#0A0C0C]">Known for: </span>
           {country.knownFor}
         </p>
       ) : null}
@@ -92,7 +92,7 @@ export function MedicalTestimonials({
   const needsSlider = countries.length > VISIBLE_COUNT;
 
   return (
-    <section className="bg-teal-50 py-12 tablet:py-16 desktop-xl:py-[127px]">
+    <section className="py-12 tablet:py-16 desktop-xl:py-[127px]">
       <Container>
         <div className="flex flex-col gap-10">
           <div className="grid grid-cols-1 gap-8 desktop:grid-cols-[minmax(0,711px)_minmax(0,1005px)] desktop:gap-6">

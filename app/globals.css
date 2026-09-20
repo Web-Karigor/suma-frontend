@@ -461,15 +461,15 @@
 }
 
 .airlines-track-left {
-  animation: airlines-marquee-left 50s linear infinite;
+  animation: airlines-marquee-left 80s linear infinite;
 }
 
 .airlines-track-right {
-  animation: airlines-marquee-right 56s linear infinite;
+  animation: airlines-marquee-right 90s linear infinite;
 }
 
 .airlines-track-left-slow {
-  animation: airlines-marquee-left 54s linear infinite;
+  animation: airlines-marquee-left 85s linear infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
