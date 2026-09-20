@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 import { VisaDetails } from "./VisaDetails";
 import { VisaHero } from "./VisaHero";
 import { VisaRequirements } from "./VisaRequirements";
@@ -10,25 +10,31 @@ import { useVisaApplicationsQuery } from "@/hooks/queries/useVisaApplicationsQue
 import { Container } from "@/components/ui/Container";
 
 const VISA_SLUG = "visa-assistance";
+const subscribe = () => () => { };
+const getServerSnapshot = () => false;
+const getClientSnapshot = () => true;
 
 export function VisaPage() {
+  const isClient = useSyncExternalStore(
+    subscribe,
+    getClientSnapshot,
+    getServerSnapshot,
+  );
   const { data, isLoading: isServiceLoading } = useServiceDetailQuery(VISA_SLUG);
   const { data: countries, isLoading: isCountriesLoading } = useCountriesQuery();
   const [selectedCountrySlugOverride, setSelectedCountrySlug] = useState<
     string | null
   >(null);
   const [appliedCountryId, setAppliedCountryId] = useState<number | null>(null);
-  const selectedCountrySlug =
-    selectedCountrySlugOverride ?? countries?.data[0]?.slug ?? null;
+  const selectedCountrySlug = selectedCountrySlugOverride;
   const selectedCountryId = countries?.data.find(
     (country) => country.slug === selectedCountrySlug,
   )?.id ?? null;
-  const { data: visaApplication, isLoading: isVisaApplicationLoading } =
-    useVisaApplicationsQuery(appliedCountryId);
+  const { data: visaApplication } = useVisaApplicationsQuery(appliedCountryId);
 
   const isPageLoading = isServiceLoading || isCountriesLoading;
 
-  if (isPageLoading) return null;
+  if (!isClient || isPageLoading) return null;
 
   if (!data || !countries?.data.length) {
     return (

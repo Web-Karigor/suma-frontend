@@ -11,6 +11,8 @@ import {
 import { Container } from "@/components/ui/Container";
 import type { VisaCountry } from "@/types/visa-application";
 
+const COUNTRY_PLACEHOLDER = "__select_country__";
+
 type VisaHeroProps = {
   title: string;
   subtitle: string;
@@ -65,16 +67,20 @@ export function VisaHero({
             Please Select Country
           </span>
           <Select
-            value={selectedCountrySlug ?? undefined}
-            onValueChange={(value) => value && onCountryChange(value)}
+            value={selectedCountrySlug || COUNTRY_PLACEHOLDER}
+            onValueChange={(value) =>
+              value &&
+              onCountryChange(value === COUNTRY_PLACEHOLDER ? "" : value)
+            }
           >
             <SelectTrigger
               showCloseIcon
               className="h-11 w-full rounded-md border-0 bg-gray-100 px-4 text-xs text-neutral-700 shadow-none tablet:w-[270px]"
             >
-              <SelectValue>{selectedCountry?.name}</SelectValue>
+              <SelectValue>{selectedCountry?.name ?? "Select Country"}</SelectValue>
             </SelectTrigger>
             <SelectContent className="bg-white capitalize">
+              <SelectItem value={COUNTRY_PLACEHOLDER}>Select Country</SelectItem>
               {countries.map((country) => (
                 <SelectItem key={country.id} value={country.slug}>
                   {country.name}
