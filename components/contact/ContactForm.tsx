@@ -96,15 +96,14 @@ export function ContactForm() {
         />
 
         <Field
-          label="Email*"
+          label="Email (Optional)"
           name="email"
           placeholder="you@example.com"
           type="email"
-          required
         />
 
         <div className="flex flex-col gap-2 text-base font-medium text-[#0A0C0C]">
-          Select Tour Package (Optional)
+          Select Service (Optional)
           <Select
             value={packageName}
             onValueChange={(value) => setPackageName(value ?? "")}
@@ -128,11 +127,10 @@ export function ContactForm() {
         </div>
 
         <Field
-          label="Number of Travelers"
+          label="Number of Travelers (Optional)"
           name="travelers"
           type="number"
           placeholder="Enter number of travelers"
-          optional
         />
 
         <DateField date={date} onDateChange={setDate} />
@@ -196,8 +194,6 @@ function Field({
   type = "text",
 
   required = false,
-
-  optional = false,
 }: {
   label: string;
 
@@ -208,8 +204,6 @@ function Field({
   type?: string;
 
   required?: boolean;
-
-  optional?: boolean;
 }) {
   return (
     <label className="flex flex-col gap-2 text-base font-medium text-[#0A0C0C]">

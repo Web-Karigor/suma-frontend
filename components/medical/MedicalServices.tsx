@@ -10,7 +10,10 @@ type MedicalServicesProps = {
   cancellationHtml: string | null;
 };
 
-export function MedicalServices({ services, cancellationHtml }: MedicalServicesProps) {
+export function MedicalServices({
+  services,
+  cancellationHtml,
+}: MedicalServicesProps) {
   const cards = [
     {
       title: "Included",
@@ -38,7 +41,10 @@ export function MedicalServices({ services, cancellationHtml }: MedicalServicesP
   if (!cards.length && !cancellationHtml) return null;
 
   return (
-    <section id="services" className="scroll-mt-28 bg-teal-950 py-12 tablet:py-16 desktop-xl:py-[60px]">
+    <section
+      id="services"
+      className="scroll-mt-28  py-12 tablet:py-16 desktop-xl:py-[60px]"
+    >
       <Container>
         <div className="flex flex-col gap-8 desktop-xl:gap-[60px]">
           {cards.length > 0 ? (
@@ -52,16 +58,29 @@ export function MedicalServices({ services, cancellationHtml }: MedicalServicesP
                     key={card.title}
                     className="flex flex-col gap-8 rounded-2xl border-[0.5px] border-gray-800 bg-overlay-black-64 p-6 tablet:p-8"
                   >
-                    <h3 className={`text-[20px] leading-[1.5] font-medium ${card.titleClass}`}>
+                    <h3
+                      className={`text-[20px] leading-[1.5] font-medium ${card.titleClass}`}
+                    >
                       {card.title}
                     </h3>
                     <ul className="flex flex-col gap-8">
                       {card.items.map((item, index) => (
-                        <li key={`${item}-${index}`} className="flex min-h-[26px] items-center gap-3">
+                        <li
+                          key={`${item}-${index}`}
+                          className="flex min-h-[26px] items-center gap-3"
+                        >
                           <span className="relative size-5 shrink-0 overflow-clip">
-                            <img src={card.icon} alt="" width={20} height={20} className="size-full" />
+                            <img
+                              src={card.icon}
+                              alt=""
+                              width={20}
+                              height={20}
+                              className="size-full"
+                            />
                           </span>
-                          <span className={`text-base leading-[1.6] font-normal ${card.textClass}`}>
+                          <span
+                            className={`text-base leading-[1.6] font-normal ${card.textClass}`}
+                          >
                             {item}
                           </span>
                         </li>

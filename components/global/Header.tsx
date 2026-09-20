@@ -16,6 +16,7 @@ import { cn } from "@/lib/cn";
 import { navLinks } from "@/lib/home-data";
 import { useSettingsQuery } from "@/hooks/queries/useSettingsQuery";
 import { FALLBACK_SETTINGS } from "@/helpers/settings";
+import { ContactFormModal } from "@/components/contact/ContactFormModal";
 
 function isLinkActive(pathname: string, href: string) {
   if (href.startsWith("http")) return false;
@@ -41,6 +42,7 @@ function NavUnderline({ active }: { active: boolean }) {
 export function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const { data: settings = FALLBACK_SETTINGS } = useSettingsQuery();
   const supportPhone = settings.hotline || settings.phone;
 
@@ -242,7 +244,7 @@ export function Header() {
             </label>
 
             <Button
-              href="/contact"
+              onClick={() => setModalOpen(true)}
               className="h-11 gap-3 rounded-full !bg-black text-sm !text-white hover:!bg-[#0A0C0C] [&>span]:size-8 [&>span]:!bg-white [&>span]:!text-black"
             >
               Get a Quote
@@ -358,13 +360,22 @@ export function Header() {
           </label>
 
           <Button
-            href="/contact"
+            onClick={() => {
+              setModalOpen(true);
+              setOpen(false);
+            }}
             className="mt-3 h-12 w-full justify-center rounded-full !bg-black text-sm !text-white hover:!bg-[#0A0C0C] [&>span]:size-8 [&>span]:!bg-white [&>span]:!text-black"
           >
             Get a Quote
           </Button>
         </div>
       </div>
+
+      {/* Contact Form Modal */}
+      <ContactFormModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+      />
     </header>
   );
 }

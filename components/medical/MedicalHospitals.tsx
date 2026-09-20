@@ -15,15 +15,25 @@ function HospitalCard({ hospital }: { hospital: ServiceHospital }) {
   return (
     <article className="flex h-full flex-col rounded-2xl border border-gray-200 bg-teal-50 p-5 desktop-xl:h-[570px] desktop-xl:w-[564px]">
       <div className="relative h-[200px] w-full overflow-hidden rounded-xl tablet:h-[240px] desktop-xl:h-[280px] desktop-xl:w-[524px]">
-        <Image src={hospital.image} alt={hospital.name} fill sizes="524px" className="object-cover" />
+        <Image
+          src={hospital.image}
+          alt={hospital.name}
+          fill
+          sizes="524px"
+          className="object-cover"
+        />
       </div>
 
       <div className="flex flex-1 flex-col pt-4">
         <div className="flex items-center gap-2 text-teal-600">
           <ShieldIcon className="size-[18px] shrink-0" />
-          <span className="text-[15px] leading-[1.39] font-medium">{hospital.accreditation}</span>
+          <span className="text-[15px] leading-[1.39] font-medium">
+            {hospital.accreditation}
+          </span>
         </div>
-        <h3 className="mt-3 text-[20px] leading-[1.5] font-semibold text-black">{hospital.name}</h3>
+        <h3 className="mt-3 text-[20px] leading-[1.5] font-semibold text-black">
+          {hospital.name}
+        </h3>
         {hospital.location ? (
           <div className="mt-2 flex items-center gap-2 text-gray-700">
             <MapPinIcon className="size-5 shrink-0" />
@@ -35,8 +45,11 @@ function HospitalCard({ hospital }: { hospital: ServiceHospital }) {
             {hospital.specialties.join(", ")}
           </p>
         ) : null}
-        <Button href="/contact" className="mt-auto w-full justify-between desktop-xl:w-[524px]">
-          Get a Free Quote
+        <Button
+          href="/contact"
+          className="mt-auto w-full justify-center desktop-xl:w-[524px]"
+        >
+          View on Map
         </Button>
       </div>
     </article>

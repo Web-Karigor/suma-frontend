@@ -17,31 +17,31 @@ const COLLAGE = [
     src: "/images/corporate-tour/collage-1.png",
     alt: "First class cabin",
     className:
-      "h-[280px] w-[198px] tablet:h-[400px] tablet:w-[284px] desktop-xl:h-[519px] desktop-xl:w-[368px]",
+      "h-[280px] w-[198px] tablet:h-[400px] tablet:w-[284px] xl:h-[390px] xl:w-[270px] 2xl:h-[519px] 2xl:w-[368px]",
   },
   {
     src: "/images/corporate-tour/collage-2.png",
     alt: "Global business travel",
     className:
-      "h-[193px] w-[186px] tablet:h-[276px] tablet:w-[266px] desktop-xl:h-[358px] desktop-xl:w-[345px]",
+      "h-[193px] w-[186px] tablet:h-[276px] tablet:w-[266px] xl:h-[260px] xl:w-[220px] 2xl:h-[358px] 2xl:w-[345px]",
   },
   {
     src: "/images/corporate-tour/collage-3.png",
     alt: "Connected destinations",
     className:
-      "h-[121px] w-[155px] tablet:h-[173px] tablet:w-[222px] desktop-xl:h-[225px] desktop-xl:w-[288px]",
+      "h-[121px] w-[155px] tablet:h-[173px] tablet:w-[222px] xl:h-[170px] xl:w-[200px] 2xl:h-[225px] 2xl:w-[288px]",
   },
   {
     src: "/images/corporate-tour/collage-4.png",
     alt: "Business traveler",
     className:
-      "h-[207px] w-[169px] tablet:h-[295px] tablet:w-[242px] desktop-xl:h-[383px] desktop-xl:w-[314px]",
+      "h-[207px] w-[169px] tablet:h-[295px] tablet:w-[242px] xl:h-[290px] xl:w-[240px] 2xl:h-[383px] 2xl:w-[314px]",
   },
   {
     src: "/images/corporate-tour/collage-5.png",
     alt: "Corporate flight",
     className:
-      "h-[279px] w-[199px] tablet:h-[398px] tablet:w-[284px] desktop-xl:h-[517px] desktop-xl:w-[369px]",
+      "h-[279px] w-[199px] tablet:h-[398px] tablet:w-[284px] xl:h-[390px] xl:w-[270px] 2xl:h-[517px] 2xl:w-[369px]",
   },
 ] as const;
 
@@ -71,7 +71,7 @@ export function CorporateHero({
       </div>
 
       {/* Top padding clears the fixed Header (~5.5rem) while keeping Figma content offset (61px). */}
-      <Container className="relative z-10 pt-[7.5rem] pb-12 tablet:pt-32 tablet:pb-16 desktop-xl:pt-[149px] desktop-xl:pb-[147px] desktop-xl:!px-0">
+      <Container className="relative z-10 pt-[7.5rem] pb-12 xl:mt-20 tablet:pt-32 tablet:pb-16 desktop-xl:pt-[149px] desktop-xl:pb-[147px] desktop-xl:!px-0">
         <div className="flex w-full flex-col gap-8 tablet:gap-10 desktop:flex-row desktop:items-start desktop:justify-between desktop-xl:h-[247px]">
           <div className="flex w-full flex-col gap-6 tablet:gap-8 desktop-xl:w-[858px] desktop-xl:gap-8">
             <div className="flex flex-col gap-4">

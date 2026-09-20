@@ -37,7 +37,7 @@ function CountryCard({ country }: { country: ServiceCountry }) {
       </h3>
       <div className="my-3 h-px w-full bg-gray-200" />
       {country.knownFor ? (
-        <p className="text-center text-[14px] leading-[1.5] text-neutral-700">
+        <p className="text-center text-[14px] leading-[1.5] text-neutral-700 line-clamp-2">
           <span className="font-semibold text-black">Known for: </span>
           {country.knownFor}
         </p>
