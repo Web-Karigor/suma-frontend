@@ -35,7 +35,11 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${poppins.variable} ${poppins.className} h-full antialiased`}>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${poppins.variable} ${poppins.className} h-full antialiased`}
+    >
       <body className="flex min-h-full flex-col overflow-x-hidden font-sans">
         <QueryProvider>
           <Header />
