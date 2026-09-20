@@ -1,21 +1,32 @@
 import { useQuery } from "@tanstack/react-query";
 import { apiFetch } from "@/lib/apiFetch";
-import type { VisaApplicationsApiResponse, VisaCountryInfo } from "@/types/visa-application";
+import type {
+  VisaApplication,
+  VisaApplicationsApiResponse,
+} from "@/types/visa-application";
 
-export function useVisaApplicationsQuery() {
-  return useQuery<VisaCountryInfo | null, Error>({
-    queryKey: ["visa-applications"],
+export function useVisaApplicationsQuery(countryId: number | null) {
+  return useQuery<VisaApplication | null, Error>({
+    queryKey: ["visa-applications", countryId],
+    enabled: countryId !== null,
     queryFn: async () => {
-      const response = await apiFetch<VisaApplicationsApiResponse>("/visa-applications");
-      const countryInfo = response.data.find((application) => application.status)?.country_info;
-      if (!countryInfo) return null;
+      const response = await apiFetch<VisaApplicationsApiResponse>(
+        `/visa-applications?country_id=${countryId}`,
+      );
+      const application = response.data.find((entry) => entry.status);
+      if (!application) return null;
 
       return {
-        ...countryInfo,
-        map_image: countryInfo.map_image?.replace(
-          /^http:\/\/suma_admin\.test(?=\/)/,
-          "https://suma.webkarigor.com",
-        ) ?? null,
+        ...application,
+        country_info: application.country_info
+          ? {
+            ...application.country_info,
+            map_image: application.country_info.map_image?.replace(
+              /^http:\/\/suma_admin\.test(?=\/)/,
+              "https://suma.webkarigor.com",
+            ) ?? null,
+          }
+          : null,
       };
     },
     staleTime: 1000 * 60 * 5,

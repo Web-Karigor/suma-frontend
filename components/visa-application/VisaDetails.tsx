@@ -1,9 +1,6 @@
 import Image from "next/image";
 import { Container } from "@/components/ui/Container";
-import { visaCountry } from "@/lib/visa-data";
 import type { VisaCountryInfo } from "@/types/visa-application";
-
-const countryImage = "/images/visa/visa-map2.png";
 
 export function VisaDetails({
   countryInfo,
@@ -11,18 +8,13 @@ export function VisaDetails({
   countryInfo?: VisaCountryInfo | null;
 }) {
   const details = [
-    ["Capital City", countryInfo?.city || visaCountry.capital],
-    ["Local Time", countryInfo?.local_time || visaCountry.localTime],
-    [
-      "Telephone Code",
-      countryInfo?.telephone_code || visaCountry.telephoneCode,
-    ],
-    ["Bank Time", countryInfo?.bank_time || visaCountry.bankTime],
-    ["Exchange Rate", countryInfo?.exchange_rate || visaCountry.exchangeRate],
-    ["Embassy Address", countryInfo?.embassy_address || visaCountry.embassy],
+    ["Capital City", countryInfo?.city],
+    ["Local Time", countryInfo?.local_time],
+    ["Telephone Code", countryInfo?.telephone_code],
+    ["Bank Time", countryInfo?.bank_time],
+    ["Exchange Rate", countryInfo?.exchange_rate],
+    ["Embassy Address", countryInfo?.embassy_address],
   ] as const;
-
-  const mapImage = countryInfo?.map_image || countryImage;
 
   return (
     <section className="py-8 tablet:py-12">
@@ -58,30 +50,32 @@ export function VisaDetails({
                   className="grid grid-cols-[130px_1fr] gap-[44px]"
                 >
                   <dt className="font-medium">{label}</dt>
-                  <dd>{value}</dd>
+                  <dd>{value || "-"}</dd>
                 </div>
               ))}
             </dl>
 
-            <div
-              className="
-                relative
-                min-h-[240px]
-                overflow-hidden
-                rounded-[24px]
-                lg:h-full
-                lg:min-h-[400px]
-                desktop:h-full
-              "
-            >
-              <Image
-                src={mapImage}
-                alt={`${visaCountry.name} travel map`}
-                fill
-                className="object-contain"
-                sizes="(min-width: 1280px) 35vw, 100vw"
-              />
-            </div>
+            {countryInfo?.map_image ? (
+              <div
+                className="
+                  relative
+                  min-h-[240px]
+                  overflow-hidden
+                  rounded-[24px]
+                  lg:h-full
+                  lg:min-h-[400px]
+                  desktop:h-full
+                "
+              >
+                <Image
+                  src={countryInfo.map_image}
+                  alt="Visa country travel map"
+                  fill
+                  className="object-contain"
+                  sizes="(min-width: 1280px) 35vw, 100vw"
+                />
+              </div>
+            ) : null}
           </div>
         </div>
       </Container>

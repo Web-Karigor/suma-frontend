@@ -5,6 +5,8 @@ type VisaRequirementsProps = {
 };
 
 export function VisaRequirements({ html }: VisaRequirementsProps) {
+  if (!html) return null;
+
   return (
     <section className=" pb-16 tablet:pb-24">
       <Container className="max-w-[1446px]">
