@@ -1,8 +1,9 @@
 "use client";
 
-import Link from "next/link";
+import { useState } from "react";
 import { Container } from "@/components/ui/Container";
 import { CalendarIcon, ClockIcon, ShareIcon, StarIcon } from "@/components/icons";
+import { ContactFormModal } from "@/components/contact/ContactFormModal";
 
 type PackageDetailHeroProps = {
   title: string;
@@ -27,6 +28,7 @@ export function PackageDetailHero({
   groupSize,
   departureDate,
 }: PackageDetailHeroProps) {
+  const [modalOpen, setModalOpen] = useState(false);
   const values = { groupSize, departureDate, duration };
   const formattedPrice = `৳ ${price.toLocaleString("en-US")}`;
 
@@ -66,12 +68,13 @@ export function PackageDetailHero({
             </div>
 
             <div className="flex flex-wrap items-center gap-3 tablet:gap-4">
-              <Link
-                href="#booking"
+              <button
+                type="button"
+                onClick={() => setModalOpen(true)}
                 className="inline-flex h-[49px] w-full items-center justify-center rounded-button bg-primary px-4 py-3 text-base font-medium text-white transition-colors hover:bg-primary-700 tablet:w-[180px]"
               >
                 Book Now
-              </Link>
+              </button>
               <button
                 type="button"
                 className="inline-flex h-[49px] w-[130px] items-center justify-center gap-2 rounded-button bg-gold-200 px-4 py-3 text-base font-medium text-teal-700 transition-opacity hover:opacity-90"
@@ -115,6 +118,11 @@ export function PackageDetailHero({
           </div>
         </div>
       </Container>
+
+      <ContactFormModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+      />
     </section>
   );
 }

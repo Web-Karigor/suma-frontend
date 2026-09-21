@@ -1,10 +1,12 @@
 "use client";
 
-import Image from "next/image";
+import { useState } from "react";
+import { CoverImage } from "@/components/ui/CoverImage";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { ChevronDownIcon } from "@/components/icons";
 import { MedicalShareButton } from "@/components/medical/MedicalShareButton";
+import { ContactFormModal } from "@/components/contact/ContactFormModal";
 import type { ServiceHeroCard } from "@/types/service-detail";
 
 type MedicalHeroProps = {
@@ -26,6 +28,8 @@ export function MedicalHero({
   cards,
   stats,
 }: MedicalHeroProps) {
+  const [modalOpen, setModalOpen] = useState(false);
+
   return (
     <section className="overflow-hidden bg-teal-100">
       <Container>
@@ -85,7 +89,7 @@ export function MedicalHero({
 
               <div className="flex flex-wrap items-center gap-6">
                 <Button
-                  href="/contact"
+                  onClick={() => setModalOpen(true)}
                   className="w-full justify-between tablet:w-[319px]"
                 >
                   Get a Free Quote
@@ -100,32 +104,29 @@ export function MedicalHero({
 
           <div className="grid w-full grid-cols-2 gap-3 xl:h-[620px] xl:w-[600px] 2xl:h-[729px] 2xl:w-[858px]">
             <div className="relative col-span-2 h-[280px] overflow-hidden rounded-2xl tablet:h-[420px] xl:col-span-1 xl:h-[620px] xl:w-[295px] 2xl:h-[729px] 2xl:w-[423px]">
-              <Image
+              <CoverImage
                 src={images.left}
                 alt={title}
-                fill
-                priority
                 className="object-cover object-left"
                 sizes="(max-width:1280px) 100vw, 423px"
+                priority
               />
             </div>
 
             <div className="col-span-2 grid grid-cols-2 gap-3 xl:col-span-1 xl:grid-cols-1 xl:h-[620px] xl:w-[295px] 2xl:h-[729px] 2xl:w-[423px]">
               <div className="relative h-[180px] overflow-hidden rounded-2xl tablet:h-[240px] xl:h-[304px] xl:w-[295px] 2xl:h-[358.5px] 2xl:w-[423px]">
-                <Image
+                <CoverImage
                   src={images.top}
                   alt=""
-                  fill
                   className="object-cover object-[center_20%]"
                   sizes="(max-width:1280px) 50vw, 423px"
                 />
               </div>
 
               <div className="relative h-[180px] overflow-hidden rounded-2xl tablet:h-[240px] xl:h-[304px] xl:w-[295px] 2xl:h-[358.5px] 2xl:w-[423px]">
-                <Image
+                <CoverImage
                   src={images.bottom}
                   alt=""
-                  fill
                   className="object-cover"
                   sizes="(max-width:1280px) 50vw, 423px"
                 />
@@ -157,6 +158,11 @@ export function MedicalHero({
           </div>
         </div>
       )}
+
+      <ContactFormModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+      />
     </section>
   );
 }

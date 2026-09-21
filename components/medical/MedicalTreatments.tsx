@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { CoverImage } from "@/components/ui/CoverImage";
 import { Container } from "@/components/ui/Container";
 import type { ServiceTreatment } from "@/types/service-detail";
 
@@ -47,10 +47,9 @@ export function MedicalTreatments({
                 className="flex items-center gap-3 rounded-2xl border border-gray-200 bg-white p-3"
               >
                 <div className="relative size-[72px] shrink-0 overflow-hidden rounded-xl tablet:size-[88px] desktop-xl:size-[100px]">
-                  <Image
+                  <CoverImage
                     src={treatment.image}
                     alt=""
-                    fill
                     sizes="100px"
                     className="object-cover"
                   />

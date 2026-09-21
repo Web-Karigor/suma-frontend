@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { CoverImage } from "@/components/ui/CoverImage";
 import { Container } from "@/components/ui/Container";
 import type { AboutFounder } from "@/types/about";
 
@@ -21,10 +21,9 @@ export function AboutCEO({ founder }: AboutCEOProps) {
               className="relative aspect-[699/710] w-full bg-neutral-100 desktop:h-[710px] desktop:aspect-auto"
               style={ceoPhotoMask}
             >
-              <Image
+              <CoverImage
                 src={founder.image}
                 alt={`${founder.name} — ${founder.designation}`}
-                fill
                 sizes="(min-width: 1280px) 699px, 100vw"
                 className="object-cover object-[center_18%]"
               />

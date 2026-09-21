@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { CoverImage } from "@/components/ui/CoverImage";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Container } from "@/components/ui/Container";
 import type { ServiceStay } from "@/types/service-detail";
@@ -13,10 +13,9 @@ function AccommodationCard({ accommodation }: { accommodation: ServiceStay }) {
   return (
     <article className="flex h-full overflow-hidden rounded-2xl border border-gray-200 bg-white p-3 desktop-xl:h-[282px] desktop-xl:w-[564px]">
       <div className="relative h-[180px] w-[120px] shrink-0 overflow-hidden rounded-xl tablet:h-[220px] tablet:w-[150px] desktop-xl:h-[258px] desktop-xl:w-[180px]">
-        <Image
+        <CoverImage
           src={accommodation.image}
           alt=""
-          fill
           sizes="180px"
           className="object-cover"
         />

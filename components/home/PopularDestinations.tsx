@@ -117,12 +117,16 @@ export function PopularDestinations() {
               <Link href={""}>
                 <div className="st-card">
                   <div className="img">
-                    <Image
-                      src={place.image}
-                      alt={place.imageAlt}
-                      width={379}
-                      height={402}
-                    />
+                    {place.image ? (
+                      <Image
+                        src={place.image}
+                        alt={place.imageAlt}
+                        width={379}
+                        height={402}
+                      />
+                    ) : (
+                      <div className="h-full w-full bg-black/10" aria-hidden />
+                    )}
                   </div>
                   <div className="grad" />
                   <div className="details">

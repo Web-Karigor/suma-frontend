@@ -18,7 +18,7 @@ import {
   YouTubeIcon,
 } from "@/components/icons";
 
-import { footerAbout, footerColumns } from "@/lib/home-data";
+import { footerAbout } from "@/lib/home-data";
 import { useSettingsQuery } from "@/hooks/queries/useSettingsQuery";
 import { useContactInfoQuery } from "@/hooks/queries/useContactInfoQuery";
 import { usePagesQuery } from "@/hooks/queries/usePagesQuery";
@@ -40,22 +40,13 @@ const SOCIAL_ICONS: Record<
   pinterest: InstagramIcon,
 };
 
-const DEFAULT_SOCIALS = [
-  { name: "Facebook", href: "#", key: "facebook" as const },
-  { name: "Instagram", href: "#", key: "instagram" as const },
-  { name: "YouTube", href: "#", key: "youtube" as const },
-  { name: "TikTok", href: "#", key: "tiktok" as const },
-  { name: "X", href: "#", key: "twitter" as const },
-];
-
 export function Footer() {
   const { data: settings = FALLBACK_SETTINGS } = useSettingsQuery();
   const { data: offices = [], isLoading: isLoadingOffices } =
     useContactInfoQuery();
   const { data: footerPages = [] } = usePagesQuery();
   const { data: footerServices = [] } = useFooterServicesQuery();
-  const socials =
-    settings.socials.length > 0 ? settings.socials : DEFAULT_SOCIALS;
+  const socials = settings.socials;
 
   // Split offices into two columns - first half left, second half right
   const midpoint = Math.ceil(offices.length / 2);
@@ -144,16 +135,12 @@ export function Footer() {
           >
             <FooterList
               title="Services"
-              links={
-                footerServices.length > 0
-                  ? footerServices
-                  : footerColumns.services
-              }
+              links={footerServices}
             />
 
             <FooterList
               title="Important Pages"
-              links={footerPages.length > 0 ? footerPages : footerColumns.pages}
+              links={footerPages}
             />
           </div>
 

@@ -7,6 +7,8 @@ type PackageServicesProps = {
 };
 
 export function PackageServices({ included, excluded }: PackageServicesProps) {
+  if (!included.length && !excluded.length) return null;
+
   return (
     <section id="services" className="scroll-mt-28 bg-neutral-50 py-12 tablet:py-16 desktop-xl:py-[72px]">
       <Container className="desktop-xl:!px-0">

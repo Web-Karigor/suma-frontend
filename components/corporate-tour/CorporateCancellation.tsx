@@ -12,33 +12,10 @@ type PackageCancellationProps = {
   policies?: CancellationPolicy[];
 };
 
-const defaultPolicies: CancellationPolicy[] = [
-  {
-    timeframe:
-      "75% of the package value will be refunded in case of cancellation within (24) hours from the time of booking.",
-  },
-  {
-    timeframe:
-      "0% of the value of the package services will be refunded in case of cancellation after (24) hours, and before the last (5) Day/Days .An exception to this rule is the visa application processing fee, which is non-refundable after the 24-hour period.",
-  },
-  {
-    timeframe: "No refunds will be made in case of cancellation within the last (72) hours.",
-  },
-  {
-    timeframe:
-      "The above rules apply to flight reservations organized by the service provider, and do not apply to custom flight reservations designated by the airline system for which specific cancellation policies apply to each reservation.",
-  },
-  {
-    timeframe: "3.45% processing fees & its VAT will be deducted when the amounts are withdrawn from the wallet.",
-  },
-  {
-    timeframe:
-      "Currency exchange rates may result in differences in the amounts deposited and withdrawn from digital wallets.",
-  },
-];
-
-export function CorporateCancellation({ policies = defaultPolicies }: PackageCancellationProps) {
+export function CorporateCancellation({ policies = [] }: PackageCancellationProps) {
   const [disclaimerOpen, setDisclaimerOpen] = useState(true);
+
+  if (!policies.length) return null;
 
   return (
     <section className="bg-teal-950 pt-12 tablet:pt-16 desktop-xl:pt-[100px]">

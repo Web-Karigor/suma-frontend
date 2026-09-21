@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { CoverImage } from "@/components/ui/CoverImage";
 import { Container } from "@/components/ui/Container";
 import type { AboutGalleryCard } from "@/types/about";
 
@@ -18,13 +18,12 @@ export function AboutHero({
   return (
     <section className="relative bg-teal-50">
       <div className="relative h-[400px] lg:h-[548px] overflow-hidden">
-        <Image
+        <CoverImage
           src={banner}
           alt={bannerAlt}
-          fill
-          priority
           sizes="100vw"
           className="absolute inset-0 h-full w-full object-cover object-center"
+          priority
         />
 
         <div className="absolute inset-0 bg-overlay-black-48" />
@@ -44,10 +43,9 @@ export function AboutHero({
                 key={`${item.src}-${index}`}
                 className={`group relative w-full overflow-hidden rounded-[32px] shadow-[0_12px_32px_rgb(10_12_12/14%)] ${item.className}`}
               >
-                <Image
+                <CoverImage
                   src={item.src}
                   alt={item.alt}
-                  fill
                   sizes="(min-width: 1280px) 25vw, 50vw"
                   className="object-cover object-center transition-transform duration-700 ease-out will-change-transform"
                 />

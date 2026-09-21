@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { CoverImage } from "@/components/ui/CoverImage";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Container } from "@/components/ui/Container";
 
@@ -34,7 +34,7 @@ function StripImage({ src, index }: { src: string; index: number }) {
         ${offset ? "xl:mt-[50px]" : "xl:mt-0"}
       `}
     >
-      <Image src={src} alt="" fill sizes="332px" className="object-cover" />
+      <CoverImage src={src} alt="" sizes="332px" className="object-cover" />
     </div>
   );
 }

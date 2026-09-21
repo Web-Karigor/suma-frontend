@@ -1,8 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { Container } from "@/components/ui/Container";
+import { CoverImage } from "@/components/ui/CoverImage";
+import { ContactFormModal } from "@/components/contact/ContactFormModal";
 
 type CorporateHeroProps = {
   title: string;
@@ -51,11 +53,12 @@ export function CorporateHero({
   price,
   images,
 }: CorporateHeroProps) {
+  const [modalOpen, setModalOpen] = useState(false);
   const formattedPrice = `৳ ${price.toLocaleString("en-US")}`;
   const collage = COLLAGE.map((item, index) => ({
     ...item,
-    src: images[index] ?? item.src,
-  }));
+    src: images[index] ?? "",
+  })).filter((item) => item.src);
 
   return (
     <section className="relative overflow-hidden bg-teal-950">
@@ -71,7 +74,7 @@ export function CorporateHero({
       </div>
 
       {/* Top padding clears the fixed Header (~5.5rem) while keeping Figma content offset (61px). */}
-      <Container className="relative z-10 pt-[7.5rem] pb-12 xl:mt-20 tablet:pt-32 tablet:pb-16 desktop-xl:pt-[149px] desktop-xl:pb-[147px] desktop-xl:!px-0">
+      <Container className="relative z-10 pt-[7.5rem] pb-16 xl:mt-20 tablet:pt-32 tablet:pb-20 desktop-xl:pt-[149px] desktop-xl:pb-[180px] desktop-xl:!px-0">
         <div className="flex w-full flex-col gap-8 tablet:gap-10 desktop:flex-row desktop:items-start desktop:justify-between desktop-xl:h-[247px]">
           <div className="flex w-full flex-col gap-6 tablet:gap-8 desktop-xl:w-[858px] desktop-xl:gap-8">
             <div className="flex flex-col gap-4">
@@ -84,12 +87,13 @@ export function CorporateHero({
             </div>
 
             <div className="flex flex-wrap items-center gap-4 desktop-xl:gap-6">
-              <Link
-                href="#booking"
+              <button
+                type="button"
+                onClick={() => setModalOpen(true)}
                 className="inline-flex h-[49px] w-full items-center justify-center rounded-button bg-gold-500 px-4 py-3 text-base font-medium text-black transition-opacity hover:opacity-90 tablet:w-[269px]"
               >
                 Book Now
-              </Link>
+              </button>
               <button
                 type="button"
                 className="inline-flex h-[49px] w-[130px] items-center gap-[21px] rounded-[6px] bg-white px-4 py-[10px] text-[18px] font-medium text-teal-600 transition-opacity hover:opacity-90"
@@ -158,23 +162,35 @@ export function CorporateHero({
           </div>
         </div>
 
-        <div className="mt-10 flex w-full items-end gap-3.5 overflow-x-auto pb-2 tablet:mt-12 desktop-xl:mt-[100px] desktop-xl:gap-[14px] desktop-xl:overflow-visible desktop-xl:pb-0">
-          {collage.map((item) => (
+        {collage.length ? (
+          <div className="relative mt-10 tablet:mt-12 desktop-xl:mt-[100px]">
             <div
-              key={`${item.src}-${item.alt}`}
-              className={`relative shrink-0 overflow-hidden rounded-[32px] ${item.className}`}
-            >
-              <Image
-                src={item.src}
-                alt={item.alt}
-                fill
-                className="object-cover"
-                sizes="369px"
-              />
+              aria-hidden
+              className="pointer-events-none absolute bottom-0 left-1/2 z-0 hidden h-[68px] w-[2132px] max-w-none -translate-x-1/2 translate-y-1/2 bg-[#EBB732] blur-[50px] 2xl:block"
+            />
+            <div className="relative z-10 flex w-full items-end gap-3.5 overflow-x-auto pb-2 desktop-xl:gap-[14px] desktop-xl:overflow-visible desktop-xl:pb-0">
+              {collage.map((item) => (
+                <div
+                  key={`${item.src}-${item.alt}`}
+                  className={`relative z-10 shrink-0 overflow-hidden rounded-[32px] ${item.className}`}
+                >
+                  <CoverImage
+                    src={item.src}
+                    alt={item.alt}
+                    className="object-cover"
+                    sizes="369px"
+                  />
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </div>
+        ) : null}
       </Container>
+
+      <ContactFormModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+      />
     </section>
   );
 }

@@ -35,32 +35,6 @@ export const defaultHotelFilters = (): HotelFilters => ({
   open: new Set(defaultOpen),
 });
 
-// Popular filter presets
-export const popularFilters = [
-  { id: "balcony", label: "Balcony", type: "amenity" as const },
-  { id: "breakfast", label: "Breakfast", type: "amenity" as const },
-  { id: "swimming-pool", label: "Swimming Pool", type: "amenity" as const },
-  { id: "air-conditioning", label: "Air Conditioning", type: "amenity" as const },
-] as const;
-
-// Common amenities list
-export const amenitiesList = [
-  "Air Conditioning",
-  "Balcony",
-  "Bathtub",
-  "Ceiling Fan",
-  "Clothes Dryer",
-  "Free WiFi",
-  "Breakfast",
-  "Swimming Pool",
-  "Parking",
-  "Gym",
-  "Restaurant",
-  "Room Service",
-  "Spa",
-  "Pet Friendly",
-] as const;
-
 export function useHotelFilters(allHotels: HotelCard[]) {
   const [filters, setFilters] = useState<HotelFilters>(defaultHotelFilters);
   const [sort, setSort] = useState("newest");

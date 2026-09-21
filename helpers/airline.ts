@@ -4,7 +4,7 @@ function resolveImage(image: string): string {
   if (!image.trim()) return "";
   if (
     image.startsWith("https://suma.webkarigor.com") ||
-    image.includes("digitaloceanspaces.com")
+    image.startsWith("/")
   ) {
     return image;
   }

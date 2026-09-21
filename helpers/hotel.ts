@@ -9,9 +9,6 @@ import type {
   HotelsPageData,
 } from "@/types/hotel";
 
-const FALLBACK_IMAGE =
-  "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1000&q=80";
-
 function normalizeRating(rating: number | null | undefined): number {
   return typeof rating === "number" && Number.isFinite(rating) ? rating : 0;
 }
@@ -21,14 +18,15 @@ function normalizePrice(price: number | null | undefined): number {
 }
 
 export function resolveHotelImage(image: string): string {
-  if (!image.trim()) return FALLBACK_IMAGE;
+  if (!image.trim()) return "";
   if (
     image.startsWith("https://suma.webkarigor.com") ||
-    image.includes("digitaloceanspaces.com")
+    image.includes("digitaloceanspaces.com") ||
+    image.startsWith("/")
   ) {
     return image;
   }
-  return FALLBACK_IMAGE;
+  return "";
 }
 
 function getFinalPrice(item: HotelDetailItem): {

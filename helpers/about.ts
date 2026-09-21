@@ -8,7 +8,15 @@ const GALLERY_LAYOUT = [
 ] as const;
 
 export function resolveAboutImage(image: string): string {
-  return image.startsWith("https://suma.webkarigor.com") || image.includes("digitaloceanspaces.com") ? image : "/images/about/hero-bg.png";
+  if (!image?.trim()) return "";
+  if (
+    image.startsWith("https://suma.webkarigor.com") ||
+    image.includes("digitaloceanspaces.com") ||
+    image.startsWith("/")
+  ) {
+    return image;
+  }
+  return "";
 }
 
 function getText(item: { description?: string | null; short_description?: string | null; content?: string | null }) {

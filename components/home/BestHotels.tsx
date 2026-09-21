@@ -1,12 +1,12 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { Autoplay, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { ArrowRightIcon, StarIcon } from "@/components/icons";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
+import { CoverImage } from "@/components/ui/CoverImage";
 import { useHomepageHotelsQuery } from "@/hooks/queries/useHomepageHotelsQuery";
 
 import "swiper/css";
@@ -102,10 +102,9 @@ export function BestHotels() {
             <SwiperSlide key={hotel.id} className="!h-auto desktop:!w-[593px]">
               <article className="relative mx-auto w-full max-w-[593px] desktop:h-[360px]">
                 <div className="relative z-20 h-[240px] w-full overflow-hidden rounded-xl shadow-[4px_0_16px_rgb(0_0_0/6%)] desktop:absolute desktop:top-0 desktop:left-0 desktop:h-[360px] desktop:w-[240px]">
-                  <Image
+                  <CoverImage
                     src={hotel.image}
                     alt={hotel.imageAlt}
-                    fill
                     className="object-cover"
                     sizes="240px"
                   />

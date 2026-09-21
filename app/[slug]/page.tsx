@@ -14,11 +14,7 @@ export async function generateStaticParams() {
     const slugs = await fetchCmsPageSlugs();
     return slugs.map((slug) => ({ slug }));
   } catch {
-    return [
-      { slug: "faq" },
-      { slug: "privacy-policy" },
-      { slug: "terms-and-conditions" },
-    ];
+    return [];
   }
 }
 

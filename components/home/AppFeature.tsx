@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { GoBadge } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
+import { CoverImage } from "@/components/ui/CoverImage";
 import { useFlightInfoQuery } from "@/hooks/queries/useFlightInfoQuery";
 import type { FlightInfoFeature } from "@/types/flight-info";
 import { cn } from "@/lib/cn";
@@ -28,10 +29,9 @@ export function AppFeature() {
               className="relative block h-[65px] w-[215px] shrink-0 2xl:h-[79px] 2xl:w-[256px]"
               aria-label={data.logoAlt}
             >
-              <Image
+              <CoverImage
                 src={data.logo}
                 alt={data.logoAlt}
-                fill
                 className="object-contain object-left"
                 sizes="(min-width: 1536px) 256px, 215px"
               />
@@ -118,10 +118,9 @@ export function AppFeature() {
 
         <div className="flight-visual relative mx-auto aspect-[858/816] w-full max-w-[650px] desktop:h-[650px] desktop:aspect-auto desktop:self-start desktop:-mt-8 2xl:max-w-[858px] 2xl:h-[816px] 2xl:mt-0">
           <div className="flight-art-mask absolute inset-0">
-            <Image
+            <CoverImage
               src={data.image}
               alt={data.imageAlt}
-              fill
               className="object-cover"
               sizes="(min-width: 1536px) 858px, (min-width: 1280px) 650px, 100vw"
             />
@@ -139,10 +138,9 @@ function FeatureColumn({ features }: { features: FlightInfoFeature[] }) {
       {features.map((feature) => (
         <li key={feature.title} className="flex gap-2.5 2xl:gap-3">
           <span className="relative mt-0.5 inline-flex size-7 shrink-0 overflow-hidden rounded-md 2xl:size-8">
-            <Image
+            <CoverImage
               src={feature.icon}
               alt=""
-              fill
               className="object-cover"
               sizes="32px"
             />

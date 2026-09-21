@@ -11,9 +11,6 @@ import type {
   ServiceWhyItem,
 } from "@/types/service-detail";
 
-const FALLBACK_IMAGE =
-  "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1200&q=80";
-
 const CARD_ICONS = {
   treatment: "/images/corporate-tour/icons/star.svg",
   countries: "/images/corporate-tour/icons/calendar.svg",
@@ -21,14 +18,15 @@ const CARD_ICONS = {
 } as const;
 
 export function resolveServiceImage(image: string | null | undefined): string {
-  if (!image?.trim()) return FALLBACK_IMAGE;
+  if (!image?.trim()) return "";
   if (
     image.startsWith("https://suma.webkarigor.com") ||
-    image.includes("digitaloceanspaces.com")
+    image.includes("digitaloceanspaces.com") ||
+    image.startsWith("/")
   ) {
     return image;
   }
-  return FALLBACK_IMAGE;
+  return "";
 }
 
 function asText(value: string | number | null | undefined): string {

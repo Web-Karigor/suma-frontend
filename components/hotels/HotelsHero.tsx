@@ -1,21 +1,18 @@
-import Image from "next/image";
 import { Container } from "@/components/ui/Container";
+import { CoverImage } from "@/components/ui/CoverImage";
 import type { HotelsPageMeta } from "@/types/hotel";
-
-const FALLBACK_BANNER = "/images/hotels/hero.jpg";
 
 export function HotelsHero({ page }: { page: HotelsPageMeta }) {
   return (
     <section className="pt-4 tablet:pt-6">
       <Container>
-        <div className="relative h-[180px] overflow-hidden rounded-2xl tablet:h-[250px]">
-          <Image
-            src={page.banner ?? FALLBACK_BANNER}
+        <div className="relative h-[180px] overflow-hidden rounded-2xl bg-teal-900 tablet:h-[250px]">
+          <CoverImage
+            src={page.banner}
             alt={page.headerTitle}
-            fill
-            priority
             className="object-cover"
             sizes="(max-width: 1740px) 100vw, 1740px"
+            priority
           />
           <div className="absolute inset-0 bg-overlay-black-48" />
           <div className="relative flex h-full flex-col items-center justify-center px-4 text-center">

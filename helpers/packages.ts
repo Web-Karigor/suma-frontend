@@ -8,6 +8,14 @@ import type {
   PackagesApiResponse,
 } from "@/types/package";
 
+export function isHajjUmrahType(
+  hajjUmrahType?: string | null,
+  packageTypeSlug?: string | null,
+): boolean {
+  const type = `${hajjUmrahType ?? ""} ${packageTypeSlug ?? ""}`.toLowerCase();
+  return type.includes("hajj") || type.includes("umrah");
+}
+
 function formatDateRange(
   startDate: string | null,
   endDate: string | null,
@@ -19,9 +27,10 @@ function formatDateRange(
 }
 
 function normalizePackage(item: PackageApiItem): PackageListItem {
-  const hajjUmrahType = item.hajj_umrah_type?.toLowerCase() ?? "";
-  const isHajjUmrah =
-    hajjUmrahType.includes("hajj") || hajjUmrahType.includes("umrah");
+  const isHajjUmrah = isHajjUmrahType(
+    item.hajj_umrah_type,
+    item.package_type?.slug,
+  );
 
   return {
     image: resolveServiceImage(item.image),
@@ -67,7 +76,8 @@ export function normalizePackageDetailResponse(
     packageType: item.package_type,
     overview: stripHtml(item.overview),
     gallery: item.gallery ?? [],
-    itinerary: item.itinerary ?? [],
+    itinerary: Array.isArray(item.itinerary) ? item.itinerary : [],
+    sightSeeing: Array.isArray(item.sight_seeing) ? item.sight_seeing : [],
     accommodation: item.accommodation ?? null,
     services: item.services ?? null,
     facilities: {

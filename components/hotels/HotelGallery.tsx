@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
+import { CoverImage } from "@/components/ui/CoverImage";
 import { Swiper, SwiperSlide } from "swiper/react";
 import type { HotelGalleryImage } from "@/types/hotel";
 
@@ -34,10 +34,9 @@ export function HotelGallery({
           className="relative aspect-[857/629] w-full cursor-pointer overflow-hidden rounded-[12px]"
           onClick={() => setActive(0)}
         >
-          <Image
+          <CoverImage
             src={activeImage.url}
             alt={activeImage.alt || title}
-            fill
             className="object-cover"
             sizes="(max-width: 1280px) 100vw, 857px"
           />
@@ -50,7 +49,7 @@ export function HotelGallery({
               className="relative min-h-0 cursor-pointer overflow-hidden rounded-[12px]"
               onClick={() => setActive(index + 1)}
             >
-              <Image src={image.url} alt={image.alt} fill className="object-cover" sizes="428px" />
+              <CoverImage src={image.url} alt={image.alt} className="object-cover" sizes="428px" />
             </button>
           ))}
         </div>
@@ -77,7 +76,7 @@ export function HotelGallery({
                 onClick={() => setActive(index)}
                 className={thumbnailButtonClass(index)}
               >
-                <Image src={image.url} alt={image.alt} fill className="object-cover" sizes="248px" />
+                <CoverImage src={image.url} alt={image.alt} className="object-cover" sizes="248px" />
               </button>
             </SwiperSlide>
           ))}
@@ -91,7 +90,7 @@ export function HotelGallery({
               onClick={() => setActive(index)}
               className={thumbnailButtonClass(index)}
             >
-              <Image src={image.url} alt={image.alt} fill className="object-cover" sizes="248px" />
+              <CoverImage src={image.url} alt={image.alt} className="object-cover" sizes="248px" />
             </button>
           ))}
         </div>

@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
 import { Container } from "@/components/ui/Container";
+import { CoverImage } from "@/components/ui/CoverImage";
 import { CheckIcon, MapPinIcon } from "@/components/icons";
 
 type ItineraryDay = {
@@ -16,16 +16,22 @@ type ItineraryDay = {
 
 type PackageItineraryProps = {
   itinerary: ItineraryDay[];
+  title?: string;
 };
 
-export function PackageItinerary({ itinerary }: PackageItineraryProps) {
+export function PackageItinerary({
+  itinerary,
+  title = "Your itinerary",
+}: PackageItineraryProps) {
   const [imageIndexes, setImageIndexes] = useState<number[]>(() => itinerary.map(() => 0));
+
+  if (!itinerary.length) return null;
 
   return (
     <section className="bg-gold-50 py-10 tablet:py-12 desktop-xl:py-14">
       <Container className="desktop-xl:!px-0">
         <h2 className="mb-6 text-[22px] leading-[1.2] font-semibold text-hero tablet:mb-8 tablet:text-[24px]">
-          Your itinerary
+          {title}
         </h2>
 
         <div className="grid grid-cols-1 gap-4 tablet:grid-cols-2 tablet:gap-5 desktop:grid-cols-3 desktop:gap-6">
@@ -39,10 +45,9 @@ export function PackageItinerary({ itinerary }: PackageItineraryProps) {
                 className="flex h-full flex-col gap-3 rounded-[32px] bg-gold-50 p-6 shadow-[0_2px_6px_rgb(0_0_0/9%)]"
               >
                 <div className="relative h-[240px] w-full overflow-hidden rounded-[8px] tablet:h-[300px] desktop:h-[377px]">
-                  <Image
+                  <CoverImage
                     src={currentImage}
                     alt={place.title}
-                    fill
                     className="object-cover"
                     sizes="(min-width: 1920px) 516px, (min-width: 1280px) 33vw, 100vw"
                   />

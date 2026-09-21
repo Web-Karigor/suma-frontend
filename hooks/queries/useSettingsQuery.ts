@@ -1,8 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import {
-  FALLBACK_SETTINGS,
-  normalizeSettingsResponse,
-} from "@/helpers/settings";
+import { normalizeSettingsResponse } from "@/helpers/settings";
 import { apiFetch } from "@/lib/apiFetch";
 import type { SettingsApiResponse, SiteSettings } from "@/types/settings";
 
@@ -17,6 +14,5 @@ export function useSettingsQuery() {
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     refetchOnReconnect: false,
-    placeholderData: FALLBACK_SETTINGS,
   });
 }

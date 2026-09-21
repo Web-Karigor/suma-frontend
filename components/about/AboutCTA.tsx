@@ -1,7 +1,13 @@
+"use client";
+
+import { useState } from "react";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
+import { ContactFormModal } from "@/components/contact/ContactFormModal";
 
 export function AboutCTA() {
+  const [modalOpen, setModalOpen] = useState(false);
+
   return (
     <section className="bg-teal-100 py-16 tablet:py-20 desktop:py-[96px]">
       <Container className="desktop-xl:!px-0">
@@ -15,7 +21,7 @@ export function AboutCTA() {
           </p>
           <div className="pt-8">
             <Button
-              href="/contact"
+              onClick={() => setModalOpen(true)}
               className="h-[49px] gap-8 rounded-full !bg-black text-base !text-white hover:!bg-[#0A0C0C] [&>span]:size-[25px] [&>span]:!bg-white [&>span]:!text-black"
             >
               Send Inquiry
@@ -23,6 +29,11 @@ export function AboutCTA() {
           </div>
         </div>
       </Container>
+
+      <ContactFormModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+      />
     </section>
   );
 }

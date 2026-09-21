@@ -64,6 +64,13 @@ function ServiceList({
 
 export function CorporateServices({ services }: CorporateServicesProps) {
   const groups = asGroups(services);
+  if (
+    !groups.included.length &&
+    !groups.additional.length &&
+    !groups.excluded.length
+  ) {
+    return null;
+  }
 
   const cards = [
     {

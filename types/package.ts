@@ -17,6 +17,7 @@ export type PackageApiItem = {
   overview?: string | null;
   gallery?: string[] | null;
   itinerary?: PackageItineraryApiItem[] | null;
+  sight_seeing?: PackageItineraryApiItem[] | null;
   accommodation?: PackageAccommodationApi | null;
   services?: PackageServicesApi | null;
   facilities?: { included?: string[] | null; add_on?: string[] | null } | null;
@@ -104,6 +105,7 @@ export type PackageDetail = {
   overview: string;
   gallery: string[];
   itinerary: PackageItineraryApiItem[];
+  sightSeeing: PackageItineraryApiItem[];
   accommodation: PackageAccommodationApi | null;
   services: PackageServicesApi | null;
   facilities: { included: string[]; addOn: string[] };

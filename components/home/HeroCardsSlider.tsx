@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { CoverImage } from "@/components/ui/CoverImage";
 import Link from "next/link";
 import type { Swiper as SwiperClass } from "swiper";
 import { Autoplay } from "swiper/modules";
@@ -97,10 +97,9 @@ export function HeroCardsSlider({
               </div>
               <div className="hero-card-media relative">
                 <div className="hero-card-photo">
-                  <Image
+                  <CoverImage
                     src={card.image}
                     alt={card.imageAlt}
-                    fill
                     className="object-cover transition-transform duration-700"
                     sizes="318px"
                   />

@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { CoverImage } from "@/components/ui/CoverImage";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Container } from "@/components/ui/Container";
 import type { ServiceCountry } from "@/types/service-detail";
@@ -24,10 +24,9 @@ function CountryCard({ country }: { country: ServiceCountry }) {
           shrink-0
         "
       >
-        <Image
+        <CoverImage
           src={country.image}
           alt={country.name}
-          fill
           sizes="200px"
           className="object-cover rounded-full"
         />

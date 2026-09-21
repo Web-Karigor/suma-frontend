@@ -4,43 +4,41 @@ import type {
   SiteSettings,
 } from "@/types/settings";
 
-const FALLBACK_LOGO = "/logo.png";
-const FALLBACK_CONTACT_IMAGE =
-  "https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1200&q=85";
-
 export const FALLBACK_SETTINGS: SiteSettings = {
-  siteName: "Suma International Services Ltd.",
-  logoLight: FALLBACK_LOGO,
-  logoDark: FALLBACK_LOGO,
+  siteName: "",
+  logoLight: "",
+  logoDark: "",
   favicon: null,
-  contactPageImage: FALLBACK_CONTACT_IMAGE,
-  phone: "16703",
-  email: "sumaintlsvc@sumabd.com",
-  address: "House 12, Road 5, Dhanmondi, Dhaka 1205, Bangladesh",
+  contactPageImage: "",
+  phone: "",
+  email: "",
+  address: "",
   addressMapUrl: null,
-  hotline: "16703",
+  hotline: "",
   supportTitle: "Customer Care",
   socials: [],
   metaTitle: null,
   metaDescription: null,
 };
 
-function resolveMedia(url: string | null | undefined, fallback: string): string {
-  if (!url?.trim()) return fallback;
+function resolveMedia(url: string | null | undefined): string {
+  if (!url?.trim()) return "";
   if (
     url.startsWith("https://suma.webkarigor.com") ||
-    url.includes("digitaloceanspaces.com")
+    url.includes("digitaloceanspaces.com") ||
+    url.startsWith("/")
   ) {
     return url;
   }
-  return fallback;
+  return "";
 }
 
 function resolveOptionalMedia(url: string | null | undefined): string | null {
   if (!url?.trim()) return null;
   if (
     url.startsWith("https://suma.webkarigor.com") ||
-    url.includes("digitaloceanspaces.com")
+    url.includes("digitaloceanspaces.com") ||
+    url.startsWith("/")
   ) {
     return url;
   }
@@ -82,21 +80,18 @@ export function normalizeSettingsResponse(
       href: asText(href),
     }));
 
-  const hotline = asText(response.hotline) || FALLBACK_SETTINGS.hotline;
+  const hotline = asText(response.hotline);
   const phone = asText(response.phone) || hotline;
 
   return {
-    siteName: asText(response.site_name) || FALLBACK_SETTINGS.siteName,
-    logoLight: resolveMedia(response.logo_light, FALLBACK_LOGO),
-    logoDark: resolveMedia(response.logo_dark, FALLBACK_LOGO),
+    siteName: asText(response.site_name),
+    logoLight: resolveMedia(response.logo_light),
+    logoDark: resolveMedia(response.logo_dark),
     favicon: resolveOptionalMedia(response.favicon),
-    contactPageImage: resolveMedia(
-      response.contact_page_image,
-      FALLBACK_CONTACT_IMAGE,
-    ),
+    contactPageImage: resolveMedia(response.contact_page_image),
     phone,
-    email: asText(response.email) || FALLBACK_SETTINGS.email,
-    address: asText(response.address) || FALLBACK_SETTINGS.address,
+    email: asText(response.email),
+    address: asText(response.address),
     addressMapUrl: asText(response.address_map_url) || null,
     hotline,
     supportTitle: "Customer Care",

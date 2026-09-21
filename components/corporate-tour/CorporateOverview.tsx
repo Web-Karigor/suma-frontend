@@ -23,6 +23,8 @@ export function CorporateOverview({
   description,
   cards,
 }: CorporateOverviewProps) {
+  if (!description && !cards.length) return null;
+
   return (
     <section className="bg-teal-950">
       <Container className="desktop-xl:!px-0">

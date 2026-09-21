@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+import { CoverImage } from "@/components/ui/CoverImage";
 import { CalendarDays, Moon } from "lucide-react";
 import { ArrowUpRightIcon, ShareIcon, StarIcon } from "@/components/icons";
 import type { PackageListItem } from "@/types/package";
@@ -12,10 +12,9 @@ export function PackageCard({
   return (
     <article className="group relative h-[472px] min-w-0 overflow-hidden rounded-[18px] border border-[#ddd8cb] bg-white shadow-[0_2px_8px_rgb(10_12_12/8%)]">
       <div className="absolute inset-0 overflow-hidden">
-        <Image
+        <CoverImage
           src={packageData.image}
           alt={packageData.title}
-          fill
           className="object-cover"
           sizes="(min-width: 1280px) 31vw, (min-width: 768px) 47vw, 100vw"
         />

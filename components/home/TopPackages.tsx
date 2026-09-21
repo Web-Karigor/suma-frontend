@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
+import { CoverImage } from "@/components/ui/CoverImage";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { useServicesQuery } from "@/hooks/queries/useServicesQuery";
 import type { ServiceArea, ServiceCard } from "@/types/service";
@@ -26,10 +26,9 @@ function PackageCard({ item }: { item: ServiceCard }) {
       }
       className={`package-card relative block w-full overflow-hidden ${sizes[item.area]}`}
     >
-      <Image
+      <CoverImage
         src={item.image}
         alt={item.title}
-        fill
         className="object-cover"
         sizes="(min-width: 1280px) 508px, 100vw"
       />

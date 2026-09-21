@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { CoverImage } from "@/components/ui/CoverImage";
 import { CheckIcon } from "@/components/icons";
 import { Button } from "@/components/ui/Button";
 import type { ServiceHajjPackage } from "@/types/service-detail";
@@ -11,10 +11,9 @@ export function HajjPackageCard({
   return (
     <article className="relative mx-auto min-h-0 min-w-0 w-full max-w-[858px] overflow-visible rounded-[14px] transition-transform duration-300 desktop:h-[1128px]">
       <div className="relative aspect-[1.78] overflow-hidden rounded-[24px] desktop:h-[560px] desktop:aspect-auto">
-        <Image
+        <CoverImage
           src={packageData.image}
           alt={packageData.title}
-          fill
           className="object-cover"
           sizes="(min-width: 1024px) 46vw, 100vw"
         />

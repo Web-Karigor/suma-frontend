@@ -11,9 +11,9 @@ type CorporateActivitiesProps = {
   activities: Activity[];
 };
 
-const DEFAULT_VALUES = ["Unlimited", "Full Stay", "4 Hours", "Pay per use", "Pay per use"];
-
 export function CorporateActivities({ activities }: CorporateActivitiesProps) {
+  if (!activities.length) return null;
+
   return (
     <section className="bg-teal-950 pt-12 tablet:pt-16 desktop-xl:pt-[120px]">
       <Container className="desktop-xl:!px-0">
@@ -51,9 +51,9 @@ export function CorporateActivities({ activities }: CorporateActivitiesProps) {
           <div className="h-px w-full bg-overlay-white-16" />
 
           <div className="flex flex-wrap gap-6 desktop-xl:gap-x-9 desktop-xl:gap-y-10">
-            {activities.map((activity, index) => {
-              const included = activity.included ?? index < 3;
-              const value = activity.value ?? DEFAULT_VALUES[index] ?? "Pay per use";
+            {activities.map((activity) => {
+              const included = activity.included ?? false;
+              const value = activity.value ?? "";
               return (
                 <div
                   key={activity.label}

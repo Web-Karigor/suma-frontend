@@ -14,11 +14,6 @@ import { useServiceDetailQuery } from "@/hooks/queries/useServiceDetailQuery";
 import { PackageCard } from "./PackageCard";
 import Image from "next/image";
 
-const FALLBACK = {
-  title: "Holiday Packages",
-  subtitle: "",
-};
-
 const EMPTY_ITEMS: never[] = [];
 
 // Reusable Desktop Filter Select Component
@@ -442,7 +437,7 @@ export function PackageList({
       ? "Hajj Packages"
       : packageCategory === "umrah"
         ? "Umrah Packages"
-        : data?.service.title || serviceQuery.data?.title || FALLBACK.title;
+        : data?.service.title || serviceQuery.data?.title || "";
   const subtitle =
     packageCategory === "hajj"
       ? "Explore our carefully arranged Hajj packages for a peaceful and meaningful pilgrimage."
@@ -450,7 +445,7 @@ export function PackageList({
         ? "Choose a comfortable Umrah package designed around your spiritual journey."
         : data?.service.subtitle ||
           serviceQuery.data?.subtitle ||
-          FALLBACK.subtitle;
+          "";
   const pagination = data?.pagination;
   const currentPage = pagination?.current_page ?? page;
   const pageNumbers = pagination

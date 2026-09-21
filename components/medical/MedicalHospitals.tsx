@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { CoverImage } from "@/components/ui/CoverImage";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
@@ -15,10 +15,9 @@ function HospitalCard({ hospital }: { hospital: ServiceHospital }) {
   return (
     <article className="flex h-full flex-col rounded-2xl border border-gray-200 bg-teal-50 p-5 desktop-xl:h-[570px] desktop-xl:w-[564px]">
       <div className="relative h-[200px] w-full overflow-hidden rounded-xl tablet:h-[240px] desktop-xl:h-[280px] desktop-xl:w-[524px]">
-        <Image
+        <CoverImage
           src={hospital.image}
           alt={hospital.name}
-          fill
           sizes="524px"
           className="object-cover"
         />

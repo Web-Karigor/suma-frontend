@@ -1,6 +1,10 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { Container } from "@/components/ui/Container";
+import { CoverImage } from "@/components/ui/CoverImage";
+import { ContactFormModal } from "@/components/contact/ContactFormModal";
 
 type Amenity = {
   icon?: "wifi" | "restaurant" | "gym" | "star";
@@ -29,8 +33,8 @@ function toHighlight(item: string | Highlight, index: number): Highlight {
     return { title: title.trim(), description: rest.join(":").trim() };
   }
   return {
-    title: index === 0 ? "24/7 Business Center" : "Prime Business District Location",
-    description: item,
+    title: item,
+    description: "",
   };
 }
 
@@ -41,6 +45,7 @@ export function CorporateAccommodation({
   amenities,
   highlights,
 }: CorporateAccommodationProps) {
+  const [modalOpen, setModalOpen] = useState(false);
   const highlightItems = highlights.slice(0, 2).map(toHighlight);
   const avatars = [
     "/images/corporate-tour/avatar-1.png",
@@ -83,8 +88,9 @@ export function CorporateAccommodation({
                     <p className="text-base leading-[1.6] font-normal text-gray-200">{description}</p>
                   </div>
 
-                  <Link
-                    href="#booking"
+                  <button
+                    type="button"
+                    onClick={() => setModalOpen(true)}
                     className="inline-flex h-[49px] w-fit items-center gap-3 rounded-full bg-gold-500 py-3 pr-3 pl-4 text-base font-medium text-black transition-opacity hover:opacity-90"
                   >
                     Book Package Now
@@ -97,7 +103,7 @@ export function CorporateAccommodation({
                         className="size-[17px] rotate-[42deg]"
                       />
                     </span>
-                  </Link>
+                  </button>
                 </div>
               </div>
 
@@ -123,7 +129,7 @@ export function CorporateAccommodation({
             </div>
 
             <div className="relative h-[420px] min-w-0 w-full overflow-hidden rounded-2xl tablet:h-[560px] desktop-xl:h-[700px]">
-              <Image src={hotelImage} alt={hotelName} fill className="object-cover" sizes="564px" />
+              <CoverImage src={hotelImage} alt={hotelName} className="object-cover" sizes="564px" />
             </div>
 
             <div className="flex min-w-0 flex-col justify-between gap-10 py-0 desktop-xl:h-[700px] desktop-xl:py-6">
@@ -177,6 +183,11 @@ export function CorporateAccommodation({
           </div>
         </div>
       </Container>
+
+      <ContactFormModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+      />
     </section>
   );
 }

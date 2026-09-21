@@ -31,7 +31,7 @@ function ArrowBadge() {
 }
 
 const buttonClass =
-  "group inline-flex h-[49px] items-center gap-8 rounded-button bg-primary pt-3 pr-3 pb-3 pl-4 text-base font-medium whitespace-nowrap text-white transition-colors hover:bg-primary-700";
+  "group inline-flex h-[49px] cursor-pointer items-center gap-8 rounded-button bg-primary pt-3 pr-3 pb-3 pl-4 text-base font-medium whitespace-nowrap text-white transition-colors hover:bg-primary-700 disabled:cursor-not-allowed";
 
 export function Button({
   href,
@@ -108,7 +108,7 @@ export function GoBadge({
   className,
   label = "Go",
 }: GoBadgeProps) {
-  const classes = cn("group relative block aspect-square", className);
+  const classes = cn("group relative block aspect-square cursor-pointer", className);
   const content = (
     <>
       <span className="sr-only">{label}</span>

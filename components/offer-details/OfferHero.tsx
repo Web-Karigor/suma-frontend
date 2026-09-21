@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { CoverImage } from "@/components/ui/CoverImage";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import type { OfferDetail } from "@/types/offer";
@@ -50,14 +50,13 @@ export function OfferHero({ offer }: { offer: OfferDetail }) {
 
       {/* Banner */}
       <Container>
-        <div className="relative h-[280px] overflow-hidden rounded-[16px] tablet:h-[360px] desktop:h-[420px]">
-          <Image
+        <div className="relative h-[280px] overflow-hidden rounded-[16px] bg-teal-900 tablet:h-[360px] desktop:h-[420px]">
+          <CoverImage
             src={offer.banner}
             alt={offer.bannerAlt}
-            fill
-            priority
             className="object-cover"
             sizes="(max-width: 768px) 100vw, (max-width: 1280px) 90vw, 1740px"
+            priority
           />
         </div>
       </Container>

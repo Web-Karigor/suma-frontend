@@ -1,15 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import { Clock, Mail, MapPin, Phone, School } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { useContactInfoQuery } from "@/hooks/queries/useContactInfoQuery";
 import { useSettingsQuery } from "@/hooks/queries/useSettingsQuery";
 import { FALLBACK_SETTINGS } from "@/helpers/settings";
 import type { ContactOfficeCard } from "@/types/contact-info";
-
-const mapImage =
-  "https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=640&q=80";
 
 export function ContactOffices() {
   const { data: offices, isLoading } = useContactInfoQuery();
@@ -194,6 +190,7 @@ function OfficeCard({ office }: { office: ContactOfficeCard }) {
       shrink-0
       overflow-hidden
       rounded-md
+      bg-teal-800
 
       md:w-full
       md:h-[160px]
@@ -208,13 +205,6 @@ function OfficeCard({ office }: { office: ContactOfficeCard }) {
       2xl:h-[160px]
     "
       >
-        <Image
-          src={mapImage}
-          alt={`${office.name} map`}
-          fill
-          className="object-cover"
-          sizes="(max-width:1024px) 100vw, 270px"
-        />
 
         <a
           href={office.directionUrl}

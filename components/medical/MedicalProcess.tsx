@@ -1,5 +1,9 @@
+"use client";
+
+import { useState } from "react";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
+import { ContactFormModal } from "@/components/contact/ContactFormModal";
 import type { ServiceProcessStep } from "@/types/service-detail";
 
 export function MedicalProcess({
@@ -11,6 +15,8 @@ export function MedicalProcess({
   subtitle?: string;
   steps: ServiceProcessStep[];
 }) {
+  const [modalOpen, setModalOpen] = useState(false);
+
   if (!steps.length) return null;
 
   return (
@@ -33,7 +39,7 @@ export function MedicalProcess({
               </p>
             ) : null}
             <Button
-              href="#booking"
+              onClick={() => setModalOpen(true)}
               className="mt-6 h-[49px] w-[188px] gap-3 px-3 text-sm bg-gold-500 text-[#0A0C0C]"
             >
               Book a Meeting
@@ -60,6 +66,11 @@ export function MedicalProcess({
           </div>
         </div>
       </Container>
+
+      <ContactFormModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+      />
     </section>
   );
 }

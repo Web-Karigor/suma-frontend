@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
+import { CoverImage } from "@/components/ui/CoverImage";
 
 type ItineraryItem = {
   title: string;
@@ -17,10 +17,9 @@ function ItineraryImage({ src, alt }: { src: string; alt: string }) {
   return (
     <div className="w-full shrink-0 rounded-full bg-[rgba(235,183,50,0.32)] p-3 tablet:p-4 desktop:w-[48%] desktop-xl:w-[820px]">
       <div className="relative aspect-[1.75/1] w-full overflow-hidden rounded-full tablet:aspect-[1.9/1] desktop-xl:h-[463px]">
-        <Image
+        <CoverImage
           src={src}
           alt={alt}
-          fill
           className="object-cover"
           sizes="(max-width: 1024px) 100vw, 820px"
         />
@@ -82,6 +81,8 @@ function ItineraryCopy({ item }: { item: ItineraryItem }) {
 }
 
 export function CorporateItinerary({ itinerary }: CorporateItineraryProps) {
+  if (!itinerary.length) return null;
+
   return (
     <section className="bg-teal-950 pt-12 tablet:pt-16 desktop-xl:pt-[160px]">
       <Container className="desktop-xl:!px-0">

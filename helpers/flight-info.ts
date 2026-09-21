@@ -1,17 +1,15 @@
 import type { FlightInfo, FlightInfoApiResponse } from "@/types/flight-info";
 
-const FALLBACK_IMAGE =
-  "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1200&q=80";
-
 function resolveImage(image: string): string {
-  if (!image.trim()) return FALLBACK_IMAGE;
+  if (!image.trim()) return "";
   if (
     image.startsWith("https://suma.webkarigor.com") ||
-    image.includes("digitaloceanspaces.com")
+    image.includes("digitaloceanspaces.com") ||
+    image.startsWith("/")
   ) {
     return image;
   }
-  return FALLBACK_IMAGE;
+  return "";
 }
 
 export function normalizeFlightInfoResponse(response: FlightInfoApiResponse): FlightInfo {

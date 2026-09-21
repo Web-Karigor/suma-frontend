@@ -1,10 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
+import { CoverImage } from "@/components/ui/CoverImage";
 import { ClockIcon, MapPinIcon, StarIcon } from "@/components/icons";
+import { ContactFormModal } from "@/components/contact/ContactFormModal";
 
 type Hotel = {
   name: string;
@@ -22,6 +23,7 @@ type PackageAccommodationProps = {
 
 export function PackageAccommodation({ hotels }: PackageAccommodationProps) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [modalOpen, setModalOpen] = useState(false);
 
   if (!hotels?.length) return null;
 
@@ -37,10 +39,9 @@ export function PackageAccommodation({ hotels }: PackageAccommodationProps) {
 
           <div className="flex flex-col gap-6 desktop:flex-row desktop:items-center desktop:gap-8">
             <div className="relative h-[220px] w-full shrink-0 overflow-hidden rounded-[16px] tablet:h-[255px] desktop:w-[430px] desktop-xl:h-[280px] desktop-xl:w-[480px]">
-              <Image
+              <CoverImage
                 src={hotel.image}
                 alt={hotel.name}
-                fill
                 className="object-cover"
                 sizes="480px"
               />
@@ -107,13 +108,21 @@ export function PackageAccommodation({ hotels }: PackageAccommodationProps) {
                 ) : null}
               </div>
 
-              <Button href="#booking" className="mt-5 w-[237px] max-w-full">
+              <Button
+                onClick={() => setModalOpen(true)}
+                className="mt-5 w-[237px] max-w-full"
+              >
                 Book Package Now
               </Button>
             </div>
           </div>
         </div>
       </Container>
+
+      <ContactFormModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+      />
     </section>
   );
 }

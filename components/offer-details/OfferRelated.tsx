@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
+import { CoverImage } from "@/components/ui/CoverImage";
 
 type RelatedOffer = {
   id: string;
@@ -37,10 +37,9 @@ export function OfferRelated({ offers }: OfferRelatedProps) {
                 className="group bg-paper rounded-2xl overflow-hidden border border-neutral-200 hover:shadow-xl transition-all"
               >
                 <div className="relative aspect-[16/10]">
-                  <Image
+                  <CoverImage
                     src={offer.image}
                     alt={offer.title}
-                    fill
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute top-3 right-3 bg-error text-white px-3 py-1 rounded-lg font-bold text-sm">

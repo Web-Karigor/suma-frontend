@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
+import Link from "next/link";
 import { StarIcon } from "@/components/icons";
 import { Button } from "@/components/ui/Button";
+import { CoverImage } from "@/components/ui/CoverImage";
 import { Check } from "lucide-react";
 import type { HotelCard } from "@/types/hotel";
 
@@ -47,7 +48,9 @@ export function HotelCard({ hotel }: { hotel: HotelCard }) {
   return (
     <article className="relative flex w-full min-w-0 flex-col xl:flex-row xl:items-center">
       {/* Hotel Image */}
-      <div
+      <Link
+        href={hotel.href}
+        aria-label={`View ${hotel.title}`}
         className="
           relative z-10 h-[220px] w-full shrink-0 overflow-hidden rounded-[16px]
           shadow-[4px_0_12px_rgb(0_0_0/10%)]
@@ -60,14 +63,13 @@ export function HotelCard({ hotel }: { hotel: HotelCard }) {
           2xl:h-[300px] 2xl:w-[409px]
         "
       >
-        <Image
+        <CoverImage
           src={hotel.image}
           alt={hotel.imageAlt}
-          fill
-          className="object-cover"
+          className="object-cover transition-transform duration-300 hover:scale-105"
           sizes="(max-width: 1279px) 100vw, (max-width: 1535px) 390px, 409px"
         />
-      </div>
+      </Link>
 
       {/* Hotel Details */}
       <div
@@ -144,7 +146,12 @@ export function HotelCard({ hotel }: { hotel: HotelCard }) {
                 2xl:text-xl
               "
             >
-              {hotel.title}
+              <Link
+                href={hotel.href}
+                className="transition-colors hover:text-primary"
+              >
+                {hotel.title}
+              </Link>
             </h3>
 
             <div className="flex w-full shrink-0 items-center justify-center gap-1.5 md:w-auto md:justify-start">

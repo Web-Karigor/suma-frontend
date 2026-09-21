@@ -1,15 +1,17 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { Container } from "@/components/ui/Container";
+import { CoverImage } from "@/components/ui/CoverImage";
 
 type PackageGalleryProps = {
   images: string[];
 };
 
 export function PackageGallery({ images }: PackageGalleryProps) {
-  const galleryImages = images.slice(0, 6);
+  const galleryImages = images.filter(Boolean).slice(0, 6);
+  if (!galleryImages.length) return null;
+
   const [activeIndex, setActiveIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const sliderRef = useRef<HTMLDivElement>(null);
@@ -82,10 +84,9 @@ export function PackageGallery({ images }: PackageGalleryProps) {
                     scrollSnapAlign: "center",
                   }}
                 >
-                  <Image
+                  <CoverImage
                     src={image}
                     alt={`Package gallery ${index + 1}`}
-                    fill
                     sizes="(min-width: 768px) 58vw, 90vw"
                     className="object-cover transition-transform duration-700 ease-out hover:scale-105"
                   />

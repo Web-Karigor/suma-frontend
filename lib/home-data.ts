@@ -26,23 +26,3 @@ export const navLinks = [
 export const footerAbout =
   "Established in 1997, Suma International Services has grown from a humble travel service provider into a leading name in the industry, thanks to the dedication, expertise, and passion of our exceptional team.";
 
-// Footer navigation columns - used in Footer component
-export const footerColumns = {
-  services: [
-    { label: "Hajj & Umrah Packages", href: "/hajj" },
-    { label: "Visa Assistance", href: "/visa-application" },
-    { label: "Hotel", href: "/hotels" },
-    { label: "Holiday Packages", href: "/packages" },
-    { label: "Customized Tours", href: "/packages" },
-    { label: "Medical Tourism", href: "/medical" },
-    { label: "Corporate Travel", href: "/corporate-tour" },
-  ],
-  pages: [
-    { label: "About Us", href: "/about" },
-    { label: "Contact", href: "/contact" },
-    { label: "Promotions", href: "/offer-details" },
-    { label: "FAQ", href: "/faq" },
-    { label: "Terms & Conditions", href: "/terms-and-conditions" },
-    { label: "Privacy Policy", href: "/privacy-policy" },
-  ],
-} as const;

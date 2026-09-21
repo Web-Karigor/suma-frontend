@@ -1,11 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import type { Swiper as SwiperClass } from "swiper";
 import { Autoplay, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Container } from "@/components/ui/Container";
+import { CoverImage } from "@/components/ui/CoverImage";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { useOffersQuery } from "@/hooks/queries/useOffersQuery";
 
@@ -100,10 +100,9 @@ export function ExclusiveOffers() {
                 href={offer.href}
                 className="offer-card relative block w-full overflow-hidden rounded-2xl"
               >
-                <Image
+                <CoverImage
                   src={offer.image}
                   alt={offer.imageAlt}
-                  fill
                   className="object-cover"
                   sizes="(min-width: 768px) 33vw, 90vw"
                 />
