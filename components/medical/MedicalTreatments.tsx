@@ -16,7 +16,7 @@ export function MedicalTreatments({
   if (!treatments.length) return null;
 
   return (
-    <section className="bg-teal-50 py-12 tablet:py-16 desktop-xl:py-0 desktop-xl:pb-[109px]">
+    <section className="bg-teal-100 py-12 lg:py-16 xl:py-20">
       <Container>
         <div className="flex flex-col gap-12">
           <div className="grid grid-cols-1 gap-8 desktop:grid-cols-[minmax(0,711px)_minmax(0,1005px)] desktop:gap-6">

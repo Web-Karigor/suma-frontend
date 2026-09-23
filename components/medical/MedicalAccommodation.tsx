@@ -67,7 +67,7 @@ export function MedicalAccommodation({
   const needsSlider = items.length > VISIBLE_COUNT;
 
   return (
-    <section className="bg-teal-50 py-12 tablet:py-16 desktop-xl:py-[109px]">
+    <section className="bg-teal-100 py-12 tablet:py-16 desktop-xl:py-[109px]">
       <Container>
         <div className="flex flex-col gap-8">
           <div className="grid grid-cols-1 gap-8 desktop:grid-cols-[minmax(0,711px)_minmax(0,1005px)] desktop:gap-6">
