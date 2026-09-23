@@ -145,11 +145,11 @@ export function MedicalHero({
                   key={stat.label}
                   className={`flex flex-col items-center justify-center gap-2 px-4 text-center ${index > 0 ? "tablet:border-l tablet:border-teal-400" : ""} xl:h-[108px]`}
                 >
-                  <p className="text-[32px] leading-[1.1] font-normal tracking-[-0.5px] text-white tablet:text-[44px] xl:text-[56px]">
+                  <p className="text-[32px] leading-[1.1] font-regular tracking-[-0.5px] text-[#F2F8F8] tablet:text-[44px] xl:text-[56px]">
                     {stat.value}
                   </p>
 
-                  <p className="text-[14px] leading-[1.5] font-light text-teal-10 tablet:text-[16px] xl:text-[18px] xl:leading-[1.64]">
+                  <p className="text-[14px] leading-[1.5] font-regular text-teal-200 tablet:text-[16px] xl:text-[18px] xl:leading-[1.64]">
                     {stat.label}
                   </p>
                 </div>

@@ -7,6 +7,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Container } from "@/components/ui/Container";
 import { CoverImage } from "@/components/ui/CoverImage";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { useHomepageSection } from "@/hooks/queries/useHomepageSectionContentQuery";
 import { useOffersQuery } from "@/hooks/queries/useOffersQuery";
 
 import "swiper/css";
@@ -30,10 +31,17 @@ function scaleOfferCards(swiper: SwiperClass) {
 
 export function ExclusiveOffers() {
   const { data: offers = [], isLoading } = useOffersQuery();
+  const section = useHomepageSection("exclusive-offers", {
+    title: "Exclusive Offers",
+  });
 
   if (isLoading || offers.length === 0) {
     return (
-      <section className="bg-paper py-16 tablet:py-20">
+      <section
+        id={section.htmlId}
+        data-section-id={section.id || undefined}
+        className="bg-paper py-16 tablet:py-20"
+      >
         <Container>
           <div className="mb-10">
             <div className="mx-auto h-10 w-64 animate-pulse rounded bg-gray-200/60 tablet:h-12" />
@@ -64,9 +72,17 @@ export function ExclusiveOffers() {
   }
 
   return (
-    <section className="bg-paper py-16 tablet:py-20">
+    <section
+      id={section.htmlId}
+      data-section-id={section.id || undefined}
+      className="bg-paper py-16 tablet:py-20"
+    >
       <Container>
-        <SectionHeading title="Exclusive Offers" className="mb-10" />
+        <SectionHeading
+          title={section.title}
+          subtitle={section.subtitle}
+          className="mb-10"
+        />
 
         <Swiper
           modules={[Pagination, Autoplay]}

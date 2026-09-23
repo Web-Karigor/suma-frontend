@@ -17,11 +17,29 @@ export type PackageApiItem = {
   overview?: string | null;
   gallery?: string[] | null;
   itinerary?: PackageItineraryApiItem[] | null;
-  sight_seeing?: PackageItineraryApiItem[] | null;
+  sight_seeing?: PackageSightSeeingApi | null;
   accommodation?: PackageAccommodationApi | null;
   services?: PackageServicesApi | null;
   facilities?: { included?: string[] | null; add_on?: string[] | null } | null;
   cancellation_policy?: string | null;
+};
+
+export type PackageSightSeeingCityApi = {
+  included?: string[] | null;
+  available_at_additional_fees?: string[] | null;
+  not_included?: string[] | null;
+};
+
+export type PackageSightSeeingApi =
+  | PackageItineraryApiItem[]
+  | Record<string, PackageSightSeeingCityApi>;
+
+export type PackageSightSeeingGroup = {
+  id: string;
+  title: string;
+  included: string[];
+  additionalFees: string[];
+  notIncluded: string[];
 };
 
 export type PackageItineraryApiItem = {
@@ -38,8 +56,10 @@ export type PackageAccommodationApi = {
   short_description: string | null;
   class_type: string | null;
   customer_rating: number | null;
+  customer_reviews?: number | null;
   location: string | null;
   services?: string[] | null;
+  sections?: { title: string; subtitle: string | null }[] | null;
 };
 
 export type PackageServicesApi = {
@@ -106,6 +126,7 @@ export type PackageDetail = {
   gallery: string[];
   itinerary: PackageItineraryApiItem[];
   sightSeeing: PackageItineraryApiItem[];
+  sightSeeingGroups: PackageSightSeeingGroup[];
   accommodation: PackageAccommodationApi | null;
   services: PackageServicesApi | null;
   facilities: { included: string[]; addOn: string[] };

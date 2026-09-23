@@ -8,16 +8,26 @@ import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { CoverImage } from "@/components/ui/CoverImage";
 import { useHomepageHotelsQuery } from "@/hooks/queries/useHomepageHotelsQuery";
+import { useHomepageSection } from "@/hooks/queries/useHomepageSectionContentQuery";
 
 import "swiper/css";
 import "swiper/css/pagination";
 
 export function BestHotels() {
   const { data: hotels = [], isLoading } = useHomepageHotelsQuery();
+  const section = useHomepageSection("hotels", {
+    title: "Best Hotels for Your Next Trip",
+    subtitle:
+      "For budget-friendly hotels, villas or resorts, browse accommodations that you need. Book long-term or short-term accommodation from our hotel collection.",
+  });
 
   if (isLoading || hotels.length === 0) {
     return (
-      <section className="bg-paper py-16 tablet:py-20">
+      <section
+        id={section.htmlId}
+        data-section-id={section.id || undefined}
+        className="bg-paper py-16 tablet:py-20"
+      >
         <Container>
           <div className="mb-[37px]">
             <div className="flex items-center justify-between gap-6">
@@ -56,12 +66,16 @@ export function BestHotels() {
   }
 
   return (
-    <section className="bg-paper py-16 tablet:py-20">
+    <section
+      id={section.htmlId}
+      data-section-id={section.id || undefined}
+      className="bg-paper py-16 tablet:py-20"
+    >
       <Container>
         <div className="mb-[37px] ">
           <div className="flex items-center justify-between gap-6">
             <h2 className="text-[1.75rem] font-semibold text-center lg:text-left tracking-tight text-black md:text-[2.5rem]">
-              Best Hotels for Your Next Trip
+              {section.title}
             </h2>
             <Link
               href="/hotels"
@@ -71,11 +85,11 @@ export function BestHotels() {
               <ArrowRightIcon className="size-4" />
             </Link>
           </div>
-          <p className="mt-2 xl:mt-5 max-w-2xl text-sm font-medium leading-relaxed text-[#0A0C0C] text-center lg:text-left">
-            For budget-friendly hotels, villas or resorts, browse accommodations
-            that you need. Book long-term or short-term accommodation from our
-            hotel collection.
-          </p>
+          {section.subtitle ? (
+            <p className="mt-2 xl:mt-5 max-w-2xl text-sm font-medium leading-relaxed text-[#0A0C0C] text-center lg:text-left">
+              {section.subtitle}
+            </p>
+          ) : null}
         </div>
 
         <Swiper
@@ -143,8 +157,7 @@ export function BestHotels() {
                       />
                     </svg>
                     <p className="text-xs leading-snug text-[#7B7B7B] text-left">
-                      Marine Drive Road, Kutupalong, Inani Ukhia, Cox's Bazar
-                      4750
+                      {hotel.address}
                     </p>
                   </div>
                   <p className="line-clamp-3 font-poppins text-xs font-medium leading-relaxed text-[#0A0C0C] text-left">

@@ -6,13 +6,22 @@ import { Container } from "@/components/ui/Container";
 
 import "swiper/css";
 
+type DestinationCard = {
+  src: string;
+  title?: string;
+};
+
 type MedicalDestinationsProps = {
-  images: string[];
+  images: DestinationCard[];
 };
 
 const VISIBLE_COUNT = 5;
 
-function StripImage({ src, index }: { src: string; index: number }) {
+function StripImage({
+  src,
+  title,
+  index,
+}: DestinationCard & { index: number }) {
   const offset = index % 2 === 1;
 
   return (
@@ -21,6 +30,7 @@ function StripImage({ src, index }: { src: string; index: number }) {
         relative
         h-[280px]
         w-[220px]
+        min-w-0
         shrink-0
         overflow-hidden
         rounded-2xl
@@ -28,18 +38,31 @@ function StripImage({ src, index }: { src: string; index: number }) {
         tablet:h-[360px]
         tablet:w-[280px]
 
-        xl:h-[419px]
-        xl:w-[332px]
+        xl:aspect-[332/419]
+        xl:h-auto
+        xl:w-full
+
+        desktop-xl:h-[419px]
+        desktop-xl:aspect-auto
 
         ${offset ? "xl:mt-[50px]" : "xl:mt-0"}
       `}
     >
-      <CoverImage src={src} alt="" sizes="332px" className="object-cover" />
+      <CoverImage src={src} alt={title || ""} sizes="332px" className="object-cover" />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-[#007B7A]/80 via-[#007B7A]/35 to-transparent"
+      />
+      {title ? (
+        <p className="absolute inset-x-0 bottom-5 z-10 px-4 text-center text-[16px] leading-[1.4] font-medium text-white tablet:text-[14px] xl:px-[24px] xl:text-[18px]">
+          {title}
+        </p>
+      ) : null}
     </div>
   );
 }
 
-function ImageStripSlider({ images }: { images: string[] }) {
+function ImageStripSlider({ images }: { images: DestinationCard[] }) {
   return (
     <Swiper
       speed={600}
@@ -48,9 +71,9 @@ function ImageStripSlider({ images }: { images: string[] }) {
       slidesPerView="auto"
       className="medical-strip-swiper"
     >
-      {images.map((src, index) => (
+      {images.map((item, index) => (
         <SwiperSlide
-          key={`${src}-${index}`}
+          key={`${item.src}-${index}`}
           className="
             !h-auto
             !w-[220px]
@@ -58,7 +81,7 @@ function ImageStripSlider({ images }: { images: string[] }) {
             xl:!w-[332px]
           "
         >
-          <StripImage src={src} index={index} />
+          <StripImage src={item.src} title={item.title} index={index} />
         </SwiperSlide>
       ))}
     </Swiper>
@@ -85,43 +108,35 @@ export function MedicalDestinations({ images }: MedicalDestinationsProps) {
       "
     >
       <Container>
-        {/* 
-          Mobile + Tablet
-          Always slider
-        */}
-
         <div className="xl:hidden">
           <ImageStripSlider images={images} />
         </div>
-
-        {/* 
-          Desktop
-        */}
 
         <div
           className="
             hidden
             xl:block
-            xl:h-[469px]
+            desktop-xl:h-[469px]
           "
         >
           {needsSlider ? (
-            // More than 5 images => slider
-
             <ImageStripSlider images={images} />
           ) : (
-            // 5 or less => grid
-
             <div
               className="
                 grid
                 grid-cols-5
                 gap-[22px]
-                xl:h-[469px]
+                desktop-xl:h-[469px]
               "
             >
-              {images.slice(0, VISIBLE_COUNT).map((src, index) => (
-                <StripImage key={`${src}-${index}`} src={src} index={index} />
+              {images.slice(0, VISIBLE_COUNT).map((item, index) => (
+                <StripImage
+                  key={`${item.src}-${index}`}
+                  src={item.src}
+                  title={item.title}
+                  index={index}
+                />
               ))}
             </div>
           )}

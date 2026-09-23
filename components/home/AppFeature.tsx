@@ -5,12 +5,14 @@ import { GoBadge } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { CoverImage } from "@/components/ui/CoverImage";
 import { useFlightInfoQuery } from "@/hooks/queries/useFlightInfoQuery";
+import { useHomepageSection } from "@/hooks/queries/useHomepageSectionContentQuery";
 import type { FlightInfoFeature } from "@/types/flight-info";
 import { cn } from "@/lib/cn";
 import { partnerPortalUrl } from "@/lib/home-data";
 
 export function AppFeature() {
   const { data, isLoading } = useFlightInfoQuery();
+  const section = useHomepageSection("Flight");
 
   if (isLoading || !data) return null;
 
@@ -18,8 +20,25 @@ export function AppFeature() {
   const rightFeatures = data.features.filter((_, index) => index % 2 === 1);
 
   return (
-    <section className="bg-paper pt-28 pb-20 tablet:pt-40 tablet:pb-28">
-      <Container className="grid gap-10 desktop:grid-cols-[minmax(0,1fr)_minmax(280px,650px)] desktop:items-stretch desktop:gap-16 2xl:grid-cols-[minmax(0,1fr)_minmax(320px,858px)] 2xl:gap-8">
+    <section
+      id={section.htmlId}
+      data-section-id={section.id || undefined}
+      className="bg-paper pt-28 pb-20 tablet:pt-40 tablet:pb-28"
+    >
+      <Container>
+        {section.title ? (
+          <div className="mb-10 text-center tablet:mb-14">
+            <h2 className="text-[1.75rem] font-semibold tracking-tight text-neutral-900 tablet:text-[2.5rem]">
+              {section.title}
+            </h2>
+            {section.subtitle ? (
+              <p className="mx-auto mt-2 max-w-2xl text-sm leading-relaxed text-neutral-600 tablet:text-base">
+                {section.subtitle}
+              </p>
+            ) : null}
+          </div>
+        ) : null}
+        <div className="grid gap-10 desktop:grid-cols-[minmax(0,1fr)_minmax(280px,650px)] desktop:items-stretch desktop:gap-16 2xl:grid-cols-[minmax(0,1fr)_minmax(320px,858px)] 2xl:gap-8">
         <div className="flex min-w-0 flex-col">
           <div className="flex w-full max-w-[858px] flex-col items-start gap-4 tablet:h-[65px] tablet:flex-row tablet:items-center tablet:gap-6 2xl:h-[79px] 2xl:gap-9">
             <a
@@ -126,6 +145,7 @@ export function AppFeature() {
             />
           </div>
           <GoBadge href={partnerPortalUrl} className="flight-go-badge" />
+        </div>
         </div>
       </Container>
     </section>

@@ -4,6 +4,7 @@ import {
   PackageOverview,
   PackageAccommodation,
   PackageItinerary,
+  PackageSightseeing,
   PackageServices,
   PackageCancellation,
 } from "@/components/package-details";
@@ -58,6 +59,8 @@ export default async function HajjUmrahDetailsPage({ searchParams }: Props) {
     packageData && isHajjUmrahPackage
       ? mapPlaces(packageData.sightSeeing)
       : [];
+  const sightseeingGroups =
+    packageData && isHajjUmrahPackage ? packageData.sightSeeingGroups : [];
 
   const included = packageData?.services?.included?.length
     ? packageData.services.included
@@ -70,10 +73,6 @@ export default async function HajjUmrahDetailsPage({ searchParams }: Props) {
         ...(packageData.services.not_included ?? []),
         ...(packageData.services.available_on_extra_fees ?? []),
       ]
-    : [];
-
-  const cancellationPolicies = packageData?.cancellationPolicy
-    ? [{ timeframe: packageData.cancellationPolicy }]
     : [];
 
   return (
@@ -99,8 +98,12 @@ export default async function HajjUmrahDetailsPage({ searchParams }: Props) {
           <PackageAccommodation hotels={hotels} />
           <PackageItinerary itinerary={itinerary} />
           <PackageServices included={included} excluded={additionalFees} />
-          <PackageItinerary itinerary={sightseeing} title="Sightseeing" />
-          <PackageCancellation policies={cancellationPolicies} />
+          {sightseeingGroups.length ? (
+            <PackageSightseeing groups={sightseeingGroups} />
+          ) : (
+            <PackageItinerary itinerary={sightseeing} title="Sightseeing" />
+          )}
+          <PackageCancellation html={packageData.cancellationPolicy} />
         </>
       ) : null}
       <HajjContact />

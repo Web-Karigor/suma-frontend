@@ -42,7 +42,12 @@ export function MedicalPageContent() {
         stats={heroStats}
       />
       {data.gallery && data.gallery.length > 0 && (
-        <MedicalDestinations images={data.gallery.map((item) => item.src)} />
+        <MedicalDestinations
+          images={data.gallery.map((item) => ({
+            src: item.src,
+            title: item.text,
+          }))}
+        />
       )}
       {data.overview ? <MedicalWhyChoose overview={data.overview} /> : null}
       {data.specialities.items.length > 0 ? (

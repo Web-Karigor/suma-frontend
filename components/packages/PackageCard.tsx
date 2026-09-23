@@ -1,8 +1,21 @@
+"use client";
+
 import Link from "next/link";
 import { CoverImage } from "@/components/ui/CoverImage";
 import { CalendarDays, Moon } from "lucide-react";
 import { ArrowUpRightIcon, ShareIcon, StarIcon } from "@/components/icons";
 import type { PackageListItem } from "@/types/package";
+
+function sharePackage(title: string, href: string) {
+  const url = new URL(href, window.location.origin).toString();
+  if (navigator.share) {
+    void navigator.share({ title, url }).catch(() => {
+      void navigator.clipboard.writeText(url).catch(() => undefined);
+    });
+    return;
+  }
+  void navigator.clipboard.writeText(url).catch(() => undefined);
+}
 
 export function PackageCard({
   package: packageData,
@@ -11,6 +24,11 @@ export function PackageCard({
 }) {
   return (
     <article className="group relative h-[472px] min-w-0 overflow-hidden rounded-[18px] border border-[#ddd8cb] bg-white shadow-[0_2px_8px_rgb(10_12_12/8%)]">
+      <Link
+        href={packageData.href}
+        aria-label={`View ${packageData.title}`}
+        className="absolute inset-0 z-[1]"
+      />
       <div className="absolute inset-0 overflow-hidden">
         <CoverImage
           src={packageData.image}
@@ -19,11 +37,11 @@ export function PackageCard({
           sizes="(min-width: 1280px) 31vw, (min-width: 768px) 47vw, 100vw"
         />
       </div>
-      <div className="absolute right-2 bottom-2 left-2 flex h-[222px] flex-col gap-2.5 rounded-[10px] bg-overlay-white-84 p-4 backdrop-blur-md">
+      <div className="absolute right-2 bottom-2 left-2 z-[2] flex h-[222px] flex-col gap-2.5 rounded-[10px] bg-overlay-white-84 p-4 backdrop-blur-md pointer-events-none">
         <Link
           href={packageData.href}
           aria-label={`View ${packageData.title}`}
-          className="group absolute top-4 right-4 inline-flex size-10 items-center justify-center overflow-hidden rounded-[10px] bg-gray-50 text-neutral-950 transition-colors duration-200 hover:bg-primary hover:text-white"
+          className="pointer-events-auto group absolute top-4 right-4 inline-flex size-10 items-center justify-center overflow-hidden rounded-[10px] bg-gray-50 text-neutral-950 transition-colors duration-200 hover:bg-primary hover:text-white"
         >
           <span className="relative size-6 overflow-hidden">
             <span className="absolute inset-0 flex items-center justify-center transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-[120%] group-hover:-translate-y-[120%] motion-reduce:transition-none">
@@ -35,7 +53,12 @@ export function PackageCard({
           </span>
         </Link>
         <h3 className="pr-10 text-base leading-tight font-semibold text-neutral-950 tablet:pr-12 tablet:text-2xl">
-          {packageData.title}
+          <Link
+            href={packageData.href}
+            className="pointer-events-auto hover:text-primary transition-colors duration-200"
+          >
+            {packageData.title}
+          </Link>
         </h3>
         {packageData.packageType ? (
           <p className="truncate text-[15px] text-neutral-800">
@@ -71,14 +94,19 @@ export function PackageCard({
           <div className="flex items-center gap-[21px]">
             <Link
               href={packageData.href}
-              className="inline-flex h-[49px] w-[140px] items-center justify-center rounded-button bg-primary px-3 text-sm font-medium text-white"
+              className="pointer-events-auto inline-flex h-[49px] w-[140px] items-center justify-center rounded-button bg-primary hover:bg-teal-700 hover:text-white px-3 text-sm font-medium text-white transition-colors duration-200"
             >
               Book Now
             </Link>
             <button
               type="button"
               aria-label="Share package"
-              className="inline-flex size-12 shrink-0 items-center justify-center rounded-[12px] border-[0.5px] border-teal-600 bg-gray-50 text-primary"
+              className="pointer-events-auto inline-flex size-12 shrink-0 items-center justify-center rounded-[12px] border-[0.5px] border-teal-600 bg-gray-50 hover:bg-teal-700 hover:text-white text-primary transition-colors duration-200"
+              onClick={(event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                sharePackage(packageData.title, packageData.href);
+              }}
             >
               <ShareIcon className="size-6" />
             </button>

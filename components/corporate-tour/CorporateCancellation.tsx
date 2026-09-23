@@ -3,19 +3,22 @@
 import { useState } from "react";
 import { Container } from "@/components/ui/Container";
 
-type CancellationPolicy = {
-  timeframe: string;
-  charge?: string;
-};
-
 type PackageCancellationProps = {
-  policies?: CancellationPolicy[];
+  html?: string | null;
 };
 
-export function CorporateCancellation({ policies = [] }: PackageCancellationProps) {
-  const [disclaimerOpen, setDisclaimerOpen] = useState(true);
+function isHtml(value: string) {
+  return /<\/?[a-z][\s\S]*>/i.test(value);
+}
 
-  if (!policies.length) return null;
+export function CorporateCancellation({ html }: PackageCancellationProps) {
+  const [disclaimerOpen, setDisclaimerOpen] = useState(true);
+  const content = html?.trim() ?? "";
+
+  if (!content) return null;
+
+  const contentClassName =
+    "text-[16px] leading-[1.64] font-light text-teal-50 tablet:max-w-[1299px] tablet:text-[18px] [&_ul]:my-0 [&_ul]:list-disc [&_ul]:pl-[27px] [&_ol]:my-0 [&_ol]:list-decimal [&_ol]:pl-[27px] [&_li]:my-0 [&_p]:mb-2 [&_p:last-child]:mb-0";
 
   return (
     <section className="bg-teal-950 pt-12 tablet:pt-16 desktop-xl:pt-[100px]">
@@ -60,14 +63,14 @@ export function CorporateCancellation({ policies = [] }: PackageCancellationProp
             ) : null}
           </div>
 
-          <ul className="list-disc space-y-0 pl-[27px] text-[16px] leading-[1.64] font-light text-teal-50 tablet:max-w-[1299px] tablet:text-[18px]">
-            {policies.map((policy) => (
-              <li key={policy.timeframe}>
-                {policy.timeframe}
-                {policy.charge ? ` ${policy.charge}` : ""}
-              </li>
-            ))}
-          </ul>
+          {isHtml(content) ? (
+            <div
+              className={contentClassName}
+              dangerouslySetInnerHTML={{ __html: content }}
+            />
+          ) : (
+            <div className={`${contentClassName} whitespace-pre-wrap`}>{content}</div>
+          )}
         </div>
       </Container>
     </section>

@@ -4,19 +4,22 @@ import { useState } from "react";
 import { Container } from "@/components/ui/Container";
 import { CloseIcon } from "@/components/icons";
 
-type CancellationPolicy = {
-  timeframe: string;
-  charge?: string;
-};
-
 type PackageCancellationProps = {
-  policies?: CancellationPolicy[];
+  html?: string | null;
 };
 
-export function PackageCancellation({ policies = [] }: PackageCancellationProps) {
-  const [disclaimerOpen, setDisclaimerOpen] = useState(true);
+function isHtml(value: string) {
+  return /<\/?[a-z][\s\S]*>/i.test(value);
+}
 
-  if (!policies.length) return null;
+export function PackageCancellation({ html }: PackageCancellationProps) {
+  const [disclaimerOpen, setDisclaimerOpen] = useState(true);
+  const content = html?.trim() ?? "";
+
+  if (!content) return null;
+
+  const contentClassName =
+    "mt-4 text-sm leading-[1.55] text-neutral-700 tablet:mt-5 tablet:text-[16px] [&_ul]:my-0 [&_ul]:list-disc [&_ul]:space-y-1 [&_ul]:pl-5 tablet:[&_ul]:pl-[20px] [&_ol]:my-0 [&_ol]:list-decimal [&_ol]:space-y-1 [&_ol]:pl-5 tablet:[&_ol]:pl-[20px] [&_li]:my-1 [&_p]:mb-2 [&_p:last-child]:mb-0";
 
   return (
     <section className="bg-gold-50 py-8 tablet:py-10 desktop-xl:py-12">
@@ -42,14 +45,14 @@ export function PackageCancellation({ policies = [] }: PackageCancellationProps)
           </div>
         ) : null}
 
-        <ul className="mt-4 list-disc space-y-1 pl-5 text-sm leading-[1.55] text-neutral-700 tablet:mt-5 tablet:pl-[20px] tablet:text-[16px]">
-          {policies.map((policy) => (
-            <li key={policy.timeframe}>
-              {policy.timeframe}
-              {policy.charge ? ` ${policy.charge}` : ""}
-            </li>
-          ))}
-        </ul>
+        {isHtml(content) ? (
+          <div
+            className={contentClassName}
+            dangerouslySetInnerHTML={{ __html: content }}
+          />
+        ) : (
+          <div className={`${contentClassName} whitespace-pre-wrap`}>{content}</div>
+        )}
       </Container>
     </section>
   );

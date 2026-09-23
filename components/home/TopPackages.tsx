@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { CoverImage } from "@/components/ui/CoverImage";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { useHomepageSection } from "@/hooks/queries/useHomepageSectionContentQuery";
 import { useServicesQuery } from "@/hooks/queries/useServicesQuery";
 import type { ServiceArea, ServiceCard } from "@/types/service";
 
@@ -52,6 +53,9 @@ function PackageCard({ item }: { item: ServiceCard }) {
 
 export function TopPackages() {
   const { data: services = [], isLoading } = useServicesQuery();
+  const section = useHomepageSection("services", {
+    title: "Our Services",
+  });
 
   const byArea = Object.fromEntries(
     services.map((item) => [item.area, item]),
@@ -59,7 +63,11 @@ export function TopPackages() {
 
   if (isLoading || services.length === 0) {
     return (
-      <section className="bg-paper py-16 tablet:py-20">
+      <section
+        id={section.htmlId}
+        data-section-id={section.id || undefined}
+        className="bg-paper py-16 tablet:py-20"
+      >
         <Container>
           <div className="mb-10">
             <div className="mx-auto h-10 w-64 animate-pulse rounded bg-gray-200/60 tablet:h-12" />
@@ -92,9 +100,17 @@ export function TopPackages() {
   }
 
   return (
-    <section className="bg-paper py-16 tablet:py-20">
+    <section
+      id={section.htmlId}
+      data-section-id={section.id || undefined}
+      className="bg-paper py-16 tablet:py-20"
+    >
       <Container>
-        <SectionHeading title="Our Services" className="mb-10" />
+        <SectionHeading
+          title={section.title}
+          subtitle={section.subtitle}
+          className="mb-10"
+        />
 
         <div className="w-full">
           <div className="flex flex-col gap-3 desktop:grid desktop:grid-cols-[minmax(0,711fr)_minmax(0,508fr)_minmax(0,441fr)] desktop:items-start desktop:gap-10">

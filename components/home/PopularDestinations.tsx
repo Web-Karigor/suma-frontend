@@ -8,12 +8,18 @@ import { Autoplay, EffectCoverflow } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Container } from "@/components/ui/Container";
 import { useDestinationsQuery } from "@/hooks/queries/useDestinationsQuery";
+import { useHomepageSection } from "@/hooks/queries/useHomepageSectionContentQuery";
 
 import "swiper/css";
 import "swiper/css/effect-coverflow";
 
 export function PopularDestinations() {
   const { data: destinations = [], isLoading } = useDestinationsQuery();
+  const section = useHomepageSection("destinations", {
+    title: "Popular Destinations",
+    subtitle:
+      "Expand your travel horizons with new facets. Explore the world by choosing your ideal travel destinations in Asia, Europe, America, Australia and more with Suma.",
+  });
   const swiperRef = useRef<SwiperClass | null>(null);
   const [activeDot, setActiveDot] = useState(0);
   const dotCount = Math.min(destinations.length, 5);
@@ -35,7 +41,8 @@ export function PopularDestinations() {
   if (isLoading || destinations.length === 0) {
     return (
       <section
-        id="location"
+        id={section.htmlId}
+        data-section-id={section.id || undefined}
         className="popular-wrap relative py-10 pb-5 md:py-16 md:pb-5"
       >
         <Container>
@@ -66,19 +73,20 @@ export function PopularDestinations() {
 
   return (
     <section
-      id="location"
+      id={section.htmlId}
+      data-section-id={section.id || undefined}
       className="popular-wrap relative py-10 pb-5 md:py-16 md:pb-5"
     >
       <Container>
         <div className="mb-10 text-center">
           <h2 className="text-4xl font-semibold tracking-wide text-black md:text-6xl">
-            Popular Destinations
+            {section.title}
           </h2>
-          <p className="mx-auto mt-4 max-w-3xl text-center text-base leading-relaxed text-[#444] md:text-lg">
-            Expand your travel horizons with new facets. Explore the world by
-            choosing your ideal travel destinations in Asia, Europe, America,
-            Australia and more with Suma.
-          </p>
+          {section.subtitle ? (
+            <p className="mx-auto mt-4 max-w-3xl text-center text-base leading-relaxed text-[#444] md:text-lg">
+              {section.subtitle}
+            </p>
+          ) : null}
         </div>
 
         <Swiper

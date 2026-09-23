@@ -19,14 +19,16 @@ type Highlight = {
 type CorporateAccommodationProps = {
   hotelName: string;
   hotelImage: string;
+  classType?: string;
   rating?: number;
+  reviews?: number;
   location?: string;
   description: string;
   amenities: Amenity[];
   highlights: Array<string | Highlight>;
 };
 
-function toHighlight(item: string | Highlight, index: number): Highlight {
+function toHighlight(item: string | Highlight): Highlight {
   if (typeof item !== "string") return item;
   const [title, ...rest] = item.split(":");
   if (rest.length) {
@@ -41,12 +43,16 @@ function toHighlight(item: string | Highlight, index: number): Highlight {
 export function CorporateAccommodation({
   hotelName,
   hotelImage,
+  classType,
+  rating = 0,
+  reviews = 0,
   description,
   amenities,
   highlights,
 }: CorporateAccommodationProps) {
   const [modalOpen, setModalOpen] = useState(false);
-  const highlightItems = highlights.slice(0, 2).map(toHighlight);
+  const highlightItems = highlights.map(toHighlight);
+  const filledStars = Math.max(0, Math.min(5, Math.round(rating)));
   const avatars = [
     "/images/corporate-tour/avatar-1.png",
     "/images/corporate-tour/avatar-2.png",
@@ -65,20 +71,22 @@ export function CorporateAccommodation({
           <div className="grid w-full grid-cols-1 gap-8 desktop:grid-cols-3 desktop:gap-6">
             <div className="flex min-w-0 flex-col justify-between gap-8 py-0 desktop:h-auto desktop-xl:h-[700px] desktop-xl:py-6">
               <div className="flex flex-col gap-4">
-                <div className="inline-flex w-fit items-center gap-2.5 rounded-md border-[0.5px] border-gray-100 px-3 py-2">
-                  <span className="relative size-4 shrink-0 overflow-clip">
-                    <img
-                      src="/images/corporate-tour/icons/star-badge.svg"
-                      alt=""
-                      width={16}
-                      height={16}
-                      className="size-full"
-                    />
-                  </span>
-                  <span className="text-[15px] leading-[1.39] font-medium tracking-[0.15px] text-gray-100">
-                    5-Star | Business Class
-                  </span>
-                </div>
+                {classType ? (
+                  <div className="inline-flex w-fit items-center gap-2.5 rounded-md border-[0.5px] border-gray-100 px-3 py-2">
+                    <span className="relative size-4 shrink-0 overflow-clip">
+                      <img
+                        src="/images/corporate-tour/icons/star-badge.svg"
+                        alt=""
+                        width={16}
+                        height={16}
+                        className="size-full"
+                      />
+                    </span>
+                    <span className="text-[15px] leading-[1.39] font-medium tracking-[0.15px] text-gray-100">
+                      {classType}
+                    </span>
+                  </div>
+                ) : null}
 
                 <div className="flex flex-col gap-10">
                   <div className="flex flex-col gap-4">
@@ -135,14 +143,16 @@ export function CorporateAccommodation({
             <div className="flex min-w-0 flex-col justify-between gap-10 py-0 desktop-xl:h-[700px] desktop-xl:py-6">
               <div className="flex flex-col gap-4">
                 {highlightItems.map((item, index) => (
-                  <div key={item.title} className="flex flex-col gap-4">
+                  <div key={`${item.title}-${index}`} className="flex flex-col gap-4">
                     <div className="flex flex-col gap-4">
                       <h4 className="text-[22px] font-semibold leading-[1.5] text-white">{item.title}</h4>
-                      <p className="text-[15px] leading-[1.4] tracking-[0.15px] text-gray-400">{item.description}</p>
+                      {item.description ? (
+                        <p className="text-[15px] leading-[1.4] tracking-[0.15px] text-gray-400">{item.description}</p>
+                      ) : null}
                     </div>
-                    {index < highlightItems.length && (
+                    {index < highlightItems.length - 1 ? (
                       <div className="h-px w-full bg-overlay-white-16" />
-                    )}
+                    ) : null}
                   </div>
                 ))}
               </div>
@@ -162,21 +172,34 @@ export function CorporateAccommodation({
                   <p className="text-[20px] leading-[1.5] font-medium text-white">Customer Ratings:</p>
                 </div>
                 <div className="flex items-center gap-4">
-                  <div className="flex items-center gap-1.5">
-                    {Array.from({ length: 5 }).map((_, index) => (
-                      <span key={index} className="relative size-[18px] shrink-0 overflow-clip">
-                        <img
-                          src="/images/corporate-tour/icons/star-rating.svg"
-                          alt=""
-                          width={18}
-                          height={18}
-                          className="size-full"
-                        />
-                      </span>
-                    ))}
-                  </div>
-                  <span className="h-[17px] w-px bg-overlay-white-16" />
-                  <p className="text-[14px] leading-[1.5] font-normal text-white">(45+ Reviews)</p>
+                  {filledStars > 0 ? (
+                    <div className="flex items-center gap-1.5">
+                      {Array.from({ length: 5 }).map((_, index) => (
+                        <span
+                          key={index}
+                          className={`relative size-[18px] shrink-0 overflow-clip ${
+                            index < filledStars ? "" : "opacity-30"
+                          }`}
+                        >
+                          <img
+                            src="/images/corporate-tour/icons/star-rating.svg"
+                            alt=""
+                            width={18}
+                            height={18}
+                            className="size-full"
+                          />
+                        </span>
+                      ))}
+                    </div>
+                  ) : null}
+                  {filledStars > 0 && reviews > 0 ? (
+                    <span className="h-[17px] w-px bg-overlay-white-16" />
+                  ) : null}
+                  {reviews > 0 ? (
+                    <p className="text-[14px] leading-[1.5] font-normal text-white">
+                      ({reviews} {reviews === 1 ? "Review" : "Reviews"})
+                    </p>
+                  ) : null}
                 </div>
               </div>
             </div>

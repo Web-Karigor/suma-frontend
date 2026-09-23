@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { useHomepageSection } from "@/hooks/queries/useHomepageSectionContentQuery";
 import { useAirlinesQuery } from "@/hooks/queries/useAirlinesQuery";
 import type { AirlineCard } from "@/types/airline";
 import { cn } from "@/lib/cn";
@@ -84,6 +85,11 @@ function MarqueeRow({
 
 export function TopAirlines() {
   const { data: airlines = [], isLoading } = useAirlinesQuery();
+  const section = useHomepageSection("airlines", {
+    title: "Top Airlines",
+    subtitle:
+      "User-friendly platform connects you to top airlines instantly. Enjoy a comfortable and hassle-free journey on any destination and get tickets of top airlines easily.",
+  });
 
   if (isLoading || airlines.length === 0) return null;
 
@@ -92,11 +98,15 @@ export function TopAirlines() {
   const rowThree = takeWrap(airlines, 18, 9);
 
   return (
-    <section className="bg-teal-50 py-16 tablet:py-[120px]">
+    <section
+      id={section.htmlId}
+      data-section-id={section.id || undefined}
+      className="bg-teal-50 py-16 tablet:py-[120px]"
+    >
       <Container className="max-w-[1560px]">
         <SectionHeading
-          title="Top Airlines"
-          subtitle="User-friendly platform connects you to top airlines instantly. Enjoy a comfortable and hassle-free journey on any destination and get tickets of top airlines easily."
+          title={section.title}
+          subtitle={section.subtitle}
           className="mb-10 tablet:mb-[60px]"
         />
 

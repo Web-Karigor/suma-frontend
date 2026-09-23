@@ -1,20 +1,30 @@
+"use client";
+
 import { Container } from "@/components/ui/Container";
+import { useHomepageSection } from "@/hooks/queries/useHomepageSectionContentQuery";
 
 export function ValueProposition() {
+  const section = useHomepageSection("Legacy", {
+    title: "Built on Legacy, Driven by Innovation",
+    subtitle:
+      "Two decades of experience across Hajj and Umrah, visa, hotels, holidays, custom tours, medical tourism, and corporate travel, always calm, confident and considered.",
+  });
+
   return (
-    <section className="bg-neutral-50 py-10">
+    <section
+      id={section.htmlId}
+      data-section-id={section.id || undefined}
+      className="bg-neutral-50 py-10"
+    >
       <Container className="flex flex-col items-center gap-2.5">
-        <h2 className="w-full max-w-[588px] text-center text-[32px] leading-[108%] font-semibold tracking-[-0.005em] text-black tablet:h-[120px] tablet:text-[56px]">
-          Built on Legacy,
-          <br />
-          Driven by Innovation
+        <h2 className="w-full max-w-[588px] text-center text-[32px] leading-[108%] font-semibold tracking-[-0.005em] text-black tablet:text-[56px]">
+          {section.title}
         </h2>
-        <p className="w-full max-w-[994px] text-center text-[15px] leading-[159%] font-medium text-gray-500 tablet:h-[104px] tablet:text-[18px]">
-          Two decades of experience across Hajj and Umrah, visa, hotels, holidays, custom tours,
-          medical tourism, and corporate travel, always calm, confident and considered. Flight24&apos;s
-          own tagline stays parked on its single card in section 04, that line belongs to them, not
-          the site.
-        </p>
+        {section.subtitle ? (
+          <p className="w-full max-w-[994px] text-center text-[15px] leading-[159%] font-medium text-gray-500 tablet:text-[18px]">
+            {section.subtitle}
+          </p>
+        ) : null}
       </Container>
     </section>
   );

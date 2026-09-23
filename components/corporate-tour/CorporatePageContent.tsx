@@ -72,13 +72,18 @@ export function CorporatePageContent({
     ? {
         hotelName: packageData.accommodation.title || "",
         hotelImage: packageData.accommodation.images?.[0] || packageData.image,
+        classType: packageData.accommodation.class_type || "",
         rating: packageData.accommodation.customer_rating || 0,
+        reviews: packageData.accommodation.customer_reviews ?? 0,
         location: packageData.accommodation.location || "",
         description: packageData.accommodation.short_description || "",
         amenities: (packageData.accommodation.services ?? []).map((label) => ({
           label,
         })),
-        highlights: [] as Array<string | { title: string; description: string }>,
+        highlights: (packageData.accommodation.sections ?? []).map((section) => ({
+          title: section.title,
+          description: section.subtitle || "",
+        })),
       }
     : accommodations
       ? {
@@ -113,18 +118,8 @@ export function CorporatePageContent({
         excluded: packageData.services.not_included ?? [],
       }
     : (data?.services ?? { included: [], additional: [], excluded: [] });
-  const cancellationPolicies = packageData?.cancellationPolicy
-    ? [{ timeframe: packageData.cancellationPolicy }]
-    : data?.cancellationHtml
-      ? [
-          {
-            timeframe: data.cancellationHtml
-              .replace(/<[^>]+>/g, " ")
-              .replace(/\s+/g, " ")
-              .trim(),
-          },
-        ]
-      : [];
+  const cancellationHtml =
+    packageData?.cancellationPolicy || data?.cancellationHtml || "";
   const activities =
     packageData?.facilities?.included.length ||
     packageData?.facilities?.addOn.length
@@ -172,7 +167,7 @@ export function CorporatePageContent({
       <CorporateItinerary itinerary={itinerary} />
       <CorporateServices services={servicesData} />
       <CorporateActivities activities={activities} />
-      <CorporateCancellation policies={cancellationPolicies} />
+      <CorporateCancellation html={cancellationHtml} />
       <CorporateBooking />
     </>
   );

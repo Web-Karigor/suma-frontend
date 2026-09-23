@@ -3,8 +3,11 @@ import type {
   PackageApiItem,
   PackageDetail,
   PackageDetailApiResponse,
+  PackageItineraryApiItem,
   PackageListData,
   PackageListItem,
+  PackageSightSeeingCityApi,
+  PackageSightSeeingGroup,
   PackagesApiResponse,
 } from "@/types/package";
 
@@ -47,6 +50,58 @@ function normalizePackage(item: PackageApiItem): PackageListItem {
   };
 }
 
+function formatSightSeeingTitle(key: string) {
+  const labels: Record<string, string> = {
+    makka: "Makkah",
+    makkah: "Makkah",
+    madina: "Madinah",
+    madinah: "Madinah",
+  };
+  const lower = key.toLowerCase();
+  if (labels[lower]) return labels[lower];
+  return key
+    .replace(/[_-]+/g, " ")
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+}
+
+function isSightSeeingDurationNote(value: string) {
+  return /average activity duration/i.test(value);
+}
+
+function normalizeSightSeeing(value: PackageApiItem["sight_seeing"]): {
+  places: PackageItineraryApiItem[];
+  groups: PackageSightSeeingGroup[];
+} {
+  if (Array.isArray(value)) {
+    return { places: value, groups: [] };
+  }
+
+  if (!value || typeof value !== "object") {
+    return { places: [], groups: [] };
+  }
+
+  const groups = Object.entries(value as Record<string, PackageSightSeeingCityApi>)
+    .map(([id, group]) => ({
+      id,
+      title: formatSightSeeingTitle(id),
+      included: Array.isArray(group?.included) ? group.included : [],
+      additionalFees: Array.isArray(group?.available_at_additional_fees)
+        ? group.available_at_additional_fees
+        : [],
+      notIncluded: (Array.isArray(group?.not_included) ? group.not_included : []).filter(
+        (item) => !isSightSeeingDurationNote(item),
+      ),
+    }))
+    .filter(
+      (group) =>
+        group.included.length ||
+        group.additionalFees.length ||
+        group.notIncluded.length,
+    );
+
+  return { places: [], groups };
+}
+
 function stripHtml(value: string | null | undefined): string {
   return (
     value
@@ -60,6 +115,8 @@ export function normalizePackageDetailResponse(
   response: PackageDetailApiResponse,
 ): PackageDetail {
   const item = response.data.package;
+  const sightSeeing = normalizeSightSeeing(item.sight_seeing);
+
   return {
     title: item.title,
     subtitle: item.subtitle ?? "",
@@ -77,14 +134,15 @@ export function normalizePackageDetailResponse(
     overview: stripHtml(item.overview),
     gallery: item.gallery ?? [],
     itinerary: Array.isArray(item.itinerary) ? item.itinerary : [],
-    sightSeeing: Array.isArray(item.sight_seeing) ? item.sight_seeing : [],
+    sightSeeing: sightSeeing.places,
+    sightSeeingGroups: sightSeeing.groups,
     accommodation: item.accommodation ?? null,
     services: item.services ?? null,
     facilities: {
       included: item.facilities?.included ?? [],
       addOn: item.facilities?.add_on ?? [],
     },
-    cancellationPolicy: stripHtml(item.cancellation_policy),
+    cancellationPolicy: item.cancellation_policy?.trim() ?? "",
   };
 }
 
