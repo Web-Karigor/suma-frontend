@@ -79,30 +79,6 @@ type GoBadgeProps = {
   label?: string;
 };
 
-function scallopPath(
-  cx: number,
-  cy: number,
-  radius: number,
-  teeth: number,
-  depth: number,
-) {
-  const parts: string[] = [];
-  const arcR = (Math.PI * radius) / teeth + depth * 0.28;
-  for (let i = 0; i < teeth; i += 1) {
-    const a0 = (i / teeth) * Math.PI * 2 - Math.PI / 2;
-    const a1 = ((i + 1) / teeth) * Math.PI * 2 - Math.PI / 2;
-    const x0 = cx + Math.cos(a0) * radius;
-    const y0 = cy + Math.sin(a0) * radius;
-    const x1 = cx + Math.cos(a1) * radius;
-    const y1 = cy + Math.sin(a1) * radius;
-    parts.push(`${i === 0 ? "M" : "L"}${x0.toFixed(2)} ${y0.toFixed(2)}`);
-    parts.push(
-      `A ${arcR.toFixed(2)} ${arcR.toFixed(2)} 0 0 1 ${x1.toFixed(2)} ${y1.toFixed(2)}`,
-    );
-  }
-  return `${parts.join(" ")} Z`;
-}
-
 export function GoBadge({
   href = "/flights",
   className,
@@ -112,8 +88,12 @@ export function GoBadge({
   const content = (
     <>
       <span className="sr-only">{label}</span>
-      <svg viewBox="0 0 188 188" className="size-full" aria-hidden="true">
-        <path d={scallopPath(94, 94, 91, 36, 16)} fill="#005655" />
+      <img
+        src="/Circle-shape.svg"
+        alt=""
+        className="pointer-events-none absolute inset-0 size-full object-contain"
+      />
+      <svg viewBox="0 0 188 188" className="absolute inset-0 size-full" aria-hidden="true">
         <defs>
           <path
             id="go-badge-text"
