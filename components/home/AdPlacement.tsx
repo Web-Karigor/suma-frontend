@@ -1,28 +1,40 @@
 "use client";
 
 import { Container } from "@/components/ui/Container";
+import { CoverImage } from "@/components/ui/CoverImage";
 import { useHomepageSection } from "@/hooks/queries/useHomepageSectionContentQuery";
 
 export function AdPlacement() {
-  const section = useHomepageSection("add-placement", {
-    title: "Ad Placement",
-  });
+  const section = useHomepageSection("add-placement");
+
+  if (!section.image) return null;
+
+  const banner = (
+    <div className="relative h-[120px] w-full overflow-hidden rounded-[20px] bg-gray-100 tablet:h-[272px] tablet:rounded-[48px]">
+      <CoverImage
+        src={section.image}
+        alt={section.title || "Advertisement"}
+        className="object-cover"
+        sizes="(max-width: 768px) 100vw, 1446px"
+      />
+    </div>
+  );
 
   return (
     <section id={section.htmlId} data-section-id={section.id || undefined}>
       <Container className="mb-8">
-        <div className="flex h-[120px] w-full items-center justify-center rounded-[20px] bg-gray-100 px-4 tablet:h-[272px] tablet:rounded-[48px] tablet:px-6">
-          <div className="flex h-[70px] w-full max-w-[1446px] flex-col items-center justify-center rounded-xl bg-teal-200 px-3 tablet:h-[148px] tablet:rounded-2xl tablet:px-6">
-            <p className="text-center text-[28px] font-semibold leading-[108%] tracking-[-0.5%] text-black tablet:text-[56px]">
-              {section.title}
-            </p>
-            {section.subtitle ? (
-              <p className="mt-1 max-w-3xl text-center text-xs font-medium leading-snug text-black/70 tablet:mt-2 tablet:text-base">
-                {section.subtitle}
-              </p>
-            ) : null}
-          </div>
-        </div>
+        {section.link ? (
+          <a
+            href={section.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block"
+          >
+            {banner}
+          </a>
+        ) : (
+          banner
+        )}
       </Container>
     </section>
   );

@@ -5,6 +5,10 @@ export type HomepageSectionApiItem = {
   content?: {
     title?: string | null;
     subtitle?: string | null;
+    media_type?: string | null;
+    image?: string | null;
+    link?: string | null;
+    video?: string | null;
   } | null;
 };
 
@@ -18,6 +22,10 @@ export type HomepageSectionContent = {
   sectionId: number;
   title: string;
   subtitle: string;
+  mediaType: string;
+  image: string;
+  link: string;
+  video: string;
 };
 
 export type HomepageSectionContentMap = Record<string, HomepageSectionContent>;

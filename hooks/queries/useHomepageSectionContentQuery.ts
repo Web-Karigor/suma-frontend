@@ -35,6 +35,10 @@ export function useHomepageSection(
     sectionId: item?.sectionId ?? 0,
     title: item?.title || fallback.title,
     subtitle: item?.subtitle || fallback.subtitle || "",
+    mediaType: item?.mediaType ?? "",
+    image: item?.image ?? "",
+    link: item?.link ?? "",
+    video: item?.video ?? "",
     htmlId: key.toLowerCase(),
   };
 }
