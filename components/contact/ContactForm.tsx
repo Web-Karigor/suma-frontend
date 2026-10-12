@@ -22,6 +22,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
+import { Toast, type ToastState } from "@/components/ui/Toast";
+
 import { useSettingsQuery } from "@/hooks/queries/useSettingsQuery";
 
 import { FALLBACK_SETTINGS } from "@/helpers/settings";
@@ -33,26 +35,26 @@ const fieldClass =
 export function ContactForm() {
   const [sent, setSent] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState("");
+  const [toast, setToast] = useState<ToastState>(null);
   const [packageName, setPackageName] = useState("");
   const [date, setDate] = useState<Date>();
 
   const { data: settings = FALLBACK_SETTINGS } = useSettingsQuery();
 
   return (
+    <>
     <form
       className="rounded-[16px] bg-[#F2F8F8] p-5 tablet:p-7 desktop:h-full desktop:rounded-[44px] desktop:p-8"
       onSubmit={async (event) => {
         event.preventDefault();
         const form = event.currentTarget;
-        setError("");
         setIsSubmitting(true);
 
         const formData = new FormData(form);
         const value = (name: string) => String(formData.get(name) ?? "").trim();
 
         try {
-          await apiFetch("https://suma.webkarigor.com/api/quotations", {
+          await apiFetch("https://admin.sumabd.com/api/quotations", {
             method: "POST",
             body: JSON.stringify({
               name: value("name"),
@@ -68,12 +70,18 @@ export function ContactForm() {
           form.reset();
           setPackageName("");
           setDate(undefined);
+          setToast({
+            type: "success",
+            message: "Message sent successfully!",
+          });
         } catch (submissionError) {
-          setError(
-            submissionError instanceof Error
-              ? submissionError.message
-              : "Unable to send your message. Please try again.",
-          );
+          setToast({
+            type: "error",
+            message:
+              submissionError instanceof Error
+                ? submissionError.message
+                : "Unable to send your message. Please try again.",
+          });
         } finally {
           setIsSubmitting(false);
         }
@@ -167,8 +175,6 @@ export function ContactForm() {
           </span>
         </button>
 
-        {error && <p className="text-xs text-red-600">{error}</p>}
-
         <p className="max-w-[326px] text-[15px] leading-[1.4] font-medium text-gray-500">
           Our representative will contact you within 24 hours. Or you can call{" "}
           <a
@@ -181,6 +187,8 @@ export function ContactForm() {
         </p>
       </div>
     </form>
+    <Toast toast={toast} onClose={() => setToast(null)} />
+    </>
   );
 }
 

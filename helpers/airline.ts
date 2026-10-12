@@ -3,7 +3,7 @@ import type { AirlineCard, AirlinesApiResponse } from "@/types/airline";
 function resolveImage(image: string): string {
   if (!image.trim()) return "";
   if (
-    image.startsWith("https://suma.webkarigor.com") ||
+    image.startsWith("https://admin.sumabd.com") ||
     image.startsWith("/")
   ) {
     return image;

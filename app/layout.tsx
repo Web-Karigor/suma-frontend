@@ -24,7 +24,13 @@ export async function generateMetadata(): Promise<Metadata> {
     description:
       settings.metaDescription ||
       "Hajj, Umrah, visa, hotels, and holiday packages from Suma BD — trusted travel management in Bangladesh.",
-    icons: settings.favicon ? { icon: settings.favicon } : undefined,
+    icons: settings.favicon
+      ? {
+          icon: settings.favicon,
+          shortcut: settings.favicon,
+          apple: settings.favicon,
+        }
+      : undefined,
   };
 }
 

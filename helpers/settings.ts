@@ -22,26 +22,23 @@ export const FALLBACK_SETTINGS: SiteSettings = {
 };
 
 function resolveMedia(url: string | null | undefined): string {
-  if (!url?.trim()) return "";
+  const value = url?.trim();
+  if (!value) return "";
   if (
-    url.startsWith("https://suma.webkarigor.com") ||
-    url.includes("digitaloceanspaces.com") ||
-    url.startsWith("/")
+    value.startsWith("https://admin.sumabd.com") ||
+    value.startsWith("https://suma.webkarigor.com") ||
+    value.includes("digitaloceanspaces.com") ||
+    value.startsWith("/")
   ) {
-    return url;
+    return value;
   }
   return "";
 }
 
-function resolveOptionalMedia(url: string | null | undefined): string | null {
-  if (!url?.trim()) return null;
-  if (
-    url.startsWith("https://suma.webkarigor.com") ||
-    url.includes("digitaloceanspaces.com") ||
-    url.startsWith("/")
-  ) {
-    return url;
-  }
+function resolveFavicon(url: string | null | undefined): string | null {
+  const value = url?.trim();
+  if (!value) return null;
+  if (value.startsWith("https://") || value.startsWith("/")) return value;
   return null;
 }
 
@@ -87,7 +84,7 @@ export function normalizeSettingsResponse(
     siteName: asText(response.site_name),
     logoLight: resolveMedia(response.logo_light),
     logoDark: resolveMedia(response.logo_dark),
-    favicon: resolveOptionalMedia(response.favicon),
+    favicon: resolveFavicon(response.favicon),
     contactPageImage: resolveMedia(response.contact_page_image),
     phone,
     email: asText(response.email),
@@ -104,7 +101,9 @@ export function normalizeSettingsResponse(
 export async function fetchSettings(): Promise<SiteSettings> {
   try {
     const { apiFetch } = await import("@/lib/apiFetch");
-    const response = await apiFetch<SettingsApiResponse>("/settings");
+    const response = await apiFetch<SettingsApiResponse>("/settings", {
+      cache: "no-store",
+    });
     return normalizeSettingsResponse(response);
   } catch {
     return FALLBACK_SETTINGS;

@@ -15,6 +15,10 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
+        hostname: "admin.sumabd.com",
+      },
+      {
+        protocol: "https",
         hostname: "suma.webkarigor.com",
       },
       {

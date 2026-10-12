@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   CloseIcon,
   HeadsetIcon,
@@ -36,6 +36,95 @@ function NavUnderline({ active }: { active: boolean }) {
           : "scale-x-75 opacity-0 group-hover:scale-x-100 group-hover:opacity-100",
       )}
     />
+  );
+}
+
+function ServiceNavDropdown({
+  label,
+  href,
+  items,
+  pathname,
+}: {
+  label: string;
+  href: string;
+  items: readonly { label: string; href: string }[];
+  pathname: string;
+}) {
+  const [open, setOpen] = useState(false);
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const active =
+    isLinkActive(pathname, href) ||
+    items.some((item) => isLinkActive(pathname, item.href));
+
+  return (
+    <div
+      className="group relative"
+      onMouseEnter={() => {
+        if (timer.current) clearTimeout(timer.current);
+        setOpen(true);
+      }}
+      onMouseLeave={() => {
+        timer.current = setTimeout(() => setOpen(false), 2000);
+      }}
+    >
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className={cn(
+          "relative inline-flex items-center gap-0.5 py-1 text-[16px] xl:text-[13px] desktop:max-[1365px]:text-[14px] 2xl:text-[16px] font-medium text-black transition-colors hover:text-primary",
+          active && "text-primary",
+        )}
+      >
+        {label}
+        <svg
+          aria-hidden
+          viewBox="0 0 16 16"
+          className={cn(
+            "size-4 transition-transform duration-300 ease-out",
+            open && "rotate-180",
+          )}
+          fill="none"
+        >
+          <path
+            d="M4 6l4 4 4-4"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+        <NavUnderline active={active} />
+      </button>
+
+      <div
+        className={cn(
+          "absolute top-full left-1/2 z-50 pt-2",
+          "transition-[opacity,transform,visibility] duration-300 ease-out",
+          open
+            ? "pointer-events-auto visible translate-y-0 opacity-100"
+            : "pointer-events-none invisible translate-y-1 opacity-0",
+        )}
+      >
+        <div className="-translate-x-1/2 min-w-[220px] rounded-2xl border border-gray-200 bg-white p-1 shadow-[0_16px_40px_rgb(10_12_12/16%)] transition-shadow duration-300">
+          {items.map((item) => {
+            const itemActive = isLinkActive(pathname, item.href);
+            return (
+              <Link
+                key={item.label}
+                href={item.href}
+                onClick={() => setOpen(false)}
+                className={cn(
+                  "block rounded-lg py-2 pr-8 pl-3 text-sm text-neutral-800 transition-colors duration-200 hover:bg-teal-50 hover:text-primary",
+                  itemActive && "bg-teal-50 text-primary",
+                )}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -114,7 +203,7 @@ export function Header() {
             "desktop:min-h-[90px] desktop:p-4",
           )}
         >
-          <div className="flex min-w-0 items-center gap-3 desktop:gap-[44px]">
+          <div className="flex min-w-0 items-center gap-3 desktop:gap-[44px] desktop:max-[1365px]:gap-4">
             <Logo compact={false} className="hidden shrink-0 wide:flex" />
             <Logo
               compact
@@ -123,85 +212,19 @@ export function Header() {
             <Logo compact className="shrink-0 min-[480px]:hidden" />
 
             <nav
-              className="hidden min-w-0 items-center gap-3 desktop:flex 2xl:gap-6"
+              className="hidden min-w-0 items-center gap-3 desktop:flex desktop:max-[1365px]:gap-2 2xl:gap-6"
               aria-label="Primary"
             >
               {navLinks.map((link) => {
                 if ("children" in link && link.children) {
-                  const childActive = link.children.some((child) =>
-                    isLinkActive(pathname, child.href),
-                  );
-                  const active =
-                    childActive || isLinkActive(pathname, link.href);
-                  const [dropdownOpen, setDropdownOpen] = useState(false);
-
                   return (
-                    <div key={link.label} className="group relative">
-                      <button
-                        type="button"
-                        onClick={() => setDropdownOpen(!dropdownOpen)}
-                        onMouseEnter={() => setDropdownOpen(true)}
-                        onMouseLeave={() => setDropdownOpen(false)}
-                        className={cn(
-                          "relative inline-flex items-center gap-0.5 py-1 text-[16px] xl:text-[13px] 2xl:text-[16px] font-medium text-black transition-colors hover:text-primary",
-                          active && "text-primary",
-                        )}
-                      >
-                        {link.label}
-                        <svg
-                          aria-hidden
-                          viewBox="0 0 16 16"
-                          className={cn(
-                            "size-4 transition-transform duration-300 ease-out",
-                            dropdownOpen && "rotate-180",
-                          )}
-                          fill="none"
-                        >
-                          <path
-                            d="M4 6l4 4 4-4"
-                            stroke="currentColor"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                        <NavUnderline active={active} />
-                      </button>
-
-                      <div
-                        onMouseEnter={() => setDropdownOpen(true)}
-                        onMouseLeave={() => setDropdownOpen(false)}
-                        className={cn(
-                          "absolute top-full left-1/2 z-50 pt-2",
-                          "transition-[opacity,transform,visibility] duration-300 ease-out",
-                          dropdownOpen
-                            ? "pointer-events-auto visible translate-y-0 opacity-100"
-                            : "pointer-events-none invisible translate-y-1 opacity-0",
-                        )}
-                      >
-                        <div className="-translate-x-1/2 min-w-[220px] rounded-2xl border border-gray-200 bg-white p-1 shadow-[0_16px_40px_rgb(10_12_12/16%)] transition-shadow duration-300">
-                          {link.children.map((child) => {
-                            const childIsActive = isLinkActive(
-                              pathname,
-                              child.href,
-                            );
-                            return (
-                              <Link
-                                key={child.label}
-                                href={child.href}
-                                onClick={() => setDropdownOpen(false)}
-                                className={cn(
-                                  "block rounded-lg py-2 pr-8 pl-3 text-sm text-neutral-800 transition-colors duration-200 hover:bg-teal-50 hover:text-primary",
-                                  childIsActive && "bg-teal-50 text-primary",
-                                )}
-                              >
-                                {child.label}
-                              </Link>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    </div>
+                    <ServiceNavDropdown
+                      key={link.label}
+                      label={link.label}
+                      href={link.href}
+                      items={link.children}
+                      pathname={pathname}
+                    />
                   );
                 }
 
@@ -215,7 +238,7 @@ export function Header() {
                       ? { target: "_blank", rel: "noopener noreferrer" }
                       : {})}
                     className={cn(
-                      "group relative py-1 text-[16px] font-medium whitespace-nowrap text-black transition-colors hover:text-primary",
+                      "group relative py-1 text-[16px] desktop:max-[1365px]:text-[14px] font-medium whitespace-nowrap text-black transition-colors hover:text-primary",
                       active && "text-primary",
                     )}
                   >
@@ -227,7 +250,7 @@ export function Header() {
             </nav>
           </div>
 
-          <div className="ml-auto hidden shrink-0 items-center gap-2.5 desktop:flex wide:gap-3">
+          <div className="ml-auto hidden shrink-0 items-center gap-2.5 desktop:flex desktop:max-[1365px]:gap-2 wide:gap-3">
             <a
               href={`tel:${supportPhone}`}
               className="inline-flex items-center gap-2 rounded-[10px] border border-teal-600 px-2.5 py-1.5 text-teal-700 hover:text-teal-400 hover:border-teal-400 transition duration-300"
@@ -245,7 +268,7 @@ export function Header() {
 
             <form
               onSubmit={handleSearch}
-              className="relative w-[240px] shrink-0 self-center xl:w-[200px] 2xl:w-[240px]"
+              className="relative w-[240px] shrink-0 self-center xl:w-[200px] desktop:max-[1365px]:w-[150px] 2xl:w-[240px]"
             >
               <label className="relative block w-full">
                 <span className="sr-only">Search</span>

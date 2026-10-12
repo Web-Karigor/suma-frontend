@@ -37,6 +37,12 @@ export function HotelsFilters({
     ? regularAmenities
     : regularAmenities.slice(0, 5);
 
+  const priceSpan = PRICE_MAX - PRICE_MIN || 1;
+  const minPercent = ((filters.minPrice - PRICE_MIN) / priceSpan) * 100;
+  const maxPercent = ((filters.maxPrice - PRICE_MIN) / priceSpan) * 100;
+  const rangeThumbClass =
+    "pointer-events-none absolute inset-0 h-5 w-full cursor-pointer appearance-none bg-transparent accent-primary [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:relative [&::-webkit-slider-thumb]:z-10 [&::-moz-range-thumb]:pointer-events-auto";
+
   return (
     <aside className="rounded-xl bg-white p-4 tablet:p-5 desktop:max-h-[calc(100vh-7rem)] desktop:overflow-y-auto desktop:[scrollbar-width:none] desktop:[&::-webkit-scrollbar]:hidden">
       <div className="flex items-center justify-between border-b-[0.5px] border-black pt-1 pb-6">
@@ -92,14 +98,44 @@ export function HotelsFilters({
         open={filters.open.has("range")}
         onToggle={() => toggleSection("range")}
       >
-        <input
-          type="range"
-          min={PRICE_MIN}
-          max={PRICE_MAX}
-          value={filters.maxPrice}
-          onChange={(e) => onPrice(filters.minPrice, Number(e.target.value))}
-          className="w-full cursor-pointer accent-primary [&::-webkit-slider-thumb]:cursor-pointer [&::-moz-range-thumb]:cursor-pointer"
-        />
+        <div className="relative h-5">
+          <div className="absolute top-1/2 right-0 left-0 h-1 -translate-y-1/2 rounded-full bg-gray-200" />
+          <div
+            className="absolute top-1/2 h-1 -translate-y-1/2 rounded-full bg-primary"
+            style={{
+              left: `${minPercent}%`,
+              right: `${100 - maxPercent}%`,
+            }}
+          />
+          <input
+            type="range"
+            min={PRICE_MIN}
+            max={PRICE_MAX}
+            value={filters.minPrice}
+            onChange={(e) =>
+              onPrice(
+                Math.min(Number(e.target.value), filters.maxPrice),
+                filters.maxPrice,
+              )
+            }
+            className={rangeThumbClass}
+            aria-label="Minimum price"
+          />
+          <input
+            type="range"
+            min={PRICE_MIN}
+            max={PRICE_MAX}
+            value={filters.maxPrice}
+            onChange={(e) =>
+              onPrice(
+                filters.minPrice,
+                Math.max(Number(e.target.value), filters.minPrice),
+              )
+            }
+            className={rangeThumbClass}
+            aria-label="Maximum price"
+          />
+        </div>
         <div className="mt-3 grid grid-cols-2 gap-2">
           <label className="rounded-md border border-gray-200 px-2 py-1.5 text-xs text-gray-500">
             from

@@ -9,7 +9,32 @@ import { Check } from "lucide-react";
 import type { HotelCard } from "@/types/hotel";
 
 function formatPrice(value: number) {
-  return `৳ ${value.toLocaleString("en-BD")}`;
+  return value.toLocaleString("en-BD");
+}
+
+function PriceText({
+  value,
+  className,
+}: {
+  value: number;
+  className?: string;
+}) {
+  const digits = String(Math.round(value)).length;
+  const sizeClass =
+    digits >= 6
+      ? "text-[20px] md:text-2xl lg:text-[28px] xl:text-[28px] 2xl:text-[34px]"
+      : digits >= 5
+        ? "text-[22px] md:text-2xl lg:text-[30px] xl:text-[30px] 2xl:text-[36px]"
+        : "text-[22px] md:text-2xl lg:text-3xl xl:text-3xl 2xl:text-[40px]";
+
+  return (
+    <p
+      className={`inline-flex items-baseline gap-1 whitespace-nowrap font-semibold text-primary ${sizeClass} ${className ?? ""}`}
+    >
+      <span>৳</span>
+      <span>{formatPrice(value)}</span>
+    </p>
+  );
 }
 
 function LocationIcon({ className }: { className?: string }) {
@@ -269,7 +294,7 @@ export function HotelCard({ hotel }: { hotel: HotelCard }) {
 
             xl:mt-0
             xl:ml-5
-            xl:w-[165px]
+            xl:w-[190px]
             xl:flex-col
             xl:items-end
             xl:justify-between
@@ -279,7 +304,7 @@ export function HotelCard({ hotel }: { hotel: HotelCard }) {
             xl:pl-6
 
             2xl:ml-6
-            2xl:w-[180px]
+            2xl:w-[210px]
             2xl:pl-8
           "
         >
@@ -288,34 +313,14 @@ export function HotelCard({ hotel }: { hotel: HotelCard }) {
 
             {hasDiscount ? (
               <div className="space-y-1">
-                <p
-                  className="
-                    text-[22px] font-semibold text-primary
-                    md:text-2xl
-                    lg:text-3xl
-                    xl:text-3xl
-                    2xl:text-[40px]
-                  "
-                >
-                  {formatPrice(hotel.discountPrice!)}
-                </p>
-
-                <p className="text-[15px] font-medium text-gray-400 line-through md:text-base lg:text-lg">
-                  {formatPrice(hotel.mainPrice)}
+                <PriceText value={hotel.discountPrice!} />
+                <p className="inline-flex items-baseline gap-1 whitespace-nowrap text-[15px] font-medium text-gray-400 line-through md:text-base lg:text-lg">
+                  <span>৳</span>
+                  <span>{formatPrice(hotel.mainPrice)}</span>
                 </p>
               </div>
             ) : (
-              <p
-                className="
-                  text-[22px] font-semibold text-primary
-                  md:text-2xl
-                  lg:text-3xl
-                  xl:text-3xl
-                  2xl:text-[40px]
-                "
-              >
-                {formatPrice(hotel.mainPrice)}
-              </p>
+              <PriceText value={hotel.mainPrice} />
             )}
 
             <p className="text-[12px] text-[#505050] md:text-sm">

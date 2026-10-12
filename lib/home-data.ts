@@ -4,8 +4,6 @@ export const partnerPortalUrl = "https://partner.flight24.co/";
 // Service links - used in Header navigation dropdown
 export const serviceLinks = [
   { label: "Hajj & Umrah", href: "/hajj" },
-  { label: "Visa Services", href: "/visa-application" },
-  { label: "Hotel", href: "/hotels" },
   { label: "Holiday Packages", href: "/packages" },
   { label: "Corporate Tour", href: "/packages/corporate-travel" },
   { label: "Medical Tourism", href: "/medical" },

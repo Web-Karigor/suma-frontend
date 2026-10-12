@@ -26,7 +26,7 @@ export function isCmsPageSlug(slug: string): boolean {
 function resolveBanner(banner: string | null): string | null {
   if (!banner?.trim()) return null;
   if (
-    banner.startsWith("https://suma.webkarigor.com") ||
+    banner.startsWith("https://admin.sumabd.com") ||
     banner.includes("digitaloceanspaces.com")
   ) {
     return banner;

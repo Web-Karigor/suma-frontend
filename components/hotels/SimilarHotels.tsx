@@ -66,14 +66,18 @@ export function SimilarHotels({ currentSlug }: { currentSlug: string }) {
           {hotels.map((hotel) => (
             <SwiperSlide key={hotel.id} className="!h-auto desktop:!w-[593px]">
               <article className="relative mx-auto w-full max-w-[593px] desktop:h-[360px]">
-                <div className="relative z-20 h-[240px] w-full overflow-hidden rounded-xl shadow-[4px_0_16px_rgb(0_0_0/6%)] desktop:absolute desktop:top-0 desktop:left-0 desktop:h-[360px] desktop:w-[240px]">
+                <Link
+                  href={hotel.href}
+                  aria-label={`View ${hotel.title}`}
+                  className="relative z-20 block h-[240px] w-full overflow-hidden rounded-xl shadow-[4px_0_16px_rgb(0_0_0/6%)] desktop:absolute desktop:top-0 desktop:left-0 desktop:h-[360px] desktop:w-[240px]"
+                >
                   <CoverImage
                     src={hotel.image}
                     alt={hotel.imageAlt}
-                    className="object-cover"
+                    className="object-cover transition-transform duration-300 hover:scale-105"
                     sizes="240px"
                   />
-                </div>
+                </Link>
 
                 <div className="relative z-10 -mt-6 mx-4 flex flex-col gap-2.5 rounded-2xl bg-gray-50 px-5 pt-8 pb-5 shadow-[4px_0_8px_rgb(0_0_0/4%)] desktop:absolute desktop:top-1/2 desktop:right-0 desktop:z-0 desktop:mt-0 desktop:mx-0 desktop:h-[277px] desktop:w-[376px] desktop:-translate-y-1/2 desktop:px-8 desktop:pt-5 desktop:pb-5 desktop:pr-8 desktop:pl-10">
                   <div
@@ -85,7 +89,12 @@ export function SimilarHotels({ currentSlug }: { currentSlug: string }) {
                     ))}
                   </div>
                   <h3 className="text-lg font-semibold text-[#0A0C0C] text-left">
-                    {hotel.title}
+                    <Link
+                      href={hotel.href}
+                      className="transition-colors hover:text-primary"
+                    >
+                      {hotel.title}
+                    </Link>
                   </h3>
                   <div className="flex items-start gap-1.5 justify-start">
                     <svg

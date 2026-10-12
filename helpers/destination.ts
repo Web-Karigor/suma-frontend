@@ -3,7 +3,7 @@ import type { DestinationCard, DestinationsApiResponse } from "@/types/destinati
 function resolveImage(image: string): string {
   if (!image.trim()) return "";
   if (
-    image.startsWith("https://suma.webkarigor.com") ||
+    image.startsWith("https://admin.sumabd.com") ||
     image.includes("digitaloceanspaces.com") ||
     image.startsWith("/")
   ) {

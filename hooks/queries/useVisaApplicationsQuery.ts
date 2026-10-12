@@ -23,7 +23,7 @@ export function useVisaApplicationsQuery(countryId: number | null) {
             ...application.country_info,
             map_image: application.country_info.map_image?.replace(
               /^http:\/\/suma_admin\.test(?=\/)/,
-              "https://suma.webkarigor.com",
+              "https://admin.sumabd.com",
             ) ?? null,
           }
           : null,
