@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { VisaDetails } from "./VisaDetails";
 import { VisaHero } from "./VisaHero";
 import { VisaRequirements } from "./VisaRequirements";
@@ -10,7 +10,7 @@ import { useVisaApplicationsQuery } from "@/hooks/queries/useVisaApplicationsQue
 import { Container } from "@/components/ui/Container";
 
 const VISA_SLUG = "visa-assistance";
-const subscribe = () => () => { };
+const subscribe = () => () => {};
 const getServerSnapshot = () => false;
 const getClientSnapshot = () => true;
 
@@ -26,13 +26,28 @@ export function VisaPage() {
     string | null
   >(null);
   const [appliedCountryId, setAppliedCountryId] = useState<number | null>(null);
+  const shouldScrollRef = useRef(false);
   const selectedCountrySlug = selectedCountrySlugOverride;
-  const selectedCountryId = countries?.data.find(
-    (country) => country.slug === selectedCountrySlug,
-  )?.id ?? null;
-  const { data: visaApplication } = useVisaApplicationsQuery(appliedCountryId);
+  const selectedCountryId =
+    countries?.data.find((country) => country.slug === selectedCountrySlug)
+      ?.id ?? null;
+  const { data: visaApplication, isFetched } =
+    useVisaApplicationsQuery(appliedCountryId);
 
   const isPageLoading = isServiceLoading || isCountriesLoading;
+
+  useEffect(() => {
+    if (!shouldScrollRef.current || appliedCountryId === null || !isFetched) {
+      return;
+    }
+    shouldScrollRef.current = false;
+    requestAnimationFrame(() => {
+      document.getElementById("visa-results")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    });
+  }, [appliedCountryId, isFetched, visaApplication]);
 
   if (!isClient || isPageLoading) return null;
 
@@ -55,20 +70,37 @@ export function VisaPage() {
         countries={countries.data}
         selectedCountrySlug={selectedCountrySlug}
         onCountryChange={setSelectedCountrySlug}
-        onView={() => setAppliedCountryId(selectedCountryId)}
+        onView={() => {
+          shouldScrollRef.current = true;
+          if (appliedCountryId === selectedCountryId && isFetched) {
+            shouldScrollRef.current = false;
+            requestAnimationFrame(() => {
+              document.getElementById("visa-results")?.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+              });
+            });
+            return;
+          }
+          setAppliedCountryId(selectedCountryId);
+        }}
       />
       {visaApplication ? (
         <>
           <VisaDetails countryInfo={visaApplication.country_info} />
           <VisaRequirements
-            html={visaApplication.visa_requirements ?? data.descriptionHtml ?? ""}
+            html={
+              visaApplication.visa_requirements ?? data.descriptionHtml ?? ""
+            }
           />
         </>
-      ) : (
-        <Container className="py-16 text-center text-neutral-900">
-          No data found
-        </Container>
-      )}
+      ) : appliedCountryId !== null && isFetched ? (
+        <div id="visa-results">
+          <Container className="py-8 text-center text-neutral-900">
+            No data found
+          </Container>
+        </div>
+      ) : null}
     </main>
   );
 }
