@@ -112,8 +112,12 @@ export function useHotelFilters(allHotels: HotelCard[]) {
       return true;
     });
 
-    if (sort === "price-asc") list = [...list].sort((a, b) => a.finalPrice - b.finalPrice);
-    if (sort === "price-desc") list = [...list].sort((a, b) => b.finalPrice - a.finalPrice);
+    if (sort === "newest") list = [...list].sort((a, b) => b.id - a.id);
+    if (sort === "oldest") list = [...list].sort((a, b) => a.id - b.id);
+    if (sort === "price-asc")
+      list = [...list].sort((a, b) => a.finalPrice - b.finalPrice);
+    if (sort === "price-desc")
+      list = [...list].sort((a, b) => b.finalPrice - a.finalPrice);
 
     return list;
   }, [allHotels, filters, sort]);

@@ -194,16 +194,16 @@ export function SearchResults() {
                   <Link
                     key={`${result.type}-${result.id}`}
                     href={result.href}
-                    className="group flex gap-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm transition-all hover:shadow-md tablet:gap-5 tablet:p-5 desktop:gap-6 desktop:p-6"
+                    className="group flex min-w-0 gap-3 rounded-lg border border-gray-200 bg-white p-4 shadow-sm transition-all hover:shadow-md tablet:gap-5 tablet:p-5 desktop:gap-6 desktop:p-6"
                   >
                     {result.image && (
-                      <div className="relative h-24 w-32 shrink-0 overflow-hidden rounded-lg tablet:h-32 tablet:w-44 desktop:h-36 desktop:w-52">
+                      <div className="relative h-24 w-28 shrink-0 overflow-hidden rounded-lg tablet:h-32 tablet:w-44 desktop:h-36 desktop:w-52">
                         <Image
                           src={result.image}
                           alt={result.title}
                           fill
                           className="object-cover transition-transform duration-300 group-hover:scale-105"
-                          sizes="(max-width: 768px) 128px, (max-width: 1024px) 176px, 208px"
+                          sizes="(max-width: 768px) 112px, (max-width: 1024px) 176px, 208px"
                         />
                       </div>
                     )}
@@ -211,7 +211,7 @@ export function SearchResults() {
                       <span className="mb-2 inline-block w-fit rounded-md bg-teal-50 px-2.5 py-1 text-xs font-semibold text-teal-700 tablet:text-sm">
                         {getTypeLabel(result.type)}
                       </span>
-                      <h2 className="mb-2 text-lg font-semibold text-neutral-900 transition-colors group-hover:text-primary tablet:text-xl desktop:text-2xl">
+                      <h2 className="mb-2 line-clamp-2 break-words text-lg font-semibold text-neutral-900 transition-colors group-hover:text-primary tablet:text-xl desktop:text-2xl">
                         {result.title}
                       </h2>
                       {result.description && (

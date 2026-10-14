@@ -191,16 +191,16 @@ export function Header() {
     >
       <Container
         className={cn(
-          "relative z-20 pt-3 desktop:pt-8",
+          "relative z-20 pt-[var(--page-gutter)]",
           alignWideGrid && "desktop-xl:!px-0",
         )}
       >
         <div
           className={cn(
-            "flex w-full items-center justify-between gap-3 rounded-full px-3 py-2",
+            "flex w-full items-center justify-between gap-3 rounded-full p-4",
             "bg-white/80 backdrop-blur-3xl",
             "shadow-[3px_4px_16px_0_rgb(0_0_0/6%)]",
-            "desktop:min-h-[90px] desktop:p-4",
+            "desktop:px-5",
           )}
         >
           <div className="flex min-w-0 items-center gap-3 desktop:gap-[44px] desktop:max-[1365px]:gap-4">
@@ -212,7 +212,7 @@ export function Header() {
             <Logo compact className="shrink-0 min-[480px]:hidden" />
 
             <nav
-              className="hidden min-w-0 items-center gap-3 desktop:flex desktop:max-[1365px]:gap-2 2xl:gap-6"
+              className="hidden min-w-0 items-center gap-3 desktop:flex desktop:max-[1365px]:gap-1.5 2xl:gap-6"
               aria-label="Primary"
             >
               {navLinks.map((link) => {
@@ -250,13 +250,14 @@ export function Header() {
             </nav>
           </div>
 
-          <div className="ml-auto hidden shrink-0 items-center gap-2.5 desktop:flex desktop:max-[1365px]:gap-2 wide:gap-3">
+          <div className="ml-auto hidden shrink-0 items-center gap-2 desktop:flex desktop:max-[1365px]:gap-1.5 wide:gap-3">
             <a
               href={`tel:${supportPhone}`}
-              className="inline-flex items-center gap-2 rounded-[10px] border border-teal-600 px-2.5 py-1.5 text-teal-700 hover:text-teal-400 hover:border-teal-400 transition duration-300"
+              className="inline-flex items-center gap-2 rounded-[10px] border border-teal-600 px-2 py-1.5 text-teal-700 hover:text-teal-400 hover:border-teal-400 transition duration-300 desktop:max-[1365px]:px-2"
+              aria-label={`Call ${supportPhone}`}
             >
               <HeadsetIcon className="size-6 shrink-0" />
-              <span className="leading-none">
+              <span className="leading-none desktop:max-[1365px]:hidden">
                 <span className="block text-[0.58rem] font-medium">
                   {settings.supportTitle}
                 </span>
@@ -268,7 +269,7 @@ export function Header() {
 
             <form
               onSubmit={handleSearch}
-              className="relative w-[240px] shrink-0 self-center xl:w-[200px] desktop:max-[1365px]:w-[150px] 2xl:w-[240px]"
+              className="relative w-[240px] shrink-0 self-center xl:w-[180px] desktop:max-[1365px]:w-[128px] wide:w-[200px] 2xl:w-[240px]"
             >
               <label className="relative block w-full">
                 <span className="sr-only">Search</span>

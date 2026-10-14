@@ -35,7 +35,7 @@ function DesktopFilterSelect({
   const hasValue = value !== "all";
 
   return (
-    <div className="relative flex h-[46px] w-[160px] items-center rounded-[8px] border-[0.5px] border-gray-900/40 bg-transparent px-3 py-2 text-base text-gray-900">
+    <div className="relative flex h-[46px] w-[min(160px,100%)] min-w-0 items-center rounded-[8px] border-[0.5px] border-gray-900/40 bg-transparent px-3 py-2 text-base text-gray-900 desktop:w-[160px]">
       <Select value={value} onValueChange={(val) => val && onValueChange(val)}>
         <SelectTrigger
           hideDefaultIcon
@@ -113,7 +113,7 @@ function PriceFilter({
   const hasCustomRange = low !== min || high !== max;
 
   return (
-    <div className="relative h-[46px] w-[160px]">
+    <div className="relative h-[46px] w-[min(160px,100%)] min-w-0 desktop:w-[160px]">
       <button
         type="button"
         className="flex h-full w-full items-center justify-between gap-2 rounded-[8px] border-[0.5px] border-gray-900/40 bg-transparent px-3 py-2 text-base text-gray-900"
@@ -396,7 +396,7 @@ export function PackageList({
               <div className="h-8 w-64 animate-pulse rounded bg-gray-200/60" />
               <div className="hidden h-8 w-32 animate-pulse rounded bg-gray-200/60 tablet:block" />
             </div>
-            <div className="hidden lg:flex flex-wrap items-center gap-2 py-4">
+            <div className="hidden desktop:flex flex-wrap items-center gap-2 py-4">
               {Array.from({ length: 5 }).map((_, i) => (
                 <div
                   key={i}
@@ -467,11 +467,11 @@ export function PackageList({
     <>
       <section className="relative -mt-[7.8rem]  bg-gold-100 px-4 pt-[calc(9.5rem+2.25rem)] pb-9 tablet:px-8 tablet:pt-[calc(5.5rem+3.5rem)] tablet:pb-14 desktop:pt-[calc(9.5rem+3rem)] desktop:pb-12">
         <Container>
-          <h1 className="max-w-[858px] text-[32px] leading-[123%] font-semibold text-[#0A0C0C]">
+          <h1 className="max-w-[858px] text-[28px] leading-[123%] font-semibold text-[#0A0C0C] min-[480px]:text-[32px] tablet:text-[40px] desktop:text-[44px]">
             {title}
           </h1>
           {subtitle ? (
-            <p className="mt-4 max-w-[858px] text-[18px] leading-[160%] font-normal text-[#7B7B7B]">
+            <p className="mt-4 max-w-[858px] text-[16px] leading-[160%] font-normal text-[#7B7B7B] tablet:text-[18px]">
               {subtitle}
             </p>
           ) : null}
@@ -479,15 +479,15 @@ export function PackageList({
       </section>
       <section className="bg-[#FEFBF5] pb-14 tablet:pb-20">
         <Container>
-          <div className="flex items-center justify-between border-b-[1px] border-[#0A0C0C] py-6 tablet:py-7">
-            <h2 className="lg:text-[28px] text-lg leading-[129%] font-medium text-[#0A0C0C]">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b-[1px] border-[#0A0C0C] py-6 tablet:py-7">
+            <h2 className="min-w-0 text-lg leading-[129%] font-medium text-[#0A0C0C] desktop:text-[28px]">
               Exclusive Suma Packages{" "}
-              <span className="ml-1 text-xs lg:text-xl font-normal text-neutral-500">
+              <span className="ml-1 text-xs font-normal text-neutral-500 desktop:text-xl">
                 ({pagination?.total ?? 0} Items)
               </span>
             </h2>
             <div className="hidden items-center gap-2 text-xs text-neutral-700 tablet:flex">
-              <span className="lg:text-lg text-xs font-medium text-[#0A0C0C]">
+              <span className="text-xs font-medium text-[#0A0C0C] desktop:text-lg">
                 Sort by:
               </span>
               <Select
@@ -512,7 +512,7 @@ export function PackageList({
             </div>
           </div>
           {/* Mobile/Tablet Filter Button */}
-          <div className="flex items-center justify-between  py-4 lg:hidden">
+          <div className="flex items-center justify-between py-4 desktop:hidden">
             <button
               type="button"
               onClick={() => setIsFilterDrawerOpen(true)}
@@ -558,8 +558,8 @@ export function PackageList({
           </div>
 
           {/* Desktop Inline Filters */}
-          <div className="hidden lg:flex flex-wrap items-center gap-2 py-4">
-            <span className="mr-1 text-lg text-gray-900">Filter:</span>
+          <div className="hidden desktop:flex flex-wrap items-center gap-2 py-4">
+            <span className="mr-1 shrink-0 text-lg text-gray-900">Filter:</span>
 
             {/* Category Filter */}
             <DesktopFilterSelect
@@ -665,7 +665,7 @@ export function PackageList({
             <>
               {/* Overlay */}
               <div
-                className="fixed inset-0 z-40 bg-black/50 transition-opacity duration-500 ease-in-out lg:hidden"
+                className="fixed inset-0 z-40 bg-black/50 transition-opacity duration-500 ease-in-out desktop:hidden"
                 onClick={() => setIsFilterDrawerOpen(false)}
                 style={{
                   animation: "fadeIn 0.5s ease-in-out",
@@ -674,7 +674,7 @@ export function PackageList({
 
               {/* Drawer */}
               <div
-                className="fixed top-0 left-0 bottom-0 z-50 w-[280px] bg-white shadow-2xl transition-transform duration-500 ease-in-out lg:hidden"
+                className="fixed top-0 left-0 bottom-0 z-50 w-[min(280px,85vw)] bg-white shadow-2xl transition-transform duration-500 ease-in-out desktop:hidden"
                 style={{
                   transform: isFilterDrawerOpen
                     ? "translateX(0)"

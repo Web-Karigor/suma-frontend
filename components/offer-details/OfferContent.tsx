@@ -11,7 +11,7 @@ export function OfferContent({
 
   return (
     <section className="bg-white py-10 tablet:py-12">
-      <Container>
+      <Container className="max-w-[1320px]">
         {shortDescription ? (
           <p className="mb-6  text-base lg:text-lg leading-relaxed text-neutral-700">
             {shortDescription}

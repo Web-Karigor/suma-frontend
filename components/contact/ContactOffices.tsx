@@ -15,7 +15,7 @@ export function ContactOffices() {
     <section className="bg-[#F1FAFA] py-12 tablet:py-16 desktop:py-20">
       <Container>
         <div className="flex flex-col gap-8 border-b border-[#d7e7e7] pb-7 desktop:flex-row desktop:items-end desktop:justify-between">
-          <h2 className="max-w-[685px] text-[34px] md:text-[40px] lg:text-[44px] leading-[1.04] font-medium tracking-[-0.03em] text-neutral-950 desktop:max-w-[685px] desktop:text-[56px] desktop:leading-[108%] desktop:font-semibold">
+          <h2 className="max-w-[520px] text-[28px] leading-[1.15] font-medium tracking-[-0.03em] text-neutral-950 tablet:text-[32px] desktop:max-w-[560px] desktop:text-[40px] desktop:leading-[1.12] desktop:font-semibold">
             Need More information?
             <br />
             Visit our office..
@@ -67,21 +67,24 @@ function ContactLink({
       href={href}
       className="
         flex
-        h-[87px]
+        min-h-[87px]
+        h-auto
         items-center
         justify-between
+        gap-3
         rounded-[16px]
         bg-[#E6F2F2]
-        px-4 
+        px-4
+        py-3
         transition-colors
         hover:bg-teal-50
         max-w-[398px]
       "
     >
-      <div className="flex items-center gap-4">
-        <span className="text-[#007F80]">{icon}</span>
+      <div className="flex min-w-0 items-center gap-4">
+        <span className="shrink-0 text-[#007F80]">{icon}</span>
 
-        <span className="flex flex-col">
+        <span className="flex min-w-0 flex-col">
           <span
             className="
               2xl:text-[16px]
@@ -96,6 +99,7 @@ function ContactLink({
           <strong
             className="
               mt-1
+              break-all
               2xl:text-[18px]
               leading-tight
               font-medium

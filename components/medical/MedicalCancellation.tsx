@@ -14,7 +14,7 @@ export function MedicalCancellation({ html }: { html: string | null }) {
           Cancellation Policy
         </h3>
         {disclaimerOpen ? (
-          <div className="flex items-center justify-between border-b-[3px] border-teal-600 bg-overlay-white-08 px-3 py-6">
+          <div className="flex items-center justify-between border-b-[3px] border-teal-600 bg-[#E6F2F2] px-3 py-6">
             <div className="flex items-center gap-2">
               <span className="relative size-6 shrink-0 overflow-clip">
                 <img
@@ -25,7 +25,7 @@ export function MedicalCancellation({ html }: { html: string | null }) {
                   className="size-full"
                 />
               </span>
-              <p className="text-[14px] leading-[1.6] font-normal text-teal-300 tablet:text-[18px]">
+              <p className="text-[14px] leading-[1.6] font-normal text-teal-600 tablet:text-[18px]">
                 Disclaimer: For visa applicants - If your visa has been issued,
                 you will not be able to cancel the package, and no amounts will
                 be refunded
@@ -50,7 +50,7 @@ export function MedicalCancellation({ html }: { html: string | null }) {
       </div>
 
       <div
-        className="text-[16px] leading-[1.64] font-light text-[#0A0C0C] tablet:text-[18px] [&_p]:mb-3"
+        className="text-[16px] leading-[1.64] font-light text-[#0A0C0C] tablet:text-[18px] [&_ul]:my-0 [&_ul]:list-disc [&_ul]:space-y-1 [&_ul]:pl-5 tablet:[&_ul]:pl-[20px] [&_ol]:my-0 [&_ol]:list-decimal [&_ol]:space-y-1 [&_ol]:pl-5 tablet:[&_ol]:pl-[20px] [&_li]:my-1 [&_p]:mb-2 [&_p:last-child]:mb-0"
         dangerouslySetInnerHTML={{ __html: html }}
       />
     </div>

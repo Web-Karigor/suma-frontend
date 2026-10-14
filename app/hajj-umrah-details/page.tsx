@@ -42,13 +42,20 @@ export default async function HajjUmrahDetailsPage({ searchParams }: Props) {
   const mapPlaces = (
     places: NonNullable<typeof packageData>["itinerary"],
   ) =>
-    places.map((place) => ({
-      title: place.title,
-      description: place.short_description || "",
-      image: place.images?.[0]?.url || packageData?.image || "",
-      duration: place.activity_duration || undefined,
-      mapUrl: place.map_url || undefined,
-    }));
+    places.map((place) => {
+      const images = (place.images ?? [])
+        .map((img) => img?.url)
+        .filter((url): url is string => Boolean(url));
+      const fallback = packageData?.image ? [packageData.image] : [];
+
+      return {
+        title: place.title,
+        description: place.short_description || "",
+        images: images.length ? images : fallback,
+        duration: place.activity_duration || undefined,
+        mapUrl: place.map_url || undefined,
+      };
+    });
 
   const itinerary = packageData ? mapPlaces(packageData.itinerary) : [];
   const isHajjUmrahPackage = isHajjUmrahType(

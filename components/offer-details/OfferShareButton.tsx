@@ -6,7 +6,7 @@ export function OfferShareButton() {
   return (
     <button
       type="button"
-      className="inline-flex h-[49px] w-[130px] shrink-0 items-center justify-center gap-2 rounded-button bg-gold-200 px-4 py-3 text-base font-medium text-teal-700 transition-opacity hover:opacity-90"
+      className="inline-flex h-[49px] w-[130px] shrink-0 items-center justify-center gap-2 rounded-button bg-teal-200 px-4 py-3 text-base font-medium text-teal-700 transition-opacity hover:opacity-90"
       onClick={() => {
         const url = window.location.href;
         if (navigator.share) {

@@ -9,7 +9,8 @@ type ItineraryDay = {
   day?: string;
   title: string;
   description: string;
-  image: string;
+  /** All gallery images for this place (carousel stays within this list). */
+  images: string[];
   duration?: string;
   mapUrl?: string;
 };
@@ -23,7 +24,9 @@ export function PackageItinerary({
   itinerary,
   title = "Your itinerary",
 }: PackageItineraryProps) {
-  const [imageIndexes, setImageIndexes] = useState<number[]>(() => itinerary.map(() => 0));
+  const [imageIndexes, setImageIndexes] = useState<number[]>(() =>
+    itinerary.map(() => 0),
+  );
 
   if (!itinerary.length) return null;
 
@@ -36,8 +39,10 @@ export function PackageItinerary({
 
         <div className="grid grid-cols-1 gap-4 tablet:grid-cols-2 tablet:gap-5 desktop:grid-cols-3 desktop:gap-6">
           {itinerary.slice(0, 3).map((place, index) => {
-            const imageIndex = imageIndexes[index] % itinerary.length;
-            const currentImage = itinerary[imageIndex]?.image || place.image;
+            const images = place.images.filter(Boolean);
+            const imageCount = Math.max(images.length, 1);
+            const imageIndex = imageIndexes[index] % imageCount;
+            const currentImage = images[imageIndex] ?? "";
 
             return (
               <article
@@ -51,14 +56,15 @@ export function PackageItinerary({
                     className="object-cover"
                     sizes="(min-width: 1920px) 516px, (min-width: 1280px) 33vw, 100vw"
                   />
-                  {itinerary.length > 1 ? (
+                  {images.length > 1 ? (
                     <div className="absolute bottom-3 left-3 flex items-center gap-2">
                       <button
                         type="button"
                         onClick={() =>
                           setImageIndexes((prev) => {
                             const next = [...prev];
-                            next[index] = (next[index] - 1 + itinerary.length) % itinerary.length;
+                            next[index] =
+                              (next[index] - 1 + imageCount) % imageCount;
                             return next;
                           })
                         }
@@ -72,7 +78,7 @@ export function PackageItinerary({
                         onClick={() =>
                           setImageIndexes((prev) => {
                             const next = [...prev];
-                            next[index] = (next[index] + 1) % itinerary.length;
+                            next[index] = (next[index] + 1) % imageCount;
                             return next;
                           })
                         }
@@ -88,13 +94,20 @@ export function PackageItinerary({
                 <h3 className="text-[16px] leading-[1.35] font-semibold text-hero tablet:text-[18px]">
                   {place.title}
                 </h3>
-                <p className="flex-1 text-[13px] leading-[1.6] text-neutral-600">{place.description}</p>
+                <p className="flex-1 text-[13px] leading-[1.6] text-neutral-600">
+                  {place.description}
+                </p>
                 <div className="flex items-center gap-1.5 text-[13px] text-neutral-600">
                   <CheckIcon className="size-3.5 shrink-0 text-success-600" />
-                  <span>Average activity duration: {place.duration ?? "~1 h"}</span>
+                  <span>
+                    Average activity duration: {place.duration ?? "~1 h"}
+                  </span>
                 </div>
                 <a
-                  href={place.mapUrl ?? `https://www.google.com/maps/search/${encodeURIComponent(place.title)}`}
+                  href={
+                    place.mapUrl ??
+                    `https://www.google.com/maps/search/${encodeURIComponent(place.title)}`
+                  }
                   target="_blank"
                   rel="noreferrer"
                   className="inline-flex h-[40px] w-fit items-center gap-3 rounded-button bg-primary px-4 text-[13px] font-medium text-white transition-opacity hover:opacity-90"

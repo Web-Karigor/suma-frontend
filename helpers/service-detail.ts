@@ -261,7 +261,7 @@ export function normalizeServiceDetailResponse(
       items: destinations.map((entry) => ({
         name: asText(entry.country_name) || "Destination",
         image: resolveServiceImage(entry.image),
-        knownFor: asText(entry.known_for),
+        knownFor: asText(entry.known_for).replace(/^Known for:\s*/i, ""),
       })),
     },
     services: item.services

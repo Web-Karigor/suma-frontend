@@ -57,9 +57,9 @@ export function CorporateActivities({ activities }: CorporateActivitiesProps) {
               return (
                 <div
                   key={activity.label}
-                  className="flex h-[74px] w-full items-center justify-between rounded-lg border-[0.5px] border-gray-800 bg-overlay-black-32 px-5 py-6 tablet:w-[calc(50%-12px)] desktop:w-[360px]"
+                  className="flex min-h-[74px] w-full items-center justify-between gap-3 rounded-lg border-[0.5px] border-gray-800 bg-overlay-black-32 px-4 py-4 tablet:w-[calc(50%-12px)] tablet:px-5 desktop:w-[360px]"
                 >
-                  <div className="flex items-center gap-3">
+                  <div className="flex min-w-0 items-center gap-3">
                     <span className="relative size-5 shrink-0 overflow-clip">
                       <img
                         src={
@@ -73,9 +73,9 @@ export function CorporateActivities({ activities }: CorporateActivitiesProps) {
                         className="size-full"
                       />
                     </span>
-                    <span className="text-base leading-[1.59] font-medium text-white">{activity.label}</span>
+                    <span className="min-w-0 break-words text-base leading-[1.59] font-medium text-white">{activity.label}</span>
                   </div>
-                  <span className="text-[15px] leading-[1.39] font-medium tracking-[0.15px] text-gray-600">
+                  <span className="shrink-0 text-[15px] leading-[1.39] font-medium tracking-[0.15px] text-gray-600">
                     {value}
                   </span>
                 </div>

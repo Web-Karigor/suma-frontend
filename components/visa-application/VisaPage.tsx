@@ -3,11 +3,13 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { VisaDetails } from "./VisaDetails";
 import { VisaHero } from "./VisaHero";
+import { VisaBanner } from "./VisaBanner";
 import { VisaRequirements } from "./VisaRequirements";
 import { useServiceDetailQuery } from "@/hooks/queries/useServiceDetailQuery";
 import { useCountriesQuery } from "@/hooks/queries/useCountriesQuery";
 import { useVisaApplicationsQuery } from "@/hooks/queries/useVisaApplicationsQuery";
 import { Container } from "@/components/ui/Container";
+import { MedicalContact } from "../medical";
 
 const VISA_SLUG = "visa-assistance";
 const subscribe = () => () => {};
@@ -27,7 +29,9 @@ export function VisaPage() {
   >(null);
   const [appliedCountryId, setAppliedCountryId] = useState<number | null>(null);
   const shouldScrollRef = useRef(false);
-  const selectedCountrySlug = selectedCountrySlugOverride;
+  // Default to first country when user hasn't picked one yet
+  const selectedCountrySlug =
+    selectedCountrySlugOverride ?? countries?.data[0]?.slug ?? null;
   const selectedCountryId =
     countries?.data.find((country) => country.slug === selectedCountrySlug)
       ?.id ?? null;
@@ -35,6 +39,13 @@ export function VisaPage() {
     useVisaApplicationsQuery(appliedCountryId);
 
   const isPageLoading = isServiceLoading || isCountriesLoading;
+
+  // Load first country's visa data by default (no scroll)
+  useEffect(() => {
+    const firstId = countries?.data[0]?.id;
+    if (firstId == null || appliedCountryId !== null) return;
+    setAppliedCountryId(firstId);
+  }, [countries?.data, appliedCountryId]);
 
   useEffect(() => {
     if (!shouldScrollRef.current || appliedCountryId === null || !isFetched) {
@@ -85,6 +96,7 @@ export function VisaPage() {
           setAppliedCountryId(selectedCountryId);
         }}
       />
+      <VisaBanner />
       {visaApplication ? (
         <>
           <VisaDetails countryInfo={visaApplication.country_info} />
@@ -101,6 +113,7 @@ export function VisaPage() {
           </Container>
         </div>
       ) : null}
+      <MedicalContact/>
     </main>
   );
 }

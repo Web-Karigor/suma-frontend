@@ -55,7 +55,7 @@ export function HeroSection() {
                 key={`${content.title}-${contentIndex}`}
                 className={`hero-copy${activeIndex !== contentIndex ? " is-exiting" : ""}`}
               >
-                <h1 className="text-[32px] font-semibold text-[#FEFEFC] xl:text-[60px] 2xl:text-[70px]">
+                <h1 className="text-[28px] font-semibold text-[#FEFEFC] min-[480px]:text-[32px] tablet:text-[40px] desktop:text-[48px] xl:text-[56px] 2xl:text-[70px]">
                   {content.title}
                 </h1>
                 <p className="mt-4 max-w-md text-sm leading-relaxed text-white/85 md:text-base xl:text-xl">
@@ -71,7 +71,7 @@ export function HeroSection() {
             </Button>
           </div>
 
-          <div className="hero-mobile-slider mt-12 w-full min-w-0 desktop:mt-0 desktop:ml-auto desktop:-translate-x-6 desktop:mr-[calc(-1*var(--page-gutter))] desktop:w-[970px] desktop:max-w-none desktop:shrink-0">
+          <div className="hero-mobile-slider mt-12 w-full min-w-0 desktop:mt-0 desktop:ml-auto desktop:-translate-x-6 desktop:mr-[calc(-1*var(--page-gutter))] desktop:w-full desktop:max-w-[min(970px,100%)] desktop:shrink-0 wide:w-[970px] wide:max-w-none">
             <HeroCardsSlider
               cards={heroCards}
               onActiveChange={setActiveIndex}

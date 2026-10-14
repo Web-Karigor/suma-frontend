@@ -56,27 +56,16 @@ export function Footer() {
   return (
     <footer className="bg-[#005655] text-white">
       <Container className="pt-14 pb-8 tablet:pt-16">
+        {/* Figma: horizontal + space-between — About | Services | Pages | Get In Touch */}
         <div
           className="
             flex flex-col gap-10
-            tablet:text-left
-            xl:flex-row xl:justify-between xl:gap-4
-            desktop:flex-row
-            desktop:justify-between
-            2xl:gap-0
+            tablet:grid tablet:grid-cols-2 tablet:gap-8
+            desktop:flex desktop:flex-row desktop:items-start desktop:justify-between
           "
         >
-          {/* About */}
-          <div
-            className="
-              max-w-[441px]
-              tablet:w-full
-              xl:max-w-[320px]
-              desktop:w-[441px]
-              desktop:shrink-0
-              2xl:max-w-[441px]
-            "
-          >
+          {/* 1 — About (slightly wider, content-hug) */}
+          <div className="min-w-0 tablet:col-span-2 desktop:w-[min(100%,400px)] desktop:max-w-[400px] desktop:shrink-0">
             <p className="font-poppins text-[14px] leading-[160%] font-medium text-[#BFDEDD] xl:text-[15px] 2xl:text-[16px]">
               {footerAbout}
             </p>
@@ -85,7 +74,7 @@ export function Footer() {
               Follow Us:
             </p>
 
-            <div className="mt-2.5 flex items-center justify-start gap-2 xl:mt-2.5 xl:gap-2 2xl:mt-3 2xl:gap-2.5">
+            <div className="mt-2.5 flex flex-wrap items-center justify-start gap-2 xl:mt-2.5 xl:gap-2 2xl:mt-3 2xl:gap-2.5">
               {socials.map(({ name, href, key }) => {
                 const Icon = SOCIAL_ICONS[key] ?? FacebookIcon;
                 return (
@@ -104,7 +93,7 @@ export function Footer() {
             </div>
 
             <div className="mt-6 xl:mt-6 2xl:mt-10">
-              <div className="bg-teal-700 p-2 rounded-lg max-w-[250px] tablet:max-w-[300px] xl:max-w-[300px] desktop:max-w-[380px]">
+              <div className="max-w-[250px] rounded-lg bg-teal-700 p-2 tablet:max-w-[300px] desktop:max-w-[320px]">
                 <Image
                   src="/exralogofooter.jpeg"
                   alt="ISO 9001:2015 Certified Company"
@@ -116,96 +105,41 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Services + Pages */}
-          <div
-            className="
-              flex w-full flex-col gap-8
+          {/* 2 — Services */}
+          <FooterList title="Services" links={footerServices} />
 
-              tablet:grid
-              tablet:grid-cols-2
-              tablet:gap-8
+          {/* 3 — Important Pages */}
+          <FooterList title="Important Pages" links={footerPages} />
 
-              xl:flex xl:w-auto xl:flex-row xl:gap-16
-
-              desktop:flex
-              desktop:w-auto
-              desktop:flex-row
-              2xl:gap-16
-            "
-          >
-            <FooterList
-              title="Services"
-              links={footerServices}
-            />
-
-            <FooterList
-              title="Important Pages"
-              links={footerPages}
-            />
-          </div>
-
-          {/* Contact */}
-          <div
-            className="
-              flex w-full flex-col items-start
-
-              tablet:mt-4
-
-              xl:ml-0 xl:mt-0 xl:w-auto xl:shrink-0
-
-              desktop:mt-0
-              desktop:w-auto
-              desktop:shrink-0
-              2xl:ml-0
-            "
-          >
+          {/* 4 — Get In Touch */}
+          <div className="min-w-0 tablet:col-span-2 desktop:w-[min(100%,460px)] desktop:max-w-[460px] desktop:shrink-0">
             <h3 className="font-poppins text-[18px] font-semibold text-[#FEFEFC] xl:text-[17px] 2xl:text-[20px]">
               Get In Touch
             </h3>
 
-            <div
-              className="
-                mt-4
-                flex w-full flex-col gap-5
-
-                tablet:grid
-                tablet:grid-cols-2
-                tablet:gap-6
-
-                xl:mt-3
-                xl:gap-3
-
-                desktop:flex
-                desktop:flex-row
-                desktop:items-start
-                2xl:mt-5
-                2xl:gap-8
-              "
-            >
-              {!isLoadingOffices && leftOffices.length > 0 && (
-                <div className="w-full max-w-[240px] xl:max-w-[180px] 2xl:max-w-[240px]">
+            <div className="mt-4 flex w-full flex-col gap-5 tablet:flex-row tablet:items-start tablet:gap-6 desktop:mt-5 desktop:gap-7">
+              {!isLoadingOffices && leftOffices.length > 0 ? (
+                <div className="min-w-0 flex-1">
                   <OfficeList offices={leftOffices} />
                 </div>
-              )}
+              ) : null}
 
-              <div className="w-full max-w-[240px] xl:max-w-[180px] 2xl:max-w-[240px]">
-                {!isLoadingOffices && rightOffices.length > 0 && (
+              <div className="min-w-0 flex-1">
+                {!isLoadingOffices && rightOffices.length > 0 ? (
                   <OfficeList offices={rightOffices} />
-                )}
+                ) : null}
 
                 <div
                   className={`
-                    flex flex-col space-y-2.5
-                    border-t border-[#268F8E]
-                    pt-3
-                    xl:space-y-2 xl:pt-2.5
-                    2xl:space-y-3 2xl:pt-4
-                    ${!isLoadingOffices && rightOffices.length > 0 ? "mt-3 xl:mt-2.5 2xl:mt-4" : ""}
+                    flex flex-col space-y-2.5 pt-1
+                    xl:space-y-2
+                    2xl:space-y-3
+                    ${!isLoadingOffices && rightOffices.length > 0 ? "mt-3 xl:mt-2.5 2xl:mt-4" : "mt-0"}
                   `}
                 >
                   <a
                     href={`tel:${settings.hotline}`}
-                    className="inline-flex items-center gap-2 text-[13px] text-white xl:text-[12.5px] 2xl:text-[14px]"
+                    className="inline-flex min-w-0 items-center gap-2 break-all text-[13px] text-white xl:text-[12.5px] 2xl:text-[14px]"
                   >
                     <PhoneIcon className="size-4 shrink-0 xl:size-3.5 2xl:size-4" />
                     {settings.hotline}
@@ -213,7 +147,7 @@ export function Footer() {
 
                   <a
                     href={`mailto:${settings.email}`}
-                    className="inline-flex items-center gap-2 text-[13px] text-white xl:text-[12.5px] 2xl:text-[14px]"
+                    className="inline-flex min-w-0 items-center gap-2 break-all text-[13px] text-white xl:text-[12.5px] 2xl:text-[14px]"
                   >
                     <MailIcon className="size-4 shrink-0 xl:size-3.5 2xl:size-4" />
                     {settings.email}
@@ -241,7 +175,7 @@ function FooterList({
   links: readonly { label: string; href: string }[];
 }) {
   return (
-    <div className="xl:min-w-[135px] xl:shrink-0 desktop:shrink-0">
+    <div className="min-w-0 desktop:w-auto desktop:shrink-0">
       <h3 className="font-poppins text-[18px] font-semibold text-[#FEFEFC] xl:text-[17px] 2xl:text-[20px]">
         {title}
       </h3>
@@ -287,7 +221,7 @@ function OfficeList({ offices }: { offices: readonly ContactOfficeCard[] }) {
             </span>
           </p>
 
-          <p className="mt-1.5 text-left font-poppins text-[13px] font-normal text-[#99CACA] xl:mt-1 xl:text-[12px] xl:leading-tight 2xl:mt-1.5 2xl:text-[14px]">
+          <p className="mt-1.5 break-words text-left font-poppins text-[13px] font-normal text-[#99CACA] xl:mt-1 xl:text-[12px] xl:leading-tight 2xl:mt-1.5 2xl:text-[14px]">
             {office.address}
           </p>
         </li>

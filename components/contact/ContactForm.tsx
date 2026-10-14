@@ -32,6 +32,27 @@ import { apiFetch } from "@/lib/apiFetch";
 const fieldClass =
   "h-11 w-full rounded-md border-0 bg-gray-100 px-3 text-sm text-neutral-900 outline-none placeholder:text-gray-500 focus:ring-2 focus:ring-primary/30";
 
+function OptionalMark() {
+  return (
+    <span className="font-poppins font-normal text-[#8E8E8E]"> (Optional)</span>
+  );
+}
+
+function FieldLabel({
+  children,
+  optional = false,
+}: {
+  children: React.ReactNode;
+  optional?: boolean;
+}) {
+  return (
+    <span className="text-base font-medium text-[#0A0C0C]">
+      {children}
+      {optional ? <OptionalMark /> : null}
+    </span>
+  );
+}
+
 export function ContactForm() {
   const [sent, setSent] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -104,50 +125,49 @@ export function ContactForm() {
         />
 
         <Field
-          label="Email (Optional)"
+          label="Email"
+          optional
           name="email"
           placeholder="you@example.com"
           type="email"
         />
 
-        <div className="flex flex-col gap-2 text-base font-medium text-[#0A0C0C]">
-          Select Service (Optional)
+        <div className="flex flex-col gap-2">
+          <FieldLabel optional>Select Services</FieldLabel>
           <Select
-            value={packageName}
+            value={packageName || undefined}
             onValueChange={(value) => setPackageName(value ?? "")}
           >
             <SelectTrigger
               className={`${fieldClass} justify-between px-3 text-left`}
             >
-              <SelectValue />
+              <SelectValue placeholder="Choose Service" />
             </SelectTrigger>
 
             <SelectContent align="start" className="bg-white">
               <SelectItem value="hajj">Hajj Package</SelectItem>
-
               <SelectItem value="umrah">Umrah Package</SelectItem>
-
               <SelectItem value="holiday">Holiday Package</SelectItem>
-
               <SelectItem value="corporate">Corporate Package</SelectItem>
             </SelectContent>
           </Select>
         </div>
 
         <Field
-          label="Number of Travelers (Optional)"
+          label="Number of Travelers"
+          optional
           name="travelers"
-          type="number"
-          placeholder="Enter number of travelers"
+          placeholder="e.g. 2 adults, 1 child"
         />
 
         <DateField date={date} onDateChange={setDate} />
       </div>
 
       <label className="mt-4 flex flex-col gap-2 text-base font-medium text-[#0A0C0C]">
-        Your Message/Queries (Optional)
+        Your Message/Queries*
         <textarea
           name="message"
+          required
           placeholder="Write message or queries here..."
           className="min-h-[108px] w-full resize-y rounded-md border-0 bg-gray-100 px-3 py-3 text-sm text-neutral-900 outline-none placeholder:text-gray-500 focus:ring-2 focus:ring-primary/30"
         />
@@ -194,28 +214,22 @@ export function ContactForm() {
 
 function Field({
   label,
-
   name,
-
   placeholder,
-
   type = "text",
-
   required = false,
+  optional = false,
 }: {
   label: string;
-
   name: string;
-
   placeholder?: string;
-
   type?: string;
-
   required?: boolean;
+  optional?: boolean;
 }) {
   return (
-    <label className="flex flex-col gap-2 text-base font-medium text-[#0A0C0C]">
-      {label}
+    <label className="flex flex-col gap-2">
+      <FieldLabel optional={optional}>{label}</FieldLabel>
       <input
         name={name}
         type={type}
@@ -242,8 +256,8 @@ function DateField({
   onDateChange: (date: Date | undefined) => void;
 }) {
   return (
-    <label className="flex flex-col gap-2 text-base font-medium text-[#0A0C0C]">
-      Preferred Date{""} (Optional)
+    <label className="flex flex-col gap-2">
+      <FieldLabel optional>Preferred Date</FieldLabel>
       <Popover>
         <PopoverTrigger
           render={
@@ -271,9 +285,9 @@ function DateField({
           }
         >
           {date ? (
-            format(date, "MM/dd/yyyy")
+            format(date, "dd/MM/yyyy")
           ) : (
-            <span className="text-gray-500">mm/dd/yyyy</span>
+            <span className="text-gray-500">dd/mm/yyyy</span>
           )}
 
           <CalendarIcon className="size-4 text-neutral-700" />

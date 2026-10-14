@@ -33,43 +33,43 @@ export function MedicalHero({
   return (
     <section className="overflow-hidden bg-teal-100">
       <Container>
-        <div className="flex flex-col gap-10 pt-28 pb-12 tablet:pt-32 tablet:pb-16 desktop:flex-row desktop:items-start desktop:justify-between desktop:gap-6 xl:gap-5 xl:pt-[130px] xl:pb-[50px] 2xl:gap-6 2xl:pt-[160px] 2xl:pb-[60px]">
-          <div className="flex w-full min-w-0 flex-col xl:w-[600px] 2xl:w-[858px]">
-            <div className="flex flex-col gap-6 xl:h-[210px] xl:w-[600px] 2xl:h-[234px] 2xl:w-[858px]">
-              <h1 className="text-[32px] font-semibold leading-[1.08] tracking-[-0.5px] text-black tablet:text-[48px] xl:h-auto xl:w-[600px] xl:text-[56px] xl:leading-[1.05] 2xl:h-[150px] 2xl:w-[858px] 2xl:text-[72px] 2xl:leading-[1.03]">
+        <div className="flex flex-col gap-10 pt-28 pb-12 tablet:pt-32 tablet:pb-16 desktop:flex-row desktop:items-start desktop:justify-between desktop:gap-8 desktop:max-[1535px]:gap-8 xl:pt-[130px] xl:pb-[50px] 2xl:gap-6 2xl:pt-[160px] 2xl:pb-[60px]">
+          <div className="relative z-10 flex w-full min-w-0 flex-col desktop:max-w-[min(520px,50%)] desktop:flex-1 2xl:max-w-[858px] 2xl:w-[858px] 2xl:flex-none">
+            <div className="flex flex-col gap-4 tablet:gap-6">
+              <h1 className="text-[28px] font-semibold leading-[1.08] tracking-[-0.5px] break-words text-black min-[480px]:text-[32px] tablet:text-[48px] desktop:text-[38px] desktop:leading-[1.1] desktop:max-[1535px]:text-[42px] 2xl:text-[72px] 2xl:leading-[1.03]">
                 {title}
               </h1>
 
               {subtitle ? (
-                <p className="text-[16px] leading-[1.5] font-normal text-gray-800 tablet:text-[20px] xl:h-auto xl:w-[600px] xl:text-[18px] 2xl:h-[60px] 2xl:w-[858px] 2xl:text-[22px]">
+                <p className="text-[15px] leading-[1.5] font-normal text-gray-800 tablet:text-[20px] desktop:text-[16px] desktop:max-[1535px]:text-[17px] 2xl:text-[22px]">
                   {subtitle}
                 </p>
               ) : null}
             </div>
 
             {cards && cards.length > 0 && (
-              <div className="mt-10 grid w-full grid-cols-1 gap-5 sm:grid-cols-3 xl:mt-[40px] xl:h-[150px] xl:w-[600px] 2xl:mt-[60px] 2xl:h-[162px] 2xl:w-[715px]">
+              <div className="mt-8 grid w-full grid-cols-1 gap-4 min-[480px]:grid-cols-2 tablet:mt-10 tablet:gap-5 lg:grid-cols-3 desktop:mt-8 desktop:max-w-full desktop:max-[1535px]:gap-3 2xl:mt-[60px] 2xl:w-[715px] 2xl:max-w-none">
                 {cards.map((card) => (
                   <div
                     key={card.label}
-                    className="flex flex-col items-center rounded-xl border border-teal-200 bg-white/20 px-3 pt-8 pb-4 xl:h-[150px] xl:w-[190px] 2xl:h-[162px] 2xl:w-[225px]"
+                    className="flex min-w-0 flex-col items-center rounded-xl border border-teal-200 bg-white/20 px-3 pt-6 pb-4 tablet:pt-8 desktop:max-[1535px]:px-2 desktop:max-[1535px]:pt-5 2xl:h-[162px] 2xl:w-[225px]"
                   >
-                    <span className="flex size-9 shrink-0 items-center justify-center rounded-button bg-teal-600 p-1.5 xl:size-7 2xl:size-9">
+                    <span className="flex size-9 shrink-0 items-center justify-center rounded-button bg-teal-600 p-1.5 desktop:max-[1535px]:size-8 2xl:size-9">
                       <img
                         src={card.icon}
                         alt=""
                         width={24}
                         height={24}
-                        className="size-6 xl:size-4 2xl:size-6"
+                        className="size-6 desktop:max-[1535px]:size-5 2xl:size-6"
                       />
                     </span>
 
                     <div className="mt-2 flex w-full flex-col items-center gap-1.5">
-                      <p className="text-center text-[15px] leading-[1.39] font-medium tracking-[1px] text-gray-600 xl:text-[12px] 2xl:text-[15px]">
+                      <p className="text-center text-[15px] leading-[1.39] font-medium tracking-[1px] text-gray-600 desktop:max-[1535px]:text-[12px] 2xl:text-[15px]">
                         {card.label}
                       </p>
 
-                      <p className="text-center text-base leading-[1.59] font-medium text-black xl:text-[14px] 2xl:text-base">
+                      <p className="text-center text-base leading-[1.59] font-medium text-black desktop:max-[1535px]:text-[13px] 2xl:text-base">
                         {card.value}
                       </p>
                     </div>
@@ -78,7 +78,7 @@ export function MedicalHero({
               </div>
             )}
 
-            <div className="mt-10 flex flex-col gap-[18px] xl:mt-[40px] xl:h-[116px] xl:w-[420px] 2xl:mt-[60px] 2xl:h-[116px] 2xl:w-[473px]">
+            <div className="mt-8 flex flex-col gap-[18px] tablet:mt-10 desktop:mt-8 2xl:mt-[60px] 2xl:w-[473px]">
               <a
                 href="#services"
                 className="inline-flex h-[25px] w-fit items-center gap-3 text-[16px] font-medium text-teal-600"
@@ -87,10 +87,10 @@ export function MedicalHero({
                 <ChevronDownIcon className="size-5" />
               </a>
 
-              <div className="flex flex-wrap items-center gap-6">
+              <div className="flex flex-col items-stretch gap-4 min-[480px]:flex-row min-[480px]:flex-wrap min-[480px]:items-center tablet:gap-6">
                 <Button
                   onClick={() => setModalOpen(true)}
-                  className="w-full justify-between tablet:w-[319px]"
+                  className="w-full justify-between min-[480px]:w-auto tablet:w-[319px] desktop:max-[1535px]:w-[280px]"
                 >
                   Get a Free Quote
                 </Button>
@@ -100,35 +100,34 @@ export function MedicalHero({
             </div>
           </div>
 
-          {/* HERO IMAGES */}
-
-          <div className="grid w-full grid-cols-2 gap-3 xl:h-[620px] xl:w-[600px] 2xl:h-[729px] 2xl:w-[858px]">
-            <div className="relative col-span-2 h-[280px] overflow-hidden rounded-2xl tablet:h-[420px] xl:col-span-1 xl:h-[620px] xl:w-[295px] 2xl:h-[729px] 2xl:w-[423px]">
+          {/* HERO IMAGES — narrower at 1280–1535 so copy never collides */}
+          <div className="relative z-0 grid w-full grid-cols-2 gap-3 desktop:h-[480px] desktop:w-[min(420px,42%)] desktop:shrink-0 desktop:grid-cols-2 desktop:max-[1535px]:gap-2.5 2xl:h-[729px] 2xl:w-[858px]">
+            <div className="relative col-span-2 h-[280px] overflow-hidden rounded-2xl tablet:h-[420px] desktop:col-span-1 desktop:h-full 2xl:w-[423px]">
               <CoverImage
                 src={images.left}
                 alt={title}
                 className="object-cover object-left"
-                sizes="(max-width:1280px) 100vw, 423px"
+                sizes="(min-width: 1536px) 423px, (min-width: 1280px) 220px, 100vw"
                 priority
               />
             </div>
 
-            <div className="col-span-2 grid grid-cols-2 gap-3 xl:col-span-1 xl:grid-cols-1 xl:h-[620px] xl:w-[295px] 2xl:h-[729px] 2xl:w-[423px]">
-              <div className="relative h-[180px] overflow-hidden rounded-2xl tablet:h-[240px] xl:h-[304px] xl:w-[295px] 2xl:h-[358.5px] 2xl:w-[423px]">
+            <div className="col-span-2 grid grid-cols-2 gap-3 desktop:col-span-1 desktop:grid-cols-1 desktop:grid-rows-2 desktop:h-full desktop:max-[1535px]:gap-2.5 2xl:w-[423px]">
+              <div className="relative h-[180px] min-h-0 overflow-hidden rounded-2xl tablet:h-[240px] desktop:h-full 2xl:h-[358.5px]">
                 <CoverImage
                   src={images.top}
                   alt=""
                   className="object-cover object-[center_20%]"
-                  sizes="(max-width:1280px) 50vw, 423px"
+                  sizes="(min-width: 1536px) 423px, (min-width: 1280px) 220px, 50vw"
                 />
               </div>
 
-              <div className="relative h-[180px] overflow-hidden rounded-2xl tablet:h-[240px] xl:h-[304px] xl:w-[295px] 2xl:h-[358.5px] 2xl:w-[423px]">
+              <div className="relative h-[180px] min-h-0 overflow-hidden rounded-2xl tablet:h-[240px] desktop:h-full 2xl:h-[358.5px]">
                 <CoverImage
                   src={images.bottom}
                   alt=""
                   className="object-cover"
-                  sizes="(max-width:1280px) 50vw, 423px"
+                  sizes="(min-width: 1536px) 423px, (min-width: 1280px) 220px, 50vw"
                 />
               </div>
             </div>
@@ -139,17 +138,19 @@ export function MedicalHero({
       {stats && stats.length > 0 && (
         <div className="bg-teal-600">
           <div className="mx-auto flex min-h-[160px] w-full max-w-[1520px] items-center px-4 py-10 tablet:min-h-[180px] xl:h-[204px] xl:px-0 xl:py-12">
-            <div className="grid w-full grid-cols-2 gap-8 tablet:grid-cols-4 tablet:gap-0 xl:h-[108px]">
+            <div className="grid w-full grid-cols-2 gap-6 tablet:gap-8 lg:grid-cols-4 lg:gap-0 xl:h-[108px]">
               {stats.map((stat, index) => (
                 <div
                   key={stat.label}
-                  className={`flex flex-col items-center justify-center gap-2 px-4 text-center ${index > 0 ? "tablet:border-l tablet:border-teal-400" : ""} xl:h-[108px]`}
+                  className={`flex flex-col items-center justify-center gap-2 px-3 text-center tablet:px-4 xl:h-[108px] ${
+                    index % 2 === 1 ? "border-l border-teal-400" : ""
+                  } ${index > 0 ? "lg:border-l lg:border-teal-400" : "lg:border-l-0"}`}
                 >
-                  <p className="text-[32px] leading-[1.1] font-regular tracking-[-0.5px] text-[#F2F8F8] tablet:text-[44px] xl:text-[56px]">
+                  <p className="text-[28px] leading-[1.1] font-regular tracking-[-0.5px] text-[#F2F8F8] tablet:text-[40px] xl:text-[56px]">
                     {stat.value}
                   </p>
 
-                  <p className="text-[14px] leading-[1.5] font-regular text-teal-200 tablet:text-[16px] xl:text-[18px] xl:leading-[1.64]">
+                  <p className="text-[13px] leading-[1.5] font-regular text-teal-200 tablet:text-[16px] xl:text-[18px] xl:leading-[1.64]">
                     {stat.label}
                   </p>
                 </div>

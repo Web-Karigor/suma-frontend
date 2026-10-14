@@ -1,12 +1,24 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { Container } from "@/components/ui/Container";
-import { CoverImage } from "@/components/ui/CoverImage";
 
 type PackageGalleryProps = {
   images: string[];
 };
+
+/**
+ * Focal crop only (no scale). Tall landmarks stay top-anchored; people shots
+ * can bias slightly lower when the URL includes subject cues.
+ */
+function galleryObjectPositionClass(src: string): string {
+  const key = src.toLowerCase();
+  if (/crowd|group|family|people|pilgrim/.test(key)) {
+    return "object-[center_30%]";
+  }
+  return "object-top";
+}
 
 export function PackageGallery({ images }: PackageGalleryProps) {
   const galleryImages = images.filter(Boolean).slice(0, 6);
@@ -84,16 +96,25 @@ export function PackageGallery({ images }: PackageGalleryProps) {
                     scrollSnapAlign: "center",
                   }}
                 >
-                  <CoverImage
-                    src={image}
-                    alt={`Package gallery ${index + 1}`}
-                    sizes="(min-width: 768px) 58vw, 90vw"
-                    className="object-cover transition-transform duration-700 ease-out hover:scale-105"
-                  />
+                  {/*
+                    Height-locked image: card width animates; image render scale
+                    stays tied to card height so object-cover cannot zoom during expand.
+                    Horizontal overflow is clipped by the card (cropping OK).
+                  */}
+                  <span className="pointer-events-none absolute inset-0 flex justify-center overflow-hidden">
+                    <Image
+                      src={image}
+                      alt={`Package gallery ${index + 1}`}
+                      width={1600}
+                      height={1000}
+                      sizes="(min-width: 768px) 58vw, 90vw"
+                      className={`h-full w-auto max-w-none object-cover ${galleryObjectPositionClass(image)}`}
+                    />
+                  </span>
 
                   <div
                     className={`
-                      absolute inset-0 transition-all duration-500
+                      absolute inset-0 transition-opacity duration-500
                       ${isActive ? "bg-transparent" : "bg-black/10"}
                     `}
                   />

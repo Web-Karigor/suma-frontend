@@ -7,11 +7,9 @@ import type { ServiceCountry } from "@/types/service-detail";
 
 import "swiper/css";
 
-const VISIBLE_COUNT = 5;
-
 function CountryCard({ country }: { country: ServiceCountry }) {
   return (
-    <article className="flex w-[240px] shrink-0 flex-col items-center rounded-2xl bg-[#FEFEFCA3] px-4 py-6 tablet:w-full desktop-xl:h-[357px] desktop-xl:w-[328.8px]">
+    <article className="flex h-full w-full flex-col items-center rounded-2xl bg-[#FEFEFCA3] px-4 py-6 desktop-xl:min-h-[357px]">
       <div
         className="
           relative
@@ -45,37 +43,54 @@ function CountryCard({ country }: { country: ServiceCountry }) {
   );
 }
 
-function CountriesSlider({
+function CountriesGrid({
   countries,
-  mobileOnly = false,
+  className,
 }: {
   countries: ServiceCountry[];
-  mobileOnly?: boolean;
+  className: string;
 }) {
   return (
-    <Swiper
-      speed={600}
-      grabCursor
-      spaceBetween={16}
-      slidesPerView={1.25}
-      className="medical-countries-swiper"
-      breakpoints={
-        mobileOnly
-          ? undefined
-          : {
-              768: { slidesPerView: 3, spaceBetween: 24 },
-              1024: { slidesPerView: 3, spaceBetween: 24 },
-              1280: { slidesPerView: 4, spaceBetween: 24 },
-              1536: { slidesPerView: 5, spaceBetween: 24 },
-            }
-      }
-    >
+    <div className={className}>
       {countries.map((country) => (
-        <SwiperSlide key={country.name} className="!h-auto">
-          <CountryCard country={country} />
-        </SwiperSlide>
+        <CountryCard key={country.name} country={country} />
       ))}
-    </Swiper>
+    </div>
+  );
+}
+
+function CountriesSlider({
+  countries,
+  breakpoints,
+  slidesPerView = 1.25,
+  className,
+}: {
+  countries: ServiceCountry[];
+  slidesPerView?: number;
+  breakpoints?: Record<
+    number,
+    { slidesPerView: number; spaceBetween?: number }
+  >;
+  className?: string;
+}) {
+  return (
+    <div className={className}>
+      <Swiper
+        speed={600}
+        grabCursor
+        watchOverflow
+        spaceBetween={24}
+        slidesPerView={slidesPerView}
+        breakpoints={breakpoints}
+        className="medical-countries-swiper"
+      >
+        {countries.map((country) => (
+          <SwiperSlide key={country.name} className="!h-auto">
+            <CountryCard country={country} />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
   );
 }
 
@@ -88,7 +103,7 @@ export function MedicalTestimonials({
 }) {
   if (!countries.length) return null;
 
-  const needsSlider = countries.length > VISIBLE_COUNT;
+  const count = countries.length;
 
   return (
     <section className="py-12 tablet:py-16 desktop-xl:py-[127px]">
@@ -108,21 +123,46 @@ export function MedicalTestimonials({
             </div>
           </div>
 
-          {needsSlider ? (
-            <div>
-              <CountriesSlider countries={countries} />
-            </div>
+          {/* mobile + md: always slider */}
+          <CountriesSlider
+            className="lg:hidden"
+            countries={countries}
+            slidesPerView={1.25}
+            breakpoints={{
+              768: { slidesPerView: 2, spaceBetween: 24 },
+            }}
+          />
+
+          {/* lg-s / lg-m: 3 ta — >3 hole slider */}
+          {count > 3 ? (
+            <CountriesSlider
+              className="hidden lg:block xl:hidden"
+              countries={countries}
+              slidesPerView={3}
+            />
           ) : (
-            <>
-              <div className="tablet:hidden">
-                <CountriesSlider countries={countries} mobileOnly />
-              </div>
-              <div className="hidden gap-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-3 md:gap-6 xl:grid-cols-4 2xl:grid-cols-5">
-                {countries.map((country) => (
-                  <CountryCard key={country.name} country={country} />
-                ))}
-              </div>
-            </>
+            <CountriesGrid
+              countries={countries}
+              className="hidden gap-6 lg:grid lg:grid-cols-3 xl:hidden"
+            />
+          )}
+
+          {/* xl + 2xl (desktop): 5 ta — >5 hole slider, 5 ba kom hole grid */}
+          {count > 5 ? (
+            <CountriesSlider
+              className="hidden xl:block"
+              countries={countries}
+              slidesPerView={4}
+              breakpoints={{
+                1280: { slidesPerView: 4, spaceBetween: 24 },
+                1536: { slidesPerView: 5, spaceBetween: 24 },
+              }}
+            />
+          ) : (
+            <CountriesGrid
+              countries={countries}
+              className="hidden gap-6 xl:grid xl:grid-cols-5"
+            />
           )}
         </div>
       </Container>

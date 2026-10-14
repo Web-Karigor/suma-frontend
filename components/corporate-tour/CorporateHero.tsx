@@ -19,31 +19,31 @@ const COLLAGE = [
     src: "/images/corporate-tour/collage-1.png",
     alt: "First class cabin",
     className:
-      "h-[280px] w-[198px] tablet:h-[400px] tablet:w-[284px] xl:h-[390px] xl:w-[270px] 2xl:h-[519px] 2xl:w-[368px]",
+      "h-[min(280px,55vw)] w-[min(198px,42vw)] tablet:h-[400px] tablet:w-[284px] xl:h-[390px] xl:w-[270px] 2xl:h-[519px] 2xl:w-[368px]",
   },
   {
     src: "/images/corporate-tour/collage-2.png",
     alt: "Global business travel",
     className:
-      "h-[193px] w-[186px] tablet:h-[276px] tablet:w-[266px] xl:h-[260px] xl:w-[220px] 2xl:h-[358px] 2xl:w-[345px]",
+      "h-[min(193px,40vw)] w-[min(186px,40vw)] tablet:h-[276px] tablet:w-[266px] xl:h-[260px] xl:w-[220px] 2xl:h-[358px] 2xl:w-[345px]",
   },
   {
     src: "/images/corporate-tour/collage-3.png",
     alt: "Connected destinations",
     className:
-      "h-[121px] w-[155px] tablet:h-[173px] tablet:w-[222px] xl:h-[170px] xl:w-[200px] 2xl:h-[225px] 2xl:w-[288px]",
+      "h-[min(121px,28vw)] w-[min(155px,36vw)] tablet:h-[173px] tablet:w-[222px] xl:h-[170px] xl:w-[200px] 2xl:h-[225px] 2xl:w-[288px]",
   },
   {
     src: "/images/corporate-tour/collage-4.png",
     alt: "Business traveler",
     className:
-      "h-[207px] w-[169px] tablet:h-[295px] tablet:w-[242px] xl:h-[290px] xl:w-[240px] 2xl:h-[383px] 2xl:w-[314px]",
+      "h-[min(207px,42vw)] w-[min(169px,38vw)] tablet:h-[295px] tablet:w-[242px] xl:h-[290px] xl:w-[240px] 2xl:h-[383px] 2xl:w-[314px]",
   },
   {
     src: "/images/corporate-tour/collage-5.png",
     alt: "Corporate flight",
     className:
-      "h-[279px] w-[199px] tablet:h-[398px] tablet:w-[284px] xl:h-[390px] xl:w-[270px] 2xl:h-[517px] 2xl:w-[369px]",
+      "h-[min(279px,55vw)] w-[min(199px,42vw)] tablet:h-[398px] tablet:w-[284px] xl:h-[390px] xl:w-[270px] 2xl:h-[517px] 2xl:w-[369px]",
   },
 ] as const;
 
@@ -144,9 +144,9 @@ export function CorporateHero({
             </div>
             <a
               href="#services"
-              className="flex w-full items-center justify-between text-neutral-50 desktop-xl:w-[304px]"
+              className="flex w-full items-center justify-between gap-3 text-neutral-50 desktop-xl:w-[304px]"
             >
-              <span className="text-base font-semibold leading-[1.58]">
+              <span className="min-w-0 flex-1 text-left text-sm font-semibold leading-[1.58] tablet:text-base">
                 See What&apos;s Included in This Price?
               </span>
               <span className="relative size-5 shrink-0 overflow-clip">
@@ -168,7 +168,7 @@ export function CorporateHero({
               aria-hidden
               className="pointer-events-none absolute bottom-0 left-1/2 z-0 hidden h-[68px] w-[2132px] max-w-none -translate-x-1/2 translate-y-1/2 bg-[#EBB732] blur-[50px] 2xl:block"
             />
-            <div className="relative z-10 flex w-full items-end gap-3.5 overflow-x-auto pb-2 desktop-xl:gap-[14px] desktop-xl:overflow-visible desktop-xl:pb-0">
+            <div className="relative z-10 flex w-full items-end gap-2.5 overflow-x-auto pb-2 snap-x snap-mandatory tablet:gap-3.5 desktop-xl:gap-[14px] desktop-xl:overflow-visible desktop-xl:pb-0">
               {collage.map((item) => (
                 <div
                   key={`${item.src}-${item.alt}`}

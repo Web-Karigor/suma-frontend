@@ -39,6 +39,25 @@ export function HeroCardsSlider({
   cards: HeroCard[];
   onActiveChange?: (index: number) => void;
 }) {
+  // Swiper loop needs enough slides for slidesPerView: 3 — duplicate when few cards
+  // so drag works both left→right and right→left (e.g. only 2 items).
+  const LOOP_MIN_SLIDES = 6;
+  const slideItems =
+    cards.length > 1 && cards.length < LOOP_MIN_SLIDES
+      ? Array.from({ length: LOOP_MIN_SLIDES }, (_, index) => ({
+          card: cards[index % cards.length],
+          key: `${cards[index % cards.length]?.title ?? "card"}-${index}`,
+        }))
+      : cards.map((card, index) => ({
+          card,
+          key: `${card.title}-${index}`,
+        }));
+
+  const reportActive = (swiper: SwiperClass) => {
+    if (!cards.length) return;
+    onActiveChange?.(swiper.realIndex % cards.length);
+  };
+
   return (
     <div className="hero-cards-wrap mx-auto w-full desktop:ml-auto desktop:mr-0">
       <Swiper
@@ -48,6 +67,7 @@ export function HeroCardsSlider({
         grabCursor
         watchSlidesProgress
         watchOverflow={false}
+        loopAdditionalSlides={cards.length}
         loopPreventsSliding={false}
         speed={1000}
         slidesPerView={1.15}
@@ -71,16 +91,16 @@ export function HeroCardsSlider({
         }}
         onInit={(swiper) => {
           animateHeroCards(swiper);
-          onActiveChange?.(swiper.realIndex);
+          reportActive(swiper);
         }}
-        onSlideChange={(swiper) => onActiveChange?.(swiper.realIndex)}
+        onSlideChange={reportActive}
         onProgress={animateHeroCards}
         onSetTranslate={animateHeroCards}
         onResize={animateHeroCards}
         className="hero-cards-swiper"
       >
-        {cards.map((card, index) => (
-          <SwiperSlide key={`${card.title}-${index}`}>
+        {slideItems.map(({ card, key }) => (
+          <SwiperSlide key={key}>
             <Link href={card.href} className="hero-card group block">
               <div className="hero-card-head">
                 <h3 className="truncate text-sm xl:text-lg font-semibold text-white">

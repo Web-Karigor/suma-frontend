@@ -33,7 +33,7 @@ export function PackageDetailHero({
   const formattedPrice = `৳ ${price.toLocaleString("en-US")}`;
 
   return (
-    <section className="box-border bg-gold-100 pt-[calc(5.5rem+1.5rem)] pb-10 tablet:pt-[calc(5.5rem+2.5rem)] tablet:pb-12 desktop:h-[554px] desktop:pt-[calc(5.5rem+40px)] desktop:pb-10">
+    <section className="box-border bg-gold-100 pt-[calc(5.5rem+1.5rem)] pb-10 tablet:pt-[calc(5.5rem+2.5rem)] tablet:pb-12 desktop:min-h-[554px] desktop:pt-[calc(5.5rem+40px)] desktop:pb-10">
       <Container className="desktop-xl:!px-0">
         <div className="mt-4 flex w-full flex-col gap-8 tablet:mt-6 desktop:mt-16 desktop:flex-row desktop:items-end desktop:justify-between desktop:gap-12 desktop-xl:gap-[90px]">
           <div className="flex w-full min-w-0 flex-col gap-6 desktop-xl:max-w-[858px]">

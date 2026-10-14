@@ -22,10 +22,10 @@ function PriceText({
   const digits = String(Math.round(value)).length;
   const sizeClass =
     digits >= 6
-      ? "text-[20px] md:text-2xl lg:text-[28px] xl:text-[28px] 2xl:text-[34px]"
+      ? "text-[20px] md:text-2xl lg:text-[28px] xl:text-[28px] xl:max-[1439px]:text-[22px] 2xl:text-[34px]"
       : digits >= 5
-        ? "text-[22px] md:text-2xl lg:text-[30px] xl:text-[30px] 2xl:text-[36px]"
-        : "text-[22px] md:text-2xl lg:text-3xl xl:text-3xl 2xl:text-[40px]";
+        ? "text-[22px] md:text-2xl lg:text-[30px] xl:text-[30px] xl:max-[1439px]:text-[24px] 2xl:text-[36px]"
+        : "text-[22px] md:text-2xl lg:text-3xl xl:text-3xl xl:max-[1439px]:text-[26px] 2xl:text-[40px]";
 
   return (
     <p
@@ -85,6 +85,7 @@ export function HotelCard({ hotel }: { hotel: HotelCard }) {
           lg:h-[300px]
 
           xl:h-[290px] xl:w-[390px]
+          xl:max-[1439px]:h-[240px] xl:max-[1439px]:w-[260px]
           2xl:h-[300px] 2xl:w-[409px]
         "
       >
@@ -92,7 +93,7 @@ export function HotelCard({ hotel }: { hotel: HotelCard }) {
           src={hotel.image}
           alt={hotel.imageAlt}
           className="object-cover transition-transform duration-300 hover:scale-105"
-          sizes="(max-width: 1279px) 100vw, (max-width: 1535px) 390px, 409px"
+          sizes="(max-width: 1279px) 100vw, (max-width: 1439px) 260px, (max-width: 1535px) 390px, 409px"
         />
       </Link>
 
@@ -137,6 +138,10 @@ export function HotelCard({ hotel }: { hotel: HotelCard }) {
     xl:items-stretch
     xl:self-auto
     xl:pl-[45px]
+    xl:max-[1439px]:-ml-[14px]
+    xl:max-[1439px]:min-h-[220px]
+    xl:max-[1439px]:pl-[28px]
+    xl:max-[1439px]:pr-3
 
     2xl:-ml-[21px]
     2xl:pl-[53px]
@@ -156,11 +161,12 @@ export function HotelCard({ hotel }: { hotel: HotelCard }) {
 
     xl:pt-0
     xl:pr-6
+    xl:max-[1439px]:pr-3
     2xl:pr-8
   "
         >
           {/* Title + Rating */}
-          <div className="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+          <div className="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-4 xl:max-[1439px]:flex-col xl:max-[1439px]:items-start xl:max-[1439px]:gap-1.5">
             <h3
               className="
                 min-w-0 break-words
@@ -168,6 +174,7 @@ export function HotelCard({ hotel }: { hotel: HotelCard }) {
                 md:text-[19px]
                 lg:text-xl
                 xl:text-[19px]
+                xl:max-[1439px]:text-[17px]
                 2xl:text-xl
               "
             >
@@ -212,7 +219,7 @@ export function HotelCard({ hotel }: { hotel: HotelCard }) {
           {/* Amenities */}
           {hotel.amenities && hotel.amenities.length > 0 ? (
             <div className="mt-5 md:mt-6">
-              <div className="grid grid-cols-1 gap-x-6 gap-y-3 sm:grid-cols-2 md:gap-x-8 lg:grid-cols-3">
+              <div className="grid grid-cols-1 gap-x-6 gap-y-3 sm:grid-cols-2 md:gap-x-8 lg:grid-cols-3 xl:max-[1439px]:grid-cols-2 xl:max-[1439px]:gap-x-4">
                 {displayedAmenities.map((amenity, idx) => (
                   <div
                     key={idx}
@@ -221,6 +228,7 @@ export function HotelCard({ hotel }: { hotel: HotelCard }) {
                       text-sm text-gray-400
                       lg:text-[15px]
                       xl:text-[14px]
+                      xl:max-[1439px]:text-[13px]
                       2xl:text-[15px]
                     "
                   >
@@ -241,6 +249,7 @@ export function HotelCard({ hotel }: { hotel: HotelCard }) {
                       hover:text-primary/80
                       lg:text-[15px]
                       xl:text-[14px]
+                      xl:max-[1439px]:text-[13px]
                       2xl:text-[15px]
                     "
                   >
@@ -302,6 +311,9 @@ export function HotelCard({ hotel }: { hotel: HotelCard }) {
             xl:border-t-0
             xl:pt-0
             xl:pl-6
+            xl:max-[1439px]:ml-3
+            xl:max-[1439px]:w-[150px]
+            xl:max-[1439px]:pl-4
 
             2xl:ml-6
             2xl:w-[210px]

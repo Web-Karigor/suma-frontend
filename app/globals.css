@@ -402,6 +402,7 @@
   opacity: 1;
   width: 8px;
   height: 8px;
+  margin: 0 var(--swiper-pagination-bullet-horizontal-gap);
   border-radius: 999px;
   transition:
     width 0.25s ease,
@@ -545,7 +546,7 @@
 }
 
 .popular-wrap .swiper-slide {
-  width: 379px;
+  width: min(379px, 85vw);
   height: 402px;
   transition: transform 700ms;
   will-change: transform;
@@ -560,7 +561,7 @@
 
 @media (max-width: 639px) {
   .popular-wrap .swiper-slide {
-    width: 240px;
+    width: min(240px, 78vw);
     height: 260px;
   }
 }
@@ -609,7 +610,12 @@
 
 .st-card .title {
   font-weight: 600;
-  font-size: 28px;
+  font-size: clamp(18px, 5vw, 28px);
+  line-clamp: 2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
 }
 
 .popular-wrap .swiper-slide-shadow-left,
@@ -630,6 +636,26 @@
     --cut-w: 180px;
     --cut-h: 180px;
     --badge: 160px;
+  }
+}
+
+/* App Feature: balanced GO badge scale for tablet band only */
+@media (width >= 768px) and (width < 1280px) {
+  .flight-visual {
+    --r: 28px;
+    --cut-w: 120px;
+    --cut-h: 120px;
+    --badge: 108px;
+  }
+}
+
+/* App Feature: tighten GO badge notch only between desktop and 2xl */
+@media (width >= 1280px) and (width < 1536px) {
+  .flight-visual {
+    --r: 28px;
+    --cut-w: 132px;
+    --cut-h: 132px;
+    --badge: 120px;
   }
 }
 
@@ -721,8 +747,8 @@
 }
 
 .offer-html {
-  overflow: hidden;
-  border: 1px solid #d9d9d9;
+  overflow-x: auto;
+  overflow-y: visible;
   color: var(--color-neutral-700);
   font-size: 18px;
   line-height: 1.7;
@@ -805,7 +831,7 @@
   margin: 0;
   border-bottom: 1px solid #d9d9d9;
   background: #f3f3f3;
-  padding: 14px 18px;
+  padding: 14px 0;
   color: var(--color-neutral-950);
   font-size: 20px;
   font-weight: 700;
@@ -818,7 +844,7 @@
 
 .offer-html p {
   margin: 0;
-  padding: 12px 18px 6px;
+  padding: 12px 0 6px;
 }
 
 .offer-html p:last-child {
@@ -828,7 +854,7 @@
 .offer-html ul,
 .offer-html ol {
   margin: 0;
-  padding: 14px 18px 18px 40px;
+  padding: 14px 0 18px 1.25rem;
 }
 
 .offer-html ul {

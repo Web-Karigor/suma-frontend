@@ -166,7 +166,7 @@ export function HotelsView() {
 
           <div className="flex flex-col gap-5 desktop:flex-row desktop:items-start">
             {/* Desktop Sidebar */}
-            <div className="hidden desktop:sticky desktop:top-24 desktop:block desktop:w-[280px] desktop:shrink-0 desktop:self-start">
+            <div className="hidden desktop:sticky desktop:top-24 desktop:block desktop:w-[280px] desktop:max-[1439px]:w-[240px] desktop:shrink-0 desktop:self-start">
               <HotelsFilters
                 filters={filters}
                 onToggle={toggle}
@@ -190,7 +190,7 @@ export function HotelsView() {
 
                 {/* Drawer */}
                 <div
-                  className={`fixed top-0 left-0 bottom-0 z-50 w-[320px] bg-white shadow-2xl transition-all duration-500 ease-in-out desktop:hidden ${
+                  className={`fixed top-0 left-0 bottom-0 z-50 w-[min(320px,90vw)] bg-white shadow-2xl transition-all duration-500 ease-in-out desktop:hidden ${
                     isAnimatingIn
                       ? "translate-x-0 opacity-100"
                       : "-translate-x-full opacity-0"

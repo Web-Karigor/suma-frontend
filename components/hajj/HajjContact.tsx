@@ -60,20 +60,20 @@ export function HajjContact({ alignWide = false }: HajjContactProps) {
         </h2>
         <div className="mt-8 grid w-full grid-cols-1 gap-4 tablet:grid-cols-3 tablet:gap-5 desktop:mt-[60px] desktop:gap-12">
           {contactItems.map(({ Icon, ...item }) => (
-            <article key={item.title} className="flex min-w-0 flex-col rounded-[18px] border border-[#f0eee8] bg-white p-4 shadow-[0_2px_8px_rgb(10_12_12/5%)] tablet:min-h-[156px] desktop:h-[389px] desktop:rounded-[40px] desktop:gap-2.5 desktop:p-6 desktop:shadow-[0_0_12px_rgb(0_0_0/8%)]">
+            <article key={item.title} className="flex min-w-0 flex-col rounded-[18px] border border-[#f0eee8] bg-white p-4 shadow-[0_2px_8px_rgb(10_12_12/5%)] tablet:min-h-[156px] desktop:min-h-[389px] desktop:rounded-[40px] desktop:gap-2.5 desktop:p-6 desktop:shadow-[0_0_12px_rgb(0_0_0/8%)]">
               <span className="flex size-[52px] shrink-0 items-center justify-center rounded-[50px] bg-[#F9E9C2] p-[10px] text-secondary-700">
                 <Icon className="size-full" />
               </span>
               <h3 className="text-base leading-[150%] font-semibold text-neutral-900 desktop:text-[20px]">{item.title}</h3>
-              <p className="min-h-[52px] text-base leading-[160%] font-normal text-neutral-900 desktop:max-w-[415px]">
-                {item.description} {item.title === "Support Email" ? <strong>{item.value}</strong> : null}
+              <p className="min-h-[52px] min-w-0 break-words text-base leading-[160%] font-normal text-neutral-900 desktop:max-w-[415px]">
+                {item.description} {item.title === "Support Email" ? <strong className="break-all">{item.value}</strong> : null}
               </p>
-              {item.title !== "Support Email" ? <p className="text-base leading-[160%] font-normal text-neutral-900">{item.value}</p> : null}
-              {item.meta ? <p className="text-base leading-[157%] text-neutral-900"><strong>{item.meta.split(":")[0]}:</strong>{item.meta.split(":")[1]}</p> : null}
-              {item.detail ? <p className="text-base leading-[157%] text-neutral-900"><strong>{item.detail.split(":")[0]}:</strong>{item.detail.split(":")[1]}</p> : null}
+              {item.title !== "Support Email" ? <p className="min-w-0 break-words text-base leading-[160%] font-normal text-neutral-900">{item.value}</p> : null}
+              {item.meta ? <p className="min-w-0 break-words text-base leading-[157%] text-neutral-900"><strong>{item.meta.split(":")[0]}:</strong>{item.meta.split(":")[1]}</p> : null}
+              {item.detail ? <p className="min-w-0 break-words text-base leading-[157%] text-neutral-900"><strong>{item.detail.split(":")[0]}:</strong>{item.detail.split(":")[1]}</p> : null}
               <Link
                 href={item.href}
-                className={`mt-auto inline-flex h-[49px] items-center justify-center rounded-button bg-primary px-4 py-3 text-xs text-white ${item.title === "Website" ? "w-[169px]" : "w-[122px]"}`}
+                className={`mt-auto inline-flex h-[49px] max-w-full items-center justify-center rounded-button bg-primary px-4 py-3 text-xs text-white ${item.title === "Website" ? "w-[169px]" : "w-[122px]"}`}
               >
                 {item.action}
               </Link>

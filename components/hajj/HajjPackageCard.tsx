@@ -9,7 +9,7 @@ export function HajjPackageCard({
   package: ServiceHajjPackage;
 }) {
   return (
-    <article className="relative mx-auto min-h-0 min-w-0 w-full max-w-[858px] overflow-visible rounded-[14px] transition-transform duration-300 desktop:h-[1128px]">
+    <article className="relative mx-auto min-h-0 min-w-0 w-full max-w-[858px] overflow-visible rounded-[14px] transition-transform duration-300 desktop:min-h-[1128px]">
       <div className="relative aspect-[1.78] overflow-hidden rounded-[24px] desktop:h-[560px] desktop:aspect-auto">
         <CoverImage
           src={packageData.image}
@@ -32,7 +32,7 @@ export function HajjPackageCard({
     desktop:absolute
     desktop:top-[476px]
     desktop:left-1/2
-    desktop:h-[652px]
+    desktop:min-h-[652px]
     desktop:w-[calc(100%_-_58px)]
     desktop:max-w-[800px]
     desktop:-translate-x-1/2
@@ -43,18 +43,20 @@ export function HajjPackageCard({
           className="
     relative
     flex
-    h-[84px]
+    min-h-[84px]
     w-full
     items-center
     justify-center
     overflow-hidden
     rounded-t-[24px]
-    px-8
+    px-6
+    py-3
     text-center
     text-[16px] lg:text-[28px]
     leading-[128%]
     font-semibold
     text-primary
+    tablet:px-8
   "
         >
           <span
@@ -74,7 +76,7 @@ export function HajjPackageCard({
             }}
           />
 
-          <span className="relative z-10">{packageData.title}</span>
+          <span className="relative z-10 line-clamp-2 px-2">{packageData.title}</span>
         </h2>
 
         {/* Content */}

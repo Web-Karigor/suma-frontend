@@ -15,7 +15,7 @@ export function ContactPage() {
     <main>
       <ContactHero />
       <section className="bg-[#E8F7F8] py-10 tablet:py-14 desktop:py-16">
-        <Container className="grid gap-6 desktop:h-[753px] desktop:grid-cols-[1.4fr_0.9fr]">
+        <Container className="grid gap-6 desktop:min-h-[753px] desktop:grid-cols-[minmax(0,1.4fr)_minmax(0,0.9fr)]">
           <ContactForm />
           <div className="relative min-h-[300px] overflow-hidden rounded-[14px] bg-teal-900 tablet:min-h-[420px] desktop:h-full desktop:rounded-[44px]">
             {settings.contactPageImage ? (

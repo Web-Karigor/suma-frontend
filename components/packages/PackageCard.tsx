@@ -23,7 +23,7 @@ export function PackageCard({
   package: PackageListItem;
 }) {
   return (
-    <article className="group relative h-[472px] min-w-0 overflow-hidden rounded-[18px] border border-[#ddd8cb] bg-white shadow-[0_2px_8px_rgb(10_12_12/8%)]">
+    <article className="group relative min-h-[472px] min-w-0 overflow-hidden rounded-[18px] border border-[#ddd8cb] bg-white shadow-[0_2px_8px_rgb(10_12_12/8%)]">
       <Link
         href={packageData.href}
         aria-label={`View ${packageData.title}`}
@@ -37,7 +37,7 @@ export function PackageCard({
           sizes="(min-width: 1280px) 31vw, (min-width: 768px) 47vw, 100vw"
         />
       </div>
-      <div className="absolute right-2 bottom-2 left-2 z-[2] flex h-[222px] flex-col gap-2.5 rounded-[10px] bg-overlay-white-84 p-4 backdrop-blur-md pointer-events-none">
+      <div className="absolute right-2 bottom-2 left-2 z-[2] flex min-h-[222px] flex-col gap-2.5 rounded-[10px] bg-overlay-white-84 p-4 backdrop-blur-md pointer-events-none">
         <Link
           href={packageData.href}
           aria-label={`View ${packageData.title}`}
@@ -52,10 +52,10 @@ export function PackageCard({
             </span>
           </span>
         </Link>
-        <h3 className="pr-10 text-base leading-tight font-semibold text-neutral-950 tablet:pr-12 tablet:text-2xl">
+        <h3 className="line-clamp-2 pr-10 text-base leading-tight font-semibold text-neutral-950 tablet:pr-12 tablet:text-2xl">
           <Link
             href={packageData.href}
-            className="pointer-events-auto hover:text-primary transition-colors duration-200"
+            className="pointer-events-auto break-words hover:text-primary transition-colors duration-200"
           >
             {packageData.title}
           </Link>
@@ -87,21 +87,21 @@ export function PackageCard({
             ) : null}
           </div>
         ) : null}
-        <div className="mt-auto flex items-center justify-between gap-2">
-          <p className="text-xl font-semibold text-primary tablet:text-3xl">
+        <div className="mt-auto flex min-w-0 flex-wrap items-center justify-between gap-2">
+          <p className="min-w-0 whitespace-nowrap text-lg font-semibold text-primary tablet:text-2xl desktop:text-3xl">
             ৳ {packageData.price.toLocaleString()}
           </p>
-          <div className="flex items-center gap-[21px]">
+          <div className="flex min-w-0 items-center gap-2 tablet:gap-3">
             <Link
               href={packageData.href}
-              className="pointer-events-auto inline-flex h-[49px] w-[140px] items-center justify-center rounded-button bg-primary hover:bg-teal-700 hover:text-white px-3 text-sm font-medium text-white transition-colors duration-200"
+              className="pointer-events-auto inline-flex h-[49px] min-w-[110px] items-center justify-center rounded-button bg-primary px-3 text-sm font-medium text-white transition-colors duration-200 hover:bg-teal-700 hover:text-white tablet:w-[140px]"
             >
               Book Now
             </Link>
             <button
               type="button"
               aria-label="Share package"
-              className="pointer-events-auto inline-flex size-12 shrink-0 items-center justify-center rounded-[12px] border-[0.5px] border-teal-600 bg-gray-50 hover:bg-teal-700 hover:text-white text-primary transition-colors duration-200"
+              className="pointer-events-auto inline-flex size-11 shrink-0 items-center justify-center rounded-[12px] border-[0.5px] border-teal-600 bg-gray-50 text-primary transition-colors duration-200 hover:bg-teal-700 hover:text-white tablet:size-12"
               onClick={(event) => {
                 event.preventDefault();
                 event.stopPropagation();
