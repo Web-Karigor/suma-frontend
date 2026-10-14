@@ -21,21 +21,12 @@ export function PopularDestinations() {
       "Expand your travel horizons with new facets. Explore the world by choosing your ideal travel destinations in Asia, Europe, America, Australia and more with Suma.",
   });
   const swiperRef = useRef<SwiperClass | null>(null);
-  const [activeDot, setActiveDot] = useState(0);
-  const dotCount = Math.min(destinations.length, 5);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const canLoop = destinations.length > 1;
 
   function syncDot(swiper: SwiperClass) {
-    if (dotCount === 0) return;
-    setActiveDot(swiper.realIndex % dotCount);
-  }
-
-  function goToDot(index: number) {
-    const swiper = swiperRef.current;
-    if (!swiper || dotCount === 0) return;
-    const total = destinations.length;
-    const current = swiper.realIndex;
-    const diff = index - (current % dotCount);
-    swiper.slideToLoop((current + diff + total) % total);
+    if (!destinations.length) return;
+    setActiveIndex(swiper.realIndex % destinations.length);
   }
 
   if (isLoading || destinations.length === 0) {
@@ -146,22 +137,39 @@ export function PopularDestinations() {
           ))}
         </Swiper>
 
-        {dotCount > 1 ? (
+        {canLoop ? (
           <div
             className="popular-dots"
             role="tablist"
             aria-label="Popular destinations"
           >
-            {Array.from({ length: dotCount }).map((_, index) => (
-              <button
-                key={index}
-                type="button"
-                aria-label={`Go to destination ${index + 1}`}
-                aria-current={activeDot === index ? "true" : undefined}
-                className={`swiper-pagination-bullet${activeDot === index ? " swiper-pagination-bullet-active" : ""}`}
-                onClick={() => goToDot(index)}
-              />
-            ))}
+            {([-2, -1, 0, 1, 2] as const).map((offset) => {
+              const isMiddle = offset === 0;
+              return (
+                <button
+                  key={offset}
+                  type="button"
+                  aria-label={
+                    isMiddle
+                      ? `Current destination ${activeIndex + 1}`
+                      : offset < 0
+                        ? "Previous destination"
+                        : "Next destination"
+                  }
+                  aria-current={isMiddle ? "true" : undefined}
+                  className={`swiper-pagination-bullet${isMiddle ? " swiper-pagination-bullet-active" : ""}`}
+                  onClick={() => {
+                    if (isMiddle) return;
+                    const swiper = swiperRef.current;
+                    if (!swiper) return;
+                    const total = destinations.length;
+                    const target =
+                      (swiper.realIndex + offset + total * 10) % total;
+                    swiper.slideToLoop(target);
+                  }}
+                />
+              );
+            })}
           </div>
         ) : null}
       </Container>

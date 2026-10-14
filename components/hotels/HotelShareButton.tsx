@@ -6,7 +6,7 @@ export function HotelShareButton() {
   return (
     <button
       type="button"
-      className="inline-flex h-10 cursor-pointer items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 text-sm lg:text-lg font-medium text-black"
+      className="inline-flex h-[53px] cursor-pointer items-center gap-[21px] rounded-[12px] border-0 bg-[#F2F8F8] p-3 text-base font-medium text-[#0A0C0C]"
       onClick={() => {
         if (navigator.share) {
           void navigator.share({
@@ -18,7 +18,7 @@ export function HotelShareButton() {
         void navigator.clipboard.writeText(window.location.href);
       }}
     >
-      <ShareIcon className="size-6" />
+      <ShareIcon className="size-6 shrink-0 text-[#0A0C0C]" />
       Share
     </button>
   );

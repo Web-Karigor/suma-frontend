@@ -16,8 +16,8 @@ import "swiper/css";
 
 type SlideEl = HTMLElement & { progress: number };
 
-/** Triple the list so we can fake infinite scroll without Swiper loop bugs. */
-const LOOP_COPIES = 3;
+/** Need ≥ slidesPerView*2 for loop; pad so both directions stay infinite. */
+const LOOP_MIN_SLIDES = 12;
 
 function scaleOfferCards(swiper: SwiperClass) {
   swiper.slides.forEach((slide) => {
@@ -38,7 +38,10 @@ function buildSlideItems(offers: OfferCard[]) {
     return offers.map((offer) => ({ offer, key: String(offer.id) }));
   }
 
-  return Array.from({ length: offers.length * LOOP_COPIES }, (_, index) => {
+  const count = Math.max(LOOP_MIN_SLIDES, offers.length * 2);
+  const total = Math.ceil(count / offers.length) * offers.length;
+
+  return Array.from({ length: total }, (_, index) => {
     const offer = offers[index % offers.length]!;
     return { offer, key: `${offer.id}-${index}` };
   });
@@ -50,44 +53,21 @@ export function ExclusiveOffers() {
     title: "Exclusive Offers",
   });
   const swiperRef = useRef<SwiperClass | null>(null);
-  const [activeDot, setActiveDot] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(0);
   const slideItems = buildSlideItems(offers);
   const canLoop = offers.length > 1;
-
-  /** Keep active index inside the middle copy for seamless infinite drag. */
-  function keepInMiddleCopy(swiper: SwiperClass) {
-    if (!canLoop) return;
-    const n = offers.length;
-    const i = swiper.activeIndex;
-    if (i < n) {
-      swiper.slideTo(i + n, 0);
-    } else if (i >= n * 2) {
-      swiper.slideTo(i - n, 0);
-    }
-  }
+  const n = offers.length;
 
   function syncActive(swiper: SwiperClass) {
-    if (!offers.length) return;
-    setActiveDot(swiper.realIndex % offers.length);
+    if (!n) return;
+    setActiveIndex(swiper.realIndex % n);
   }
 
-  function goToDot(index: number) {
+  function goRelative(step: -1 | 1) {
     const swiper = swiperRef.current;
-    if (!swiper || !offers.length) return;
-    // Jump within the middle copy so neighbors stay left / center / right
-    const target = canLoop ? offers.length + index : index;
-    swiper.slideTo(target);
-  }
-
-  function onReady(swiper: SwiperClass) {
-    swiperRef.current = swiper;
-    if (canLoop) {
-      // Middle copy, index 1 → left / middle / right = all 3 unique offers
-      const start = offers.length + (offers.length > 1 ? 1 : 0);
-      swiper.slideTo(start, 0);
-    }
-    scaleOfferCards(swiper);
-    syncActive(swiper);
+    if (!swiper || !canLoop) return;
+    if (step < 0) swiper.slidePrev();
+    else swiper.slideNext();
   }
 
   if (isLoading || offers.length === 0) {
@@ -126,6 +106,9 @@ export function ExclusiveOffers() {
     );
   }
 
+  const prevIndex = n > 0 ? (activeIndex - 1 + n) % n : 0;
+  const nextIndex = n > 0 ? (activeIndex + 1) % n : 0;
+
   return (
     <section
       id={section.htmlId}
@@ -140,9 +123,11 @@ export function ExclusiveOffers() {
         />
 
         <Swiper
-          key={`offers-${offers.length}`}
+          key={`offers-loop-${offers.length}-${slideItems.length}`}
           modules={[Autoplay]}
-          loop={false}
+          loop={canLoop}
+          loopAdditionalSlides={offers.length}
+          loopPreventsSliding={false}
           direction="horizontal"
           centeredSlides
           grabCursor
@@ -150,7 +135,8 @@ export function ExclusiveOffers() {
           watchOverflow={false}
           allowSlidePrev
           allowSlideNext
-          speed={900}
+          resistanceRatio={0}
+          speed={700}
           roundLengths
           slidesPerGroup={1}
           spaceBetween={8}
@@ -164,13 +150,16 @@ export function ExclusiveOffers() {
             768: { slidesPerView: 3, spaceBetween: 0, centeredSlides: true },
             1280: { slidesPerView: 3, spaceBetween: 0, centeredSlides: true },
           }}
-          onSwiper={onReady}
-          onSlideChange={syncActive}
-          onSlideChangeTransitionEnd={(swiper) => {
-            keepInMiddleCopy(swiper);
-            syncActive(swiper);
+          onSwiper={(swiper) => {
+            swiperRef.current = swiper;
             scaleOfferCards(swiper);
+            syncActive(swiper);
           }}
+          onInit={(swiper) => {
+            scaleOfferCards(swiper);
+            syncActive(swiper);
+          }}
+          onSlideChange={syncActive}
           onSetTranslate={scaleOfferCards}
           onProgress={scaleOfferCards}
           onResize={scaleOfferCards}
@@ -200,16 +189,27 @@ export function ExclusiveOffers() {
             role="tablist"
             aria-label="Exclusive offers"
           >
-            {offers.map((offer, index) => (
-              <button
-                key={offer.id}
-                type="button"
-                aria-label={`Go to offer ${index + 1}`}
-                aria-current={activeDot === index ? "true" : undefined}
-                className={`swiper-pagination-bullet${activeDot === index ? " swiper-pagination-bullet-active" : ""}`}
-                onClick={() => goToDot(index)}
-              />
-            ))}
+            {/* Left = previous — always inactive style */}
+            <button
+              type="button"
+              aria-label={`Go to offer ${prevIndex + 1}`}
+              className="swiper-pagination-bullet"
+              onClick={() => goRelative(-1)}
+            />
+            {/* Middle = current center slide — always active/large */}
+            <button
+              type="button"
+              aria-label={`Current offer ${activeIndex + 1}`}
+              aria-current="true"
+              className="swiper-pagination-bullet swiper-pagination-bullet-active"
+            />
+            {/* Right = next — always inactive style */}
+            <button
+              type="button"
+              aria-label={`Go to offer ${nextIndex + 1}`}
+              className="swiper-pagination-bullet"
+              onClick={() => goRelative(1)}
+            />
           </div>
         ) : null}
       </Container>

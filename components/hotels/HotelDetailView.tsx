@@ -12,39 +12,42 @@ export function HotelDetailView({ hotel }: { hotel: HotelDetail }) {
   return (
     <main>
       <Container className="pt-6 pb-10 tablet:pt-8">
-        <div className="flex flex-col gap-4 tablet:flex-row tablet:items-start tablet:justify-between">
-          <div>
-            <h1 className="text-[28px] leading-[120%] font-semibold text-[#000000] tablet:text-[32px] xl:text-[40px]">
-              {hotel.title}
-            </h1>
-            <div className="mt-2 flex flex-wrap items-center gap-2 text-xl  text-gray-600">
-              <span className="flex text-gold-500">
-                {Array.from({ length: hotel.rating }).map((_, i) => (
-                  <StarIcon key={i} className="size-5.5" />
-                ))}
-              </span>
-              <span className="text-sm">({hotel.rating.toFixed(1)})</span>
-              {hotel.address ? (
-                <span className="inline-flex items-center gap-1.5">
-                  <PinIcon className="size-5" />
-                  {hotel.address}
-                </span>
-              ) : null}
+        <div className="flex flex-col gap-4 desktop:flex-row desktop:items-start desktop:gap-4">
+          <div className="min-w-0 flex-1">
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0">
+                <h1 className="text-[28px] leading-[120%] font-semibold text-[#000000] tablet:text-[32px] xl:text-[40px]">
+                  {hotel.title}
+                </h1>
+                <div className="mt-2 flex flex-wrap items-center gap-2 text-xl text-gray-600">
+                  <span className="flex text-gold-500">
+                    {Array.from({ length: hotel.rating }).map((_, i) => (
+                      <StarIcon key={i} className="size-5.5" />
+                    ))}
+                  </span>
+                  <span className="text-sm">({hotel.rating.toFixed(1)})</span>
+                  {hotel.address ? (
+                    <span className="inline-flex items-center gap-1.5">
+                      <PinIcon className="size-5" />
+                      {hotel.address}
+                    </span>
+                  ) : null}
+                </div>
+              </div>
+              <HotelShareButton />
+            </div>
+
+            <div className="mt-6">
+              <HotelGallery images={hotel.gallery} title={hotel.imageAlt} />
+              <HotelHighlights highlights={hotel.highlights} />
+              <HotelAbout
+                descriptionHtml={hotel.descriptionHtml}
+                shortDescription={hotel.shortDescription}
+                amenities={hotel.amenities}
+              />
             </div>
           </div>
-          <HotelShareButton />
-        </div>
 
-        <div className="mt-6 flex flex-col gap-4 desktop:flex-row desktop:items-start">
-          <div className="min-w-0 flex-1">
-            <HotelGallery images={hotel.gallery} title={hotel.imageAlt} />
-            <HotelHighlights highlights={hotel.highlights} />
-            <HotelAbout
-              descriptionHtml={hotel.descriptionHtml}
-              shortDescription={hotel.shortDescription}
-              amenities={hotel.amenities}
-            />
-          </div>
           <HotelDetailSidebar hotel={hotel} />
         </div>
       </Container>

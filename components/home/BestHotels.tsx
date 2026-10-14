@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { Autoplay, Pagination } from "swiper/modules";
+import { useRef, useState } from "react";
+import type { Swiper as SwiperClass } from "swiper";
+import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { ArrowRightIcon, StarIcon } from "@/components/icons";
 import { Button } from "@/components/ui/Button";
@@ -9,9 +11,26 @@ import { Container } from "@/components/ui/Container";
 import { CoverImage } from "@/components/ui/CoverImage";
 import { useHomepageHotelsQuery } from "@/hooks/queries/useHomepageHotelsQuery";
 import { useHomepageSection } from "@/hooks/queries/useHomepageSectionContentQuery";
+import type { HotelCard } from "@/types/hotel";
 
 import "swiper/css";
-import "swiper/css/pagination";
+
+/** Need enough slides for loop + slidesPerView auto/2 — pad so both directions work. */
+const LOOP_MIN_SLIDES = 12;
+
+function buildSlideItems(hotels: HotelCard[]) {
+  if (hotels.length <= 1) {
+    return hotels.map((hotel) => ({ hotel, key: String(hotel.id) }));
+  }
+
+  const count = Math.max(LOOP_MIN_SLIDES, hotels.length * 2);
+  const total = Math.ceil(count / hotels.length) * hotels.length;
+
+  return Array.from({ length: total }, (_, index) => {
+    const hotel = hotels[index % hotels.length]!;
+    return { hotel, key: `${hotel.id}-${index}` };
+  });
+}
 
 export function BestHotels() {
   const { data: hotels = [], isLoading } = useHomepageHotelsQuery();
@@ -20,6 +39,24 @@ export function BestHotels() {
     subtitle:
       "For budget-friendly hotels, villas or resorts, browse accommodations that you need. Book long-term or short-term accommodation from our hotel collection.",
   });
+  const swiperRef = useRef<SwiperClass | null>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const slideItems = buildSlideItems(hotels);
+  const canLoop = hotels.length > 1;
+
+  function syncActive(swiper: SwiperClass) {
+    if (!hotels.length) return;
+    setActiveIndex(swiper.realIndex % hotels.length);
+  }
+
+  function goToDot(index: number) {
+    const swiper = swiperRef.current;
+    if (!swiper || !hotels.length) return;
+    const total = slideItems.length;
+    const current = swiper.realIndex;
+    const diff = index - (current % hotels.length);
+    swiper.slideToLoop((current + diff + total) % total);
+  }
 
   if (isLoading || hotels.length === 0) {
     return (
@@ -93,15 +130,21 @@ export function BestHotels() {
         </div>
 
         <Swiper
-          modules={[Pagination, Autoplay]}
-          loop={hotels.length > 1}
+          key={`hotels-loop-${hotels.length}-${slideItems.length}`}
+          modules={[Autoplay]}
+          loop={canLoop}
+          loopAdditionalSlides={hotels.length}
+          loopPreventsSliding={false}
           grabCursor
-          speed={800}
+          watchOverflow={false}
+          allowSlidePrev
+          allowSlideNext
+          resistanceRatio={0}
+          speed={700}
           spaceBetween={24}
           slidesPerView={1}
-          pagination={{ clickable: true }}
           autoplay={
-            hotels.length > 1
+            canLoop
               ? { delay: 5000, disableOnInteraction: false }
               : false
           }
@@ -110,10 +153,15 @@ export function BestHotels() {
             1024: { slidesPerView: 2, spaceBetween: 24 },
             1280: { slidesPerView: "auto", spaceBetween: 24 },
           }}
+          onSwiper={(swiper) => {
+            swiperRef.current = swiper;
+            syncActive(swiper);
+          }}
+          onSlideChange={syncActive}
           className="hotels-swiper"
         >
-          {hotels.map((hotel) => (
-            <SwiperSlide key={hotel.id} className="!h-auto desktop:!w-[593px]">
+          {slideItems.map(({ hotel, key }) => (
+            <SwiperSlide key={key} className="!h-auto desktop:!w-[593px]">
               <article className="relative mx-auto w-full max-w-[593px] desktop:h-[360px]">
                 <Link
                   href={hotel.href}
@@ -182,6 +230,25 @@ export function BestHotels() {
             </SwiperSlide>
           ))}
         </Swiper>
+
+        {canLoop ? (
+          <div
+            className="swiper-pagination hotels-swiper-dots !relative mt-7 !transform-none text-center"
+            role="tablist"
+            aria-label="Best hotels"
+          >
+            {hotels.map((hotel, index) => (
+              <button
+                key={hotel.id}
+                type="button"
+                aria-label={`Go to hotel ${index + 1}`}
+                aria-current={activeIndex === index ? "true" : undefined}
+                className={`swiper-pagination-bullet${activeIndex === index ? " swiper-pagination-bullet-active" : ""}`}
+                onClick={() => goToDot(index)}
+              />
+            ))}
+          </div>
+        ) : null}
       </Container>
     </section>
   );

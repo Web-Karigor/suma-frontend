@@ -16,6 +16,8 @@ type SlideEl = HTMLElement & { progress: number };
 const SLIDE_GAP = 8;
 const INACTIVE_SCALE_X = 270 / 318;
 const INACTIVE_SCALE_Y = 322 / 400;
+/** Need ≥ slidesPerView*2 for loop; pad well so both directions work. */
+const LOOP_MIN_SLIDES = 12;
 
 function animateHeroCards(swiper: SwiperClass) {
   swiper.slides.forEach((slide) => {
@@ -32,6 +34,24 @@ function animateHeroCards(swiper: SwiperClass) {
   });
 }
 
+function buildSlideItems(cards: HeroCard[]) {
+  if (cards.length <= 1) {
+    return cards.map((card, index) => ({
+      card,
+      key: `${card.title}-${index}`,
+    }));
+  }
+
+  const count = Math.max(LOOP_MIN_SLIDES, cards.length * 2);
+  // Keep length divisible by cards.length so realIndex % n stays correct
+  const total = Math.ceil(count / cards.length) * cards.length;
+
+  return Array.from({ length: total }, (_, index) => {
+    const card = cards[index % cards.length]!;
+    return { card, key: `${card.title}-${index}` };
+  });
+}
+
 export function HeroCardsSlider({
   cards,
   onActiveChange,
@@ -39,19 +59,8 @@ export function HeroCardsSlider({
   cards: HeroCard[];
   onActiveChange?: (index: number) => void;
 }) {
-  // Swiper loop needs enough slides for slidesPerView: 3 — duplicate when few cards
-  // so drag works both left→right and right→left (e.g. only 2 items).
-  const LOOP_MIN_SLIDES = 6;
-  const slideItems =
-    cards.length > 1 && cards.length < LOOP_MIN_SLIDES
-      ? Array.from({ length: LOOP_MIN_SLIDES }, (_, index) => ({
-          card: cards[index % cards.length],
-          key: `${cards[index % cards.length]?.title ?? "card"}-${index}`,
-        }))
-      : cards.map((card, index) => ({
-          card,
-          key: `${card.title}-${index}`,
-        }));
+  const slideItems = buildSlideItems(cards);
+  const canLoop = cards.length > 1;
 
   const reportActive = (swiper: SwiperClass) => {
     if (!cards.length) return;
@@ -61,21 +70,25 @@ export function HeroCardsSlider({
   return (
     <div className="hero-cards-wrap mx-auto w-full desktop:ml-auto desktop:mr-0">
       <Swiper
+        key={`hero-loop-${cards.length}-${slideItems.length}`}
         modules={[Autoplay]}
-        loop={cards.length > 1}
+        loop={canLoop}
+        loopAdditionalSlides={cards.length}
+        loopPreventsSliding={false}
         direction="horizontal"
         grabCursor
         watchSlidesProgress
         watchOverflow={false}
-        loopAdditionalSlides={cards.length}
-        loopPreventsSliding={false}
-        speed={1000}
+        allowSlidePrev
+        allowSlideNext
+        resistanceRatio={0}
+        speed={700}
         slidesPerView={1.15}
         slidesPerGroup={1}
         spaceBetween={SLIDE_GAP}
         centeredSlides
         autoplay={
-          cards.length > 1
+          canLoop
             ? {
                 delay: 4000,
                 disableOnInteraction: false,
@@ -90,6 +103,10 @@ export function HeroCardsSlider({
           },
         }}
         onInit={(swiper) => {
+          animateHeroCards(swiper);
+          reportActive(swiper);
+        }}
+        onSwiper={(swiper) => {
           animateHeroCards(swiper);
           reportActive(swiper);
         }}

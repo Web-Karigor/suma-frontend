@@ -6,9 +6,29 @@ function formatPrice(value: number) {
   return `৳ ${value.toLocaleString("en-BD")}`;
 }
 
+function getMapHref(mapEmbedHtml: string, address: string) {
+  const src = mapEmbedHtml.match(/src=["']([^"']+)["']/i)?.[1];
+  if (src) {
+    try {
+      const url = new URL(src);
+      if (url.pathname.includes("/maps/embed")) {
+        url.pathname = url.pathname.replace("/maps/embed", "/maps");
+      }
+      return url.toString();
+    } catch {
+      return src;
+    }
+  }
+  if (address) {
+    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+  }
+  return null;
+}
+
 export function HotelDetailSidebar({ hotel }: { hotel: HotelDetail }) {
-  const hasDiscount =
-    hotel.discountAmount !== null && hotel.finalPrice < hotel.price;
+  const mapHref = hotel.mapEmbedHtml
+    ? getMapHref(hotel.mapEmbedHtml, hotel.address)
+    : null;
 
   return (
     <aside className="w-full desktop:sticky desktop:top-24 desktop:w-[417px] desktop:shrink-0 desktop:self-start">
@@ -26,23 +46,11 @@ export function HotelDetailSidebar({ hotel }: { hotel: HotelDetail }) {
               {formatPrice(hotel.finalPrice)}
             </p>
 
-            {/* {hasDiscount ? (
-              <p className="mt-1 text-sm text-gray-400 line-through">
-                {formatPrice(hotel.price)}
-              </p>
-            ) : null}
-
-            {hasDiscount ? (
-              <p className="mt-1 text-[13px] font-medium text-success">
-                Save {formatPrice(hotel.discountAmount!)}
-              </p>
-            ) : null} */}
-
-            {hotel.isRefundable ? (
+            {/* {hotel.isRefundable ? (
               <p className="mt-1 text-[13px] font-medium text-success">
                 Free cancellation available
               </p>
-            ) : null}
+            ) : null} */}
           </div>
 
           <Button
@@ -58,24 +66,31 @@ export function HotelDetailSidebar({ hotel }: { hotel: HotelDetail }) {
         ========================== */}
         {hotel.mapEmbedHtml ? (
           <section className="rounded-[16px] border border-gray-200 bg-teal-50 px-3 py-4">
-            <h3 className="mb-3 text-center text-[16px] lg:text-xl font-semibold text-black">
+            <h3 className="mb-3 text-center text-[16px] font-semibold text-black lg:text-xl">
               View on Map
             </h3>
 
-            <div
-              className="
-                relative
-                h-[168px]
-                w-full
-                overflow-hidden
-                rounded-[10px]
-                [&_iframe]:size-full
-                [&_iframe]:border-0
-              "
-              dangerouslySetInnerHTML={{
-                __html: hotel.mapEmbedHtml,
-              }}
-            />
+            <div className="relative h-[242px] w-full overflow-hidden rounded-[6px]">
+              <div
+                className="absolute inset-0 [&_iframe]:pointer-events-none [&_iframe]:size-full [&_iframe]:border-0"
+                dangerouslySetInnerHTML={{
+                  __html: hotel.mapEmbedHtml,
+                }}
+              />
+              <div className="absolute inset-0 bg-overlay-black-24" />
+              {mapHref ? (
+                <a
+                  href={mapHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="absolute inset-0 z-10 flex items-center justify-center"
+                >
+                  <span className="inline-flex h-10 items-center justify-center rounded-lg bg-white px-4 text-sm font-medium text-[#0A0C0C] shadow-sm transition-colors hover:bg-gray-50 lg:text-base">
+                    Map View
+                  </span>
+                </a>
+              ) : null}
+            </div>
           </section>
         ) : null}
 
@@ -87,38 +102,10 @@ export function HotelDetailSidebar({ hotel }: { hotel: HotelDetail }) {
             <ul className="space-y-2">
               {hotel.features.map((item, index) => (
                 <li key={`${item}-${index}`}>
-                  <div
-                    className="
-                      flex
-                      w-full
-                      items-start
-                      gap-2
-                      rounded-[10px]
-                      border
-                      border-[#268F8E]
-                      bg-transparent
-                      px-3
-                      py-2.5
-                      text-left
-                      text-[16px]
-                      leading-[150%]
-                      text-[#0A0C0C]
-                    "
-                  >
-                    <span
-                      className="
-                        mt-0.5
-                        inline-flex
-                        size-5
-                        shrink-0
-                        items-center
-                        justify-center
-                        rounded-full
-                      "
-                    >
+                  <div className="flex w-full items-start gap-2 rounded-[10px] border border-[#268F8E] bg-transparent px-3 py-2.5 text-left text-[16px] leading-[150%] text-[#0A0C0C]">
+                    <span className="mt-0.5 inline-flex size-5 shrink-0 items-center justify-center rounded-full">
                       <CheckIcon className="size-5" />
                     </span>
-
                     <span className="min-w-0">{item}</span>
                   </div>
                 </li>
@@ -132,14 +119,13 @@ export function HotelDetailSidebar({ hotel }: { hotel: HotelDetail }) {
         ========================== */}
         {hotel.nearbyAttractions.length > 0 || hotel.howToReach.length > 0 ? (
           <section className="rounded-[16px] border border-gray-200 bg-teal-50 px-3 py-4">
-            {/* Nearby Attraction */}
             {hotel.nearbyAttractions.length > 0 ? (
               <div>
-                <h3 className="text-center text-[16px] lg:text-xl font-semibold text-[#000000]">
+                <h3 className="text-center text-[16px] font-semibold text-[#000000] lg:text-xl">
                   Nearby Attraction
                 </h3>
 
-                <ul className="mt-3 list-disc space-y-3 pl-5 text-[14px] lg:text-base leading-[160%] text-[#686868]">
+                <ul className="mt-3 list-disc space-y-3 pl-5 text-[14px] leading-[160%] text-[#686868] lg:text-base">
                   {hotel.nearbyAttractions.map((item, index) => (
                     <li key={`${item}-${index}`}>{item}</li>
                   ))}
@@ -147,20 +133,18 @@ export function HotelDetailSidebar({ hotel }: { hotel: HotelDetail }) {
               </div>
             ) : null}
 
-            {/* Divider */}
             {hotel.nearbyAttractions.length > 0 &&
             hotel.howToReach.length > 0 ? (
               <div className="my-3 border-t border-gray-300" />
             ) : null}
 
-            {/* How To Reach */}
             {hotel.howToReach.length > 0 ? (
               <div>
-                <h3 className="text-center text-[16px] lg:text-xl font-semibold text-[#000000]">
+                <h3 className="text-center text-[16px] font-semibold text-[#000000] lg:text-xl">
                   How to Reach
                 </h3>
 
-                <ul className="mt-3 list-disc space-y-3 pl-5 text-[14px] lg:text-base leading-[160%] text-[#686868]">
+                <ul className="mt-3 list-disc space-y-3 pl-5 text-[14px] leading-[160%] text-[#686868] lg:text-base">
                   {hotel.howToReach.map((item, index) => (
                     <li key={`${item}-${index}`}>{item}</li>
                   ))}
@@ -168,7 +152,6 @@ export function HotelDetailSidebar({ hotel }: { hotel: HotelDetail }) {
               </div>
             ) : null}
 
-            {/* Bottom Book Now */}
             <div className="mt-4 border-t border-gray-300 pt-4">
               <Button
                 href={hotel.linkUrl}
