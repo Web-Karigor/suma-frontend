@@ -122,18 +122,16 @@ export function HotelGallery({
   images: HotelGalleryImage[];
   title: string;
 }) {
-  const [active, setActive] = useState(0);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
-  const activeImage = images[active] ?? images[0];
+  const mainImage = images[0];
   const thumbImages = images.slice(0, VISIBLE_THUMBS);
   const moreCount = Math.max(images.length - VISIBLE_THUMBS, 0);
 
   function openLightbox(index: number) {
-    setActive(index);
     setLightboxIndex(index);
   }
 
-  if (images.length === 0) return null;
+  if (images.length === 0 || !mainImage) return null;
 
   return (
     <div className="w-full">
@@ -141,11 +139,11 @@ export function HotelGallery({
         <button
           type="button"
           className="relative aspect-[857/629] w-full cursor-pointer overflow-hidden rounded-[12px]"
-          onClick={() => openLightbox(active)}
+          onClick={() => openLightbox(0)}
         >
           <CoverImage
-            src={activeImage.url}
-            alt={activeImage.alt || title}
+            src={mainImage.url}
+            alt={mainImage.alt || title}
             className="object-cover"
             sizes="(max-width: 1280px) 100vw, 857px"
           />
@@ -185,9 +183,7 @@ export function HotelGallery({
                     : index,
                 )
               }
-              className={`relative aspect-[247/175] w-full cursor-pointer overflow-hidden rounded-[12px] ${
-                active === index && !showMore ? "ring-2 ring-primary" : ""
-              }`}
+              className="relative aspect-[247/175] w-full cursor-pointer overflow-hidden rounded-[12px]"
             >
               <CoverImage
                 src={image.url}

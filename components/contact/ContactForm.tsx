@@ -32,6 +32,19 @@ import { apiFetch } from "@/lib/apiFetch";
 const fieldClass =
   "h-11 w-full rounded-md border-0 bg-gray-100 px-3 text-sm text-neutral-900 outline-none placeholder:text-gray-500 focus:ring-2 focus:ring-primary/30";
 
+const serviceSelectContentClass =
+  "min-w-[280px] rounded-md border border-gray-200 bg-white p-2 shadow-[0_16px_40px_rgb(10_12_12/16%)] ring-0";
+
+const serviceSelectItemClass =
+  "rounded-sm px-4 py-3 pr-10 pl-4 text-base text-neutral-800 focus:bg-teal-50 focus:text-primary data-highlighted:bg-teal-50 data-highlighted:text-primary";
+
+const SERVICE_OPTIONS = [
+  { value: "hajj", label: "Hajj Package" },
+  { value: "umrah", label: "Umrah Package" },
+  { value: "holiday", label: "Holiday Package" },
+  { value: "corporate", label: "Corporate Package" },
+] as const;
+
 function OptionalMark() {
   return (
     <span className="font-poppins font-normal text-[#8E8E8E]"> (Optional)</span>
@@ -144,11 +157,16 @@ export function ContactForm() {
               <SelectValue placeholder="Choose Service" />
             </SelectTrigger>
 
-            <SelectContent align="start" className="bg-white">
-              <SelectItem value="hajj">Hajj Package</SelectItem>
-              <SelectItem value="umrah">Umrah Package</SelectItem>
-              <SelectItem value="holiday">Holiday Package</SelectItem>
-              <SelectItem value="corporate">Corporate Package</SelectItem>
+            <SelectContent align="start" className={serviceSelectContentClass}>
+              {SERVICE_OPTIONS.map((option) => (
+                <SelectItem
+                  key={option.value}
+                  value={option.value}
+                  className={serviceSelectItemClass}
+                >
+                  {option.label}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>
@@ -176,7 +194,7 @@ export function ContactForm() {
       <div className="mt-5 flex flex-col gap-4 tablet:flex-row tablet:items-center tablet:justify-between">
         <button
           type="submit"
-          className="group inline-flex h-[58px] items-center justify-between gap-4 rounded-[12px] bg-primary px-4 text-base font-medium text-white transition-colors hover:bg-primary-700"
+          className="group inline-flex h-[50px] items-center justify-between gap-3 rounded-[10px] bg-primary px-3.5 text-sm font-medium text-white transition-colors hover:bg-primary-700"
         >
           {isSubmitting
             ? "Sending..."
@@ -184,13 +202,13 @@ export function ContactForm() {
               ? "Message Sent"
               : "Send Your Message"}
 
-          <span className="relative inline-flex size-6 overflow-hidden rounded-full bg-white text-primary">
+          <span className="relative inline-flex size-7 overflow-hidden rounded-full bg-white text-primary">
             <span className="absolute inset-0 flex items-center justify-center transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-[120%] group-hover:-translate-y-[120%]">
-              <ArrowUpRightIcon className="size-3" />
+              <ArrowUpRightIcon className="size-[85%]" />
             </span>
 
             <span className="absolute inset-0 flex translate-x-[-120%] translate-y-[120%] items-center justify-center transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0 group-hover:translate-y-0">
-              <ArrowUpRightIcon className="size-3" />
+              <ArrowUpRightIcon className="size-[85%]" />
             </span>
           </span>
         </button>

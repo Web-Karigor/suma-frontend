@@ -25,11 +25,18 @@ export default async function HajjUmrahDetailsPage({ searchParams }: Props) {
 
   const overview = packageData?.overview || packageData?.description || "";
 
+  const accommodationImages = (
+    packageData?.accommodation?.images ?? []
+  ).filter(Boolean);
   const hotels = packageData?.accommodation
     ? [
         {
           name: packageData.accommodation.title || "",
-          image: packageData.accommodation.images?.[0] || packageData.image,
+          images: accommodationImages.length
+            ? accommodationImages
+            : packageData.image
+              ? [packageData.image]
+              : [],
           location: packageData.accommodation.location || "",
           rating: packageData.accommodation.customer_rating || 0,
           description: packageData.accommodation.short_description || "",

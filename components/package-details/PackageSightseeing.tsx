@@ -32,7 +32,11 @@ function StatusIcon({ status }: { status: SightStatus }) {
 
 function SightItem({ label, status }: { label: string; status: SightStatus }) {
   return (
-    <li className="flex items-start gap-2.5 text-base leading-[1.4] text-hero">
+    <li
+      className={`flex items-start gap-2.5 text-base leading-[1.4] ${
+        status === "excluded" ? "text-[#B7B7B7]" : "text-hero"
+      }`}
+    >
       <StatusIcon status={status} />
       <span>{label}</span>
     </li>
@@ -89,7 +93,7 @@ export function PackageSightseeing({ groups }: PackageSightseeingProps) {
             <StatusIcon status="additional" />
             <span>Available at additional fees</span>
           </div>
-          <div className="flex items-center gap-2 text-sm text-neutral-600">
+          <div className="flex items-center gap-2 text-sm text-[#B7B7B7]">
             <StatusIcon status="excluded" />
             <span>Not included</span>
           </div>

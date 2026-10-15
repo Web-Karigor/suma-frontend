@@ -36,7 +36,7 @@ export function HotelDetailSidebar({ hotel }: { hotel: HotelDetail }) {
         {/* =========================
             1. PRICE
         ========================== */}
-        <section className="rounded-[16px] border border-gray-200 bg-teal-50 px-3 py-4 text-right">
+        <section className="rounded-[16px] bg-teal-50 px-3 py-4 text-right">
           <div className="space-y-3">
             <p className="text-[16px] text-[#8E8E8E]">
               Starting price / per night
@@ -55,7 +55,7 @@ export function HotelDetailSidebar({ hotel }: { hotel: HotelDetail }) {
 
           <Button
             href={hotel.linkUrl}
-            className="mt-4 h-12 w-full cursor-pointer justify-center"
+            className="mt-10 h-12 w-full cursor-pointer justify-center"
           >
             Book Now
           </Button>
@@ -65,7 +65,7 @@ export function HotelDetailSidebar({ hotel }: { hotel: HotelDetail }) {
             2. MAP
         ========================== */}
         {hotel.mapEmbedHtml ? (
-          <section className="rounded-[16px] border border-gray-200 bg-teal-50 px-3 py-4">
+          <section className="rounded-[16px] bg-teal-50 px-3 py-4">
             <h3 className="mb-3 text-center text-[16px] font-semibold text-black lg:text-xl">
               View on Map
             </h3>
@@ -98,7 +98,7 @@ export function HotelDetailSidebar({ hotel }: { hotel: HotelDetail }) {
             3. FEATURES
         ========================== */}
         {hotel.features.length > 0 ? (
-          <section className="rounded-[16px] border border-gray-200 bg-teal-50 px-3 py-4">
+          <section className="rounded-[16px] bg-teal-50 px-3 py-4">
             <ul className="space-y-2">
               {hotel.features.map((item, index) => (
                 <li key={`${item}-${index}`}>
@@ -118,7 +118,7 @@ export function HotelDetailSidebar({ hotel }: { hotel: HotelDetail }) {
             4. NEARBY + HOW TO REACH
         ========================== */}
         {hotel.nearbyAttractions.length > 0 || hotel.howToReach.length > 0 ? (
-          <section className="rounded-[16px] border border-gray-200 bg-teal-50 px-3 py-4">
+          <section className="rounded-[16px] bg-teal-50 px-3 py-4">
             {hotel.nearbyAttractions.length > 0 ? (
               <div>
                 <h3 className="text-center text-[16px] font-semibold text-[#000000] lg:text-xl">

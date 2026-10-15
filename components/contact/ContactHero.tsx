@@ -7,7 +7,7 @@ export function ContactHero() {
         <h1 className="text-5xl leading-[1.05] font-medium tracking-[-0.03em] text-neutral-950 tablet:text-6xl desktop:text-[72px]">
           Contact Us
         </h1>
-        <p className="max-w-[609px] text-base leading-[1.45] text-neutral-900 tablet:text-lg">
+        <p className="max-w-[609px] text-base leading-[1.45] text-neutral-900 tablet:text-lg xl:text-[28px]">
           Tell us when and where you&apos;d like to go and we&apos;ll confirm
           availability within 24 hours.
         </p>

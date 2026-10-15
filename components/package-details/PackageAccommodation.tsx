@@ -9,7 +9,7 @@ import { ContactFormModal } from "@/components/contact/ContactFormModal";
 
 type Hotel = {
   name: string;
-  image: string;
+  images: string[];
   location: string;
   rating: number;
   description: string;
@@ -22,12 +22,43 @@ type PackageAccommodationProps = {
 };
 
 export function PackageAccommodation({ hotels }: PackageAccommodationProps) {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [hotelIndex, setHotelIndex] = useState(0);
+  const [imageIndex, setImageIndex] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
 
   if (!hotels?.length) return null;
 
-  const hotel = hotels[activeIndex];
+  const hotel = hotels[Math.min(hotelIndex, hotels.length - 1)];
+  const images = hotel.images.filter(Boolean);
+  if (!images.length) return null;
+
+  const safeImageIndex = Math.min(imageIndex, images.length - 1);
+  const activeImage = images[safeImageIndex];
+  const canSlideImages = images.length > 1;
+  const canSlideHotels = hotels.length > 1;
+  const showArrows = canSlideImages || canSlideHotels;
+
+  const goPrev = () => {
+    if (canSlideImages) {
+      setImageIndex((prev) => (prev - 1 + images.length) % images.length);
+      return;
+    }
+    if (canSlideHotels) {
+      setHotelIndex((prev) => (prev - 1 + hotels.length) % hotels.length);
+      setImageIndex(0);
+    }
+  };
+
+  const goNext = () => {
+    if (canSlideImages) {
+      setImageIndex((prev) => (prev + 1) % images.length);
+      return;
+    }
+    if (canSlideHotels) {
+      setHotelIndex((prev) => (prev + 1) % hotels.length);
+      setImageIndex(0);
+    }
+  };
 
   return (
     <section className="bg-gold-50 py-10 tablet:py-12 desktop-xl:py-14">
@@ -40,31 +71,25 @@ export function PackageAccommodation({ hotels }: PackageAccommodationProps) {
           <div className="flex flex-col gap-6 desktop:flex-row desktop:items-center desktop:gap-8">
             <div className="relative h-[220px] w-full shrink-0 overflow-hidden rounded-[16px] tablet:h-[255px] desktop:w-[430px] desktop-xl:h-[280px] desktop-xl:w-[480px]">
               <CoverImage
-                src={hotel.image}
+                src={activeImage}
                 alt={hotel.name}
                 className="object-cover"
                 sizes="480px"
               />
-              {hotels.length > 1 ? (
+              {showArrows ? (
                 <div className="absolute bottom-3 left-3 flex items-center gap-2">
                   <button
                     type="button"
-                    onClick={() =>
-                      setActiveIndex(
-                        (prev) => (prev - 1 + hotels.length) % hotels.length,
-                      )
-                    }
-                    aria-label="Previous hotel"
+                    onClick={goPrev}
+                    aria-label="Previous image"
                     className="flex size-8 items-center justify-center rounded-full bg-white/90 text-neutral-700 transition hover:bg-white"
                   >
                     ←
                   </button>
                   <button
                     type="button"
-                    onClick={() =>
-                      setActiveIndex((prev) => (prev + 1) % hotels.length)
-                    }
-                    aria-label="Next hotel"
+                    onClick={goNext}
+                    aria-label="Next image"
                     className="flex size-8 items-center justify-center rounded-full bg-white/90 text-neutral-700 transition hover:bg-white"
                   >
                     →
