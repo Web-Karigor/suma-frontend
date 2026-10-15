@@ -64,7 +64,7 @@ function ServiceNavDropdown({
         setOpen(true);
       }}
       onMouseLeave={() => {
-        timer.current = setTimeout(() => setOpen(false), 2000);
+        timer.current = setTimeout(() => setOpen(false), 1000);
       }}
     >
       <button
@@ -98,14 +98,14 @@ function ServiceNavDropdown({
 
       <div
         className={cn(
-          "absolute top-full left-1/2 z-50 pt-2",
+          "absolute top-full left-0 z-50 pt-2",
           "transition-[opacity,transform,visibility] duration-300 ease-out",
           open
             ? "pointer-events-auto visible translate-y-0 opacity-100"
             : "pointer-events-none invisible translate-y-1 opacity-0",
         )}
       >
-        <div className="-translate-x-1/2 min-w-[220px] rounded-2xl border border-gray-200 bg-white p-1 shadow-[0_16px_40px_rgb(10_12_12/16%)] transition-shadow duration-300">
+        <div className="min-w-[280px] rounded-md border border-gray-200 bg-white p-2 shadow-[0_16px_40px_rgb(10_12_12/16%)] transition-shadow duration-300">
           {items.map((item) => {
             const itemActive = isLinkActive(pathname, item.href);
             return (
@@ -114,7 +114,7 @@ function ServiceNavDropdown({
                 href={item.href}
                 onClick={() => setOpen(false)}
                 className={cn(
-                  "block rounded-lg py-2 pr-8 pl-3 text-sm text-neutral-800 transition-colors duration-200 hover:bg-teal-50 hover:text-primary",
+                  "block rounded-sm px-4 py-3 text-base text-neutral-800 transition-colors duration-200 hover:bg-teal-50 hover:text-primary",
                   itemActive && "bg-teal-50 text-primary",
                 )}
               >
@@ -191,7 +191,7 @@ export function Header() {
     >
       <Container
         className={cn(
-          "relative z-20 pt-[var(--page-gutter)]",
+          "relative z-20 pt-3 tablet:pt-4 desktop:pt-5",
           alignWideGrid && "desktop-xl:!px-0",
         )}
       >

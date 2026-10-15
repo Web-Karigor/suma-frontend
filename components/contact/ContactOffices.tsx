@@ -65,60 +65,23 @@ function ContactLink({
   return (
     <a
       href={href}
-      className="
-        flex
-        min-h-[87px]
-        h-auto
-        items-center
-        justify-between
-        gap-3
-        rounded-[16px]
-        bg-[#E6F2F2]
-        px-4
-        py-3
-        transition-colors
-        hover:bg-teal-50
-        max-w-[398px]
-      "
+      className="flex min-h-[87px] h-auto items-center justify-between gap-3 rounded-[16px] bg-[#E6F2F2] px-4 py-3 transition-colors hover:bg-teal-50 max-w-[398px]"
     >
       <div className="flex min-w-0 items-center gap-4">
         <span className="shrink-0 text-[#007F80]">{icon}</span>
 
         <span className="flex min-w-0 flex-col">
-          <span
-            className="
-              2xl:text-[16px]
-              leading-tight
-              font-normal
-              text-[#8B8B8B]
-            "
-          >
+          <span className="2xl:text-[16px] leading-tight font-normal text-[#8B8B8B]">
             {label}
           </span>
 
-          <strong
-            className="
-              mt-1
-              break-all
-              2xl:text-[18px]
-              leading-tight
-              font-medium
-              text-[#007F80]
-            "
-          >
+          <strong className="mt-1 break-all 2xl:text-[18px] leading-tight font-medium text-[#007F80]">
             {value}
           </strong>
         </span>
       </div>
 
-      <span
-        className="
-          text-[32px]
-          leading-none
-          font-light
-          text-[#8B8B8B]
-        "
-      >
+      <span className="text-[32px] leading-none font-light text-[#8B8B8B]">
         ›
       </span>
     </a>
@@ -127,21 +90,7 @@ function ContactLink({
 
 function OfficeCard({ office }: { office: ContactOfficeCard }) {
   return (
-    <article
-      className="
-    flex
-    flex-col
-    gap-5
-    rounded-[14px]
-    bg-white
-    p-4
-    shadow-[0_2px_8px_rgb(10_12_12/4%)]
-
-    lg:flex-row
-    lg:items-center
-    lg:justify-between
-  "
-    >
+    <article className="flex flex-col gap-5 rounded-[14px] bg-white p-4 shadow-[0_2px_8px_rgb(10_12_12/4%)] lg:flex-row lg:items-center lg:justify-between">
       <div className="min-w-0 max-w-[356px]">
         <h3 className="flex items-center gap-2 text-xl font-medium text-neutral-950 lg:text-[22px]">
           <School className="size-5 shrink-0 text-black" />
@@ -185,51 +134,23 @@ function OfficeCard({ office }: { office: ContactOfficeCard }) {
         ) : null}
       </div>
 
-      {/* Map Section */}
-      <div
-        className="
-      relative
-      w-full
-      h-[160px]
-      shrink-0
-      overflow-hidden
-      rounded-md
-      bg-teal-800
+      <div className="relative h-[160px] w-full shrink-0 overflow-hidden rounded-md bg-teal-800 lg:w-[240px] xl:w-[270px]">
+        {office.mapEmbedHtml ? (
+          <div
+            className="absolute inset-0 [&_iframe]:pointer-events-none [&_iframe]:size-full [&_iframe]:border-0"
+            dangerouslySetInnerHTML={{ __html: office.mapEmbedHtml }}
+          />
+        ) : null}
 
-      md:w-full
-      md:h-[160px]
-
-      lg:w-[240px]
-      lg:h-[160px]
-
-      xl:w-[270px]
-      xl:h-[160px]
-
-      2xl:w-[270px]
-      2xl:h-[160px]
-    "
-      >
+        <div className="absolute inset-0 bg-overlay-black-24" />
 
         <a
           href={office.directionUrl}
           target="_blank"
           rel="noreferrer"
-          className="absolute inset-0 flex items-center justify-center"
+          className="absolute inset-0 z-10 flex items-center justify-center"
         >
-          <span
-            className="
-          rounded
-          bg-white
-          px-4
-          py-2
-          text-base
-          text-neutral-900
-          shadow-sm
-          transition-colors
-          hover:bg-primary
-          hover:text-white
-        "
-          >
+          <span className="rounded bg-white px-4 py-2 text-base text-neutral-900 shadow-sm transition-colors hover:bg-primary hover:text-white">
             Get Direction
           </span>
         </a>

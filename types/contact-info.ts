@@ -3,7 +3,7 @@ export type ContactOfficeItem = {
   phone: string;
   address: string;
   address_map_url: string | null;
-  working_hours: string;
+  working_hours: string | null;
 };
 
 export type ContactInfoApiResponse = {
@@ -17,5 +17,6 @@ export type ContactOfficeCard = {
   phone: string;
   address: string;
   directionUrl: string;
-  workingHours: string;
+  mapEmbedHtml: string | null;
+  workingHours: string | null;
 };

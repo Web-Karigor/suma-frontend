@@ -263,24 +263,7 @@ function DateField({
           render={
             <button
               type="button"
-              className="
-              flex
-              h-11
-              w-full
-              items-center
-              justify-between
-              rounded-md
-              border-0
-              bg-gray-100
-              px-3
-              text-left
-              text-sm
-              font-normal
-              text-neutral-900
-              outline-none
-              focus:ring-2
-              focus:ring-primary/30
-            "
+              className="flex h-11 w-full items-center justify-between rounded-md border-0 bg-gray-100 px-3 text-left text-sm font-normal text-neutral-900 outline-none focus:ring-2 focus:ring-primary/30"
             />
           }
         >
