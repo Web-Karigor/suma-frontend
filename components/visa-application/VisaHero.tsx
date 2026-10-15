@@ -74,9 +74,13 @@ export function VisaHero({
                 {selectedCountry?.name ?? ""}
               </SelectValue>
             </SelectTrigger>
-            <SelectContent className="bg-white capitalize">
+            <SelectContent className="min-w-[280px] rounded-md border border-gray-200 bg-white p-2 shadow-[0_16px_40px_rgb(10_12_12/16%)] ring-0 capitalize">
               {countries.map((country) => (
-                <SelectItem key={country.id} value={country.slug}>
+                <SelectItem
+                  key={country.id}
+                  value={country.slug}
+                  className="rounded-sm px-4 py-3 pr-10 pl-4 text-base text-neutral-800 focus:bg-teal-50 focus:text-primary data-highlighted:bg-teal-50 data-highlighted:text-primary"
+                >
                   {country.name}
                 </SelectItem>
               ))}

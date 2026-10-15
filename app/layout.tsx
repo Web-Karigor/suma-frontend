@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Poppins } from "next/font/google";
 import { Header } from "@/components/global/Header";
 import { Footer } from "@/components/global/Footer";
+import { BackToTop } from "@/components/global/BackToTop";
 import { QueryProvider } from "@/components/providers/QueryProvider";
 import { fetchSettings } from "@/helpers/settings";
 import "./globals.css";
@@ -51,6 +52,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <Header />
           <div className="flex-1">{children}</div>
           <Footer />
+          <BackToTop />
         </QueryProvider>
       </body>
     </html>
