@@ -3,18 +3,18 @@ export const partnerPortalUrl = "https://partner.flight24.co/";
 
 // Service links - used in Header navigation dropdown
 export const serviceLinks = [
-  { label: "Hajj & Umrah", href: "/hajj" },
-  { label: "Holiday Packages", href: "/packages" },
+  { label: "Hajj & Umrah", href: "/hajj-and-umrah" },
+  { label: "Holiday Packages", href: "/holiday-packages" },
   { label: "Corporate Tour", href: "/packages/corporate-travel" },
-  { label: "Medical Tourism", href: "/medical" },
+  { label: "Medical Tourism", href: "/medical-tourism" },
 ] as const;
 
 // Main navigation links - used in Header component
 export const navLinks = [
   { label: "Home", href: "/" },
-  { label: "Service", href: "/hajj", children: serviceLinks },
+  { label: "Service", href: "/hajj-and-umrah", children: serviceLinks },
   { label: "Build My Trip", href: partnerPortalUrl },
-  { label: "Visa", href: "/visa-application" },
+  { label: "Visa", href: "/visa-assistance" },
   { label: "Hotel", href: "/hotels" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },

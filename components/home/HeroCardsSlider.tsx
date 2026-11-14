@@ -83,10 +83,10 @@ export function HeroCardsSlider({
         allowSlideNext
         resistanceRatio={0}
         speed={700}
-        slidesPerView={1.15}
+        slidesPerView={2.38}
         slidesPerGroup={1}
-        spaceBetween={SLIDE_GAP}
-        centeredSlides
+        spaceBetween={12}
+        centeredSlides={false}
         autoplay={
           canLoop
             ? {
@@ -100,6 +100,7 @@ export function HeroCardsSlider({
           768: {
             slidesPerView: 3,
             centeredSlides: false,
+            spaceBetween: SLIDE_GAP,
           },
         }}
         onInit={(swiper) => {
@@ -123,7 +124,7 @@ export function HeroCardsSlider({
                 <h3 className="truncate text-sm xl:text-lg font-semibold text-white">
                   {card.title}
                 </h3>
-                <div className="mt-1 flex items-center gap-0.5">
+                <div className="hero-card-stars mt-1 flex items-center gap-0.5">
                   {Array.from({ length: 5 }).map((_, starIndex) => (
                     <StarIcon
                       key={starIndex}

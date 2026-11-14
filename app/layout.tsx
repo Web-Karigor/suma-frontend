@@ -25,6 +25,20 @@ export async function generateMetadata(): Promise<Metadata> {
     description:
       settings.metaDescription ||
       "Hajj, Umrah, visa, hotels, and holiday packages from Suma BD — trusted travel management in Bangladesh.",
+    keywords: settings.metaKeywords
+      ? settings.metaKeywords
+          .split(",")
+          .map((keyword) => keyword.trim())
+          .filter(Boolean)
+      : undefined,
+    openGraph: {
+      title:
+        settings.metaTitle || settings.siteName || "Suma BD Travel Management",
+      description:
+        settings.metaDescription ||
+        "Hajj, Umrah, visa, hotels, and holiday packages from Suma BD — trusted travel management in Bangladesh.",
+      images: settings.metaImage ? [{ url: settings.metaImage }] : undefined,
+    },
     icons: settings.favicon
       ? {
           icon: settings.favicon,

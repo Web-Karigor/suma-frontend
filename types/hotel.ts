@@ -24,6 +24,16 @@ export type HotelsPageHeader = {
   short_description: string | null;
 };
 
+export type HotelsPaginationMeta = {
+  current_page?: number;
+  last_page?: number;
+  per_page?: number;
+  total?: number;
+  from?: number | null;
+  to?: number | null;
+  next_page_url?: string | null;
+};
+
 export type HotelsApiResponse = {
   page: {
     id: number;
@@ -37,6 +47,9 @@ export type HotelsApiResponse = {
     list_to_footer: boolean;
   };
   data: HotelItem[];
+  pagination?: HotelsPaginationMeta;
+  meta?: HotelsPaginationMeta;
+  links?: { next?: string | null; prev?: string | null };
   success: boolean;
   status: number;
 };
@@ -51,6 +64,8 @@ export type HotelsPageMeta = {
   banner: string | null;
   metaTitle: string | null;
   metaDescription: string | null;
+  metaKeywords: string | null;
+  metaImage: string | null;
 };
 
 export type HotelCard = {
@@ -71,9 +86,21 @@ export type HotelCard = {
   href: string;
 };
 
+export type HotelsPagination = {
+  current_page: number;
+  last_page: number;
+  per_page: number;
+  total: number;
+  from: number | null;
+  to: number | null;
+  has_more: boolean;
+  known_total: boolean;
+};
+
 export type HotelsPageData = {
   page: HotelsPageMeta;
   hotels: HotelCard[];
+  pagination: HotelsPagination;
 };
 
 export type HotelDetailItem = {

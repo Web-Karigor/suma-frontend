@@ -52,5 +52,7 @@ export type CmsPageData = {
   banner: string | null;
   metaTitle: string | null;
   metaDescription: string | null;
+  metaKeywords: string | null;
+  metaImage: string | null;
   listToFooter: boolean;
 };

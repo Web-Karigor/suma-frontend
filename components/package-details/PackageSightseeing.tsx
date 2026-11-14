@@ -91,7 +91,7 @@ export function PackageSightseeing({ groups }: PackageSightseeingProps) {
           </div>
           <div className="flex items-center gap-2 text-sm text-neutral-600">
             <StatusIcon status="additional" />
-            <span>Available at additional fees</span>
+            <span></span>
           </div>
           <div className="flex items-center gap-2 text-sm text-[#B7B7B7]">
             <StatusIcon status="excluded" />

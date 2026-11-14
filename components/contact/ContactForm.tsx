@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { CalendarIcon } from "lucide-react";
+import { useEffect, useId, useState } from "react";
+import { CalendarIcon, RefreshCw } from "lucide-react";
 import { format } from "date-fns";
 
 import { ArrowUpRightIcon } from "@/components/icons";
@@ -28,6 +28,45 @@ import { useSettingsQuery } from "@/hooks/queries/useSettingsQuery";
 
 import { FALLBACK_SETTINGS } from "@/helpers/settings";
 import { apiFetch } from "@/lib/apiFetch";
+
+const TRAVELER_MIN = 1;
+const TRAVELER_MAX = 50;
+
+const CAPTCHA_LENGTH = 4;
+const CAPTCHA_UPPER = "ABCDEFGHJKLMNPQRSTUVWXYZ";
+const CAPTCHA_LOWER = "abcdefghijkmnopqrstuvwxyz";
+const CAPTCHA_DIGITS = "23456789";
+
+function pickChar(chars: string) {
+  return chars[Math.floor(Math.random() * chars.length)];
+}
+
+function createCaptcha() {
+  const mixed = CAPTCHA_UPPER + CAPTCHA_LOWER + CAPTCHA_DIGITS;
+  const chars = [
+    pickChar(CAPTCHA_UPPER),
+    pickChar(CAPTCHA_LOWER),
+    pickChar(CAPTCHA_DIGITS),
+    pickChar(mixed),
+  ];
+
+  for (let index = chars.length - 1; index > 0; index -= 1) {
+    const swapIndex = Math.floor(Math.random() * (index + 1));
+    [chars[index], chars[swapIndex]] = [chars[swapIndex], chars[index]];
+  }
+
+  return chars.join("");
+}
+
+function travelersErrorMessage(value: string) {
+  if (!value) return "";
+  if (!/^\d+$/.test(value)) return "Enter a whole number of travelers.";
+  const count = Number(value);
+  if (count < TRAVELER_MIN || count > TRAVELER_MAX) {
+    return `Number of travelers must be between ${TRAVELER_MIN} and ${TRAVELER_MAX}.`;
+  }
+  return "";
+}
 
 const fieldClass =
   "h-11 w-full rounded-md border-0 bg-gray-100 px-3 text-sm text-neutral-900 outline-none placeholder:text-gray-500 focus:ring-2 focus:ring-primary/30";
@@ -72,6 +111,16 @@ export function ContactForm() {
   const [toast, setToast] = useState<ToastState>(null);
   const [packageName, setPackageName] = useState("");
   const [date, setDate] = useState<Date>();
+  const [travelers, setTravelers] = useState("");
+  const [travelersError, setTravelersError] = useState("");
+  const captchaId = useId();
+  const [captcha, setCaptcha] = useState("");
+  const [captchaAnswer, setCaptchaAnswer] = useState("");
+  const [captchaError, setCaptchaError] = useState("");
+
+  useEffect(() => {
+    setCaptcha(createCaptcha());
+  }, []);
 
   const { data: settings = FALLBACK_SETTINGS } = useSettingsQuery();
 
@@ -82,10 +131,23 @@ export function ContactForm() {
       onSubmit={async (event) => {
         event.preventDefault();
         const form = event.currentTarget;
-        setIsSubmitting(true);
 
         const formData = new FormData(form);
         const value = (name: string) => String(formData.get(name) ?? "").trim();
+        const nextTravelersError = travelersErrorMessage(travelers);
+
+        if (!captcha || captchaAnswer !== captcha) {
+          setCaptchaError("Please enter the code shown in the box.");
+          return;
+        }
+        setCaptchaError("");
+
+        if (nextTravelersError) {
+          setTravelersError(nextTravelersError);
+          return;
+        }
+
+        setIsSubmitting(true);
 
         try {
           await apiFetch("https://admin.sumabd.com/api/quotations", {
@@ -95,7 +157,7 @@ export function ContactForm() {
               phone: value("phone"),
               email: value("email"),
               package: packageName || null,
-              travelers: value("travelers") || null,
+              travelers: travelers ? Number(travelers) : null,
               date: date ? format(date, "yyyy-MM-dd") : null,
               message: value("message") || null,
             }),
@@ -104,6 +166,10 @@ export function ContactForm() {
           form.reset();
           setPackageName("");
           setDate(undefined);
+          setTravelers("");
+          setTravelersError("");
+          setCaptchaAnswer("");
+          setCaptcha(createCaptcha());
           setToast({
             type: "success",
             message: "Message sent successfully!",
@@ -171,12 +237,30 @@ export function ContactForm() {
           </Select>
         </div>
 
-        <Field
-          label="Number of Travelers"
-          optional
-          name="travelers"
-          placeholder="e.g. 2 adults, 1 child"
-        />
+        <label className="flex flex-col gap-2">
+          <FieldLabel optional>Number of Travelers</FieldLabel>
+          <input
+            name="travelers"
+            type="text"
+            inputMode="numeric"
+            autoComplete="off"
+            placeholder="1–50"
+            value={travelers}
+            aria-invalid={Boolean(travelersError)}
+            aria-describedby={travelersError ? "travelers-error" : undefined}
+            onChange={(event) => {
+              const next = event.target.value.replace(/\D/g, "").slice(0, 2);
+              setTravelers(next);
+              setTravelersError(travelersErrorMessage(next));
+            }}
+            className={`${fieldClass} [appearance:textfield]`}
+          />
+          {travelersError ? (
+            <p id="travelers-error" className="text-sm font-medium text-error-600">
+              {travelersError}
+            </p>
+          ) : null}
+        </label>
 
         <DateField date={date} onDateChange={setDate} />
       </div>
@@ -191,10 +275,86 @@ export function ContactForm() {
         />
       </label>
 
+      <div className="mt-4 flex flex-col gap-2">
+        <label
+          htmlFor={captchaId}
+          className="text-sm font-medium text-neutral-800"
+        >
+          Quick verification
+        </label>
+        <div className="flex flex-wrap items-center gap-2">
+          <span
+            className="inline-flex h-16 min-w-[168px] select-none items-center justify-center gap-1.5 rounded-md bg-gray-100 px-4 font-mono text-[32px] font-bold leading-none tracking-[0.08em] text-neutral-900"
+            aria-hidden="true"
+          >
+            {captcha
+              ? captcha.split("").map((character, index) => (
+                  <span key={`${character}-${index}`} className="inline-block">
+                    {character}
+                  </span>
+                ))
+              : "····"}
+          </span>
+          <input
+            id={captchaId}
+            name="captcha"
+            type="text"
+            inputMode="text"
+            autoComplete="off"
+            autoCapitalize="off"
+            autoCorrect="off"
+            spellCheck={false}
+            value={captchaAnswer}
+            onChange={(event) => {
+              setCaptchaAnswer(
+                event.target.value
+                  .replace(/[^a-zA-Z0-9]/g, "")
+                  .slice(0, CAPTCHA_LENGTH),
+              );
+              if (captchaError) setCaptchaError("");
+            }}
+            aria-invalid={Boolean(captchaError)}
+            aria-describedby={captchaError ? `${captchaId}-error` : undefined}
+            aria-label={
+              captcha
+                ? `Enter the code shown in the box: ${captcha.split("").join(" ")}`
+                : "Enter the code shown in the box"
+            }
+            placeholder="Enter the code"
+            required
+            disabled={!captcha}
+            className="h-16 w-full max-w-[210px] rounded-md border-0 bg-gray-100 px-3 text-lg text-neutral-900 outline-none placeholder:text-gray-500 focus:ring-2 focus:ring-primary/30 disabled:opacity-70"
+          />
+          <button
+            type="button"
+            onClick={() => {
+              setCaptcha(createCaptcha());
+              setCaptchaAnswer("");
+              setCaptchaError("");
+            }}
+            className="inline-flex size-10 items-center justify-center rounded-md text-neutral-600 transition-colors hover:bg-teal-100 hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            aria-label="Get a new verification code"
+            title="Get a new code"
+          >
+            <RefreshCw className="size-4" aria-hidden="true" />
+          </button>
+        </div>
+        {captchaError ? (
+          <p
+            id={`${captchaId}-error`}
+            className="text-sm font-medium text-error-600"
+            role="alert"
+          >
+            {captchaError}
+          </p>
+        ) : null}
+      </div>
+
       <div className="mt-5 flex flex-col gap-4 tablet:flex-row tablet:items-center tablet:justify-between">
         <button
           type="submit"
-          className="group inline-flex h-[50px] items-center justify-between gap-3 rounded-[10px] bg-primary px-3.5 text-sm font-medium text-white transition-colors hover:bg-primary-700"
+          disabled={isSubmitting}
+          className="group inline-flex h-[50px] items-center justify-between gap-3 rounded-[10px] bg-primary px-3.5 text-sm font-medium text-white transition-colors hover:bg-primary-700 disabled:cursor-not-allowed disabled:opacity-70"
         >
           {isSubmitting
             ? "Sending..."

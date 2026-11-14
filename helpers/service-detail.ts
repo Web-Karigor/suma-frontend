@@ -274,8 +274,10 @@ export function normalizeServiceDetailResponse(
     cancellationHtml: asText(item.cancellation_policy) || null,
     whyChoose: normalizeWhyChoose(item.why_webkarigor),
     packageSummary: normalizePackageSummary(item.package_summery, image),
-    metaTitle: item.meta?.title ?? null,
-    metaDescription: item.meta?.description ?? null,
+    metaTitle: item.meta?.title?.trim() || null,
+    metaDescription: item.meta?.description?.trim() || null,
+    metaKeywords: item.meta?.keywords?.trim() || null,
+    metaImage: resolveServiceImage(item.meta?.image) || null,
   };
 }
 

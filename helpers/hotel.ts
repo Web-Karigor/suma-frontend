@@ -5,9 +5,19 @@ import type {
   HotelDetailApiResponse,
   HotelDetailItem,
   HotelGalleryImage,
+  HotelItem,
   HotelsApiResponse,
   HotelsPageData,
+  HotelsPagination,
+  HotelsPaginationMeta,
 } from "@/types/hotel";
+
+export const HOTELS_PER_PAGE = 20;
+
+export function hotelsApiPath(page: number) {
+  const safePage = Number.isFinite(page) && page > 0 ? Math.floor(page) : 1;
+  return `/hotels?page=${safePage}&per_page=${HOTELS_PER_PAGE}`;
+}
 
 function normalizeRating(rating: number | null | undefined): number {
   return typeof rating === "number" && Number.isFinite(rating) ? rating : 0;
@@ -138,9 +148,57 @@ export function normalizeHotelsResponse(
   });
 }
 
+function resolveHotelsPagination(
+  response: HotelsApiResponse,
+  requestedPage: number,
+  itemCount: number,
+): HotelsPagination {
+  const meta = response.pagination ?? response.meta;
+  const perPage =
+    meta?.per_page && meta.per_page > 0 ? meta.per_page : HOTELS_PER_PAGE;
+  const currentPage =
+    meta?.current_page && meta.current_page > 0
+      ? meta.current_page
+      : requestedPage;
+  const hasLastPage =
+    typeof meta?.last_page === "number" && meta.last_page > 0;
+  const hasTotal = typeof meta?.total === "number" && meta.total >= 0;
+  const knownTotal = hasLastPage && hasTotal;
+
+  let hasMore: boolean;
+  if (response.links && "next" in response.links) {
+    hasMore = Boolean(response.links.next);
+  } else if (meta && "next_page_url" in meta) {
+    hasMore = Boolean(meta.next_page_url);
+  } else if (knownTotal) {
+    hasMore = currentPage < (meta?.last_page ?? currentPage);
+  } else {
+    hasMore = itemCount >= perPage;
+  }
+
+  const from =
+    meta?.from ?? (itemCount > 0 ? (currentPage - 1) * perPage + 1 : null);
+  const to =
+    meta?.to ?? (itemCount > 0 ? (currentPage - 1) * perPage + itemCount : null);
+
+  return {
+    current_page: currentPage,
+    last_page: knownTotal ? (meta?.last_page ?? currentPage) : currentPage,
+    per_page: perPage,
+    total: knownTotal ? (meta?.total ?? itemCount) : itemCount,
+    from,
+    to,
+    has_more: hasMore,
+    known_total: knownTotal,
+  };
+}
+
 export function normalizeHotelsPageResponse(
   response: HotelsApiResponse,
+  requestedPage = 1,
 ): HotelsPageData {
+  const hotels = normalizeHotelsResponse(response);
+
   return {
     page: {
       title: response.page.title,
@@ -150,16 +208,38 @@ export function normalizeHotelsPageResponse(
       banner: response.page.header.banner
         ? resolveHotelImage(response.page.header.banner)
         : null,
-      metaTitle: response.page.meta_title,
-      metaDescription: response.page.meta_description,
+      metaTitle: response.page.meta_title?.trim() || null,
+      metaDescription: response.page.meta_description?.trim() || null,
+      metaKeywords: response.page.meta_keywords?.trim() || null,
+      metaImage: response.page.meta_image
+        ? resolveHotelImage(response.page.meta_image) || null
+        : null,
     },
-    hotels: normalizeHotelsResponse(response),
+    hotels,
+    pagination: resolveHotelsPagination(response, requestedPage, hotels.length),
   };
 }
 
 export async function fetchHotelSlugs(): Promise<string[]> {
-  const response = await apiFetch<HotelsApiResponse>("/hotels");
-  return response.data.map((item) => item.slug);
+  const slugs: string[] = [];
+  const seen = new Set<string>();
+
+  for (let page = 1; page <= 50; page += 1) {
+    const response = await apiFetch<HotelsApiResponse>(hotelsApiPath(page));
+    const batch = response.data ?? [];
+    let added = 0;
+
+    for (const item of batch) {
+      if (!item.slug || seen.has(item.slug)) continue;
+      seen.add(item.slug);
+      slugs.push(item.slug);
+      added += 1;
+    }
+
+    if (batch.length < HOTELS_PER_PAGE || added === 0) break;
+  }
+
+  return slugs;
 }
 
 export async function fetchHotelBySlug(

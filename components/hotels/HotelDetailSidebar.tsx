@@ -26,6 +26,7 @@ function getMapHref(mapEmbedHtml: string, address: string) {
 }
 
 export function HotelDetailSidebar({ hotel }: { hotel: HotelDetail }) {
+  const hasPrice = hotel.finalPrice > 0;
   const mapHref = hotel.mapEmbedHtml
     ? getMapHref(hotel.mapEmbedHtml, hotel.address)
     : null;
@@ -37,25 +38,27 @@ export function HotelDetailSidebar({ hotel }: { hotel: HotelDetail }) {
             1. PRICE
         ========================== */}
         <section className="rounded-[16px] bg-teal-50 px-3 py-4 text-right">
-          <div className="space-y-3">
-            <p className="text-[16px] text-[#8E8E8E]">
-              Starting price / per night
-            </p>
-
-            <p className="mt-1 text-[32px] font-semibold leading-none text-primary lg:text-4xl 2xl:text-[56px]">
-              {formatPrice(hotel.finalPrice)}
-            </p>
-
-            {/* {hotel.isRefundable ? (
-              <p className="mt-1 text-[13px] font-medium text-success">
-                Free cancellation available
+          {hasPrice ? (
+            <div className="space-y-3">
+              <p className="text-[16px] text-[#8E8E8E]">
+                Starting price / per night
               </p>
-            ) : null} */}
-          </div>
+
+              <p className="mt-1 text-[32px] font-semibold leading-none text-primary lg:text-4xl 2xl:text-[56px]">
+                {formatPrice(hotel.finalPrice)}
+              </p>
+
+              {/* {hotel.isRefundable ? (
+                <p className="mt-1 text-[13px] font-medium text-success">
+                  Free cancellation available
+                </p>
+              ) : null} */}
+            </div>
+          ) : null}
 
           <Button
             href={hotel.linkUrl}
-            className="mt-10 h-12 w-full cursor-pointer justify-center"
+            className={`h-12 w-full cursor-pointer justify-center ${hasPrice ? "mt-10" : ""}`}
           >
             Book Now
           </Button>

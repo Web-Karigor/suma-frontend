@@ -9,14 +9,10 @@ const SLUG_AREA: Record<string, ServiceArea> = {
   "holiday-packages": "holiday",
 };
 
-const SLUG_HREF: Record<string, string> = {
-  "visa-assistance": "/visa-application",
-  "medical-tourism": "/medical",
-  "corporate-travel": "/packages/corporate-travel",
-  "hajj-and-umrah": "/hajj",
-  "hotel-accomodation": "/hotels",
-  "holiday-packages": "/packages/holiday-packages",
-};
+export function servicePath(slug: string): string {
+  if (slug === "corporate-travel") return "/packages/corporate-travel";
+  return `/${slug}`;
+}
 
 function resolveImage(image: string): string {
   if (!image.trim()) return "";
@@ -40,7 +36,7 @@ export function normalizeServicesResponse(response: ServicesApiResponse): Servic
       description: item.subtitle ?? "",
       image: resolveImage(item.image),
       area: SLUG_AREA[item.slug],
-      href: SLUG_HREF[item.slug],
+      href: servicePath(item.slug),
     }));
 }
 
@@ -50,6 +46,6 @@ export function normalizeFooterServicesResponse(
 ): { label: string; href: string }[] {
   return response.data.map((item) => ({
     label: item.title,
-    href: SLUG_HREF[item.slug] || `/${item.slug}`,
+    href: servicePath(item.slug),
   }));
 }

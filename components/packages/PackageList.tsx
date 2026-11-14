@@ -483,7 +483,10 @@ export function PackageList({
             <h2 className="min-w-0 text-lg leading-[129%] font-medium text-[#0A0C0C] desktop:text-[28px]">
               Exclusive Suma Packages{" "}
               <span className="ml-1 text-xs font-normal text-neutral-500 desktop:text-xl">
-                ({pagination?.total ?? 0} Items)
+                ({packageCategory === "hajj" || packageCategory === "umrah"
+                  ? items.length
+                  : (pagination?.total ?? items.length)}{" "}
+                Items)
               </span>
             </h2>
             <div className="hidden items-center gap-2 text-xs text-neutral-700 tablet:flex">

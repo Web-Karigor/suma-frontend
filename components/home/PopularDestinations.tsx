@@ -113,7 +113,7 @@ export function PopularDestinations() {
         >
           {destinations.map((place) => (
             <SwiperSlide key={place.id}>
-              <Link href={""}>
+              <Link href={place.href}>
                 <div className="st-card">
                   <div className="img">
                     {place.image ? (

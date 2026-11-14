@@ -18,7 +18,6 @@ import {
   YouTubeIcon,
 } from "@/components/icons";
 
-import { footerAbout } from "@/lib/home-data";
 import { useSettingsQuery } from "@/hooks/queries/useSettingsQuery";
 import { useContactInfoQuery } from "@/hooks/queries/useContactInfoQuery";
 import { usePagesQuery } from "@/hooks/queries/usePagesQuery";
@@ -67,7 +66,7 @@ export function Footer() {
           {/* 1 — About (slightly wider, content-hug) */}
           <div className="min-w-0 tablet:col-span-2 desktop:w-[min(100%,400px)] desktop:max-w-[400px] desktop:shrink-0">
             <p className="font-poppins text-[14px] leading-[160%] font-medium text-[#BFDEDD] xl:text-[15px] 2xl:text-[16px]">
-              {footerAbout}
+              {settings.footerText}
             </p>
 
             <p className="mt-5 font-poppins text-[16px] font-semibold text-[#FEFEFC] xl:mt-6 xl:text-[17px] 2xl:mt-8 2xl:text-[18px]">
@@ -92,17 +91,6 @@ export function Footer() {
               })}
             </div>
 
-            <div className="mt-6 xl:mt-6 2xl:mt-10">
-              <div className="max-w-[250px] rounded-lg bg-teal-700 p-2 tablet:max-w-[300px] desktop:max-w-[320px]">
-                <Image
-                  src="/exralogofooter.jpeg"
-                  alt="ISO 9001:2015 Certified Company"
-                  width={280}
-                  height={150}
-                  className="h-auto w-full rounded-sm"
-                />
-              </div>
-            </div>
           </div>
 
           {/* 2 — Services */}
@@ -157,6 +145,32 @@ export function Footer() {
             </div>
           </div>
         </div>
+
+        {settings.footerCertificates.length > 0 ? (
+          <div className="mt-10 flex min-h-[150px] w-full flex-wrap items-center justify-center gap-y-5 bg-white px-4 py-6 xl:mt-12 2xl:mt-14">
+            {settings.footerCertificates.map((certificate, index) => (
+              <div
+                key={`${certificate.title}-${certificate.image}-${index}`}
+                className="flex min-h-[100px] min-w-0 basis-1/4 flex-col items-center justify-center gap-2 px-1 text-center desktop:basis-1/7 desktop:px-2"
+              >
+                {certificate.title ? (
+                  <h3 className="text-[10px] leading-tight font-semibold text-[#263238] tablet:text-xs">
+                    {certificate.title}
+                  </h3>
+                ) : null}
+                <div className="relative h-12 w-full min-w-[56px] max-w-[112px]">
+                  <Image
+                    src={certificate.image}
+                    alt={certificate.title || "Certificate or partner logo"}
+                    fill
+                    sizes="(min-width: 1280px) 88px, 20vw"
+                    className="object-contain"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : null}
 
         <p className="mt-10 text-center text-[14px] text-[#59A9A8] xl:mt-12 xl:text-[15px] 2xl:mt-14 2xl:text-[16px]">
           © Copyright {new Date().getFullYear()} | Suma Group All Rights

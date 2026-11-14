@@ -16,7 +16,7 @@ export function AboutCEO({ founder }: AboutCEOProps) {
     <section className="bg-[#F2F8F8] py-16 tablet:py-20 desktop:py-[100px]">
       <Container className="desktop-xl:!px-0">
         <div className="mx-auto flex w-full max-w-[1469px] flex-col items-center gap-10 desktop:flex-row desktop:items-center desktop:gap-[59px] desktop-xl:w-[1469px]">
-          <div className="relative w-full min-w-0 shrink-0 [--ceo-r:28px] [--ceo-cut-w:184px] [--ceo-cut-h:64px] tablet:[--ceo-r:28px] tablet:[--ceo-cut-w:184px] tablet:[--ceo-cut-h:64px] desktop:w-[699px] desktop:[--ceo-r:32px] desktop:[--ceo-cut-w:200px] desktop:[--ceo-cut-h:70px]">
+          <div className="relative w-full min-w-0 shrink-0 [--ceo-r:28px] [--ceo-cut-w:190px] [--ceo-cut-h:64px] tablet:[--ceo-r:28px] tablet:[--ceo-cut-w:200px] tablet:[--ceo-cut-h:64px] desktop:w-[699px] desktop:[--ceo-r:32px] desktop:[--ceo-cut-w:230px] desktop:[--ceo-cut-h:70px]">
             <div
               className="relative aspect-[699/710] w-full bg-neutral-100 desktop:h-[710px] desktop:aspect-auto"
               style={ceoPhotoMask}
@@ -30,10 +30,10 @@ export function AboutCEO({ founder }: AboutCEOProps) {
             </div>
 
             <div className="absolute -right-1 -bottom-1 z-10 flex h-[var(--ceo-cut-h)] w-[var(--ceo-cut-w)] flex-col justify-center text-center rounded-[19px] bg-[#FEFEFC] px-4 py-2">
-              <p className="text-[13px] leading-tight font-semibold text-hero xl:text-[14px] 2xl:text-[18px]">
+              <p className="text-[13px] font-semibold text-hero xl:text-[14px] 2xl:text-[16px]">
                 {founder.name}
               </p>
-              <p className="mt-0.5 text-[11px] leading-tight text-neutral-500 xl:text-[12px] 2xl:text-[16px]">
+              <p className="mt-0.5 text-[11px] leading-tight text-neutral-500 xl:text-[12px] 2xl:text-[14px]">
                 {founder.designation}
               </p>
             </div>

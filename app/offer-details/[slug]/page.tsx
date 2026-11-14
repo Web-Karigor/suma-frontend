@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { OfferDetailView } from "@/components/offer-details/OfferDetailView";
+import { buildPageMetadata } from "@/helpers/metadata";
 import { fetchOfferBySlug, fetchOfferSlugs } from "@/helpers/offer";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -18,10 +19,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const offer = await fetchOfferBySlug(slug);
 
-  return {
-    title: offer?.metaTitle ?? offer?.title ?? "Offer details",
-    description: offer?.metaDescription ?? offer?.shortDescription,
-  };
+  return buildPageMetadata({
+    title: offer?.metaTitle || offer?.title,
+    description: offer?.metaDescription || offer?.shortDescription,
+    keywords: offer?.metaKeywords,
+    image: offer?.metaImage,
+  });
 }
 
 export default async function OfferDetailPage({ params }: Props) {

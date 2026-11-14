@@ -41,8 +41,10 @@ export function normalizeOfferDetail(item: OfferDetailItem): OfferDetail {
     imageAlt: item.image_alt_text ?? item.title,
     banner: resolveOfferImage(item.banner || item.image),
     bannerAlt: item.banner_alt_text ?? item.title,
-    metaTitle: item.meta.title,
-    metaDescription: item.meta.description,
+    metaTitle: item.meta.title?.trim() || null,
+    metaDescription: item.meta.description?.trim() || null,
+    metaKeywords: item.meta.keywords?.trim() || null,
+    metaImage: resolveOfferImage(item.meta.image ?? "") || null,
     href: `/offer-details/${item.slug}`,
   };
 }

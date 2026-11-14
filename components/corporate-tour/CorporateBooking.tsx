@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import { WhatsAppIcon } from "@/components/icons";
 import { Container } from "@/components/ui/Container";
 import { useSettingsQuery } from "@/hooks/queries/useSettingsQuery";
-import { FALLBACK_SETTINGS } from "@/helpers/settings";
+import { FALLBACK_SETTINGS, whatsappHref } from "@/helpers/settings";
 
 export function CorporateBooking() {
   const { data: settings = FALLBACK_SETTINGS } = useSettingsQuery();
@@ -27,33 +28,43 @@ export function CorporateBooking() {
       buttonWidth: "w-[122px]",
     },
     {
-      title: "Website",
-      icon: "/images/corporate-tour/icons/global.svg",
-      description: "Explore our Website for more information.",
+      title: "WhatsApp",
+      icon: "",
+      description: (
+        <>
+          Message us on WhatsApp and our team will get back to you.{" "}
+          {/* <span className="font-semibold">{settings.whatsapp}</span> */}
+        </>
+      ),
       meta: [{ label: "Availability", value: "All Week" }],
-      action: "Visit Our Website",
-      href: "/",
-      buttonWidth: "w-[169px]",
+      action: "WhatsApp",
+      href: whatsappHref(settings.whatsapp),
+      external: true,
+      buttonWidth: "w-[140px]",
     },
     {
       title: "Contact Us",
       icon: "/images/corporate-tour/icons/call.svg",
       description: (
         <>
-          Contact Number: <span className="font-semibold">{settings.hotline}</span>
-          <br />
-          Or send us a WhatsApp message and Our team will get back to you withing 24 hours.
+          Contact Number:{" "}
+          <span className="font-semibold">{settings.phone}</span>. Hotline:{" "}
+          <span className="font-semibold">{settings.hotline}</span>. Our team
+          will respond as soon as possible.
         </>
       ),
       meta: [{ label: "Availability", value: "Working days" }],
       action: "Contact Us",
-      href: "/contact",
+      href: settings.phone ? `tel:${settings.phone.replace(/\s/g, "")}` : "",
       buttonWidth: "w-[122px]",
     },
   ];
 
   return (
-    <section id="booking" className="scroll-mt-28 bg-teal-950 pt-12 pb-16 tablet:pt-16 tablet:pb-20 desktop-xl:pt-[100px] desktop-xl:pb-[100px]">
+    <section
+      id="booking"
+      className="scroll-mt-28 bg-teal-950 pt-12 pb-16 tablet:pt-16 tablet:pb-20 desktop-xl:pt-[100px] desktop-xl:pb-[100px]"
+    >
       <Container className="desktop-xl:!px-0">
         <div className="mx-auto grid w-full grid-cols-1 gap-6 tablet:grid-cols-2 desktop:grid-cols-3 desktop:gap-12">
           {contactItems.map((item) => (
@@ -63,19 +74,35 @@ export function CorporateBooking() {
             >
               <div className="flex h-full flex-col gap-5 desktop-xl:w-[415px]">
                 <span className="flex size-[52px] items-center justify-center rounded-full bg-overlay-white-84 p-2.5">
-                  <span className="relative size-8 shrink-0 overflow-clip">
-                    <img src={item.icon} alt="" width={32} height={32} className="size-full" />
+                  <span className="relative size-8 shrink-0 overflow-clip text-teal-900">
+                    {item.title === "WhatsApp" ? (
+                      <WhatsAppIcon className="size-full" />
+                    ) : (
+                      <img
+                        src={item.icon}
+                        alt=""
+                        width={32}
+                        height={32}
+                        className="size-full"
+                      />
+                    )}
                   </span>
                 </span>
                 <div className="flex flex-1 flex-col justify-between">
                   <div className="flex flex-col gap-[18px] text-white">
-                    <h3 className="text-[20px] leading-[1.5] font-semibold">{item.title}</h3>
+                    <h3 className="text-[20px] leading-[1.5] font-semibold">
+                      {item.title}
+                    </h3>
                     <div className="flex flex-col gap-5">
-                      <p className="text-base leading-[1.6] font-normal">{item.description}</p>
+                      <p className="text-base leading-[1.6] font-normal">
+                        {item.description}
+                      </p>
                       <div className="flex flex-col gap-4">
                         {item.meta.map((row) => (
                           <p key={row.label} className="text-base font-normal">
-                            <span className="font-bold leading-[1.57]">{row.label}: </span>
+                            <span className="font-bold leading-[1.57]">
+                              {row.label}:{" "}
+                            </span>
                             <span className="leading-[1.6]">{row.value}</span>
                           </p>
                         ))}
@@ -83,7 +110,15 @@ export function CorporateBooking() {
                     </div>
                   </div>
                   <Link
-                    href={item.href}
+                    href={item.href || "#"}
+                    target={
+                      "external" in item && item.external ? "_blank" : undefined
+                    }
+                    rel={
+                      "external" in item && item.external
+                        ? "noreferrer"
+                        : undefined
+                    }
                     className={`mt-8 inline-flex h-[49px] items-center justify-center rounded-button bg-gold-500 px-4 py-3 text-base font-medium text-black transition-opacity hover:opacity-90 ${item.buttonWidth}`}
                   >
                     {item.action}

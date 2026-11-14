@@ -1,24 +1,38 @@
 "use client";
 
-import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { HotelCard } from "@/components/hotels/HotelCard";
 import { HotelsFilters } from "@/components/hotels/HotelsFilters";
 import { HotelsHero } from "@/components/hotels/HotelsHero";
+import { HotelsPagination } from "@/components/hotels/HotelsPagination";
 import { HotelsToolbar } from "@/components/hotels/HotelsToolbar";
-import { useHotelFilters } from "@/components/hotels/useHotelFilters";
+import {
+  isHotelFilterActive,
+  useHotelFilters,
+} from "@/components/hotels/useHotelFilters";
 import { Container } from "@/components/ui/Container";
-import { useHotelsQuery } from "@/hooks/queries/useHotelsQuery";
+import { fetchHotelsPage, useHotelsQuery } from "@/hooks/queries/useHotelsQuery";
 import { useServiceDetailQuery } from "@/hooks/queries/useServiceDetailQuery";
 import { useAmenitiesQuery } from "@/hooks/queries/useAmenitiesQuery";
 import type { HotelsPageMeta } from "@/types/hotel";
-import { useEffect } from "react";
 
-const HOTEL_SERVICE_SLUG = "hotel-accomodation";
-
-export function HotelsView() {
-  const { data, isLoading } = useHotelsQuery();
-  const { data: service, isLoading: serviceLoading } =
-    useServiceDetailQuery(HOTEL_SERVICE_SLUG);
+export function HotelsView({ serviceSlug }: { serviceSlug?: string }) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const queryClient = useQueryClient();
+  const resultsRef = useRef<HTMLDivElement>(null);
+  const scrollOnReady = useRef(false);
+  const requestedPage = Number.parseInt(searchParams.get("page") ?? "1", 10);
+  const currentPage =
+    Number.isFinite(requestedPage) && requestedPage > 0 ? requestedPage : 1;
+  const { data, isLoading, isFetching, isPlaceholderData } =
+    useHotelsQuery(currentPage);
+  const { data: service, isLoading: serviceLoading } = useServiceDetailQuery(
+    serviceSlug ?? "",
+  );
   const { data: amenities, isLoading: amenitiesLoading } = useAmenitiesQuery();
   const allHotels = data?.hotels ?? [];
   const { filters, sort, setSort, hotels, toggle, onStar, onPrice, reset } =
@@ -26,6 +40,81 @@ export function HotelsView() {
   const [showFilters, setShowFilters] = useState(false);
   const [isDrawerMounted, setIsDrawerMounted] = useState(false);
   const [isAnimatingIn, setIsAnimatingIn] = useState(false);
+  const [catalog, setCatalog] = useState<{ lastPage: number; total: number } | null>(
+    null,
+  );
+
+  const setPage = useCallback(
+    (nextPage: number) => {
+      const next = Math.max(1, nextPage);
+      const current = Number.parseInt(searchParams.get("page") ?? "1", 10);
+      const activePage = Number.isFinite(current) && current > 0 ? current : 1;
+      if (next === activePage) return;
+
+      const params = new URLSearchParams(searchParams.toString());
+      if (next <= 1) params.delete("page");
+      else params.set("page", String(next));
+
+      const query = params.toString();
+      scrollOnReady.current = true;
+      router.push(query ? `${pathname}?${query}` : pathname, { scroll: false });
+    },
+    [pathname, router, searchParams],
+  );
+
+  useEffect(() => {
+    if (!scrollOnReady.current || isLoading) return;
+    scrollOnReady.current = false;
+    resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [isLoading, currentPage]);
+
+  useEffect(() => {
+    if (!data || isLoading || isPlaceholderData) return;
+    if (data.pagination.current_page !== currentPage) return;
+
+    if (data.pagination.known_total) {
+      const nextCatalog = {
+        lastPage: data.pagination.last_page,
+        total: data.pagination.total,
+      };
+      setCatalog((current) =>
+        current?.lastPage === nextCatalog.lastPage &&
+        current.total === nextCatalog.total
+          ? current
+          : nextCatalog,
+      );
+      return;
+    }
+
+    if (data.hotels.length === 0 && currentPage > 1) {
+      setPage(1);
+      return;
+    }
+
+    if (!data.pagination.has_more) {
+      const total = data.pagination.to ?? data.hotels.length;
+      setCatalog((current) =>
+        current?.lastPage === currentPage && current.total === total
+          ? current
+          : { lastPage: currentPage, total },
+      );
+      return;
+    }
+
+    setCatalog((current) =>
+      current && currentPage >= current.lastPage ? null : current,
+    );
+  }, [data, isLoading, isPlaceholderData, currentPage, setPage]);
+
+  useEffect(() => {
+    if (!data?.pagination.has_more || isPlaceholderData) return;
+    const nextPage = currentPage + 1;
+    void queryClient.prefetchQuery({
+      queryKey: ["hotels", nextPage],
+      queryFn: () => fetchHotelsPage(nextPage),
+      staleTime: 1000 * 60 * 60,
+    });
+  }, [data?.pagination.has_more, isPlaceholderData, currentPage, queryClient]);
 
   // Close drawer on resize to desktop
   useEffect(() => {
@@ -59,7 +148,12 @@ export function HotelsView() {
     }
   }, [showFilters]);
 
-  if (isLoading || serviceLoading || amenitiesLoading || !data) {
+  if (
+    isLoading ||
+    amenitiesLoading ||
+    (Boolean(serviceSlug) && serviceLoading) ||
+    !data
+  ) {
     return (
       <>
         {/* Hero Skeleton */}
@@ -122,6 +216,24 @@ export function HotelsView() {
       </>
     );
   }
+
+  const isPageLoading = isFetching && isPlaceholderData;
+  const filtersActive = isHotelFilterActive(filters);
+  const totalCount = data.pagination.known_total
+    ? data.pagination.total
+    : catalog?.total;
+  const summary = filtersActive
+    ? `${hotels.length} match on this page`
+    : totalCount
+      ? `Showing ${data.pagination.from ?? 0}–${data.pagination.to ?? 0} of ${totalCount}`
+      : `Showing ${data.pagination.from ?? hotels.length}–${data.pagination.to ?? hotels.length}`;
+  const lastPage = data.pagination.known_total
+    ? data.pagination.last_page
+    : (catalog?.lastPage ?? null);
+  const hasMore =
+    lastPage != null ? currentPage < lastPage : data.pagination.has_more;
+  const showPagination =
+    hasMore || currentPage > 1 || (lastPage != null && lastPage > 1);
 
   const page: HotelsPageMeta = {
     ...data.page,
@@ -250,22 +362,34 @@ export function HotelsView() {
               </>
             )}
 
-            <div className="min-w-0 flex-1">
-              <HotelsToolbar
-                count={hotels.length}
-                sort={sort}
-                onSort={setSort}
-              />
-              <div className="grid gap-4 tablet:grid-cols-1 desktop:grid-cols-1">
+            <div ref={resultsRef} className="min-w-0 flex-1 scroll-mt-24">
+              <HotelsToolbar summary={summary} sort={sort} onSort={setSort} />
+              <div
+                className={`grid gap-4 tablet:grid-cols-1 desktop:grid-cols-1 ${
+                  isPageLoading ? "opacity-60" : ""
+                }`}
+                aria-busy={isPageLoading}
+              >
                 {hotels.map((hotel) => (
                   <HotelCard key={hotel.id} hotel={hotel} />
                 ))}
                 {hotels.length === 0 ? (
                   <p className="rounded-xl bg-white p-8 text-center text-sm text-gray-500">
-                    No hotels match the selected filters.
+                    {filtersActive
+                      ? "No hotels match the selected filters."
+                      : "No hotels found."}
                   </p>
                 ) : null}
               </div>
+              {showPagination ? (
+                <HotelsPagination
+                  page={currentPage}
+                  hasMore={hasMore}
+                  lastPage={lastPage}
+                  disabled={isPageLoading}
+                  onPageChange={setPage}
+                />
+              ) : null}
             </div>
           </div>
         </Container>

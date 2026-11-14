@@ -138,7 +138,7 @@ export function CorporateHero({
                   {formattedPrice}
                 </p>
                 <p className="text-base font-normal leading-[1.6]">
-                  Per Person (VAT Included)
+                  Per Person
                 </p>
               </div>
             </div>

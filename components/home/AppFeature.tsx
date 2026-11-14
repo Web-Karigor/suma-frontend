@@ -107,12 +107,11 @@ export function AppFeature() {
               <FeatureColumn features={rightFeatures} />
             </div>
 
-            <div
+            {/* <div
               className={cn(
                 "relative mt-2 w-full max-w-[650px] overflow-visible",
                 "tablet:h-[140px]",
                 "tablet:max-[1280px]:mt-10 tablet:max-[1280px]:h-[128px] tablet:max-[1280px]:max-w-none",
-                /* 1024–~1119: slightly shorter banner so content fits the narrow left column */
                 "lg:max-[1120px]:mt-8 lg:max-[1120px]:h-[112px]",
                 "desktop:mt-auto desktop:max-w-[826px]",
                 "2xl:mt-32 2xl:max-w-[858px] 2xl:h-[177px]",
@@ -204,7 +203,7 @@ export function AppFeature() {
                   className="min-w-0 flex-1 justify-center"
                 />
               </div>
-            </div>
+            </div> */}
           </div>
 
           <div

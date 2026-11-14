@@ -3,7 +3,10 @@ import type { PagesApiResponse, PageItem, FooterPage } from "@/types/pages";
 function normalizePage(page: PageItem): FooterPage {
   return {
     label: page.title,
-    href: `/${page.slug}`,
+    href:
+      page.slug === "hajj"
+        ? "/hajj-and-umrah"
+        : `/${page.slug}`,
   };
 }
 

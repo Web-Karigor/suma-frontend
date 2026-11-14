@@ -157,6 +157,7 @@ export function CorporateAccommodation({
                 ))}
               </div>
 
+              {filledStars > 0 || reviews > 0 ? (
               <div className="flex w-full flex-col gap-5 desktop-xl:w-[280px]">
                 <div className="flex items-center justify-center gap-2.5">
                   <div className="flex items-center">
@@ -202,6 +203,7 @@ export function CorporateAccommodation({
                   ) : null}
                 </div>
               </div>
+              ) : null}
             </div>
           </div>
         </div>

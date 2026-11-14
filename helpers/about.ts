@@ -1,4 +1,9 @@
 import type { AboutApiResponse, AboutFounder, AboutGalleryCard, AboutPageData, AboutStory, AboutUsSection, AboutValue } from "@/types/about";
+import { apiFetch } from "@/lib/apiFetch";
+
+export function fetchAboutUsResponse(): Promise<AboutApiResponse> {
+  return apiFetch<AboutApiResponse>("/about-us", { cache: "no-store" });
+}
 
 const GALLERY_LAYOUT = [
   "h-[220px] tablet:h-[280px] desktop:h-[360px] desktop-xl:h-[386px]",

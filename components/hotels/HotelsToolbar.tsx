@@ -16,11 +16,11 @@ const sortOptions = [
 ] as const;
 
 export function HotelsToolbar({
-  count,
+  summary,
   sort,
   onSort,
 }: {
-  count: number;
+  summary: string;
   sort: string;
   onSort: (value: string) => void;
 }) {
@@ -30,7 +30,8 @@ export function HotelsToolbar({
   return (
     <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
       <h2 className="text-lg font-semibold text-black">
-        Hotels ({count} Available)
+        Hotels{" "}
+        <span className="font-medium text-neutral-500">({summary})</span>
       </h2>
       <div className="flex items-center gap-2 text-sm text-[#0A0C0C]">
         <span>Sort by:</span>

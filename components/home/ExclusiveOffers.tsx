@@ -75,7 +75,7 @@ export function ExclusiveOffers() {
       <section
         id={section.htmlId}
         data-section-id={section.id || undefined}
-        className="bg-paper py-16 tablet:py-20"
+        className="bg-white py-10 tablet:bg-paper tablet:py-20"
       >
         <Container>
           <div className="mb-10">
@@ -113,13 +113,13 @@ export function ExclusiveOffers() {
     <section
       id={section.htmlId}
       data-section-id={section.id || undefined}
-      className="bg-paper py-16 tablet:py-20"
+      className="bg-white py-10 tablet:bg-paper tablet:py-20"
     >
       <Container>
         <SectionHeading
           title={section.title}
           subtitle={section.subtitle}
-          className="mb-10"
+          className="mb-6 tablet:mb-10"
         />
 
         <Swiper
@@ -139,12 +139,10 @@ export function ExclusiveOffers() {
           speed={700}
           roundLengths
           slidesPerGroup={1}
-          spaceBetween={8}
-          slidesPerView={1.15}
+          spaceBetween={12}
+          slidesPerView={1.58}
           autoplay={
-            canLoop
-              ? { delay: 4500, disableOnInteraction: false }
-              : false
+            canLoop ? { delay: 4500, disableOnInteraction: false } : false
           }
           breakpoints={{
             768: { slidesPerView: 3, spaceBetween: 0, centeredSlides: true },
@@ -163,7 +161,7 @@ export function ExclusiveOffers() {
           onSetTranslate={scaleOfferCards}
           onProgress={scaleOfferCards}
           onResize={scaleOfferCards}
-          className="offers-swiper !overflow-hidden !pt-12 !pb-12"
+          className="offers-swiper !overflow-hidden !pt-4 !pb-6 tablet:!pt-12 tablet:!pb-12"
         >
           {slideItems.map(({ offer, key }) => (
             <SwiperSlide key={key}>

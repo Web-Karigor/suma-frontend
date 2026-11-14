@@ -57,5 +57,7 @@ export type OfferDetail = {
   bannerAlt: string;
   metaTitle: string | null;
   metaDescription: string | null;
+  metaKeywords: string | null;
+  metaImage: string | null;
   href: string;
 };

@@ -8,11 +8,17 @@ import { CoverImage } from "@/components/ui/CoverImage";
 
 type LogoProps = {
   className?: string;
+  frameClassName?: string;
   inverted?: boolean;
   compact?: boolean;
 };
 
-export function Logo({ className, compact = false, inverted = false }: LogoProps) {
+export function Logo({
+  className,
+  frameClassName,
+  compact = false,
+  inverted = false,
+}: LogoProps) {
   const { data: settings = FALLBACK_SETTINGS } = useSettingsQuery();
   const src = inverted ? settings.logoDark : settings.logoLight;
 
@@ -22,6 +28,7 @@ export function Logo({ className, compact = false, inverted = false }: LogoProps
         className={cn(
           "relative block w-[180px] overflow-hidden",
           compact ? "h-9" : "h-10 desktop:h-[52px]",
+          frameClassName,
         )}
       >
         {src ? (

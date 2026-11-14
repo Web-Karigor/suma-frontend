@@ -1,5 +1,8 @@
+import { cache } from "react";
+import { footerAbout } from "@/lib/home-data";
 import type {
   SettingsApiResponse,
+  FooterCertificate,
   SettingsSocialLink,
   SiteSettings,
 } from "@/types/settings";
@@ -11,14 +14,25 @@ export const FALLBACK_SETTINGS: SiteSettings = {
   favicon: null,
   contactPageImage: "",
   phone: "",
+  whatsapp: "",
   email: "",
   address: "",
   addressMapUrl: null,
   hotline: "",
+  footerText: footerAbout,
+  certificateOfRegistration: "/exralogofooter.jpeg",
+  footerCertificates: [
+    {
+      title: "Certificate of Registration",
+      image: "/exralogofooter.jpeg",
+    },
+  ],
   supportTitle: "Customer Care",
   socials: [],
   metaTitle: null,
   metaDescription: null,
+  metaKeywords: null,
+  metaImage: null,
 };
 
 function resolveMedia(url: string | null | undefined): string {
@@ -44,6 +58,17 @@ function resolveFavicon(url: string | null | undefined): string | null {
 
 function asText(value: string | null | undefined): string {
   return value?.trim() ?? "";
+}
+
+export function whatsappHref(value: string): string {
+  const trimmed = value.trim();
+  if (!trimmed) return "";
+  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+
+  let digits = trimmed.replace(/\D/g, "");
+  if (!digits) return "";
+  if (digits.startsWith("0")) digits = `88${digits}`;
+  return `https://wa.me/${digits}`;
 }
 
 export function normalizeSettingsResponse(
@@ -79,6 +104,28 @@ export function normalizeSettingsResponse(
 
   const hotline = asText(response.hotline);
   const phone = asText(response.phone) || hotline;
+  const whatsapp = asText(response.whatsapp) || asText(response.phone);
+  const certificateItems =
+    response.footer_certificates ??
+    response.certificates ??
+    (Array.isArray(response.certificate_of_registration)
+      ? response.certificate_of_registration
+      : []);
+  const footerCertificates: FooterCertificate[] = certificateItems
+    .map((item) => ({
+      title: asText(item.title || item.name || item.label),
+      image: resolveMedia(item.image || item.logo || item.image_url),
+    }))
+    .filter((item) => item.image);
+  const legacyCertificate = Array.isArray(response.certificate_of_registration)
+    ? ""
+    : resolveMedia(response.certificate_of_registration);
+  if (!footerCertificates.length && legacyCertificate) {
+    footerCertificates.push({
+      title: "Certificate of Registration",
+      image: legacyCertificate,
+    });
+  }
 
   return {
     siteName: asText(response.site_name),
@@ -87,18 +134,24 @@ export function normalizeSettingsResponse(
     favicon: resolveFavicon(response.favicon),
     contactPageImage: resolveMedia(response.contact_page_image),
     phone,
+    whatsapp,
     email: asText(response.email),
     address: asText(response.address),
     addressMapUrl: asText(response.address_map_url) || null,
     hotline,
+    footerText: asText(response.footer_text) || footerAbout,
+    certificateOfRegistration: legacyCertificate || "/exralogofooter.jpeg",
+    footerCertificates,
     supportTitle: "Customer Care",
     socials,
     metaTitle: asText(response.meta_title) || null,
     metaDescription: asText(response.meta_description) || null,
+    metaKeywords: asText(response.meta_keywords) || null,
+    metaImage: resolveMedia(response.meta_image) || null,
   };
 }
 
-export async function fetchSettings(): Promise<SiteSettings> {
+export const fetchSettings = cache(async (): Promise<SiteSettings> => {
   try {
     const { apiFetch } = await import("@/lib/apiFetch");
     const response = await apiFetch<SettingsApiResponse>("/settings", {
@@ -108,4 +161,4 @@ export async function fetchSettings(): Promise<SiteSettings> {
   } catch {
     return FALLBACK_SETTINGS;
   }
-}
+});

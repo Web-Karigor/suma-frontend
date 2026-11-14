@@ -1,5 +1,5 @@
-import { VisaPage } from "@/components/visa-application";
+import { redirect } from "next/navigation";
 
 export default function VisaApplicationPage() {
-	return <VisaPage />;
+  redirect("/visa-assistance");
 }

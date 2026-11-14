@@ -20,11 +20,7 @@ const sizes: Record<ServiceArea, string> = {
 function PackageCard({ item }: { item: ServiceCard }) {
   return (
     <Link
-      href={
-        item.slug === "corporate-travel"
-          ? "/packages/corporate-travel"
-          : item.href
-      }
+      href={item.href}
       className={`package-card relative block w-full overflow-hidden ${sizes[item.area]}`}
     >
       <CoverImage

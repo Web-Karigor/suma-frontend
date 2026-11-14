@@ -151,7 +151,7 @@ export function HajjPackageCard({
           text-[#00605F]
         "
             >
-              Starting from {packageData.price}
+              {packageData.price}
             </p>
           )}
 

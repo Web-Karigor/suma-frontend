@@ -147,8 +147,15 @@ export function Header() {
     }
   };
 
+  const openQuoteModal = () => {
+    setOpen(false);
+    setModalOpen(true);
+  };
+
   const isHome = pathname === "/";
-  const isCorporateTour = pathname.startsWith("/corporate-tour");
+  const isCorporateTour =
+    pathname.startsWith("/corporate-tour") ||
+    pathname.startsWith("/corporate-travel");
   const isHajjUmrahDetails = pathname.startsWith("/hajj-umrah-details");
   const isAbout = pathname.startsWith("/about");
   const isMedical = pathname.startsWith("/medical");
@@ -156,7 +163,9 @@ export function Header() {
   const isPackages = pathname.startsWith("/packages");
   const isHajj = pathname.startsWith("/hajj");
   const isContact = pathname.startsWith("/contact");
-  const isVisaApplication = pathname.startsWith("/visa-application");
+  const isVisaApplication =
+    pathname.startsWith("/visa-application") ||
+    pathname.startsWith("/visa-assistance");
   const isCmsPage =
     pathname === "/faq" ||
     pathname === "/privacy-policy" ||
@@ -201,6 +210,7 @@ export function Header() {
             "bg-white/80 backdrop-blur-3xl",
             "shadow-[3px_4px_16px_0_rgb(0_0_0/6%)]",
             "desktop:px-5",
+            "max-[767px]:gap-1.5 max-[767px]:p-1.5 max-[767px]:pl-2.5 max-[767px]:border max-[767px]:border-black/15 max-[767px]:bg-[#e4e7e6]/95",
           )}
         >
           <div className="flex min-w-0 items-center gap-3 desktop:gap-[44px] desktop:max-[1365px]:gap-4">
@@ -208,8 +218,13 @@ export function Header() {
             <Logo
               compact
               className="hidden shrink-0 min-[480px]:flex wide:hidden"
+              frameClassName="max-[767px]:w-[140px]"
             />
-            <Logo compact className="shrink-0 min-[480px]:hidden" />
+            <Logo
+              compact
+              className="shrink-0 min-[480px]:hidden"
+              frameClassName="w-[140px] max-[390px]:w-[100px]"
+            />
 
             <nav
               className="hidden min-w-0 items-center gap-3 desktop:flex desktop:max-[1365px]:gap-1.5 2xl:gap-6"
@@ -228,15 +243,26 @@ export function Header() {
                   );
                 }
 
+                if (link.label === "Build My Trip") {
+                  return (
+                    <button
+                      key={link.label}
+                      type="button"
+                      onClick={openQuoteModal}
+                      className="group relative py-1 text-[16px] desktop:max-[1365px]:text-[14px] font-medium whitespace-nowrap text-black transition-colors hover:text-primary"
+                    >
+                      {link.label}
+                      <NavUnderline active={false} />
+                    </button>
+                  );
+                }
+
                 const active = isLinkActive(pathname, link.href);
 
                 return (
                   <Link
                     key={link.label}
                     href={link.href}
-                    {...(link.href.startsWith("http")
-                      ? { target: "_blank", rel: "noopener noreferrer" }
-                      : {})}
                     className={cn(
                       "group relative py-1 text-[16px] desktop:max-[1365px]:text-[14px] font-medium whitespace-nowrap text-black transition-colors hover:text-primary",
                       active && "text-primary",
@@ -287,27 +313,52 @@ export function Header() {
             </form>
 
             <Button
-              onClick={() => setModalOpen(true)}
+              onClick={openQuoteModal}
               className="h-11 gap-3 rounded-full !bg-black text-sm !text-white hover:!bg-[#0A0C0C] [&>span]:size-8 [&>span]:!bg-white [&>span]:!text-black"
             >
               Get a Quote
             </Button>
           </div>
 
-          <button
-            type="button"
-            className="ml-auto inline-flex size-10 items-center justify-center rounded-full text-neutral-800 desktop:hidden"
-            aria-expanded={open}
-            aria-controls="mobile-nav"
-            onClick={() => setOpen((value) => !value)}
-          >
-            {open ? (
-              <CloseIcon className="size-5" />
-            ) : (
-              <MenuIcon className="size-5" />
-            )}
-            <span className="sr-only">Toggle menu</span>
-          </button>
+          <div className="ml-auto flex shrink-0 items-center gap-1 desktop:hidden">
+            <div className="flex min-w-0 items-center gap-1 tablet:hidden">
+                <a
+                  href={`tel:${supportPhone}`}
+                className="inline-flex shrink-0 items-center gap-0.5 rounded-[9px] border border-teal-600 px-1 py-1 text-teal-700"
+                  aria-label={`Call ${supportPhone}`}
+                >
+                <HeadsetIcon className="size-3.5 shrink-0" />
+                  <span className="leading-none">
+                  <span className="block text-[7px] font-medium max-[359px]:hidden">
+                      {settings.supportTitle}
+                    </span>
+                  <span className="block text-[10px] font-bold tracking-tight min-[390px]:text-[11px]">
+                      {supportPhone}
+                    </span>
+                  </span>
+                </a>
+                <Button
+                  onClick={openQuoteModal}
+                  className="!h-7 !gap-0.5 !rounded-full !bg-black !px-1.5 !py-0 !pl-2 !text-[9px] !text-white hover:!bg-[#0A0C0C] [&>span]:!size-4 [&>span]:!bg-white [&>span]:!text-black"
+                >
+                  Get a Quote
+                </Button>
+            </div>
+            <button
+              type="button"
+              className="inline-flex size-8 shrink-0 items-center justify-center rounded-full text-neutral-800"
+              aria-expanded={open}
+              aria-controls="mobile-nav"
+              onClick={() => setOpen((value) => !value)}
+            >
+              {open ? (
+                <CloseIcon className="size-[18px]" />
+              ) : (
+                <MenuIcon className="size-[18px]" />
+              )}
+              <span className="sr-only">Toggle menu</span>
+            </button>
+          </div>
         </div>
       </Container>
 
@@ -361,13 +412,23 @@ export function Header() {
                 );
               }
 
+              if (link.label === "Build My Trip") {
+                return (
+                  <button
+                    key={link.label}
+                    type="button"
+                    onClick={openQuoteModal}
+                    className="rounded-lg px-3 py-2.5 text-left text-sm font-medium text-neutral-800 hover:bg-teal-50"
+                  >
+                    {link.label}
+                  </button>
+                );
+              }
+
               return (
                 <Link
                   key={link.label}
                   href={link.href}
-                  {...(link.href.startsWith("http")
-                    ? { target: "_blank", rel: "noopener noreferrer" }
-                    : {})}
                   className="rounded-lg px-3 py-2.5 text-sm font-medium text-neutral-800 hover:bg-teal-50"
                   onClick={() => setOpen(false)}
                 >
@@ -407,10 +468,7 @@ export function Header() {
           </form>
 
           <Button
-            onClick={() => {
-              setModalOpen(true);
-              setOpen(false);
-            }}
+            onClick={openQuoteModal}
             className="mt-3 h-12 w-full justify-center rounded-full !bg-black text-sm !text-white hover:!bg-[#0A0C0C] [&>span]:size-8 [&>span]:!bg-white [&>span]:!text-black"
           >
             Get a Quote

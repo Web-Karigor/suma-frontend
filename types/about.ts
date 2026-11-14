@@ -5,6 +5,10 @@ export type AboutContent = {
   images?: string[] | null;
   banner?: string | null;
   banner_alt_text?: string | null;
+  meta_title?: string | null;
+  meta_keywords?: string | null;
+  meta_description?: string | null;
+  meta_image?: string | null;
 };
 
 export type AboutItem = {

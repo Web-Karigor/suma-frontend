@@ -255,4 +255,6 @@ export type ServiceDetailPageData = {
   } | null;
   metaTitle: string | null;
   metaDescription: string | null;
+  metaKeywords: string | null;
+  metaImage: string | null;
 };

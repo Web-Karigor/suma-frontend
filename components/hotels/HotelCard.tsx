@@ -6,6 +6,7 @@ import { StarIcon } from "@/components/icons";
 import { Button } from "@/components/ui/Button";
 import { CoverImage } from "@/components/ui/CoverImage";
 import { Check } from "lucide-react";
+import { cn } from "@/lib/utils";
 import type { HotelCard } from "@/types/hotel";
 
 function formatPrice(value: number) {
@@ -63,8 +64,11 @@ function LocationIcon({ className }: { className?: string }) {
 export function HotelCard({ hotel }: { hotel: HotelCard }) {
   const [showAllAmenities, setShowAllAmenities] = useState(false);
 
+  const hasPrice = hotel.finalPrice > 0;
   const hasDiscount =
-    hotel.discountPrice !== null && hotel.discountPrice < hotel.mainPrice;
+    hasPrice &&
+    hotel.discountPrice !== null &&
+    hotel.discountPrice < hotel.mainPrice;
 
   const displayedAmenities = showAllAmenities
     ? hotel.amenities
@@ -201,12 +205,12 @@ export function HotelCard({ hotel }: { hotel: HotelCard }) {
 
           {/* Hotel Meta */}
           <div className="mt-3 flex min-w-0 flex-wrap items-center gap-x-2.5 gap-y-2 text-xs text-gray-500 md:text-sm">
-            <span className="inline-flex shrink-0 items-center gap-1.5 text-sm font-medium text-[#505050] md:text-base">
+            {/* <span className="inline-flex shrink-0 items-center gap-1.5 text-sm font-medium text-[#505050] md:text-base">
               <span>▱</span>
               <span>Suite</span>
-            </span>
+            </span> */}
 
-            <span className="text-gray-300">|</span>
+            {/* <span className="text-gray-300">|</span> */}
 
             {hotel.address ? (
               <div className="flex min-w-0 items-center gap-1.5 text-[12px] text-gray-600 md:text-sm">
@@ -291,13 +295,13 @@ export function HotelCard({ hotel }: { hotel: HotelCard }) {
 
         {/* Price + Details */}
         <div
-          className="
+          className={`
             mt-5 flex w-full shrink-0 flex-col gap-4
             border-t border-gray-200 pt-4
 
             sm:flex-row
             sm:items-end
-            sm:justify-between
+            ${hasPrice ? "sm:justify-between xl:justify-between" : "sm:justify-end xl:justify-end"}
 
             md:mt-6
 
@@ -306,7 +310,6 @@ export function HotelCard({ hotel }: { hotel: HotelCard }) {
             xl:w-[190px]
             xl:flex-col
             xl:items-end
-            xl:justify-between
             xl:border-l
             xl:border-t-0
             xl:pt-0
@@ -318,27 +321,29 @@ export function HotelCard({ hotel }: { hotel: HotelCard }) {
             2xl:ml-6
             2xl:w-[210px]
             2xl:pl-8
-          "
+          `}
         >
-          <div className="space-y-2 sm:space-y-3 xl:text-right">
-            <p className="text-[12px] text-gray-500 md:text-sm">Starts From</p>
+          {hasPrice ? (
+            <div className="space-y-2 sm:space-y-3 xl:text-right">
+              <p className="text-[12px] text-gray-500 md:text-sm">Starts From</p>
 
-            {hasDiscount ? (
-              <div className="space-y-1">
-                <PriceText value={hotel.discountPrice!} />
-                <p className="inline-flex items-baseline gap-1 whitespace-nowrap text-[15px] font-medium text-gray-400 line-through md:text-base lg:text-lg">
-                  <span>৳</span>
-                  <span>{formatPrice(hotel.mainPrice)}</span>
-                </p>
-              </div>
-            ) : (
-              <PriceText value={hotel.mainPrice} />
-            )}
+              {hasDiscount ? (
+                <div className="space-y-1">
+                  <PriceText value={hotel.discountPrice!} />
+                  <p className="inline-flex items-baseline gap-1 whitespace-nowrap text-[15px] font-medium text-gray-400 line-through md:text-base lg:text-lg">
+                    <span>৳</span>
+                    <span>{formatPrice(hotel.mainPrice)}</span>
+                  </p>
+                </div>
+              ) : (
+                <PriceText value={hotel.mainPrice} />
+              )}
 
-            <p className="text-[12px] text-[#505050] md:text-sm">
-              Per Night/Room
-            </p>
-          </div>
+              <p className="text-[12px] text-[#505050] md:text-sm">
+                Per Night/Room
+              </p>
+            </div>
+          ) : null}
 
           <Button
             href={hotel.href}

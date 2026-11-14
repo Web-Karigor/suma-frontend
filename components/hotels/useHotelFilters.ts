@@ -4,13 +4,13 @@ import { useMemo, useState } from "react";
 import type { HotelCard } from "@/types/hotel";
 
 export const PRICE_MIN = 0;
-export const PRICE_MAX = 50000;
+export const PRICE_MAX = 200000;
 
 export const priceBands = [
   { id: "0-10000", label: "৳ 0 - 10,000", min: 0, max: 10000 },
   { id: "10000-20000", label: "৳ 10,000 - 20,000", min: 10000, max: 20000 },
   { id: "20000-35000", label: "৳ 20,000 - 35,000", min: 20000, max: 35000 },
-  { id: "35000+", label: "৳ 35,000+", min: 35000, max: PRICE_MAX },
+  { id: "35000+", label: "৳ 35,000+", min: 35000, max: Number.POSITIVE_INFINITY },
 ] as const;
 
 export type HotelFilters = {
@@ -34,6 +34,17 @@ export const defaultHotelFilters = (): HotelFilters => ({
   amenities: new Set(),
   open: new Set(defaultOpen),
 });
+
+export function isHotelFilterActive(filters: HotelFilters) {
+  return (
+    filters.bands.size > 0 ||
+    filters.stars.size > 0 ||
+    filters.amenities.size > 0 ||
+    filters.refundable !== null ||
+    filters.minPrice > PRICE_MIN ||
+    filters.maxPrice < PRICE_MAX
+  );
+}
 
 export function useHotelFilters(allHotels: HotelCard[]) {
   const [filters, setFilters] = useState<HotelFilters>(defaultHotelFilters);
@@ -93,9 +104,9 @@ export function useHotelFilters(allHotels: HotelCard[]) {
       if (filters.stars.size && !filters.stars.has(hotel.rating)) return false;
       if (filters.refundable != null && hotel.isRefundable !== filters.refundable) return false;
 
-      // Use finalPrice for filtering (discounted price if available)
       const priceToCheck = hotel.finalPrice;
-      if (priceToCheck < filters.minPrice || priceToCheck > filters.maxPrice) return false;
+      if (filters.minPrice > PRICE_MIN && priceToCheck < filters.minPrice) return false;
+      if (filters.maxPrice < PRICE_MAX && priceToCheck > filters.maxPrice) return false;
       if (bandRanges.length && !bandRanges.some((b) => priceToCheck >= b.min && priceToCheck <= b.max)) {
         return false;
       }

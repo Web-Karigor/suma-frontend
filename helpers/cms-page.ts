@@ -48,8 +48,10 @@ export function normalizeCmsPageDetail(
     headerSubtitle: item.header?.subtitle?.trim() || null,
     headerDescription: item.header?.short_description?.trim() || null,
     banner: resolveBanner(item.header?.banner ?? null),
-    metaTitle: item.meta?.title ?? null,
-    metaDescription: item.meta?.description ?? null,
+    metaTitle: item.meta?.title?.trim() || null,
+    metaDescription: item.meta?.description?.trim() || null,
+    metaKeywords: item.meta?.keywords?.trim() || null,
+    metaImage: resolveBanner(item.meta?.image ?? null),
     listToFooter: item.list_to_footer,
   };
 }

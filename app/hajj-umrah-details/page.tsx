@@ -25,9 +25,9 @@ export default async function HajjUmrahDetailsPage({ searchParams }: Props) {
 
   const overview = packageData?.overview || packageData?.description || "";
 
-  const accommodationImages = (
-    packageData?.accommodation?.images ?? []
-  ).filter(Boolean);
+  const accommodationImages = (packageData?.accommodation?.images ?? []).filter(
+    Boolean,
+  );
   const hotels = packageData?.accommodation
     ? [
         {
@@ -46,9 +46,7 @@ export default async function HajjUmrahDetailsPage({ searchParams }: Props) {
       ]
     : [];
 
-  const mapPlaces = (
-    places: NonNullable<typeof packageData>["itinerary"],
-  ) =>
+  const mapPlaces = (places: NonNullable<typeof packageData>["itinerary"]) =>
     places.map((place) => {
       const images = (place.images ?? [])
         .map((img) => img?.url)
@@ -70,9 +68,7 @@ export default async function HajjUmrahDetailsPage({ searchParams }: Props) {
     packageData?.packageType?.slug,
   );
   const sightseeing =
-    packageData && isHajjUmrahPackage
-      ? mapPlaces(packageData.sightSeeing)
-      : [];
+    packageData && isHajjUmrahPackage ? mapPlaces(packageData.sightSeeing) : [];
   const sightseeingGroups =
     packageData && isHajjUmrahPackage ? packageData.sightSeeingGroups : [];
 
@@ -81,11 +77,15 @@ export default async function HajjUmrahDetailsPage({ searchParams }: Props) {
     : packageData?.features.length
       ? packageData.features
       : [];
-
+  const additional = packageData?.services?.available_on_extra_fees?.length
+    ? packageData.services.available_on_extra_fees
+    : packageData?.features.length
+      ? packageData.features
+      : [];
   const additionalFees = packageData?.services
     ? [
         ...(packageData.services.not_included ?? []),
-        ...(packageData.services.available_on_extra_fees ?? []),
+        ...(packageData.services.not_included ?? []),
       ]
     : [];
 
@@ -111,7 +111,11 @@ export default async function HajjUmrahDetailsPage({ searchParams }: Props) {
           <PackageOverview description={overview} />
           <PackageAccommodation hotels={hotels} />
           <PackageItinerary itinerary={itinerary} />
-          <PackageServices included={included} excluded={additionalFees} />
+          <PackageServices
+            included={included}
+            excluded={additionalFees}
+            additional={additional}
+          />
           {sightseeingGroups.length ? (
             <PackageSightseeing groups={sightseeingGroups} />
           ) : (
