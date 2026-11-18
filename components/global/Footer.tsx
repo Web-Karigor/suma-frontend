@@ -97,7 +97,13 @@ export function Footer() {
           <FooterList title="Services" links={footerServices} />
 
           {/* 3 — Important Pages */}
-          <FooterList title="Important Pages" links={footerPages} />
+          <FooterList
+            title="Important Pages"
+            links={[
+              { label: "News", href: "/news" },
+              ...footerPages.filter((page) => page.href !== "/news"),
+            ]}
+          />
 
           {/* 4 — Get In Touch */}
           <div className="min-w-0 tablet:col-span-2 desktop:w-[min(100%,460px)] desktop:max-w-[460px] desktop:shrink-0">

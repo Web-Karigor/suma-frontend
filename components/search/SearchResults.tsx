@@ -22,7 +22,7 @@ function getResultLink(type: SearchResult["type"], slug: string): string {
     hotel: `/hotels/${slug}`,
     package: `/packages/${slug}`,
     offer: `/offer-details/${slug}`,
-    blog: `/${slug}`,
+    blog: `/news/${slug}`,
     service: `/${slug}`,
   };
   return linkMap[type];
@@ -33,7 +33,7 @@ function getTypeLabel(type: SearchResult["type"]): string {
     hotel: "Hotel",
     package: "Package",
     offer: "Special Offer",
-    blog: "Blog Post",
+    blog: "News",
     service: "Service",
   };
   return labelMap[type];

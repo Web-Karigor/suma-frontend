@@ -16,6 +16,7 @@ export const navLinks = [
   { label: "Build My Trip", href: partnerPortalUrl },
   { label: "Visa", href: "/visa-assistance" },
   { label: "Hotel", href: "/hotels" },
+  { label: "News", href: "/news" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ] as const;
