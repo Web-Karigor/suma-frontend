@@ -2,7 +2,7 @@ import { cache } from "react";
 import { footerAbout } from "@/lib/home-data";
 import type {
   SettingsApiResponse,
-  FooterCertificate,
+  FooterImageGroup,
   SettingsSocialLink,
   SiteSettings,
 } from "@/types/settings";
@@ -21,10 +21,10 @@ export const FALLBACK_SETTINGS: SiteSettings = {
   hotline: "",
   footerText: footerAbout,
   certificateOfRegistration: "/exralogofooter.jpeg",
-  footerCertificates: [
+  footerImages: [
     {
       title: "Certificate of Registration",
-      image: "/exralogofooter.jpeg",
+      images: ["/exralogofooter.jpeg"],
     },
   ],
   supportTitle: "Customer Care",
@@ -105,25 +105,19 @@ export function normalizeSettingsResponse(
   const hotline = asText(response.hotline);
   const phone = asText(response.phone) || hotline;
   const whatsapp = asText(response.whatsapp) || asText(response.phone);
-  const certificateItems =
-    response.footer_certificates ??
-    response.certificates ??
-    (Array.isArray(response.certificate_of_registration)
-      ? response.certificate_of_registration
-      : []);
-  const footerCertificates: FooterCertificate[] = certificateItems
+  const footerImages: FooterImageGroup[] = (response.footer_images ?? [])
     .map((item) => ({
-      title: asText(item.title || item.name || item.label),
-      image: resolveMedia(item.image || item.logo || item.image_url),
+      title: asText(item.title),
+      images: (item.images ?? [])
+        .map((image) => resolveMedia(image))
+        .filter(Boolean),
     }))
-    .filter((item) => item.image);
-  const legacyCertificate = Array.isArray(response.certificate_of_registration)
-    ? ""
-    : resolveMedia(response.certificate_of_registration);
-  if (!footerCertificates.length && legacyCertificate) {
-    footerCertificates.push({
+    .filter((item) => item.images.length > 0);
+  const legacyCertificate = resolveMedia(response.certificate_of_registration);
+  if (!footerImages.length && legacyCertificate) {
+    footerImages.push({
       title: "Certificate of Registration",
-      image: legacyCertificate,
+      images: [legacyCertificate],
     });
   }
 
@@ -141,7 +135,7 @@ export function normalizeSettingsResponse(
     hotline,
     footerText: asText(response.footer_text) || footerAbout,
     certificateOfRegistration: legacyCertificate || "/exralogofooter.jpeg",
-    footerCertificates,
+    footerImages,
     supportTitle: "Customer Care",
     socials,
     metaTitle: asText(response.meta_title) || null,

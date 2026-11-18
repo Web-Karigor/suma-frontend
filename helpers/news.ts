@@ -13,18 +13,29 @@ export type NewsArticle = {
   content: string;
 };
 
+function stripHtml(value: string) {
+  return value.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+}
+
 function normalize(item: BlogApiItem): NewsArticle {
-  const category = typeof item.category === "string" ? item.category : item.category?.name;
+  const category =
+    typeof item.category === "string" ? item.category : item.category?.name;
   const date = item.published_at ?? item.created_at;
+  const htmlBody = item.content ?? item.description ?? "";
+  const excerpt =
+    item.short_description?.trim() ||
+    stripHtml(htmlBody).slice(0, 180);
   return {
     slug: item.slug,
     title: item.title,
     category: category ?? "",
-    date: date ? new Intl.DateTimeFormat("en", { dateStyle: "long" }).format(new Date(date)) : "",
+    date: date
+      ? new Intl.DateTimeFormat("en", { dateStyle: "long" }).format(new Date(date))
+      : "",
     readTime: item.read_time ? `${item.read_time} min read` : "",
     image: resolveServiceImage(item.image ?? item.banner),
-    excerpt: item.short_description ?? "",
-    content: item.content ?? item.description ?? "",
+    excerpt,
+    content: htmlBody,
   };
 }
 

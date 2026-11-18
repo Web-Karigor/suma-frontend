@@ -152,26 +152,37 @@ export function Footer() {
           </div>
         </div>
 
-        {settings.footerCertificates.length > 0 ? (
-          <div className="mt-10 flex min-h-[150px] w-full flex-wrap items-center justify-center gap-y-5 bg-white px-4 py-6 xl:mt-12 2xl:mt-14">
-            {settings.footerCertificates.map((certificate, index) => (
+        {settings.footerImages.length > 0 ? (
+          <div className="mt-10 flex min-h-[150px] w-full flex-wrap items-center justify-center gap-x-10 gap-y-8 bg-white px-4 py-6 xl:mt-12 2xl:mt-14">
+            {settings.footerImages.map((group, index) => (
               <div
-                key={`${certificate.title}-${certificate.image}-${index}`}
-                className="flex min-h-[100px] min-w-0 basis-1/4 flex-col items-center justify-center gap-2 px-1 text-center desktop:basis-1/7 desktop:px-2"
+                key={`${group.title || "footer-images"}-${index}`}
+                className="flex min-w-0 flex-col items-center justify-center gap-3 text-center"
               >
-                {certificate.title ? (
+                {group.title ? (
                   <h3 className="text-[10px] leading-tight font-semibold text-[#263238] tablet:text-xs">
-                    {certificate.title}
+                    {group.title}
                   </h3>
                 ) : null}
-                <div className="relative h-12 w-full min-w-[56px] max-w-[112px]">
-                  <Image
-                    src={certificate.image}
-                    alt={certificate.title || "Certificate or partner logo"}
-                    fill
-                    sizes="(min-width: 1280px) 88px, 20vw"
-                    className="object-contain"
-                  />
+                <div className="flex flex-wrap items-center justify-center gap-4">
+                  {group.images.map((image, imageIndex) => (
+                    <div
+                      key={`${image}-${imageIndex}`}
+                      className="relative h-16 w-[96px] min-w-[72px] max-w-[140px] sm:h-[72px] sm:w-[112px]"
+                    >
+                      <Image
+                        src={image}
+                        alt={
+                          group.title
+                            ? `${group.title} badge ${imageIndex + 1}`
+                            : "Certificate or partner logo"
+                        }
+                        fill
+                        sizes="(min-width: 640px) 112px, 96px"
+                        className="object-contain"
+                      />
+                    </div>
+                  ))}
                 </div>
               </div>
             ))}
@@ -235,10 +246,15 @@ function OfficeList({ offices }: { offices: readonly ContactOfficeCard[] }) {
           }
         >
           <p className="flex justify-start">
-            <span className="inline-flex items-center gap-2 font-poppins text-[14px] font-semibold text-[#BFDEDD] xl:text-[13.5px] 2xl:text-[16px]">
+            <a
+              href={office.directionUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 font-poppins text-[14px] font-semibold text-[#BFDEDD] transition-colors hover:text-white focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white xl:text-[13.5px] 2xl:text-[16px]"
+            >
               <PinIcon className="size-4 shrink-0 xl:size-3.5 2xl:size-4" />
               {office.name}
-            </span>
+            </a>
           </p>
 
           <p className="mt-1.5 break-words text-left font-poppins text-[13px] font-normal text-[#99CACA] xl:mt-1 xl:text-[12px] xl:leading-tight 2xl:mt-1.5 2xl:text-[14px]">

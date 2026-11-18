@@ -20,9 +20,8 @@ export type SettingsApiResponse = {
   pinterest: string;
   hotline: string;
   footer_text: string;
-  certificate_of_registration: string | FooterCertificateApiItem[];
-  footer_certificates?: FooterCertificateApiItem[];
-  certificates?: FooterCertificateApiItem[];
+  footer_images?: FooterImageGroupApiItem[];
+  certificate_of_registration?: string | null;
   meta_title: string;
   meta_description: string;
   meta_keywords: string;
@@ -30,18 +29,14 @@ export type SettingsApiResponse = {
   success: boolean;
 };
 
-export type FooterCertificateApiItem = {
-  title?: string;
-  name?: string;
-  label?: string;
-  image?: string;
-  logo?: string;
-  image_url?: string;
+export type FooterImageGroupApiItem = {
+  title?: string | null;
+  images?: Array<string | null> | null;
 };
 
-export type FooterCertificate = {
+export type FooterImageGroup = {
   title: string;
-  image: string;
+  images: string[];
 };
 
 export type SettingsSocialLink = {
@@ -64,7 +59,7 @@ export type SiteSettings = {
   hotline: string;
   footerText: string;
   certificateOfRegistration: string;
-  footerCertificates: FooterCertificate[];
+  footerImages: FooterImageGroup[];
   supportTitle: string;
   socials: SettingsSocialLink[];
   metaTitle: string | null;

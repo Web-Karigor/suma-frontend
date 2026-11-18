@@ -170,6 +170,8 @@ export function Header() {
     pathname === "/faq" ||
     pathname === "/privacy-policy" ||
     pathname === "/terms-and-conditions";
+  const isNewsList = pathname === "/news";
+  const isNewsDetail = pathname.startsWith("/news/");
   const overlayHeader =
     isHome ||
     isCorporateTour ||
@@ -179,7 +181,8 @@ export function Header() {
     isOfferDetails ||
     isContact ||
     isVisaApplication ||
-    isCmsPage;
+    isCmsPage ||
+    isNewsDetail;
   const alignWideGrid = overlayHeader;
 
   useEffect(() => {
@@ -195,7 +198,9 @@ export function Header() {
     <header
       className={cn(
         "z-50",
-        overlayHeader ? "fixed top-0 right-0 left-0" : "sticky top-0",
+        overlayHeader
+          ? "fixed top-0 right-0 left-0"
+          : cn("sticky top-0", isNewsList && "bg-white"),
       )}
     >
       <Container
